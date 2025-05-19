@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "user";
+
+import "user/common.proto";
+import "basic/re.proto";
+import "basic/pagination.proto";
+
+service user {
+  // 用户信息部分
+  rpc UserSignUp(UserSignUpReq) returns(basic.Response);
+  rpc UserGetInfo(UserGetInfoReq) returns(UserGetInfoResp);
+  rpc UserUpdateInfo(UserUpdateInfoReq) returns(basic.Response);
+  rpc UserUpdatePassword(UserUpdatePasswordReq) returns(basic.Response);
+
+  // 关联信息
+  rpc UserBelongUnit(UserBelongUnitReq) returns(UserBelongUnitResp);
+
+  // 用户验证部分
+  rpc UserSignIn(UserSignInReq) returns(basic.Response);
+}
+
+
+/* user账号注册 */
+message UserSignUpReq{
+  User user = 1;
+}
+// Response
+
+/* user登录 */
+message UserSignInReq {
+  string phone = 1;
+  optional string password = 2;
+  optional string verifyCode = 3;
+}
+// Response
+
+/* 获取信息 */
+message UserGetInfoReq {
+  string id = 1;
+}
+message UserGetInfoResp {
+  User user = 1;
+}
+
+/* 更新信息 */
+message UserUpdateInfoReq {
+  User user = 1;
+}
+// Response
+
+/* 更新密码 */
+message UserUpdatePasswordReq {
+  string id = 1;
+  optional string oldPassword = 2;
+  string newPassword = 3;
+  optional string verifyCode = 4;
+}
+// Response
+
+/* 分页查询关联unit */
+message UserBelongUnitReq {
+  string id = 1;
+  basic.PaginationOptions paginationOptions = 2;
+}
+message UserBelongUnitResp {
+  repeated Unit units = 1;
+}
