@@ -1,0 +1,160 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "user";
+
+import "user/common.proto";
+import "basic/re.proto";
+
+service unit {
+  // 用户信息部分
+  rpc UnitSignUp(UnitSignUpReq) returns(basic.Response);
+  rpc UnitGetInfo(UnitGetInfoReq) returns(UnitGetInfoResp);
+  rpc UnitUpdateInfo(UnitUpdateInfoReq) returns(basic.Response);
+  rpc UnitUpdatePassword(UnitUpdatePasswordReq) returns(basic.Response);
+
+  // 用户验证部分
+  rpc UnitStrongVerify(UnitStrongVerifyReq) returns(basic.Response);
+  rpc UnitWeakVerify(UnitWeakVerifyReq) returns(basic.Response);
+  rpc UnitCreateVerify(UnitCreateVerifyReq) returns(UnitCreateVerifyResp);
+  rpc UnitUpdateVerifyPassword(UnitUpdateVerifyPasswordReq) returns(basic.Response);
+
+  // 所属账号管理部分
+  rpc UnitLinkUser(UnitLinkUserReq) returns(basic.Response);
+  rpc UnitLinkView(UnitLinkViewReq) returns(basic.Response);
+
+  // 模型
+  rpc UnitGetAppInfo(UnitGetAppInfoReq) returns(UnitGetAppInfoResp);
+  rpc UnitModelGetInfo(UnitModelGetInfoReq) returns(UnitModelGetInfoResp);
+  rpc UnitModelUpdateInfo(UnitModelUpdateInfoReq) returns(basic.Response);
+
+  // 聊天记录
+  rpc UnitGetHistory(UnitGetHistoryReq) returns(UnitGetHistoryResp);
+}
+
+/* unit账号注册 */
+message UnitSignUpReq {
+  string phone = 1;
+  string password = 2;
+  string name = 3;
+  string address = 4;
+  string contact = 5;
+}
+// UnitSignUpResp 使用 re.proto Response 返回
+
+/* 获取用户信息 */
+message UnitGetInfoReq {
+  string id = 1;
+}
+message UnitGetInfoResp {
+  string id = 1;
+  string phone = 2;
+  string name = 3;
+  string address = 4;
+  string contact = 5;
+  int32 level = 6;
+  string status = 7;
+  int64 createTime = 8;
+  int64 updateTime = 9;
+}
+
+/* 修改账号信息 */
+message UnitUpdateInfoReq {
+  string id = 1;
+  // optional ?
+  string phone = 2;
+  string name = 3;
+  string address = 4;
+  string contact = 5;
+}
+// Response
+
+/* 修改密码 */
+message UnitUpdatePasswordReq {
+  string id = 1;
+  string oldPassword = 2;
+  string newPassword = 3;
+}
+// Response
+
+/* 强验证登录 */
+message UnitStrongVerifyReq {
+  string phone = 1;
+  string password = 2;
+}
+// Response
+
+/* 弱验证登录 */
+message UnitWeakVerifyReq {
+  string account = 1;
+  string password = 2;
+}
+// Response
+
+/* 生成弱验证账号 */
+message UnitCreateVerifyReq {
+  string id = 1;  // unitId
+}
+message UnitCreateVerifyResp {
+  string account = 1;
+  string password = 2;
+}
+
+/* 修改verify密码 */
+message UnitUpdateVerifyPasswordReq {
+  string account = 1;
+  string oldPassword = 2;
+  string newPassword = 3;
+}
+// Response
+
+/* 关联user账号 */
+message UnitLinkUserReq {
+  string unitId = 1;
+  string userId = 2;
+}
+// Response
+
+/* 关联view账号 */
+message UnitLinkViewReq {
+  string unitId = 1;
+  string viewId = 2;
+  int32 level = 3;
+}
+// Response
+
+/* 获取可用模型 */
+message UnitGetAppInfoReq {
+  string id = 1;
+}
+message UnitGetAppInfoResp {
+  repeated string appId = 1;
+}
+
+/* 获取模型配置信息 */
+message UnitModelGetInfoReq {
+  string id = 1;
+}
+message UnitModelGetInfoResp {
+  UnitModel unitModel = 1;
+}
+
+/* 修改模型配置 */
+message UnitModelUpdateInfoReq {
+  string id = 1;
+  string chat = 2;
+  string asr = 3;
+  string tts = 4;
+  string report = 5;
+  string option = 6;
+}
+// Response
+
+/* 查询历史聊天 */
+message UnitGetHistoryReq {
+  string id = 1;
+}
+message UnitGetHistoryResp {
+  // History
+}
