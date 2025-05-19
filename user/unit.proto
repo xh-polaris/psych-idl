@@ -6,6 +6,7 @@ option go_package = "user";
 
 import "user/common.proto";
 import "basic/re.proto";
+import "basic/pagination.proto";
 
 service unit {
   // 用户信息部分
@@ -23,6 +24,8 @@ service unit {
   // 所属账号管理部分
   rpc UnitLinkUser(UnitLinkUserReq) returns(basic.Response);
   rpc UnitLinkView(UnitLinkViewReq) returns(basic.Response);
+  rpc UnitPageQueryUser(UnitPageQueryUserReq) returns(UnitPageQueryUserResp);
+  rpc UnitPageQueryView(UnitPageQueryViewReq) returns(UnitPageQueryViewResp);
 
   // 模型
   rpc UnitGetAppInfo(UnitGetAppInfoReq) returns(UnitGetAppInfoResp);
@@ -81,7 +84,8 @@ message UnitUpdatePasswordReq {
 /* 强验证登录 */
 message UnitStrongVerifyReq {
   string phone = 1;
-  string password = 2;
+  optional string password = 2;
+  optional string verifyCode = 3;
 }
 // Response
 
@@ -142,19 +146,32 @@ message UnitModelGetInfoResp {
 
 /* 修改模型配置 */
 message UnitModelUpdateInfoReq {
-  string id = 1;
-  string chat = 2;
-  string asr = 3;
-  string tts = 4;
-  string report = 5;
-  string option = 6;
+  UnitModel unitModel = 1;
 }
 // Response
+
+/* 分页查询所属用户 */
+message UnitPageQueryUserReq {
+  string id = 1;
+  basic.PaginationOptions paginationOptions = 2;
+}
+message UnitPageQueryUserResp {
+  repeated User user = 1;
+}
+
+message UnitPageQueryViewReq {
+  string id = 1;
+  basic.PaginationOptions paginationOptions = 2;
+}
+message UnitPageQueryViewResp {
+  repeated View view = 1;
+}
 
 /* 查询历史聊天 */
 message UnitGetHistoryReq {
   string id = 1;
+  basic.PaginationOptions paginationOptions = 2;
 }
 message UnitGetHistoryResp {
-  // History
+  // repeated History
 }

@@ -6,6 +6,7 @@ option go_package = "user";
 
 import "user/common.proto";
 import "basic/re.proto";
+import "basic/pagination.proto";
 
 service user {
   // 用户信息部分
@@ -38,7 +39,8 @@ message UserSignUpReq{
 /* user登录 */
 message UserSignInReq {
   string phone = 1;
-  string password = 2;
+  optional string password = 2;
+  optional string verifyCode = 3;
 }
 // Response
 
@@ -75,21 +77,19 @@ message UserUpdatePasswordReq {
 /* 查询历史聊天 */
 message UserGetHistoryReq {
   string id = 1;
+  basic.PaginationOptions paginationOptions = 2;
 }
 message UserGetHistoryResp {
   // History
 }
 
-message unitBelong {
-  string unitId = 1;
-  string unitName = 2;
-}
-
+/* 分页查询关联unit */
 message UserBelongUnitReq {
   string id = 1;
+  basic.PaginationOptions paginationOptions = 2;
 }
 message UserBelongUnitResp {
-  repeated unitBelong units = 1;
+  repeated Unit units = 1;
 }
 
 // 模型聊天?
