@@ -55,7 +55,8 @@ message View {
 }
 
 message unitVerifyForm {
-
+  string key = 1;
+  string value = 2;
 }
 
 message UnitVerify {
@@ -64,7 +65,7 @@ message UnitVerify {
   string account = 3;
   string password = 4;
 
-  unitVerifyForm form = 5;
+  repeated unitVerifyForm form = 5;
 
   string status = 6;
   int64 createTime = 7;

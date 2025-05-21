@@ -15,6 +15,10 @@ service unit {
   rpc UnitUpdateInfo(UnitUpdateInfoReq) returns(basic.Response);
   rpc UnitUpdatePassword(UnitUpdatePasswordReq) returns(basic.Response);
 
+  // 批量创建用户
+  rpc UnitCreateAndLinkUser(UnitCreateAndLinkUserReq) returns(basic.Response);
+  rpc UnitCreateAndLinkView(UnitCreateAndLinkViewReq) returns(basic.Response);
+
   // 用户验证部分
   rpc UnitStrongVerify(UnitStrongVerifyReq) returns(basic.Response);
   rpc UnitWeakVerify(UnitWeakVerifyReq) returns(basic.Response);
@@ -31,18 +35,11 @@ service unit {
   rpc UnitGetAppInfo(UnitGetAppInfoReq) returns(UnitGetAppInfoResp);
   rpc UnitModelGetInfo(UnitModelGetInfoReq) returns(UnitModelGetInfoResp);
   rpc UnitModelUpdateInfo(UnitModelUpdateInfoReq) returns(basic.Response);
-
-  // 聊天记录
-  rpc UnitGetHistory(UnitGetHistoryReq) returns(UnitGetHistoryResp);
 }
 
 /* unit账号注册 */
 message UnitSignUpReq {
-  string phone = 1;
-  string password = 2;
-  string name = 3;
-  string address = 4;
-  string contact = 5;
+  Unit unit = 1;
 }
 // UnitSignUpResp 使用 re.proto Response 返回
 
@@ -51,33 +48,21 @@ message UnitGetInfoReq {
   string id = 1;
 }
 message UnitGetInfoResp {
-  string id = 1;
-  string phone = 2;
-  string name = 3;
-  string address = 4;
-  string contact = 5;
-  int32 level = 6;
-  string status = 7;
-  int64 createTime = 8;
-  int64 updateTime = 9;
+  Unit unit = 1;
 }
 
 /* 修改账号信息 */
 message UnitUpdateInfoReq {
-  string id = 1;
-  // optional ?
-  string phone = 2;
-  string name = 3;
-  string address = 4;
-  string contact = 5;
+  Unit unit = 1;
 }
 // Response
 
 /* 修改密码 */
 message UnitUpdatePasswordReq {
   string id = 1;
-  string oldPassword = 2;
+  optional string oldPassword = 2;
   string newPassword = 3;
+  optional string verifyCode = 4;
 }
 // Response
 
@@ -99,10 +84,14 @@ message UnitWeakVerifyReq {
 /* 生成弱验证账号 */
 message UnitCreateVerifyReq {
   string id = 1;  // unitId
+  int32 number = 2;
 }
 message UnitCreateVerifyResp {
-  string account = 1;
-  string password = 2;
+  message weakAccount {
+    string account = 1;
+    string password = 2;
+  }
+  repeated weakAccount weakAccounts = 1;
 }
 
 /* 修改verify密码 */
@@ -167,11 +156,15 @@ message UnitPageQueryViewResp {
   repeated View view = 1;
 }
 
-/* 查询历史聊天 */
-message UnitGetHistoryReq {
-  string id = 1;
-  basic.PaginationOptions paginationOptions = 2;
+/* 批量创建并关联用户 */
+message UnitCreateAndLinkUserReq {
+  string unitId = 1;
+  repeated string userPhone = 2;
 }
-message UnitGetHistoryResp {
-  // repeated History
+// Response
+
+message UnitCreateAndLinkViewReq {
+  string unitId = 1;
+  repeated string viewPhone = 2;
 }
+// Response
