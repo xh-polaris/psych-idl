@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "user";
+
+import "user/common.proto";
+import "basic/re.proto";
+import "basic/pagination.proto";
+
+service view {
+  // 用户信息部分
+  rpc ViewSignUp(ViewSignUpReq) returns(basic.Response);
+  rpc ViewGetInfo(ViewGetInfoReq) returns(ViewGetInfoResp);
+  rpc ViewUpdateInfo(ViewUpdateInfoReq) returns(basic.Response);
+  rpc ViewUpdatePassword(ViewUpdatePasswordReq) returns(basic.Response);
+
+  // 关联信息
+  rpc ViewBelongUnit(ViewBelongUnitReq) returns(ViewBelongUnitResp);
+
+  // 用户验证部分
+  rpc ViewSignIn(ViewSignInReq) returns(basic.Response);
+}
+
+
+/* view账号注册 */
+message ViewSignUpReq{
+  View view = 1;
+}
+// Response
+
+/* 登录 */
+message ViewSignInReq {
+  string phone = 1;
+  optional string password = 2;
+  optional string verifyCode = 3;
+}
+// Response
+
+/* 获取信息 */
+message ViewGetInfoReq {
+  string id = 1;
+}
+message ViewGetInfoResp {
+  View view = 1;
+}
+
+/* 更新信息 */
+message ViewUpdateInfoReq {
+  View view = 1;
+}
+// Response
+
+/* 更新密码 */
+message ViewUpdatePasswordReq {
+  string id = 1;
+  optional string oldPassword = 2;
+  string newPassword = 3;
+  optional string verifyCode = 4;
+}
+// Response
+
+message unitMember {
+  Unit unit = 1;
+  int32 level = 2;
+}
+
+/* 查询关联unit */
+message ViewBelongUnitReq {
+  string id = 1;
+  basic.PaginationOptions paginationOptions = 2;
+}
+message ViewBelongUnitResp {
+  repeated unitMember unitMembers = 1;
+}
