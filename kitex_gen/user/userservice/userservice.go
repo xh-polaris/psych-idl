@@ -9,8 +9,8 @@ import (
 	kitex "github.com/cloudwego/kitex/pkg/serviceinfo"
 	streaming "github.com/cloudwego/kitex/pkg/streaming"
 	proto "github.com/cloudwego/prutal"
-	basic "github.com/xh-polaris/psych-idl-gen/kitex_gen/basic"
-	user "github.com/xh-polaris/psych-idl-gen/kitex_gen/user"
+	basic "github.com/xh-polaris/psych-idl/kitex_gen/basic"
+	user "github.com/xh-polaris/psych-idl/kitex_gen/user"
 )
 
 var errInvalidMessageType = errors.New("invalid message type for service method handler")

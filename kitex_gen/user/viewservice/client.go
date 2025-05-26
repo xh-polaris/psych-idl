@@ -6,8 +6,8 @@ import (
 	"context"
 	client "github.com/cloudwego/kitex/client"
 	callopt "github.com/cloudwego/kitex/client/callopt"
-	basic "github.com/xh-polaris/psych-idl-gen/kitex_gen/basic"
-	user "github.com/xh-polaris/psych-idl-gen/kitex_gen/user"
+	basic "github.com/xh-polaris/psych-idl/kitex_gen/basic"
+	user "github.com/xh-polaris/psych-idl/kitex_gen/user"
 )
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.

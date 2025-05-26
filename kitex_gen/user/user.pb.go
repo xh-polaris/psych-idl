@@ -4,7 +4,7 @@ package user
 
 import (
 	"context"
-	"github.com/xh-polaris/psych-idl-gen/kitex_gen/basic"
+	"github.com/xh-polaris/psych-idl/kitex_gen/basic"
 
 	"github.com/cloudwego/prutal"
 )
