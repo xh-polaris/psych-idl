@@ -1,3 +1,3 @@
-module github.com/xh-polaris/psych-idl-gen
+module github.com/xh-polaris/psych-idl
 
 go 1.22
