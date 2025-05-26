@@ -8,7 +8,7 @@ import "user/common.proto";
 import "basic/re.proto";
 import "basic/pagination.proto";
 
-service view {
+service ViewService {
   // 用户信息部分
   rpc ViewSignUp(ViewSignUpReq) returns(basic.Response);
   rpc ViewGetInfo(ViewGetInfoReq) returns(ViewGetInfoResp);
