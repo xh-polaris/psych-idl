@@ -226,7 +226,7 @@ func (x *ViewBelongUnitResp) GetUnitMembers() []*UnitMember {
 	return nil
 }
 
-type View interface {
+type ViewService interface {
 	ViewSignUp(ctx context.Context, req *ViewSignUpReq) (res *basic.Response, err error)
 	ViewGetInfo(ctx context.Context, req *ViewGetInfoReq) (res *ViewGetInfoResp, err error)
 	ViewUpdateInfo(ctx context.Context, req *ViewUpdateInfoReq) (res *basic.Response, err error)

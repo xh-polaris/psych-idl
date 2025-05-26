@@ -584,7 +584,7 @@ func (x *UnitCreateAndLinkViewReq) GetViewPhone() []string {
 	return nil
 }
 
-type Unit interface {
+type UnitService interface {
 	UnitSignUp(ctx context.Context, req *UnitSignUpReq) (res *basic.Response, err error)
 	UnitGetInfo(ctx context.Context, req *UnitGetInfoReq) (res *UnitGetInfoResp, err error)
 	UnitUpdateInfo(ctx context.Context, req *UnitUpdateInfoReq) (res *basic.Response, err error)

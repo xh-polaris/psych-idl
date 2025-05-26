@@ -201,7 +201,7 @@ func (x *UserBelongUnitResp) GetUnits() []*Unit {
 	return nil
 }
 
-type User interface {
+type UserService interface {
 	UserSignUp(ctx context.Context, req *UserSignUpReq) (res *basic.Response, err error)
 	UserGetInfo(ctx context.Context, req *UserGetInfoReq) (res *UserGetInfoResp, err error)
 	UserUpdateInfo(ctx context.Context, req *UserUpdateInfoReq) (res *basic.Response, err error)
