@@ -8,6 +8,7 @@ import "user/common.proto";
 import "basic/re.proto";
 import "basic/pagination.proto";
 
+
 service UnitService {
   // 用户信息部分
   rpc UnitSignUp(UnitSignUpReq) returns(basic.Response);
