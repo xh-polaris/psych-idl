@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package user;
 
-import "basic/re.proto";
 import "basic/pagination.proto";
 
 option go_package = "user";
