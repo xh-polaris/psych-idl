@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package user;
 
-import "user/common.proto";
 import "basic/re.proto";
 import "basic/pagination.proto";
 
