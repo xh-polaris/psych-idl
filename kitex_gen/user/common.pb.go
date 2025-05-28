@@ -2,7 +2,11 @@
 
 package user
 
-import "github.com/cloudwego/prutal"
+import (
+	"github.com/xh-polaris/psych-idl/kitex_gen/basic"
+
+	"github.com/cloudwego/prutal"
+)
 
 /* 类型定义 */
 type Unit struct {
@@ -506,4 +510,1004 @@ func (x *UnitModel) GetDeleteTime() int64 {
 		return x.DeleteTime
 	}
 	return 0
+}
+
+/* unit账号注册 */
+type UnitSignUpReq struct {
+	Unit *Unit `protobuf:"bytes,1,opt,name=unit" json:"unit,omitempty"`
+}
+
+func (x *UnitSignUpReq) Reset() { *x = UnitSignUpReq{} }
+
+func (x *UnitSignUpReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UnitSignUpReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitSignUpReq) GetUnit() *Unit {
+	if x != nil {
+		return x.Unit
+	}
+	return nil
+}
+
+/* 获取用户信息 */
+type UnitGetInfoReq struct {
+	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+}
+
+func (x *UnitGetInfoReq) Reset() { *x = UnitGetInfoReq{} }
+
+func (x *UnitGetInfoReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UnitGetInfoReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitGetInfoReq) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type UnitGetInfoResp struct {
+	Unit *Unit `protobuf:"bytes,1,opt,name=unit" json:"unit,omitempty"`
+}
+
+func (x *UnitGetInfoResp) Reset() { *x = UnitGetInfoResp{} }
+
+func (x *UnitGetInfoResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UnitGetInfoResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitGetInfoResp) GetUnit() *Unit {
+	if x != nil {
+		return x.Unit
+	}
+	return nil
+}
+
+/* 修改账号信息 */
+type UnitUpdateInfoReq struct {
+	Unit *Unit `protobuf:"bytes,1,opt,name=unit" json:"unit,omitempty"`
+}
+
+func (x *UnitUpdateInfoReq) Reset() { *x = UnitUpdateInfoReq{} }
+
+func (x *UnitUpdateInfoReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UnitUpdateInfoReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitUpdateInfoReq) GetUnit() *Unit {
+	if x != nil {
+		return x.Unit
+	}
+	return nil
+}
+
+/* 修改密码 */
+type UnitUpdatePasswordReq struct {
+	Id          string  `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	OldPassword *string `protobuf:"bytes,2,opt,name=oldPassword" json:"oldPassword,omitempty"`
+	NewPassword string  `protobuf:"bytes,3,opt,name=newPassword" json:"newPassword,omitempty"`
+	VerifyCode  *string `protobuf:"bytes,4,opt,name=verifyCode" json:"verifyCode,omitempty"`
+}
+
+func (x *UnitUpdatePasswordReq) Reset() { *x = UnitUpdatePasswordReq{} }
+
+func (x *UnitUpdatePasswordReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *UnitUpdatePasswordReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitUpdatePasswordReq) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *UnitUpdatePasswordReq) GetOldPassword() string {
+	if x != nil && x.OldPassword != nil {
+		return *x.OldPassword
+	}
+	return ""
+}
+
+func (x *UnitUpdatePasswordReq) GetNewPassword() string {
+	if x != nil {
+		return x.NewPassword
+	}
+	return ""
+}
+
+func (x *UnitUpdatePasswordReq) GetVerifyCode() string {
+	if x != nil && x.VerifyCode != nil {
+		return *x.VerifyCode
+	}
+	return ""
+}
+
+/* 强验证登录 */
+type UnitStrongVerifyReq struct {
+	Phone      string  `protobuf:"bytes,1,opt,name=phone" json:"phone,omitempty"`
+	Password   *string `protobuf:"bytes,2,opt,name=password" json:"password,omitempty"`
+	VerifyCode *string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
+}
+
+func (x *UnitStrongVerifyReq) Reset() { *x = UnitStrongVerifyReq{} }
+
+func (x *UnitStrongVerifyReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UnitStrongVerifyReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitStrongVerifyReq) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+func (x *UnitStrongVerifyReq) GetPassword() string {
+	if x != nil && x.Password != nil {
+		return *x.Password
+	}
+	return ""
+}
+
+func (x *UnitStrongVerifyReq) GetVerifyCode() string {
+	if x != nil && x.VerifyCode != nil {
+		return *x.VerifyCode
+	}
+	return ""
+}
+
+/* 弱验证登录 */
+type UnitWeakVerifyReq struct {
+	Account  string `protobuf:"bytes,1,opt,name=account" json:"account,omitempty"`
+	Password string `protobuf:"bytes,2,opt,name=password" json:"password,omitempty"`
+}
+
+func (x *UnitWeakVerifyReq) Reset() { *x = UnitWeakVerifyReq{} }
+
+func (x *UnitWeakVerifyReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UnitWeakVerifyReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitWeakVerifyReq) GetAccount() string {
+	if x != nil {
+		return x.Account
+	}
+	return ""
+}
+
+func (x *UnitWeakVerifyReq) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+/* 生成弱验证账号 */
+type UnitCreateVerifyReq struct {
+	Id     string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"` // unitId
+	Number int32  `protobuf:"varint,2,opt,name=number" json:"number,omitempty"`
+}
+
+func (x *UnitCreateVerifyReq) Reset() { *x = UnitCreateVerifyReq{} }
+
+func (x *UnitCreateVerifyReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UnitCreateVerifyReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitCreateVerifyReq) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *UnitCreateVerifyReq) GetNumber() int32 {
+	if x != nil {
+		return x.Number
+	}
+	return 0
+}
+
+type UnitCreateVerifyResp struct {
+	WeakAccounts []*UnitCreateVerifyResp_WeakAccount `protobuf:"bytes,1,rep,name=weakAccounts" json:"weakAccounts,omitempty"`
+}
+
+func (x *UnitCreateVerifyResp) Reset() { *x = UnitCreateVerifyResp{} }
+
+func (x *UnitCreateVerifyResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UnitCreateVerifyResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitCreateVerifyResp) GetWeakAccounts() []*UnitCreateVerifyResp_WeakAccount {
+	if x != nil {
+		return x.WeakAccounts
+	}
+	return nil
+}
+
+type UnitCreateVerifyResp_WeakAccount struct {
+	Account  string `protobuf:"bytes,1,opt,name=account" json:"account,omitempty"`
+	Password string `protobuf:"bytes,2,opt,name=password" json:"password,omitempty"`
+}
+
+func (x *UnitCreateVerifyResp_WeakAccount) Reset() { *x = UnitCreateVerifyResp_WeakAccount{} }
+
+func (x *UnitCreateVerifyResp_WeakAccount) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *UnitCreateVerifyResp_WeakAccount) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitCreateVerifyResp_WeakAccount) GetAccount() string {
+	if x != nil {
+		return x.Account
+	}
+	return ""
+}
+
+func (x *UnitCreateVerifyResp_WeakAccount) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+/* 修改verify密码 */
+type UnitUpdateVerifyPasswordReq struct {
+	Account     string `protobuf:"bytes,1,opt,name=account" json:"account,omitempty"`
+	OldPassword string `protobuf:"bytes,2,opt,name=oldPassword" json:"oldPassword,omitempty"`
+	NewPassword string `protobuf:"bytes,3,opt,name=newPassword" json:"newPassword,omitempty"`
+}
+
+func (x *UnitUpdateVerifyPasswordReq) Reset() { *x = UnitUpdateVerifyPasswordReq{} }
+
+func (x *UnitUpdateVerifyPasswordReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *UnitUpdateVerifyPasswordReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitUpdateVerifyPasswordReq) GetAccount() string {
+	if x != nil {
+		return x.Account
+	}
+	return ""
+}
+
+func (x *UnitUpdateVerifyPasswordReq) GetOldPassword() string {
+	if x != nil {
+		return x.OldPassword
+	}
+	return ""
+}
+
+func (x *UnitUpdateVerifyPasswordReq) GetNewPassword() string {
+	if x != nil {
+		return x.NewPassword
+	}
+	return ""
+}
+
+/* 关联user账号 */
+type UnitLinkUserReq struct {
+	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	UserId string `protobuf:"bytes,2,opt,name=userId" json:"userId,omitempty"`
+}
+
+func (x *UnitLinkUserReq) Reset() { *x = UnitLinkUserReq{} }
+
+func (x *UnitLinkUserReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UnitLinkUserReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitLinkUserReq) GetUnitId() string {
+	if x != nil {
+		return x.UnitId
+	}
+	return ""
+}
+
+func (x *UnitLinkUserReq) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+/* 关联view账号 */
+type UnitLinkViewReq struct {
+	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	ViewId string `protobuf:"bytes,2,opt,name=viewId" json:"viewId,omitempty"`
+	Level  int32  `protobuf:"varint,3,opt,name=level" json:"level,omitempty"`
+}
+
+func (x *UnitLinkViewReq) Reset() { *x = UnitLinkViewReq{} }
+
+func (x *UnitLinkViewReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UnitLinkViewReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitLinkViewReq) GetUnitId() string {
+	if x != nil {
+		return x.UnitId
+	}
+	return ""
+}
+
+func (x *UnitLinkViewReq) GetViewId() string {
+	if x != nil {
+		return x.ViewId
+	}
+	return ""
+}
+
+func (x *UnitLinkViewReq) GetLevel() int32 {
+	if x != nil {
+		return x.Level
+	}
+	return 0
+}
+
+/* 获取可用模型 */
+type UnitGetAppInfoReq struct {
+	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+}
+
+func (x *UnitGetAppInfoReq) Reset() { *x = UnitGetAppInfoReq{} }
+
+func (x *UnitGetAppInfoReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UnitGetAppInfoReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitGetAppInfoReq) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type UnitGetAppInfoResp struct {
+	AppId []string `protobuf:"bytes,1,rep,name=appId" json:"appId,omitempty"`
+}
+
+func (x *UnitGetAppInfoResp) Reset() { *x = UnitGetAppInfoResp{} }
+
+func (x *UnitGetAppInfoResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UnitGetAppInfoResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitGetAppInfoResp) GetAppId() []string {
+	if x != nil {
+		return x.AppId
+	}
+	return nil
+}
+
+/* 获取模型配置信息 */
+type UnitModelGetInfoReq struct {
+	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+}
+
+func (x *UnitModelGetInfoReq) Reset() { *x = UnitModelGetInfoReq{} }
+
+func (x *UnitModelGetInfoReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UnitModelGetInfoReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitModelGetInfoReq) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type UnitModelGetInfoResp struct {
+	UnitModel *UnitModel `protobuf:"bytes,1,opt,name=unitModel" json:"unitModel,omitempty"`
+}
+
+func (x *UnitModelGetInfoResp) Reset() { *x = UnitModelGetInfoResp{} }
+
+func (x *UnitModelGetInfoResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UnitModelGetInfoResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitModelGetInfoResp) GetUnitModel() *UnitModel {
+	if x != nil {
+		return x.UnitModel
+	}
+	return nil
+}
+
+/* 修改模型配置 */
+type UnitModelUpdateInfoReq struct {
+	UnitModel *UnitModel `protobuf:"bytes,1,opt,name=unitModel" json:"unitModel,omitempty"`
+}
+
+func (x *UnitModelUpdateInfoReq) Reset() { *x = UnitModelUpdateInfoReq{} }
+
+func (x *UnitModelUpdateInfoReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *UnitModelUpdateInfoReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitModelUpdateInfoReq) GetUnitModel() *UnitModel {
+	if x != nil {
+		return x.UnitModel
+	}
+	return nil
+}
+
+/* 分页查询所属用户 */
+type UnitPageQueryUserReq struct {
+	Id                string                   `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,2,opt,name=paginationOptions" json:"paginationOptions,omitempty"`
+}
+
+func (x *UnitPageQueryUserReq) Reset() { *x = UnitPageQueryUserReq{} }
+
+func (x *UnitPageQueryUserReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UnitPageQueryUserReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitPageQueryUserReq) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *UnitPageQueryUserReq) GetPaginationOptions() *basic.PaginationOptions {
+	if x != nil {
+		return x.PaginationOptions
+	}
+	return nil
+}
+
+type UnitPageQueryUserResp struct {
+	User []*User `protobuf:"bytes,1,rep,name=user" json:"user,omitempty"`
+}
+
+func (x *UnitPageQueryUserResp) Reset() { *x = UnitPageQueryUserResp{} }
+
+func (x *UnitPageQueryUserResp) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *UnitPageQueryUserResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitPageQueryUserResp) GetUser() []*User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+type UnitPageQueryViewReq struct {
+	Id                string                   `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,2,opt,name=paginationOptions" json:"paginationOptions,omitempty"`
+}
+
+func (x *UnitPageQueryViewReq) Reset() { *x = UnitPageQueryViewReq{} }
+
+func (x *UnitPageQueryViewReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UnitPageQueryViewReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitPageQueryViewReq) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *UnitPageQueryViewReq) GetPaginationOptions() *basic.PaginationOptions {
+	if x != nil {
+		return x.PaginationOptions
+	}
+	return nil
+}
+
+type UnitPageQueryViewResp struct {
+	View []*View `protobuf:"bytes,1,rep,name=view" json:"view,omitempty"`
+}
+
+func (x *UnitPageQueryViewResp) Reset() { *x = UnitPageQueryViewResp{} }
+
+func (x *UnitPageQueryViewResp) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *UnitPageQueryViewResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitPageQueryViewResp) GetView() []*View {
+	if x != nil {
+		return x.View
+	}
+	return nil
+}
+
+/* 批量创建并关联用户 */
+type UnitCreateAndLinkUserReq struct {
+	UnitId    string   `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	UserPhone []string `protobuf:"bytes,2,rep,name=userPhone" json:"userPhone,omitempty"`
+}
+
+func (x *UnitCreateAndLinkUserReq) Reset() { *x = UnitCreateAndLinkUserReq{} }
+
+func (x *UnitCreateAndLinkUserReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *UnitCreateAndLinkUserReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitCreateAndLinkUserReq) GetUnitId() string {
+	if x != nil {
+		return x.UnitId
+	}
+	return ""
+}
+
+func (x *UnitCreateAndLinkUserReq) GetUserPhone() []string {
+	if x != nil {
+		return x.UserPhone
+	}
+	return nil
+}
+
+type UnitCreateAndLinkViewReq struct {
+	UnitId    string   `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	ViewPhone []string `protobuf:"bytes,2,rep,name=viewPhone" json:"viewPhone,omitempty"`
+}
+
+func (x *UnitCreateAndLinkViewReq) Reset() { *x = UnitCreateAndLinkViewReq{} }
+
+func (x *UnitCreateAndLinkViewReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *UnitCreateAndLinkViewReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitCreateAndLinkViewReq) GetUnitId() string {
+	if x != nil {
+		return x.UnitId
+	}
+	return ""
+}
+
+func (x *UnitCreateAndLinkViewReq) GetViewPhone() []string {
+	if x != nil {
+		return x.ViewPhone
+	}
+	return nil
+}
+
+/* view账号注册 */
+type ViewSignUpReq struct {
+	View *View `protobuf:"bytes,1,opt,name=view" json:"view,omitempty"`
+}
+
+func (x *ViewSignUpReq) Reset() { *x = ViewSignUpReq{} }
+
+func (x *ViewSignUpReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ViewSignUpReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ViewSignUpReq) GetView() *View {
+	if x != nil {
+		return x.View
+	}
+	return nil
+}
+
+/* 登录 */
+type ViewSignInReq struct {
+	Phone      string  `protobuf:"bytes,1,opt,name=phone" json:"phone,omitempty"`
+	Password   *string `protobuf:"bytes,2,opt,name=password" json:"password,omitempty"`
+	VerifyCode *string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
+}
+
+func (x *ViewSignInReq) Reset() { *x = ViewSignInReq{} }
+
+func (x *ViewSignInReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ViewSignInReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ViewSignInReq) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+func (x *ViewSignInReq) GetPassword() string {
+	if x != nil && x.Password != nil {
+		return *x.Password
+	}
+	return ""
+}
+
+func (x *ViewSignInReq) GetVerifyCode() string {
+	if x != nil && x.VerifyCode != nil {
+		return *x.VerifyCode
+	}
+	return ""
+}
+
+/* 获取信息 */
+type ViewGetInfoReq struct {
+	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+}
+
+func (x *ViewGetInfoReq) Reset() { *x = ViewGetInfoReq{} }
+
+func (x *ViewGetInfoReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ViewGetInfoReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ViewGetInfoReq) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type ViewGetInfoResp struct {
+	View *View `protobuf:"bytes,1,opt,name=view" json:"view,omitempty"`
+}
+
+func (x *ViewGetInfoResp) Reset() { *x = ViewGetInfoResp{} }
+
+func (x *ViewGetInfoResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ViewGetInfoResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ViewGetInfoResp) GetView() *View {
+	if x != nil {
+		return x.View
+	}
+	return nil
+}
+
+/* 更新信息 */
+type ViewUpdateInfoReq struct {
+	View *View `protobuf:"bytes,1,opt,name=view" json:"view,omitempty"`
+}
+
+func (x *ViewUpdateInfoReq) Reset() { *x = ViewUpdateInfoReq{} }
+
+func (x *ViewUpdateInfoReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ViewUpdateInfoReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ViewUpdateInfoReq) GetView() *View {
+	if x != nil {
+		return x.View
+	}
+	return nil
+}
+
+/* 更新密码 */
+type ViewUpdatePasswordReq struct {
+	Id          string  `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	OldPassword *string `protobuf:"bytes,2,opt,name=oldPassword" json:"oldPassword,omitempty"`
+	NewPassword string  `protobuf:"bytes,3,opt,name=newPassword" json:"newPassword,omitempty"`
+	VerifyCode  *string `protobuf:"bytes,4,opt,name=verifyCode" json:"verifyCode,omitempty"`
+}
+
+func (x *ViewUpdatePasswordReq) Reset() { *x = ViewUpdatePasswordReq{} }
+
+func (x *ViewUpdatePasswordReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *ViewUpdatePasswordReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ViewUpdatePasswordReq) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *ViewUpdatePasswordReq) GetOldPassword() string {
+	if x != nil && x.OldPassword != nil {
+		return *x.OldPassword
+	}
+	return ""
+}
+
+func (x *ViewUpdatePasswordReq) GetNewPassword() string {
+	if x != nil {
+		return x.NewPassword
+	}
+	return ""
+}
+
+func (x *ViewUpdatePasswordReq) GetVerifyCode() string {
+	if x != nil && x.VerifyCode != nil {
+		return *x.VerifyCode
+	}
+	return ""
+}
+
+type UnitMember struct {
+	Unit  *Unit `protobuf:"bytes,1,opt,name=unit" json:"unit,omitempty"`
+	Level int32 `protobuf:"varint,2,opt,name=level" json:"level,omitempty"`
+}
+
+func (x *UnitMember) Reset() { *x = UnitMember{} }
+
+func (x *UnitMember) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UnitMember) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitMember) GetUnit() *Unit {
+	if x != nil {
+		return x.Unit
+	}
+	return nil
+}
+
+func (x *UnitMember) GetLevel() int32 {
+	if x != nil {
+		return x.Level
+	}
+	return 0
+}
+
+/* 查询关联unit */
+type ViewBelongUnitReq struct {
+	Id                string                   `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,2,opt,name=paginationOptions" json:"paginationOptions,omitempty"`
+}
+
+func (x *ViewBelongUnitReq) Reset() { *x = ViewBelongUnitReq{} }
+
+func (x *ViewBelongUnitReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ViewBelongUnitReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ViewBelongUnitReq) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *ViewBelongUnitReq) GetPaginationOptions() *basic.PaginationOptions {
+	if x != nil {
+		return x.PaginationOptions
+	}
+	return nil
+}
+
+type ViewBelongUnitResp struct {
+	UnitMembers []*UnitMember `protobuf:"bytes,1,rep,name=unitMembers" json:"unitMembers,omitempty"`
+}
+
+func (x *ViewBelongUnitResp) Reset() { *x = ViewBelongUnitResp{} }
+
+func (x *ViewBelongUnitResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ViewBelongUnitResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ViewBelongUnitResp) GetUnitMembers() []*UnitMember {
+	if x != nil {
+		return x.UnitMembers
+	}
+	return nil
+}
+
+/* user账号注册 */
+type UserSignUpReq struct {
+	User      *User    `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	StudentId []string `protobuf:"bytes,2,rep,name=studentId" json:"studentId,omitempty"`
+}
+
+func (x *UserSignUpReq) Reset() { *x = UserSignUpReq{} }
+
+func (x *UserSignUpReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UserSignUpReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UserSignUpReq) GetUser() *User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+func (x *UserSignUpReq) GetStudentId() []string {
+	if x != nil {
+		return x.StudentId
+	}
+	return nil
+}
+
+/* user登录 */
+type UserSignInReq struct {
+	Phone      *string  `protobuf:"bytes,1,opt,name=phone" json:"phone,omitempty"`
+	StudentId  []string `protobuf:"bytes,2,rep,name=studentId" json:"studentId,omitempty"`
+	Password   *string  `protobuf:"bytes,3,opt,name=password" json:"password,omitempty"`
+	VerifyCode *string  `protobuf:"bytes,4,opt,name=verifyCode" json:"verifyCode,omitempty"`
+}
+
+func (x *UserSignInReq) Reset() { *x = UserSignInReq{} }
+
+func (x *UserSignInReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UserSignInReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UserSignInReq) GetPhone() string {
+	if x != nil && x.Phone != nil {
+		return *x.Phone
+	}
+	return ""
+}
+
+func (x *UserSignInReq) GetStudentId() []string {
+	if x != nil {
+		return x.StudentId
+	}
+	return nil
+}
+
+func (x *UserSignInReq) GetPassword() string {
+	if x != nil && x.Password != nil {
+		return *x.Password
+	}
+	return ""
+}
+
+func (x *UserSignInReq) GetVerifyCode() string {
+	if x != nil && x.VerifyCode != nil {
+		return *x.VerifyCode
+	}
+	return ""
+}
+
+/* 获取信息 */
+type UserGetInfoReq struct {
+	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+}
+
+func (x *UserGetInfoReq) Reset() { *x = UserGetInfoReq{} }
+
+func (x *UserGetInfoReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UserGetInfoReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UserGetInfoReq) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type UserGetInfoResp struct {
+	User *User `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+}
+
+func (x *UserGetInfoResp) Reset() { *x = UserGetInfoResp{} }
+
+func (x *UserGetInfoResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UserGetInfoResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UserGetInfoResp) GetUser() *User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+/* 更新信息 */
+type UserUpdateInfoReq struct {
+	User *User `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+}
+
+func (x *UserUpdateInfoReq) Reset() { *x = UserUpdateInfoReq{} }
+
+func (x *UserUpdateInfoReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UserUpdateInfoReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UserUpdateInfoReq) GetUser() *User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+/* 更新密码 */
+type UserUpdatePasswordReq struct {
+	Id          string  `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	OldPassword *string `protobuf:"bytes,2,opt,name=oldPassword" json:"oldPassword,omitempty"`
+	VerifyCode  *string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
+	NewPassword string  `protobuf:"bytes,4,opt,name=newPassword" json:"newPassword,omitempty"`
+}
+
+func (x *UserUpdatePasswordReq) Reset() { *x = UserUpdatePasswordReq{} }
+
+func (x *UserUpdatePasswordReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *UserUpdatePasswordReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UserUpdatePasswordReq) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *UserUpdatePasswordReq) GetOldPassword() string {
+	if x != nil && x.OldPassword != nil {
+		return *x.OldPassword
+	}
+	return ""
+}
+
+func (x *UserUpdatePasswordReq) GetVerifyCode() string {
+	if x != nil && x.VerifyCode != nil {
+		return *x.VerifyCode
+	}
+	return ""
+}
+
+func (x *UserUpdatePasswordReq) GetNewPassword() string {
+	if x != nil {
+		return x.NewPassword
+	}
+	return ""
+}
+
+/* 分页查询关联unit */
+type UserBelongUnitReq struct {
+	Id                string                   `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,2,opt,name=paginationOptions" json:"paginationOptions,omitempty"`
+}
+
+func (x *UserBelongUnitReq) Reset() { *x = UserBelongUnitReq{} }
+
+func (x *UserBelongUnitReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UserBelongUnitReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UserBelongUnitReq) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *UserBelongUnitReq) GetPaginationOptions() *basic.PaginationOptions {
+	if x != nil {
+		return x.PaginationOptions
+	}
+	return nil
+}
+
+type UserBelongUnitResp struct {
+	Units []*Unit `protobuf:"bytes,1,rep,name=units" json:"units,omitempty"`
+}
+
+func (x *UserBelongUnitResp) Reset() { *x = UserBelongUnitResp{} }
+
+func (x *UserBelongUnitResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UserBelongUnitResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UserBelongUnitResp) GetUnits() []*Unit {
+	if x != nil {
+		return x.Units
+	}
+	return nil
 }

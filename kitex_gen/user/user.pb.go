@@ -5,223 +5,36 @@ package user
 import (
 	"context"
 	"github.com/xh-polaris/psych-idl/kitex_gen/basic"
-
-	"github.com/cloudwego/prutal"
 )
 
-/* user账号注册 */
-type UserSignUpReq struct {
-	User      *User    `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
-	StudentId []string `protobuf:"bytes,2,rep,name=studentId" json:"studentId,omitempty"`
-}
-
-func (x *UserSignUpReq) Reset() { *x = UserSignUpReq{} }
-
-func (x *UserSignUpReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
-
-func (x *UserSignUpReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *UserSignUpReq) GetUser() *User {
-	if x != nil {
-		return x.User
-	}
-	return nil
-}
-
-func (x *UserSignUpReq) GetStudentId() []string {
-	if x != nil {
-		return x.StudentId
-	}
-	return nil
-}
-
-/* user登录 */
-type UserSignInReq struct {
-	Phone      *string  `protobuf:"bytes,1,opt,name=phone" json:"phone,omitempty"`
-	StudentId  []string `protobuf:"bytes,2,rep,name=studentId" json:"studentId,omitempty"`
-	Password   *string  `protobuf:"bytes,3,opt,name=password" json:"password,omitempty"`
-	VerifyCode *string  `protobuf:"bytes,4,opt,name=verifyCode" json:"verifyCode,omitempty"`
-}
-
-func (x *UserSignInReq) Reset() { *x = UserSignInReq{} }
-
-func (x *UserSignInReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
-
-func (x *UserSignInReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *UserSignInReq) GetPhone() string {
-	if x != nil && x.Phone != nil {
-		return *x.Phone
-	}
-	return ""
-}
-
-func (x *UserSignInReq) GetStudentId() []string {
-	if x != nil {
-		return x.StudentId
-	}
-	return nil
-}
-
-func (x *UserSignInReq) GetPassword() string {
-	if x != nil && x.Password != nil {
-		return *x.Password
-	}
-	return ""
-}
-
-func (x *UserSignInReq) GetVerifyCode() string {
-	if x != nil && x.VerifyCode != nil {
-		return *x.VerifyCode
-	}
-	return ""
-}
-
-/* 获取信息 */
-type UserGetInfoReq struct {
-	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-}
-
-func (x *UserGetInfoReq) Reset() { *x = UserGetInfoReq{} }
-
-func (x *UserGetInfoReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
-
-func (x *UserGetInfoReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *UserGetInfoReq) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-type UserGetInfoResp struct {
-	User *User `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
-}
-
-func (x *UserGetInfoResp) Reset() { *x = UserGetInfoResp{} }
-
-func (x *UserGetInfoResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
-
-func (x *UserGetInfoResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *UserGetInfoResp) GetUser() *User {
-	if x != nil {
-		return x.User
-	}
-	return nil
-}
-
-/* 更新信息 */
-type UserUpdateInfoReq struct {
-	User *User `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
-}
-
-func (x *UserUpdateInfoReq) Reset() { *x = UserUpdateInfoReq{} }
-
-func (x *UserUpdateInfoReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
-
-func (x *UserUpdateInfoReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *UserUpdateInfoReq) GetUser() *User {
-	if x != nil {
-		return x.User
-	}
-	return nil
-}
-
-/* 更新密码 */
-type UserUpdatePasswordReq struct {
-	Id          string  `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	OldPassword *string `protobuf:"bytes,2,opt,name=oldPassword" json:"oldPassword,omitempty"`
-	VerifyCode  *string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
-	NewPassword string  `protobuf:"bytes,4,opt,name=newPassword" json:"newPassword,omitempty"`
-}
-
-func (x *UserUpdatePasswordReq) Reset() { *x = UserUpdatePasswordReq{} }
-
-func (x *UserUpdatePasswordReq) Marshal(in []byte) ([]byte, error) {
-	return prutal.MarshalAppend(in, x)
-}
-
-func (x *UserUpdatePasswordReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *UserUpdatePasswordReq) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *UserUpdatePasswordReq) GetOldPassword() string {
-	if x != nil && x.OldPassword != nil {
-		return *x.OldPassword
-	}
-	return ""
-}
-
-func (x *UserUpdatePasswordReq) GetVerifyCode() string {
-	if x != nil && x.VerifyCode != nil {
-		return *x.VerifyCode
-	}
-	return ""
-}
-
-func (x *UserUpdatePasswordReq) GetNewPassword() string {
-	if x != nil {
-		return x.NewPassword
-	}
-	return ""
-}
-
-/* 分页查询关联unit */
-type UserBelongUnitReq struct {
-	Id                string                   `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,2,opt,name=paginationOptions" json:"paginationOptions,omitempty"`
-}
-
-func (x *UserBelongUnitReq) Reset() { *x = UserBelongUnitReq{} }
-
-func (x *UserBelongUnitReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
-
-func (x *UserBelongUnitReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *UserBelongUnitReq) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *UserBelongUnitReq) GetPaginationOptions() *basic.PaginationOptions {
-	if x != nil {
-		return x.PaginationOptions
-	}
-	return nil
-}
-
-type UserBelongUnitResp struct {
-	Units []*Unit `protobuf:"bytes,1,rep,name=units" json:"units,omitempty"`
-}
-
-func (x *UserBelongUnitResp) Reset() { *x = UserBelongUnitResp{} }
-
-func (x *UserBelongUnitResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
-
-func (x *UserBelongUnitResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *UserBelongUnitResp) GetUnits() []*Unit {
-	if x != nil {
-		return x.Units
-	}
-	return nil
-}
-
-type UserService interface {
+type PsychUserService interface {
+	UnitSignUp(ctx context.Context, req *UnitSignUpReq) (res *basic.Response, err error)
+	UnitGetInfo(ctx context.Context, req *UnitGetInfoReq) (res *UnitGetInfoResp, err error)
+	UnitUpdateInfo(ctx context.Context, req *UnitUpdateInfoReq) (res *basic.Response, err error)
+	UnitUpdatePassword(ctx context.Context, req *UnitUpdatePasswordReq) (res *basic.Response, err error)
+	UnitCreateAndLinkUser(ctx context.Context, req *UnitCreateAndLinkUserReq) (res *basic.Response, err error)
+	UnitCreateAndLinkView(ctx context.Context, req *UnitCreateAndLinkViewReq) (res *basic.Response, err error)
+	UnitStrongVerify(ctx context.Context, req *UnitStrongVerifyReq) (res *basic.Response, err error)
+	UnitWeakVerify(ctx context.Context, req *UnitWeakVerifyReq) (res *basic.Response, err error)
+	UnitCreateVerify(ctx context.Context, req *UnitCreateVerifyReq) (res *UnitCreateVerifyResp, err error)
+	UnitUpdateVerifyPassword(ctx context.Context, req *UnitUpdateVerifyPasswordReq) (res *basic.Response, err error)
+	UnitLinkUser(ctx context.Context, req *UnitLinkUserReq) (res *basic.Response, err error)
+	UnitLinkView(ctx context.Context, req *UnitLinkViewReq) (res *basic.Response, err error)
+	UnitPageQueryUser(ctx context.Context, req *UnitPageQueryUserReq) (res *UnitPageQueryUserResp, err error)
+	UnitPageQueryView(ctx context.Context, req *UnitPageQueryViewReq) (res *UnitPageQueryViewResp, err error)
+	UnitGetAppInfo(ctx context.Context, req *UnitGetAppInfoReq) (res *UnitGetAppInfoResp, err error)
+	UnitModelGetInfo(ctx context.Context, req *UnitModelGetInfoReq) (res *UnitModelGetInfoResp, err error)
+	UnitModelUpdateInfo(ctx context.Context, req *UnitModelUpdateInfoReq) (res *basic.Response, err error)
 	UserSignUp(ctx context.Context, req *UserSignUpReq) (res *basic.Response, err error)
 	UserGetInfo(ctx context.Context, req *UserGetInfoReq) (res *UserGetInfoResp, err error)
 	UserUpdateInfo(ctx context.Context, req *UserUpdateInfoReq) (res *basic.Response, err error)
 	UserUpdatePassword(ctx context.Context, req *UserUpdatePasswordReq) (res *basic.Response, err error)
 	UserBelongUnit(ctx context.Context, req *UserBelongUnitReq) (res *UserBelongUnitResp, err error)
 	UserSignIn(ctx context.Context, req *UserSignInReq) (res *basic.Response, err error)
+	ViewSignUp(ctx context.Context, req *ViewSignUpReq) (res *basic.Response, err error)
+	ViewGetInfo(ctx context.Context, req *ViewGetInfoReq) (res *ViewGetInfoResp, err error)
+	ViewUpdateInfo(ctx context.Context, req *ViewUpdateInfoReq) (res *basic.Response, err error)
+	ViewUpdatePassword(ctx context.Context, req *ViewUpdatePasswordReq) (res *basic.Response, err error)
+	ViewBelongUnit(ctx context.Context, req *ViewBelongUnitReq) (res *ViewBelongUnitResp, err error)
+	ViewSignIn(ctx context.Context, req *ViewSignInReq) (res *basic.Response, err error)
 }
