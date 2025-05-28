@@ -11,7 +11,8 @@ import (
 
 /* user账号注册 */
 type UserSignUpReq struct {
-	User *User `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	User      *User    `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	StudentId []string `protobuf:"bytes,2,rep,name=studentId" json:"studentId,omitempty"`
 }
 
 func (x *UserSignUpReq) Reset() { *x = UserSignUpReq{} }
@@ -27,11 +28,19 @@ func (x *UserSignUpReq) GetUser() *User {
 	return nil
 }
 
+func (x *UserSignUpReq) GetStudentId() []string {
+	if x != nil {
+		return x.StudentId
+	}
+	return nil
+}
+
 /* user登录 */
 type UserSignInReq struct {
-	Phone      string  `protobuf:"bytes,1,opt,name=phone" json:"phone,omitempty"`
-	Password   *string `protobuf:"bytes,2,opt,name=password" json:"password,omitempty"`
-	VerifyCode *string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
+	Phone      *string  `protobuf:"bytes,1,opt,name=phone" json:"phone,omitempty"`
+	StudentId  []string `protobuf:"bytes,2,rep,name=studentId" json:"studentId,omitempty"`
+	Password   *string  `protobuf:"bytes,3,opt,name=password" json:"password,omitempty"`
+	VerifyCode *string  `protobuf:"bytes,4,opt,name=verifyCode" json:"verifyCode,omitempty"`
 }
 
 func (x *UserSignInReq) Reset() { *x = UserSignInReq{} }
@@ -41,10 +50,17 @@ func (x *UserSignInReq) Marshal(in []byte) ([]byte, error) { return prutal.Marsh
 func (x *UserSignInReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
 func (x *UserSignInReq) GetPhone() string {
-	if x != nil {
-		return x.Phone
+	if x != nil && x.Phone != nil {
+		return *x.Phone
 	}
 	return ""
+}
+
+func (x *UserSignInReq) GetStudentId() []string {
+	if x != nil {
+		return x.StudentId
+	}
+	return nil
 }
 
 func (x *UserSignInReq) GetPassword() string {
@@ -118,8 +134,8 @@ func (x *UserUpdateInfoReq) GetUser() *User {
 type UserUpdatePasswordReq struct {
 	Id          string  `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
 	OldPassword *string `protobuf:"bytes,2,opt,name=oldPassword" json:"oldPassword,omitempty"`
-	NewPassword string  `protobuf:"bytes,3,opt,name=newPassword" json:"newPassword,omitempty"`
-	VerifyCode  *string `protobuf:"bytes,4,opt,name=verifyCode" json:"verifyCode,omitempty"`
+	VerifyCode  *string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
+	NewPassword string  `protobuf:"bytes,4,opt,name=newPassword" json:"newPassword,omitempty"`
 }
 
 func (x *UserUpdatePasswordReq) Reset() { *x = UserUpdatePasswordReq{} }
@@ -144,16 +160,16 @@ func (x *UserUpdatePasswordReq) GetOldPassword() string {
 	return ""
 }
 
-func (x *UserUpdatePasswordReq) GetNewPassword() string {
-	if x != nil {
-		return x.NewPassword
+func (x *UserUpdatePasswordReq) GetVerifyCode() string {
+	if x != nil && x.VerifyCode != nil {
+		return *x.VerifyCode
 	}
 	return ""
 }
 
-func (x *UserUpdatePasswordReq) GetVerifyCode() string {
-	if x != nil && x.VerifyCode != nil {
-		return *x.VerifyCode
+func (x *UserUpdatePasswordReq) GetNewPassword() string {
+	if x != nil {
+		return x.NewPassword
 	}
 	return ""
 }
