@@ -25,16 +25,18 @@ service UserService {
 
 
 /* user账号注册 */
-message UserSignUpReq{
+message UserSignUpReq {
   User user = 1;
+  repeated string studentId = 2;
 }
 // Response
 
 /* user登录 */
 message UserSignInReq {
-  string phone = 1;
-  optional string password = 2;
-  optional string verifyCode = 3;
+  optional string phone = 1;
+  repeated string studentId = 2;
+  optional string password = 3;
+  optional string verifyCode = 4;
 }
 // Response
 
@@ -56,8 +58,8 @@ message UserUpdateInfoReq {
 message UserUpdatePasswordReq {
   string id = 1;
   optional string oldPassword = 2;
-  string newPassword = 3;
-  optional string verifyCode = 4;
+  optional string verifyCode = 3;
+  string newPassword = 4;
 }
 // Response
 
