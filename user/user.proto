@@ -8,6 +8,7 @@ import "user/common.proto";
 import "basic/re.proto";
 
 service PsychUserService {
+  // Unit部分
   // 用户信息部分
   rpc UnitSignUp(UnitSignUpReq) returns(basic.Response);
   rpc UnitGetInfo(UnitGetInfoReq) returns(UnitGetInfoResp);
@@ -35,6 +36,7 @@ service PsychUserService {
   rpc UnitModelGetInfo(UnitModelGetInfoReq) returns(UnitModelGetInfoResp);
   rpc UnitModelUpdateInfo(UnitModelUpdateInfoReq) returns(basic.Response);
 
+  // User部分
   // 用户信息部分
   rpc UserSignUp(UserSignUpReq) returns(basic.Response);
   rpc UserGetInfo(UserGetInfoReq) returns(UserGetInfoResp);
@@ -47,6 +49,7 @@ service PsychUserService {
   // 用户验证部分
   rpc UserSignIn(UserSignInReq) returns(basic.Response);
 
+  // View部分
   // 用户信息部分
   rpc ViewSignUp(ViewSignUpReq) returns(basic.Response);
   rpc ViewGetInfo(ViewGetInfoReq) returns(ViewGetInfoResp);
