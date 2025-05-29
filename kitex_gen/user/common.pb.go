@@ -1493,8 +1493,10 @@ func (x *UserGetInfoReq) GetUnitId() string {
 }
 
 type UserGetInfoResp struct {
-	User    *User     `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
-	Options []*Option `protobuf:"bytes,2,rep,name=options" json:"options,omitempty"`
+	User      *User   `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	UnitId    *string `protobuf:"bytes,2,opt,name=unitId" json:"unitId,omitempty"`
+	StudentId *string `protobuf:"bytes,3,opt,name=studentId" json:"studentId,omitempty"`
+	Options   *Option `protobuf:"bytes,4,opt,name=options" json:"options,omitempty"`
 }
 
 func (x *UserGetInfoResp) Reset() { *x = UserGetInfoResp{} }
@@ -1510,7 +1512,21 @@ func (x *UserGetInfoResp) GetUser() *User {
 	return nil
 }
 
-func (x *UserGetInfoResp) GetOptions() []*Option {
+func (x *UserGetInfoResp) GetUnitId() string {
+	if x != nil && x.UnitId != nil {
+		return *x.UnitId
+	}
+	return ""
+}
+
+func (x *UserGetInfoResp) GetStudentId() string {
+	if x != nil && x.StudentId != nil {
+		return *x.StudentId
+	}
+	return ""
+}
+
+func (x *UserGetInfoResp) GetOptions() *Option {
 	if x != nil {
 		return x.Options
 	}
