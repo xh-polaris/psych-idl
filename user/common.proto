@@ -297,7 +297,9 @@ message UserGetInfoReq {
 }
 message UserGetInfoResp {
   User user = 1;
-  repeated option options = 2;
+  optional string unitId = 2;
+  optional string studentId = 3;
+  optional option options = 4;
 }
 
 // 更新信息 
