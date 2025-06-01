@@ -47,7 +47,7 @@ service PsychUserService {
   rpc UserBelongUnit(UserBelongUnitReq) returns(UserBelongUnitResp);
 
   // 用户验证部分
-  rpc UserSignIn(UserSignInReq) returns(basic.Response);
+  rpc UserSignIn(UserSignInReq) returns(UserSignInResp);
 
   // View部分
   // 用户信息部分
