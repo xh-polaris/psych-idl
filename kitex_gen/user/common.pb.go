@@ -17,7 +17,7 @@ type Unit struct {
 	Address    string `protobuf:"bytes,5,opt,name=address" json:"address,omitempty"`
 	Contact    string `protobuf:"bytes,6,opt,name=contact" json:"contact,omitempty"`
 	Level      int32  `protobuf:"varint,7,opt,name=level" json:"level,omitempty"`
-	Status     string `protobuf:"bytes,8,opt,name=status" json:"status,omitempty"`
+	Status     int32  `protobuf:"varint,8,opt,name=status" json:"status,omitempty"`
 	CreateTime int64  `protobuf:"varint,9,opt,name=createTime" json:"createTime,omitempty"`
 	UpdateTime int64  `protobuf:"varint,10,opt,name=updateTime" json:"updateTime,omitempty"`
 	DeleteTime int64  `protobuf:"varint,11,opt,name=deleteTime" json:"deleteTime,omitempty"`
@@ -78,11 +78,11 @@ func (x *Unit) GetLevel() int32 {
 	return 0
 }
 
-func (x *Unit) GetStatus() string {
+func (x *Unit) GetStatus() int32 {
 	if x != nil {
 		return x.Status
 	}
-	return ""
+	return 0
 }
 
 func (x *Unit) GetCreateTime() int64 {
@@ -112,8 +112,8 @@ type User struct {
 	Password   string `protobuf:"bytes,3,opt,name=password" json:"password,omitempty"`
 	Name       string `protobuf:"bytes,4,opt,name=name" json:"name,omitempty"`
 	Birth      string `protobuf:"bytes,5,opt,name=birth" json:"birth,omitempty"`
-	Gender     string `protobuf:"bytes,6,opt,name=gender" json:"gender,omitempty"`
-	Status     string `protobuf:"bytes,7,opt,name=status" json:"status,omitempty"`
+	Gender     int32  `protobuf:"varint,6,opt,name=gender" json:"gender,omitempty"`
+	Status     int32  `protobuf:"varint,7,opt,name=status" json:"status,omitempty"`
 	CreateTime int64  `protobuf:"varint,8,opt,name=createTime" json:"createTime,omitempty"`
 	UpdateTime int64  `protobuf:"varint,9,opt,name=updateTime" json:"updateTime,omitempty"`
 	DeleteTime int64  `protobuf:"varint,10,opt,name=deleteTime" json:"deleteTime,omitempty"`
@@ -160,18 +160,18 @@ func (x *User) GetBirth() string {
 	return ""
 }
 
-func (x *User) GetGender() string {
+func (x *User) GetGender() int32 {
 	if x != nil {
 		return x.Gender
 	}
-	return ""
+	return 0
 }
 
-func (x *User) GetStatus() string {
+func (x *User) GetStatus() int32 {
 	if x != nil {
 		return x.Status
 	}
-	return ""
+	return 0
 }
 
 func (x *User) GetCreateTime() int64 {
@@ -228,7 +228,7 @@ type View struct {
 	Address         string            `protobuf:"bytes,5,opt,name=address" json:"address,omitempty"`
 	Contact         string            `protobuf:"bytes,6,opt,name=contact" json:"contact,omitempty"`
 	UnitMemberships []*UnitMembership `protobuf:"bytes,7,rep,name=unitMemberships" json:"unitMemberships,omitempty"`
-	Status          string            `protobuf:"bytes,8,opt,name=status" json:"status,omitempty"`
+	Status          int32             `protobuf:"varint,8,opt,name=status" json:"status,omitempty"`
 	CreateTime      int64             `protobuf:"varint,9,opt,name=createTime" json:"createTime,omitempty"`
 	UpdateTime      int64             `protobuf:"varint,10,opt,name=updateTime" json:"updateTime,omitempty"`
 	DeleteTime      int64             `protobuf:"varint,11,opt,name=deleteTime" json:"deleteTime,omitempty"`
@@ -289,11 +289,11 @@ func (x *View) GetUnitMemberships() []*UnitMembership {
 	return nil
 }
 
-func (x *View) GetStatus() string {
+func (x *View) GetStatus() int32 {
 	if x != nil {
 		return x.Status
 	}
-	return ""
+	return 0
 }
 
 func (x *View) GetCreateTime() int64 {
@@ -323,7 +323,7 @@ type UnitVerify struct {
 	Account    string                       `protobuf:"bytes,3,opt,name=account" json:"account,omitempty"`
 	Password   string                       `protobuf:"bytes,4,opt,name=password" json:"password,omitempty"`
 	Form       []*UnitVerify_UnitVerifyForm `protobuf:"bytes,5,rep,name=form" json:"form,omitempty"`
-	Status     string                       `protobuf:"bytes,6,opt,name=status" json:"status,omitempty"`
+	Status     int32                        `protobuf:"varint,6,opt,name=status" json:"status,omitempty"`
 	CreateTime int64                        `protobuf:"varint,7,opt,name=createTime" json:"createTime,omitempty"`
 	UpdateTime int64                        `protobuf:"varint,8,opt,name=updateTime" json:"updateTime,omitempty"`
 	DeleteTime int64                        `protobuf:"varint,9,opt,name=deleteTime" json:"deleteTime,omitempty"`
@@ -370,11 +370,11 @@ func (x *UnitVerify) GetForm() []*UnitVerify_UnitVerifyForm {
 	return nil
 }
 
-func (x *UnitVerify) GetStatus() string {
+func (x *UnitVerify) GetStatus() int32 {
 	if x != nil {
 		return x.Status
 	}
-	return ""
+	return 0
 }
 
 func (x *UnitVerify) GetCreateTime() int64 {
@@ -432,7 +432,7 @@ type UnitModel struct {
 	Tts        string `protobuf:"bytes,4,opt,name=tts" json:"tts,omitempty"`
 	Report     string `protobuf:"bytes,5,opt,name=report" json:"report,omitempty"`
 	Option     string `protobuf:"bytes,6,opt,name=option" json:"option,omitempty"`
-	Status     string `protobuf:"bytes,7,opt,name=status" json:"status,omitempty"`
+	Status     int32  `protobuf:"varint,7,opt,name=status" json:"status,omitempty"`
 	CreateTime int64  `protobuf:"varint,8,opt,name=createTime" json:"createTime,omitempty"`
 	UpdateTime int64  `protobuf:"varint,9,opt,name=updateTime" json:"updateTime,omitempty"`
 	DeleteTime int64  `protobuf:"varint,10,opt,name=deleteTime" json:"deleteTime,omitempty"`
@@ -486,11 +486,11 @@ func (x *UnitModel) GetOption() string {
 	return ""
 }
 
-func (x *UnitModel) GetStatus() string {
+func (x *UnitModel) GetStatus() int32 {
 	if x != nil {
 		return x.Status
 	}
-	return ""
+	return 0
 }
 
 func (x *UnitModel) GetCreateTime() int64 {
@@ -1067,7 +1067,7 @@ type UnitCreateAndLinkUserReq struct {
 	AuthId     []string  `protobuf:"bytes,3,rep,name=authId" json:"authId,omitempty"`
 	VerifyCode []string  `protobuf:"bytes,4,rep,name=verifyCode" json:"verifyCode,omitempty"`
 	UserName   []string  `protobuf:"bytes,5,rep,name=userName" json:"userName,omitempty"`
-	Gender     []string  `protobuf:"bytes,6,rep,name=gender" json:"gender,omitempty"`
+	Gender     []int32   `protobuf:"varint,6,rep,packed,name=gender" json:"gender,omitempty"`
 	Options    []*Option `protobuf:"bytes,7,rep,name=options" json:"options,omitempty"`
 }
 
@@ -1114,7 +1114,7 @@ func (x *UnitCreateAndLinkUserReq) GetUserName() []string {
 	return nil
 }
 
-func (x *UnitCreateAndLinkUserReq) GetGender() []string {
+func (x *UnitCreateAndLinkUserReq) GetGender() []int32 {
 	if x != nil {
 		return x.Gender
 	}
