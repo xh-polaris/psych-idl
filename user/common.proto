@@ -291,7 +291,7 @@ message UserSignInReq {
 }
 message UserSignInResp {
   string unitId = 1;
-  int32 studentId = 2;
+  string studentId = 2;
   string userId = 3;
 }
 
