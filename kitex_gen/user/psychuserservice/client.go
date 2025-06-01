@@ -34,7 +34,7 @@ type Client interface {
 	UserUpdateInfo(ctx context.Context, Req *user.UserUpdateInfoReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	UserUpdatePassword(ctx context.Context, Req *user.UserUpdatePasswordReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	UserBelongUnit(ctx context.Context, Req *user.UserBelongUnitReq, callOptions ...callopt.Option) (r *user.UserBelongUnitResp, err error)
-	UserSignIn(ctx context.Context, Req *user.UserSignInReq, callOptions ...callopt.Option) (r *basic.Response, err error)
+	UserSignIn(ctx context.Context, Req *user.UserSignInReq, callOptions ...callopt.Option) (r *user.UserSignInResp, err error)
 	ViewSignUp(ctx context.Context, Req *user.ViewSignUpReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	ViewGetInfo(ctx context.Context, Req *user.ViewGetInfoReq, callOptions ...callopt.Option) (r *user.ViewGetInfoResp, err error)
 	ViewUpdateInfo(ctx context.Context, Req *user.ViewUpdateInfoReq, callOptions ...callopt.Option) (r *basic.Response, err error)
@@ -182,7 +182,7 @@ func (p *kPsychUserServiceClient) UserBelongUnit(ctx context.Context, Req *user.
 	return p.kClient.UserBelongUnit(ctx, Req)
 }
 
-func (p *kPsychUserServiceClient) UserSignIn(ctx context.Context, Req *user.UserSignInReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
+func (p *kPsychUserServiceClient) UserSignIn(ctx context.Context, Req *user.UserSignInReq, callOptions ...callopt.Option) (r *user.UserSignInResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.UserSignIn(ctx, Req)
 }

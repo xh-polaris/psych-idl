@@ -2798,10 +2798,10 @@ func (p *UserSignInArgs) GetFirstArgument() interface{} {
 }
 
 type UserSignInResult struct {
-	Success *basic.Response
+	Success *user.UserSignInResp
 }
 
-var UserSignInResult_Success_DEFAULT *basic.Response
+var UserSignInResult_Success_DEFAULT *user.UserSignInResp
 
 func (p *UserSignInResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -2811,7 +2811,7 @@ func (p *UserSignInResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *UserSignInResult) Unmarshal(in []byte) error {
-	msg := new(basic.Response)
+	msg := new(user.UserSignInResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -2819,7 +2819,7 @@ func (p *UserSignInResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *UserSignInResult) GetSuccess() *basic.Response {
+func (p *UserSignInResult) GetSuccess() *user.UserSignInResp {
 	if !p.IsSetSuccess() {
 		return UserSignInResult_Success_DEFAULT
 	}
@@ -2827,7 +2827,7 @@ func (p *UserSignInResult) GetSuccess() *basic.Response {
 }
 
 func (p *UserSignInResult) SetSuccess(x interface{}) {
-	p.Success = x.(*basic.Response)
+	p.Success = x.(*user.UserSignInResp)
 }
 
 func (p *UserSignInResult) IsSetSuccess() bool {
@@ -3734,7 +3734,7 @@ func (p *kClient) UserBelongUnit(ctx context.Context, Req *user.UserBelongUnitRe
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) UserSignIn(ctx context.Context, Req *user.UserSignInReq) (r *basic.Response, err error) {
+func (p *kClient) UserSignIn(ctx context.Context, Req *user.UserSignInReq) (r *user.UserSignInResp, err error) {
 	var _args UserSignInArgs
 	_args.Req = Req
 	var _result UserSignInResult

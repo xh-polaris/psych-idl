@@ -1466,6 +1466,39 @@ func (x *UserSignInReq) GetPassword() string {
 	return ""
 }
 
+type UserSignInResp struct {
+	UnitId    string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	StudentId int32  `protobuf:"varint,2,opt,name=studentId" json:"studentId,omitempty"`
+	UserId    string `protobuf:"bytes,3,opt,name=userId" json:"userId,omitempty"`
+}
+
+func (x *UserSignInResp) Reset() { *x = UserSignInResp{} }
+
+func (x *UserSignInResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UserSignInResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UserSignInResp) GetUnitId() string {
+	if x != nil {
+		return x.UnitId
+	}
+	return ""
+}
+
+func (x *UserSignInResp) GetStudentId() int32 {
+	if x != nil {
+		return x.StudentId
+	}
+	return 0
+}
+
+func (x *UserSignInResp) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
 // 获取信息
 type UserGetInfoReq struct {
 	UserId string  `protobuf:"bytes,1,opt,name=userId" json:"userId,omitempty"`

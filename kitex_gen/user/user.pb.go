@@ -30,7 +30,7 @@ type PsychUserService interface {
 	UserUpdateInfo(ctx context.Context, req *UserUpdateInfoReq) (res *basic.Response, err error)
 	UserUpdatePassword(ctx context.Context, req *UserUpdatePasswordReq) (res *basic.Response, err error)
 	UserBelongUnit(ctx context.Context, req *UserBelongUnitReq) (res *UserBelongUnitResp, err error)
-	UserSignIn(ctx context.Context, req *UserSignInReq) (res *basic.Response, err error)
+	UserSignIn(ctx context.Context, req *UserSignInReq) (res *UserSignInResp, err error)
 	ViewSignUp(ctx context.Context, req *ViewSignUpReq) (res *basic.Response, err error)
 	ViewGetInfo(ctx context.Context, req *ViewGetInfoReq) (res *ViewGetInfoResp, err error)
 	ViewUpdateInfo(ctx context.Context, req *ViewUpdateInfoReq) (res *basic.Response, err error)
