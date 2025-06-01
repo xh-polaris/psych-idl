@@ -1468,7 +1468,7 @@ func (x *UserSignInReq) GetPassword() string {
 
 type UserSignInResp struct {
 	UnitId    string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	StudentId int32  `protobuf:"varint,2,opt,name=studentId" json:"studentId,omitempty"`
+	StudentId string `protobuf:"bytes,2,opt,name=studentId" json:"studentId,omitempty"`
 	UserId    string `protobuf:"bytes,3,opt,name=userId" json:"userId,omitempty"`
 }
 
@@ -1485,11 +1485,11 @@ func (x *UserSignInResp) GetUnitId() string {
 	return ""
 }
 
-func (x *UserSignInResp) GetStudentId() int32 {
+func (x *UserSignInResp) GetStudentId() string {
 	if x != nil {
 		return x.StudentId
 	}
-	return 0
+	return ""
 }
 
 func (x *UserSignInResp) GetUserId() string {
