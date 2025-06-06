@@ -12,16 +12,15 @@ import (
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
-	UnitSignUp(ctx context.Context, Req *user.UnitSignUpReq, callOptions ...callopt.Option) (r *basic.Response, err error)
+	UnitSignUp(ctx context.Context, Req *user.UnitSignUpReq, callOptions ...callopt.Option) (r *user.UnitSignUpResp, err error)
 	UnitGetInfo(ctx context.Context, Req *user.UnitGetInfoReq, callOptions ...callopt.Option) (r *user.UnitGetInfoResp, err error)
 	UnitUpdateInfo(ctx context.Context, Req *user.UnitUpdateInfoReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	UnitUpdatePassword(ctx context.Context, Req *user.UnitUpdatePasswordReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	UnitCreateAndLinkUser(ctx context.Context, Req *user.UnitCreateAndLinkUserReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	UnitCreateAndLinkView(ctx context.Context, Req *user.UnitCreateAndLinkViewReq, callOptions ...callopt.Option) (r *basic.Response, err error)
-	UnitStrongVerify(ctx context.Context, Req *user.UnitStrongVerifyReq, callOptions ...callopt.Option) (r *basic.Response, err error)
-	UnitWeakVerify(ctx context.Context, Req *user.UnitWeakVerifyReq, callOptions ...callopt.Option) (r *basic.Response, err error)
+	UnitSignIn(ctx context.Context, Req *user.UnitSignInReq, callOptions ...callopt.Option) (r *user.UnitSignInResp, err error)
 	UnitCreateVerify(ctx context.Context, Req *user.UnitCreateVerifyReq, callOptions ...callopt.Option) (r *user.UnitCreateVerifyResp, err error)
-	UnitUpdateVerifyPassword(ctx context.Context, Req *user.UnitUpdateVerifyPasswordReq, callOptions ...callopt.Option) (r *basic.Response, err error)
+	UnitUpdateVerifyPassword(ctx context.Context, Req *user.UnitUpdateVerifyReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	UnitLinkUser(ctx context.Context, Req *user.UnitLinkUserReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	UnitLinkView(ctx context.Context, Req *user.UnitLinkViewReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	UnitPageQueryUser(ctx context.Context, Req *user.UnitPageQueryUserReq, callOptions ...callopt.Option) (r *user.UnitPageQueryUserResp, err error)
@@ -29,18 +28,18 @@ type Client interface {
 	UnitGetAppInfo(ctx context.Context, Req *user.UnitGetAppInfoReq, callOptions ...callopt.Option) (r *user.UnitGetAppInfoResp, err error)
 	UnitModelGetInfo(ctx context.Context, Req *user.UnitModelGetInfoReq, callOptions ...callopt.Option) (r *user.UnitModelGetInfoResp, err error)
 	UnitModelUpdateInfo(ctx context.Context, Req *user.UnitModelUpdateInfoReq, callOptions ...callopt.Option) (r *basic.Response, err error)
-	UserSignUp(ctx context.Context, Req *user.UserSignUpReq, callOptions ...callopt.Option) (r *basic.Response, err error)
+	UserSignUp(ctx context.Context, Req *user.UserSignUpReq, callOptions ...callopt.Option) (r *user.UserSignUpResp, err error)
 	UserGetInfo(ctx context.Context, Req *user.UserGetInfoReq, callOptions ...callopt.Option) (r *user.UserGetInfoResp, err error)
 	UserUpdateInfo(ctx context.Context, Req *user.UserUpdateInfoReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	UserUpdatePassword(ctx context.Context, Req *user.UserUpdatePasswordReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	UserBelongUnit(ctx context.Context, Req *user.UserBelongUnitReq, callOptions ...callopt.Option) (r *user.UserBelongUnitResp, err error)
 	UserSignIn(ctx context.Context, Req *user.UserSignInReq, callOptions ...callopt.Option) (r *user.UserSignInResp, err error)
-	ViewSignUp(ctx context.Context, Req *user.ViewSignUpReq, callOptions ...callopt.Option) (r *basic.Response, err error)
+	ViewSignUp(ctx context.Context, Req *user.ViewSignUpReq, callOptions ...callopt.Option) (r *user.ViewSignUpResp, err error)
 	ViewGetInfo(ctx context.Context, Req *user.ViewGetInfoReq, callOptions ...callopt.Option) (r *user.ViewGetInfoResp, err error)
 	ViewUpdateInfo(ctx context.Context, Req *user.ViewUpdateInfoReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	ViewUpdatePassword(ctx context.Context, Req *user.ViewUpdatePasswordReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	ViewBelongUnit(ctx context.Context, Req *user.ViewBelongUnitReq, callOptions ...callopt.Option) (r *user.ViewBelongUnitResp, err error)
-	ViewSignIn(ctx context.Context, Req *user.ViewSignInReq, callOptions ...callopt.Option) (r *basic.Response, err error)
+	ViewSignIn(ctx context.Context, Req *user.ViewSignInReq, callOptions ...callopt.Option) (r *user.ViewSignInResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -72,7 +71,7 @@ type kPsychUserServiceClient struct {
 	*kClient
 }
 
-func (p *kPsychUserServiceClient) UnitSignUp(ctx context.Context, Req *user.UnitSignUpReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
+func (p *kPsychUserServiceClient) UnitSignUp(ctx context.Context, Req *user.UnitSignUpReq, callOptions ...callopt.Option) (r *user.UnitSignUpResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.UnitSignUp(ctx, Req)
 }
@@ -102,14 +101,9 @@ func (p *kPsychUserServiceClient) UnitCreateAndLinkView(ctx context.Context, Req
 	return p.kClient.UnitCreateAndLinkView(ctx, Req)
 }
 
-func (p *kPsychUserServiceClient) UnitStrongVerify(ctx context.Context, Req *user.UnitStrongVerifyReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
+func (p *kPsychUserServiceClient) UnitSignIn(ctx context.Context, Req *user.UnitSignInReq, callOptions ...callopt.Option) (r *user.UnitSignInResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.UnitStrongVerify(ctx, Req)
-}
-
-func (p *kPsychUserServiceClient) UnitWeakVerify(ctx context.Context, Req *user.UnitWeakVerifyReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.UnitWeakVerify(ctx, Req)
+	return p.kClient.UnitSignIn(ctx, Req)
 }
 
 func (p *kPsychUserServiceClient) UnitCreateVerify(ctx context.Context, Req *user.UnitCreateVerifyReq, callOptions ...callopt.Option) (r *user.UnitCreateVerifyResp, err error) {
@@ -117,7 +111,7 @@ func (p *kPsychUserServiceClient) UnitCreateVerify(ctx context.Context, Req *use
 	return p.kClient.UnitCreateVerify(ctx, Req)
 }
 
-func (p *kPsychUserServiceClient) UnitUpdateVerifyPassword(ctx context.Context, Req *user.UnitUpdateVerifyPasswordReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
+func (p *kPsychUserServiceClient) UnitUpdateVerifyPassword(ctx context.Context, Req *user.UnitUpdateVerifyReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.UnitUpdateVerifyPassword(ctx, Req)
 }
@@ -157,7 +151,7 @@ func (p *kPsychUserServiceClient) UnitModelUpdateInfo(ctx context.Context, Req *
 	return p.kClient.UnitModelUpdateInfo(ctx, Req)
 }
 
-func (p *kPsychUserServiceClient) UserSignUp(ctx context.Context, Req *user.UserSignUpReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
+func (p *kPsychUserServiceClient) UserSignUp(ctx context.Context, Req *user.UserSignUpReq, callOptions ...callopt.Option) (r *user.UserSignUpResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.UserSignUp(ctx, Req)
 }
@@ -187,7 +181,7 @@ func (p *kPsychUserServiceClient) UserSignIn(ctx context.Context, Req *user.User
 	return p.kClient.UserSignIn(ctx, Req)
 }
 
-func (p *kPsychUserServiceClient) ViewSignUp(ctx context.Context, Req *user.ViewSignUpReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
+func (p *kPsychUserServiceClient) ViewSignUp(ctx context.Context, Req *user.ViewSignUpReq, callOptions ...callopt.Option) (r *user.ViewSignUpResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.ViewSignUp(ctx, Req)
 }
@@ -212,7 +206,7 @@ func (p *kPsychUserServiceClient) ViewBelongUnit(ctx context.Context, Req *user.
 	return p.kClient.ViewBelongUnit(ctx, Req)
 }
 
-func (p *kPsychUserServiceClient) ViewSignIn(ctx context.Context, Req *user.ViewSignInReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
+func (p *kPsychUserServiceClient) ViewSignIn(ctx context.Context, Req *user.ViewSignInReq, callOptions ...callopt.Option) (r *user.ViewSignInResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.ViewSignIn(ctx, Req)
 }

@@ -58,17 +58,10 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
-	"UnitStrongVerify": kitex.NewMethodInfo(
-		unitStrongVerifyHandler,
-		newUnitStrongVerifyArgs,
-		newUnitStrongVerifyResult,
-		false,
-		kitex.WithStreamingMode(kitex.StreamingUnary),
-	),
-	"UnitWeakVerify": kitex.NewMethodInfo(
-		unitWeakVerifyHandler,
-		newUnitWeakVerifyArgs,
-		newUnitWeakVerifyResult,
+	"UnitSignIn": kitex.NewMethodInfo(
+		unitSignInHandler,
+		newUnitSignInArgs,
+		newUnitSignInResult,
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
@@ -356,10 +349,10 @@ func (p *UnitSignUpArgs) GetFirstArgument() interface{} {
 }
 
 type UnitSignUpResult struct {
-	Success *basic.Response
+	Success *user.UnitSignUpResp
 }
 
-var UnitSignUpResult_Success_DEFAULT *basic.Response
+var UnitSignUpResult_Success_DEFAULT *user.UnitSignUpResp
 
 func (p *UnitSignUpResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -369,7 +362,7 @@ func (p *UnitSignUpResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *UnitSignUpResult) Unmarshal(in []byte) error {
-	msg := new(basic.Response)
+	msg := new(user.UnitSignUpResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -377,7 +370,7 @@ func (p *UnitSignUpResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *UnitSignUpResult) GetSuccess() *basic.Response {
+func (p *UnitSignUpResult) GetSuccess() *user.UnitSignUpResp {
 	if !p.IsSetSuccess() {
 		return UnitSignUpResult_Success_DEFAULT
 	}
@@ -385,7 +378,7 @@ func (p *UnitSignUpResult) GetSuccess() *basic.Response {
 }
 
 func (p *UnitSignUpResult) SetSuccess(x interface{}) {
-	p.Success = x.(*basic.Response)
+	p.Success = x.(*user.UnitSignUpResp)
 }
 
 func (p *UnitSignUpResult) IsSetSuccess() bool {
@@ -951,52 +944,52 @@ func (p *UnitCreateAndLinkViewResult) GetResult() interface{} {
 	return p.Success
 }
 
-func unitStrongVerifyHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+func unitSignInHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(user.UnitStrongVerifyReq)
+		req := new(user.UnitSignInReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(user.PsychUserService).UnitStrongVerify(ctx, req)
+		resp, err := handler.(user.PsychUserService).UnitSignIn(ctx, req)
 		if err != nil {
 			return err
 		}
 		return st.SendMsg(resp)
-	case *UnitStrongVerifyArgs:
-		success, err := handler.(user.PsychUserService).UnitStrongVerify(ctx, s.Req)
+	case *UnitSignInArgs:
+		success, err := handler.(user.PsychUserService).UnitSignIn(ctx, s.Req)
 		if err != nil {
 			return err
 		}
-		realResult := result.(*UnitStrongVerifyResult)
+		realResult := result.(*UnitSignInResult)
 		realResult.Success = success
 		return nil
 	default:
 		return errInvalidMessageType
 	}
 }
-func newUnitStrongVerifyArgs() interface{} {
-	return &UnitStrongVerifyArgs{}
+func newUnitSignInArgs() interface{} {
+	return &UnitSignInArgs{}
 }
 
-func newUnitStrongVerifyResult() interface{} {
-	return &UnitStrongVerifyResult{}
+func newUnitSignInResult() interface{} {
+	return &UnitSignInResult{}
 }
 
-type UnitStrongVerifyArgs struct {
-	Req *user.UnitStrongVerifyReq
+type UnitSignInArgs struct {
+	Req *user.UnitSignInReq
 }
 
-func (p *UnitStrongVerifyArgs) Marshal(out []byte) ([]byte, error) {
+func (p *UnitSignInArgs) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetReq() {
 		return out, nil
 	}
 	return proto.Marshal(p.Req)
 }
 
-func (p *UnitStrongVerifyArgs) Unmarshal(in []byte) error {
-	msg := new(user.UnitStrongVerifyReq)
+func (p *UnitSignInArgs) Unmarshal(in []byte) error {
+	msg := new(user.UnitSignInReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -1004,38 +997,38 @@ func (p *UnitStrongVerifyArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var UnitStrongVerifyArgs_Req_DEFAULT *user.UnitStrongVerifyReq
+var UnitSignInArgs_Req_DEFAULT *user.UnitSignInReq
 
-func (p *UnitStrongVerifyArgs) GetReq() *user.UnitStrongVerifyReq {
+func (p *UnitSignInArgs) GetReq() *user.UnitSignInReq {
 	if !p.IsSetReq() {
-		return UnitStrongVerifyArgs_Req_DEFAULT
+		return UnitSignInArgs_Req_DEFAULT
 	}
 	return p.Req
 }
 
-func (p *UnitStrongVerifyArgs) IsSetReq() bool {
+func (p *UnitSignInArgs) IsSetReq() bool {
 	return p.Req != nil
 }
 
-func (p *UnitStrongVerifyArgs) GetFirstArgument() interface{} {
+func (p *UnitSignInArgs) GetFirstArgument() interface{} {
 	return p.Req
 }
 
-type UnitStrongVerifyResult struct {
-	Success *basic.Response
+type UnitSignInResult struct {
+	Success *user.UnitSignInResp
 }
 
-var UnitStrongVerifyResult_Success_DEFAULT *basic.Response
+var UnitSignInResult_Success_DEFAULT *user.UnitSignInResp
 
-func (p *UnitStrongVerifyResult) Marshal(out []byte) ([]byte, error) {
+func (p *UnitSignInResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
 		return out, nil
 	}
 	return proto.Marshal(p.Success)
 }
 
-func (p *UnitStrongVerifyResult) Unmarshal(in []byte) error {
-	msg := new(basic.Response)
+func (p *UnitSignInResult) Unmarshal(in []byte) error {
+	msg := new(user.UnitSignInResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -1043,133 +1036,22 @@ func (p *UnitStrongVerifyResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *UnitStrongVerifyResult) GetSuccess() *basic.Response {
+func (p *UnitSignInResult) GetSuccess() *user.UnitSignInResp {
 	if !p.IsSetSuccess() {
-		return UnitStrongVerifyResult_Success_DEFAULT
+		return UnitSignInResult_Success_DEFAULT
 	}
 	return p.Success
 }
 
-func (p *UnitStrongVerifyResult) SetSuccess(x interface{}) {
-	p.Success = x.(*basic.Response)
+func (p *UnitSignInResult) SetSuccess(x interface{}) {
+	p.Success = x.(*user.UnitSignInResp)
 }
 
-func (p *UnitStrongVerifyResult) IsSetSuccess() bool {
+func (p *UnitSignInResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
-func (p *UnitStrongVerifyResult) GetResult() interface{} {
-	return p.Success
-}
-
-func unitWeakVerifyHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	switch s := arg.(type) {
-	case *streaming.Args:
-		st := s.Stream
-		req := new(user.UnitWeakVerifyReq)
-		if err := st.RecvMsg(req); err != nil {
-			return err
-		}
-		resp, err := handler.(user.PsychUserService).UnitWeakVerify(ctx, req)
-		if err != nil {
-			return err
-		}
-		return st.SendMsg(resp)
-	case *UnitWeakVerifyArgs:
-		success, err := handler.(user.PsychUserService).UnitWeakVerify(ctx, s.Req)
-		if err != nil {
-			return err
-		}
-		realResult := result.(*UnitWeakVerifyResult)
-		realResult.Success = success
-		return nil
-	default:
-		return errInvalidMessageType
-	}
-}
-func newUnitWeakVerifyArgs() interface{} {
-	return &UnitWeakVerifyArgs{}
-}
-
-func newUnitWeakVerifyResult() interface{} {
-	return &UnitWeakVerifyResult{}
-}
-
-type UnitWeakVerifyArgs struct {
-	Req *user.UnitWeakVerifyReq
-}
-
-func (p *UnitWeakVerifyArgs) Marshal(out []byte) ([]byte, error) {
-	if !p.IsSetReq() {
-		return out, nil
-	}
-	return proto.Marshal(p.Req)
-}
-
-func (p *UnitWeakVerifyArgs) Unmarshal(in []byte) error {
-	msg := new(user.UnitWeakVerifyReq)
-	if err := proto.Unmarshal(in, msg); err != nil {
-		return err
-	}
-	p.Req = msg
-	return nil
-}
-
-var UnitWeakVerifyArgs_Req_DEFAULT *user.UnitWeakVerifyReq
-
-func (p *UnitWeakVerifyArgs) GetReq() *user.UnitWeakVerifyReq {
-	if !p.IsSetReq() {
-		return UnitWeakVerifyArgs_Req_DEFAULT
-	}
-	return p.Req
-}
-
-func (p *UnitWeakVerifyArgs) IsSetReq() bool {
-	return p.Req != nil
-}
-
-func (p *UnitWeakVerifyArgs) GetFirstArgument() interface{} {
-	return p.Req
-}
-
-type UnitWeakVerifyResult struct {
-	Success *basic.Response
-}
-
-var UnitWeakVerifyResult_Success_DEFAULT *basic.Response
-
-func (p *UnitWeakVerifyResult) Marshal(out []byte) ([]byte, error) {
-	if !p.IsSetSuccess() {
-		return out, nil
-	}
-	return proto.Marshal(p.Success)
-}
-
-func (p *UnitWeakVerifyResult) Unmarshal(in []byte) error {
-	msg := new(basic.Response)
-	if err := proto.Unmarshal(in, msg); err != nil {
-		return err
-	}
-	p.Success = msg
-	return nil
-}
-
-func (p *UnitWeakVerifyResult) GetSuccess() *basic.Response {
-	if !p.IsSetSuccess() {
-		return UnitWeakVerifyResult_Success_DEFAULT
-	}
-	return p.Success
-}
-
-func (p *UnitWeakVerifyResult) SetSuccess(x interface{}) {
-	p.Success = x.(*basic.Response)
-}
-
-func (p *UnitWeakVerifyResult) IsSetSuccess() bool {
-	return p.Success != nil
-}
-
-func (p *UnitWeakVerifyResult) GetResult() interface{} {
+func (p *UnitSignInResult) GetResult() interface{} {
 	return p.Success
 }
 
@@ -1288,7 +1170,7 @@ func unitUpdateVerifyPasswordHandler(ctx context.Context, handler interface{}, a
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(user.UnitUpdateVerifyPasswordReq)
+		req := new(user.UnitUpdateVerifyReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
@@ -1318,7 +1200,7 @@ func newUnitUpdateVerifyPasswordResult() interface{} {
 }
 
 type UnitUpdateVerifyPasswordArgs struct {
-	Req *user.UnitUpdateVerifyPasswordReq
+	Req *user.UnitUpdateVerifyReq
 }
 
 func (p *UnitUpdateVerifyPasswordArgs) Marshal(out []byte) ([]byte, error) {
@@ -1329,7 +1211,7 @@ func (p *UnitUpdateVerifyPasswordArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *UnitUpdateVerifyPasswordArgs) Unmarshal(in []byte) error {
-	msg := new(user.UnitUpdateVerifyPasswordReq)
+	msg := new(user.UnitUpdateVerifyReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -1337,9 +1219,9 @@ func (p *UnitUpdateVerifyPasswordArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var UnitUpdateVerifyPasswordArgs_Req_DEFAULT *user.UnitUpdateVerifyPasswordReq
+var UnitUpdateVerifyPasswordArgs_Req_DEFAULT *user.UnitUpdateVerifyReq
 
-func (p *UnitUpdateVerifyPasswordArgs) GetReq() *user.UnitUpdateVerifyPasswordReq {
+func (p *UnitUpdateVerifyPasswordArgs) GetReq() *user.UnitUpdateVerifyReq {
 	if !p.IsSetReq() {
 		return UnitUpdateVerifyPasswordArgs_Req_DEFAULT
 	}
@@ -2243,10 +2125,10 @@ func (p *UserSignUpArgs) GetFirstArgument() interface{} {
 }
 
 type UserSignUpResult struct {
-	Success *basic.Response
+	Success *user.UserSignUpResp
 }
 
-var UserSignUpResult_Success_DEFAULT *basic.Response
+var UserSignUpResult_Success_DEFAULT *user.UserSignUpResp
 
 func (p *UserSignUpResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -2256,7 +2138,7 @@ func (p *UserSignUpResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *UserSignUpResult) Unmarshal(in []byte) error {
-	msg := new(basic.Response)
+	msg := new(user.UserSignUpResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -2264,7 +2146,7 @@ func (p *UserSignUpResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *UserSignUpResult) GetSuccess() *basic.Response {
+func (p *UserSignUpResult) GetSuccess() *user.UserSignUpResp {
 	if !p.IsSetSuccess() {
 		return UserSignUpResult_Success_DEFAULT
 	}
@@ -2272,7 +2154,7 @@ func (p *UserSignUpResult) GetSuccess() *basic.Response {
 }
 
 func (p *UserSignUpResult) SetSuccess(x interface{}) {
-	p.Success = x.(*basic.Response)
+	p.Success = x.(*user.UserSignUpResp)
 }
 
 func (p *UserSignUpResult) IsSetSuccess() bool {
@@ -2909,10 +2791,10 @@ func (p *ViewSignUpArgs) GetFirstArgument() interface{} {
 }
 
 type ViewSignUpResult struct {
-	Success *basic.Response
+	Success *user.ViewSignUpResp
 }
 
-var ViewSignUpResult_Success_DEFAULT *basic.Response
+var ViewSignUpResult_Success_DEFAULT *user.ViewSignUpResp
 
 func (p *ViewSignUpResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -2922,7 +2804,7 @@ func (p *ViewSignUpResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *ViewSignUpResult) Unmarshal(in []byte) error {
-	msg := new(basic.Response)
+	msg := new(user.ViewSignUpResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -2930,7 +2812,7 @@ func (p *ViewSignUpResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *ViewSignUpResult) GetSuccess() *basic.Response {
+func (p *ViewSignUpResult) GetSuccess() *user.ViewSignUpResp {
 	if !p.IsSetSuccess() {
 		return ViewSignUpResult_Success_DEFAULT
 	}
@@ -2938,7 +2820,7 @@ func (p *ViewSignUpResult) GetSuccess() *basic.Response {
 }
 
 func (p *ViewSignUpResult) SetSuccess(x interface{}) {
-	p.Success = x.(*basic.Response)
+	p.Success = x.(*user.ViewSignUpResp)
 }
 
 func (p *ViewSignUpResult) IsSetSuccess() bool {
@@ -3464,10 +3346,10 @@ func (p *ViewSignInArgs) GetFirstArgument() interface{} {
 }
 
 type ViewSignInResult struct {
-	Success *basic.Response
+	Success *user.ViewSignInResp
 }
 
-var ViewSignInResult_Success_DEFAULT *basic.Response
+var ViewSignInResult_Success_DEFAULT *user.ViewSignInResp
 
 func (p *ViewSignInResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -3477,7 +3359,7 @@ func (p *ViewSignInResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *ViewSignInResult) Unmarshal(in []byte) error {
-	msg := new(basic.Response)
+	msg := new(user.ViewSignInResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -3485,7 +3367,7 @@ func (p *ViewSignInResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *ViewSignInResult) GetSuccess() *basic.Response {
+func (p *ViewSignInResult) GetSuccess() *user.ViewSignInResp {
 	if !p.IsSetSuccess() {
 		return ViewSignInResult_Success_DEFAULT
 	}
@@ -3493,7 +3375,7 @@ func (p *ViewSignInResult) GetSuccess() *basic.Response {
 }
 
 func (p *ViewSignInResult) SetSuccess(x interface{}) {
-	p.Success = x.(*basic.Response)
+	p.Success = x.(*user.ViewSignInResp)
 }
 
 func (p *ViewSignInResult) IsSetSuccess() bool {
@@ -3514,7 +3396,7 @@ func newServiceClient(c client.Client) *kClient {
 	}
 }
 
-func (p *kClient) UnitSignUp(ctx context.Context, Req *user.UnitSignUpReq) (r *basic.Response, err error) {
+func (p *kClient) UnitSignUp(ctx context.Context, Req *user.UnitSignUpReq) (r *user.UnitSignUpResp, err error) {
 	var _args UnitSignUpArgs
 	_args.Req = Req
 	var _result UnitSignUpResult
@@ -3574,21 +3456,11 @@ func (p *kClient) UnitCreateAndLinkView(ctx context.Context, Req *user.UnitCreat
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) UnitStrongVerify(ctx context.Context, Req *user.UnitStrongVerifyReq) (r *basic.Response, err error) {
-	var _args UnitStrongVerifyArgs
+func (p *kClient) UnitSignIn(ctx context.Context, Req *user.UnitSignInReq) (r *user.UnitSignInResp, err error) {
+	var _args UnitSignInArgs
 	_args.Req = Req
-	var _result UnitStrongVerifyResult
-	if err = p.c.Call(ctx, "UnitStrongVerify", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
-func (p *kClient) UnitWeakVerify(ctx context.Context, Req *user.UnitWeakVerifyReq) (r *basic.Response, err error) {
-	var _args UnitWeakVerifyArgs
-	_args.Req = Req
-	var _result UnitWeakVerifyResult
-	if err = p.c.Call(ctx, "UnitWeakVerify", &_args, &_result); err != nil {
+	var _result UnitSignInResult
+	if err = p.c.Call(ctx, "UnitSignIn", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
@@ -3604,7 +3476,7 @@ func (p *kClient) UnitCreateVerify(ctx context.Context, Req *user.UnitCreateVeri
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) UnitUpdateVerifyPassword(ctx context.Context, Req *user.UnitUpdateVerifyPasswordReq) (r *basic.Response, err error) {
+func (p *kClient) UnitUpdateVerifyPassword(ctx context.Context, Req *user.UnitUpdateVerifyReq) (r *basic.Response, err error) {
 	var _args UnitUpdateVerifyPasswordArgs
 	_args.Req = Req
 	var _result UnitUpdateVerifyPasswordResult
@@ -3684,7 +3556,7 @@ func (p *kClient) UnitModelUpdateInfo(ctx context.Context, Req *user.UnitModelUp
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) UserSignUp(ctx context.Context, Req *user.UserSignUpReq) (r *basic.Response, err error) {
+func (p *kClient) UserSignUp(ctx context.Context, Req *user.UserSignUpReq) (r *user.UserSignUpResp, err error) {
 	var _args UserSignUpArgs
 	_args.Req = Req
 	var _result UserSignUpResult
@@ -3744,7 +3616,7 @@ func (p *kClient) UserSignIn(ctx context.Context, Req *user.UserSignInReq) (r *u
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) ViewSignUp(ctx context.Context, Req *user.ViewSignUpReq) (r *basic.Response, err error) {
+func (p *kClient) ViewSignUp(ctx context.Context, Req *user.ViewSignUpReq) (r *user.ViewSignUpResp, err error) {
 	var _args ViewSignUpArgs
 	_args.Req = Req
 	var _result ViewSignUpResult
@@ -3794,7 +3666,7 @@ func (p *kClient) ViewBelongUnit(ctx context.Context, Req *user.ViewBelongUnitRe
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) ViewSignIn(ctx context.Context, Req *user.ViewSignInReq) (r *basic.Response, err error) {
+func (p *kClient) ViewSignIn(ctx context.Context, Req *user.ViewSignInReq) (r *user.ViewSignInResp, err error) {
 	var _args ViewSignInArgs
 	_args.Req = Req
 	var _result ViewSignInResult

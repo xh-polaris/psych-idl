@@ -9,18 +9,110 @@ import (
 )
 
 // 类型定义
+type Form struct {
+	Options []*Form_Obj `protobuf:"bytes,1,rep,name=options" json:"options,omitempty"`
+}
+
+func (x *Form) Reset() { *x = Form{} }
+
+func (x *Form) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *Form) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *Form) GetOptions() []*Form_Obj {
+	if x != nil {
+		return x.Options
+	}
+	return nil
+}
+
+type Form_Obj struct {
+	Key   string `protobuf:"bytes,1,opt,name=key" json:"key,omitempty"`
+	Value string `protobuf:"bytes,2,opt,name=value" json:"value,omitempty"`
+}
+
+func (x *Form_Obj) Reset() { *x = Form_Obj{} }
+
+func (x *Form_Obj) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *Form_Obj) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *Form_Obj) GetKey() string {
+	if x != nil {
+		return x.Key
+	}
+	return ""
+}
+
+func (x *Form_Obj) GetValue() string {
+	if x != nil {
+		return x.Value
+	}
+	return ""
+}
+
+type UnitVerify struct {
+	UserId     string `protobuf:"bytes,1,opt,name=userId" json:"userId,omitempty"`
+	VerifyType int32  `protobuf:"varint,2,opt,name=verifyType" json:"verifyType,omitempty"`
+	Account    string `protobuf:"bytes,3,opt,name=account" json:"account,omitempty"`
+	Password   string `protobuf:"bytes,4,opt,name=password" json:"password,omitempty"`
+	Form       *Form  `protobuf:"bytes,5,opt,name=form" json:"form,omitempty"`
+}
+
+func (x *UnitVerify) Reset() { *x = UnitVerify{} }
+
+func (x *UnitVerify) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UnitVerify) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitVerify) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *UnitVerify) GetVerifyType() int32 {
+	if x != nil {
+		return x.VerifyType
+	}
+	return 0
+}
+
+func (x *UnitVerify) GetAccount() string {
+	if x != nil {
+		return x.Account
+	}
+	return ""
+}
+
+func (x *UnitVerify) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+func (x *UnitVerify) GetForm() *Form {
+	if x != nil {
+		return x.Form
+	}
+	return nil
+}
+
 type Unit struct {
-	Id         string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	Phone      string `protobuf:"bytes,2,opt,name=phone" json:"phone,omitempty"`
-	Password   string `protobuf:"bytes,3,opt,name=password" json:"password,omitempty"`
-	Name       string `protobuf:"bytes,4,opt,name=name" json:"name,omitempty"`
-	Address    string `protobuf:"bytes,5,opt,name=address" json:"address,omitempty"`
-	Contact    string `protobuf:"bytes,6,opt,name=contact" json:"contact,omitempty"`
-	Level      int32  `protobuf:"varint,7,opt,name=level" json:"level,omitempty"`
-	Status     int32  `protobuf:"varint,8,opt,name=status" json:"status,omitempty"`
-	CreateTime int64  `protobuf:"varint,9,opt,name=createTime" json:"createTime,omitempty"`
-	UpdateTime int64  `protobuf:"varint,10,opt,name=updateTime" json:"updateTime,omitempty"`
-	DeleteTime int64  `protobuf:"varint,11,opt,name=deleteTime" json:"deleteTime,omitempty"`
+	Id         string      `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	Phone      string      `protobuf:"bytes,2,opt,name=phone" json:"phone,omitempty"`
+	Password   string      `protobuf:"bytes,3,opt,name=password" json:"password,omitempty"`
+	Name       string      `protobuf:"bytes,4,opt,name=name" json:"name,omitempty"`
+	Address    string      `protobuf:"bytes,5,opt,name=address" json:"address,omitempty"`
+	Contact    string      `protobuf:"bytes,6,opt,name=contact" json:"contact,omitempty"`
+	Level      int32       `protobuf:"varint,7,opt,name=level" json:"level,omitempty"`
+	Status     int32       `protobuf:"varint,8,opt,name=status" json:"status,omitempty"`
+	Verify     *UnitVerify `protobuf:"bytes,9,opt,name=verify" json:"verify,omitempty"`
+	CreateTime int64       `protobuf:"varint,10,opt,name=createTime" json:"createTime,omitempty"`
+	UpdateTime int64       `protobuf:"varint,11,opt,name=updateTime" json:"updateTime,omitempty"`
+	DeleteTime int64       `protobuf:"varint,12,opt,name=deleteTime" json:"deleteTime,omitempty"`
 }
 
 func (x *Unit) Reset() { *x = Unit{} }
@@ -83,6 +175,13 @@ func (x *Unit) GetStatus() int32 {
 		return x.Status
 	}
 	return 0
+}
+
+func (x *Unit) GetVerify() *UnitVerify {
+	if x != nil {
+		return x.Verify
+	}
+	return nil
 }
 
 func (x *Unit) GetCreateTime() int64 {
@@ -195,43 +294,18 @@ func (x *User) GetDeleteTime() int64 {
 	return 0
 }
 
-type UnitMembership struct {
-	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	Level  int32  `protobuf:"varint,2,opt,name=level" json:"level,omitempty"`
-}
-
-func (x *UnitMembership) Reset() { *x = UnitMembership{} }
-
-func (x *UnitMembership) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
-
-func (x *UnitMembership) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *UnitMembership) GetUnitId() string {
-	if x != nil {
-		return x.UnitId
-	}
-	return ""
-}
-
-func (x *UnitMembership) GetLevel() int32 {
-	if x != nil {
-		return x.Level
-	}
-	return 0
-}
-
 type View struct {
-	Id              string            `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	Phone           string            `protobuf:"bytes,2,opt,name=phone" json:"phone,omitempty"`
-	Password        string            `protobuf:"bytes,3,opt,name=password" json:"password,omitempty"`
-	Name            string            `protobuf:"bytes,4,opt,name=name" json:"name,omitempty"`
-	Address         string            `protobuf:"bytes,5,opt,name=address" json:"address,omitempty"`
-	Contact         string            `protobuf:"bytes,6,opt,name=contact" json:"contact,omitempty"`
-	UnitMemberships []*UnitMembership `protobuf:"bytes,7,rep,name=unitMemberships" json:"unitMemberships,omitempty"`
-	Status          int32             `protobuf:"varint,8,opt,name=status" json:"status,omitempty"`
-	CreateTime      int64             `protobuf:"varint,9,opt,name=createTime" json:"createTime,omitempty"`
-	UpdateTime      int64             `protobuf:"varint,10,opt,name=updateTime" json:"updateTime,omitempty"`
-	DeleteTime      int64             `protobuf:"varint,11,opt,name=deleteTime" json:"deleteTime,omitempty"`
+	Id              string                 `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	Phone           string                 `protobuf:"bytes,2,opt,name=phone" json:"phone,omitempty"`
+	Password        string                 `protobuf:"bytes,3,opt,name=password" json:"password,omitempty"`
+	Name            string                 `protobuf:"bytes,4,opt,name=name" json:"name,omitempty"`
+	Address         string                 `protobuf:"bytes,5,opt,name=address" json:"address,omitempty"`
+	Contact         string                 `protobuf:"bytes,6,opt,name=contact" json:"contact,omitempty"`
+	UnitMemberships []*View_UnitMembership `protobuf:"bytes,7,rep,name=unitMemberships" json:"unitMemberships,omitempty"`
+	Status          int32                  `protobuf:"varint,8,opt,name=status" json:"status,omitempty"`
+	CreateTime      int64                  `protobuf:"varint,9,opt,name=createTime" json:"createTime,omitempty"`
+	UpdateTime      int64                  `protobuf:"varint,10,opt,name=updateTime" json:"updateTime,omitempty"`
+	DeleteTime      int64                  `protobuf:"varint,11,opt,name=deleteTime" json:"deleteTime,omitempty"`
 }
 
 func (x *View) Reset() { *x = View{} }
@@ -282,7 +356,7 @@ func (x *View) GetContact() string {
 	return ""
 }
 
-func (x *View) GetUnitMemberships() []*UnitMembership {
+func (x *View) GetUnitMemberships() []*View_UnitMembership {
 	if x != nil {
 		return x.UnitMemberships
 	}
@@ -317,112 +391,29 @@ func (x *View) GetDeleteTime() int64 {
 	return 0
 }
 
-type UnitVerify struct {
-	Id         string                       `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	Verify     int32                        `protobuf:"varint,2,opt,name=verify" json:"verify,omitempty"`
-	Account    string                       `protobuf:"bytes,3,opt,name=account" json:"account,omitempty"`
-	Password   string                       `protobuf:"bytes,4,opt,name=password" json:"password,omitempty"`
-	Form       []*UnitVerify_UnitVerifyForm `protobuf:"bytes,5,rep,name=form" json:"form,omitempty"`
-	Status     int32                        `protobuf:"varint,6,opt,name=status" json:"status,omitempty"`
-	CreateTime int64                        `protobuf:"varint,7,opt,name=createTime" json:"createTime,omitempty"`
-	UpdateTime int64                        `protobuf:"varint,8,opt,name=updateTime" json:"updateTime,omitempty"`
-	DeleteTime int64                        `protobuf:"varint,9,opt,name=deleteTime" json:"deleteTime,omitempty"`
+type View_UnitMembership struct {
+	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	Level  int32  `protobuf:"varint,2,opt,name=level" json:"level,omitempty"`
 }
 
-func (x *UnitVerify) Reset() { *x = UnitVerify{} }
+func (x *View_UnitMembership) Reset() { *x = View_UnitMembership{} }
 
-func (x *UnitVerify) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+func (x *View_UnitMembership) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
 
-func (x *UnitVerify) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+func (x *View_UnitMembership) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *UnitVerify) GetId() string {
+func (x *View_UnitMembership) GetUnitId() string {
 	if x != nil {
-		return x.Id
+		return x.UnitId
 	}
 	return ""
 }
 
-func (x *UnitVerify) GetVerify() int32 {
+func (x *View_UnitMembership) GetLevel() int32 {
 	if x != nil {
-		return x.Verify
+		return x.Level
 	}
 	return 0
-}
-
-func (x *UnitVerify) GetAccount() string {
-	if x != nil {
-		return x.Account
-	}
-	return ""
-}
-
-func (x *UnitVerify) GetPassword() string {
-	if x != nil {
-		return x.Password
-	}
-	return ""
-}
-
-func (x *UnitVerify) GetForm() []*UnitVerify_UnitVerifyForm {
-	if x != nil {
-		return x.Form
-	}
-	return nil
-}
-
-func (x *UnitVerify) GetStatus() int32 {
-	if x != nil {
-		return x.Status
-	}
-	return 0
-}
-
-func (x *UnitVerify) GetCreateTime() int64 {
-	if x != nil {
-		return x.CreateTime
-	}
-	return 0
-}
-
-func (x *UnitVerify) GetUpdateTime() int64 {
-	if x != nil {
-		return x.UpdateTime
-	}
-	return 0
-}
-
-func (x *UnitVerify) GetDeleteTime() int64 {
-	if x != nil {
-		return x.DeleteTime
-	}
-	return 0
-}
-
-type UnitVerify_UnitVerifyForm struct {
-	Key   string `protobuf:"bytes,1,opt,name=key" json:"key,omitempty"`
-	Value string `protobuf:"bytes,2,opt,name=value" json:"value,omitempty"`
-}
-
-func (x *UnitVerify_UnitVerifyForm) Reset() { *x = UnitVerify_UnitVerifyForm{} }
-
-func (x *UnitVerify_UnitVerifyForm) Marshal(in []byte) ([]byte, error) {
-	return prutal.MarshalAppend(in, x)
-}
-
-func (x *UnitVerify_UnitVerifyForm) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *UnitVerify_UnitVerifyForm) GetKey() string {
-	if x != nil {
-		return x.Key
-	}
-	return ""
-}
-
-func (x *UnitVerify_UnitVerifyForm) GetValue() string {
-	if x != nil {
-		return x.Value
-	}
-	return ""
 }
 
 type UnitModel struct {
@@ -533,6 +524,23 @@ func (x *UnitSignUpReq) GetUnit() *Unit {
 	return nil
 }
 
+type UnitSignUpResp struct {
+	Unit *Unit `protobuf:"bytes,1,opt,name=unit" json:"unit,omitempty"`
+}
+
+func (x *UnitSignUpResp) Reset() { *x = UnitSignUpResp{} }
+
+func (x *UnitSignUpResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UnitSignUpResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitSignUpResp) GetUnit() *Unit {
+	if x != nil {
+		return x.Unit
+	}
+	return nil
+}
+
 // 获取用户信息
 type UnitGetInfoReq struct {
 	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
@@ -588,10 +596,10 @@ func (x *UnitUpdateInfoReq) GetUnit() *Unit {
 
 // 修改密码
 type UnitUpdatePasswordReq struct {
-	Id          string  `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	OldPassword *string `protobuf:"bytes,2,opt,name=oldPassword" json:"oldPassword,omitempty"`
-	VerifyCode  *string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
-	NewPassword string  `protobuf:"bytes,4,opt,name=newPassword" json:"newPassword,omitempty"`
+	Id          string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	AuthType    int32  `protobuf:"varint,2,opt,name=authType" json:"authType,omitempty"`
+	AuthId      string `protobuf:"bytes,3,opt,name=authId" json:"authId,omitempty"`
+	NewPassword string `protobuf:"bytes,4,opt,name=newPassword" json:"newPassword,omitempty"`
 }
 
 func (x *UnitUpdatePasswordReq) Reset() { *x = UnitUpdatePasswordReq{} }
@@ -609,16 +617,16 @@ func (x *UnitUpdatePasswordReq) GetId() string {
 	return ""
 }
 
-func (x *UnitUpdatePasswordReq) GetOldPassword() string {
-	if x != nil && x.OldPassword != nil {
-		return *x.OldPassword
+func (x *UnitUpdatePasswordReq) GetAuthType() int32 {
+	if x != nil {
+		return x.AuthType
 	}
-	return ""
+	return 0
 }
 
-func (x *UnitUpdatePasswordReq) GetVerifyCode() string {
-	if x != nil && x.VerifyCode != nil {
-		return *x.VerifyCode
+func (x *UnitUpdatePasswordReq) GetAuthId() string {
+	if x != nil {
+		return x.AuthId
 	}
 	return ""
 }
@@ -630,70 +638,68 @@ func (x *UnitUpdatePasswordReq) GetNewPassword() string {
 	return ""
 }
 
-// 强验证登录
-type UnitStrongVerifyReq struct {
+// unit 登录
+type UnitSignInReq struct {
 	Phone      string  `protobuf:"bytes,1,opt,name=phone" json:"phone,omitempty"`
-	Password   *string `protobuf:"bytes,2,opt,name=password" json:"password,omitempty"`
-	VerifyCode *string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
+	AuthType   int32   `protobuf:"varint,2,opt,name=authType" json:"authType,omitempty"`
+	Password   *string `protobuf:"bytes,3,opt,name=password" json:"password,omitempty"`
+	VerifyCode *string `protobuf:"bytes,4,opt,name=verifyCode" json:"verifyCode,omitempty"`
 }
 
-func (x *UnitStrongVerifyReq) Reset() { *x = UnitStrongVerifyReq{} }
+func (x *UnitSignInReq) Reset() { *x = UnitSignInReq{} }
 
-func (x *UnitStrongVerifyReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+func (x *UnitSignInReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
 
-func (x *UnitStrongVerifyReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+func (x *UnitSignInReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *UnitStrongVerifyReq) GetPhone() string {
+func (x *UnitSignInReq) GetPhone() string {
 	if x != nil {
 		return x.Phone
 	}
 	return ""
 }
 
-func (x *UnitStrongVerifyReq) GetPassword() string {
+func (x *UnitSignInReq) GetAuthType() int32 {
+	if x != nil {
+		return x.AuthType
+	}
+	return 0
+}
+
+func (x *UnitSignInReq) GetPassword() string {
 	if x != nil && x.Password != nil {
 		return *x.Password
 	}
 	return ""
 }
 
-func (x *UnitStrongVerifyReq) GetVerifyCode() string {
+func (x *UnitSignInReq) GetVerifyCode() string {
 	if x != nil && x.VerifyCode != nil {
 		return *x.VerifyCode
 	}
 	return ""
 }
 
-// 弱验证登录
-type UnitWeakVerifyReq struct {
-	Account  string `protobuf:"bytes,1,opt,name=account" json:"account,omitempty"`
-	Password string `protobuf:"bytes,2,opt,name=password" json:"password,omitempty"`
+type UnitSignInResp struct {
+	Unit *Unit `protobuf:"bytes,1,opt,name=unit" json:"unit,omitempty"`
 }
 
-func (x *UnitWeakVerifyReq) Reset() { *x = UnitWeakVerifyReq{} }
+func (x *UnitSignInResp) Reset() { *x = UnitSignInResp{} }
 
-func (x *UnitWeakVerifyReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+func (x *UnitSignInResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
 
-func (x *UnitWeakVerifyReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+func (x *UnitSignInResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *UnitWeakVerifyReq) GetAccount() string {
+func (x *UnitSignInResp) GetUnit() *Unit {
 	if x != nil {
-		return x.Account
+		return x.Unit
 	}
-	return ""
+	return nil
 }
 
-func (x *UnitWeakVerifyReq) GetPassword() string {
-	if x != nil {
-		return x.Password
-	}
-	return ""
-}
-
-// 生成弱验证账号
+// 配置登录验证信息-unit_verify
 type UnitCreateVerifyReq struct {
-	Id     string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"` // unitId
-	Number int32  `protobuf:"varint,2,opt,name=number" json:"number,omitempty"`
+	UnitVerify *UnitVerify `protobuf:"bytes,1,opt,name=unitVerify" json:"unitVerify,omitempty"` // 已经包含unitId
 }
 
 func (x *UnitCreateVerifyReq) Reset() { *x = UnitCreateVerifyReq{} }
@@ -702,22 +708,16 @@ func (x *UnitCreateVerifyReq) Marshal(in []byte) ([]byte, error) { return prutal
 
 func (x *UnitCreateVerifyReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *UnitCreateVerifyReq) GetId() string {
+func (x *UnitCreateVerifyReq) GetUnitVerify() *UnitVerify {
 	if x != nil {
-		return x.Id
+		return x.UnitVerify
 	}
-	return ""
-}
-
-func (x *UnitCreateVerifyReq) GetNumber() int32 {
-	if x != nil {
-		return x.Number
-	}
-	return 0
+	return nil
 }
 
 type UnitCreateVerifyResp struct {
-	WeakAccounts []*UnitCreateVerifyResp_WeakAccount `protobuf:"bytes,1,rep,name=weakAccounts" json:"weakAccounts,omitempty"`
+	// 如果是弱验证，则返回账号和密码
+	UnitVerify *UnitVerify `protobuf:"bytes,1,opt,name=unitVerify" json:"unitVerify,omitempty"`
 }
 
 func (x *UnitCreateVerifyResp) Reset() { *x = UnitCreateVerifyResp{} }
@@ -726,74 +726,29 @@ func (x *UnitCreateVerifyResp) Marshal(in []byte) ([]byte, error) { return pruta
 
 func (x *UnitCreateVerifyResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *UnitCreateVerifyResp) GetWeakAccounts() []*UnitCreateVerifyResp_WeakAccount {
+func (x *UnitCreateVerifyResp) GetUnitVerify() *UnitVerify {
 	if x != nil {
-		return x.WeakAccounts
+		return x.UnitVerify
 	}
 	return nil
 }
 
-type UnitCreateVerifyResp_WeakAccount struct {
-	Account  string `protobuf:"bytes,1,opt,name=account" json:"account,omitempty"`
-	Password string `protobuf:"bytes,2,opt,name=password" json:"password,omitempty"`
+// 修改verify
+type UnitUpdateVerifyReq struct {
+	UnitVerify *UnitVerify `protobuf:"bytes,1,opt,name=unitVerify" json:"unitVerify,omitempty"` // 已经包含unitId
 }
 
-func (x *UnitCreateVerifyResp_WeakAccount) Reset() { *x = UnitCreateVerifyResp_WeakAccount{} }
+func (x *UnitUpdateVerifyReq) Reset() { *x = UnitUpdateVerifyReq{} }
 
-func (x *UnitCreateVerifyResp_WeakAccount) Marshal(in []byte) ([]byte, error) {
-	return prutal.MarshalAppend(in, x)
-}
+func (x *UnitUpdateVerifyReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
 
-func (x *UnitCreateVerifyResp_WeakAccount) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+func (x *UnitUpdateVerifyReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *UnitCreateVerifyResp_WeakAccount) GetAccount() string {
+func (x *UnitUpdateVerifyReq) GetUnitVerify() *UnitVerify {
 	if x != nil {
-		return x.Account
+		return x.UnitVerify
 	}
-	return ""
-}
-
-func (x *UnitCreateVerifyResp_WeakAccount) GetPassword() string {
-	if x != nil {
-		return x.Password
-	}
-	return ""
-}
-
-// 修改verify密码
-type UnitUpdateVerifyPasswordReq struct {
-	Account     string `protobuf:"bytes,1,opt,name=account" json:"account,omitempty"`
-	OldPassword string `protobuf:"bytes,2,opt,name=oldPassword" json:"oldPassword,omitempty"`
-	NewPassword string `protobuf:"bytes,3,opt,name=newPassword" json:"newPassword,omitempty"`
-}
-
-func (x *UnitUpdateVerifyPasswordReq) Reset() { *x = UnitUpdateVerifyPasswordReq{} }
-
-func (x *UnitUpdateVerifyPasswordReq) Marshal(in []byte) ([]byte, error) {
-	return prutal.MarshalAppend(in, x)
-}
-
-func (x *UnitUpdateVerifyPasswordReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *UnitUpdateVerifyPasswordReq) GetAccount() string {
-	if x != nil {
-		return x.Account
-	}
-	return ""
-}
-
-func (x *UnitUpdateVerifyPasswordReq) GetOldPassword() string {
-	if x != nil {
-		return x.OldPassword
-	}
-	return ""
-}
-
-func (x *UnitUpdateVerifyPasswordReq) GetNewPassword() string {
-	if x != nil {
-		return x.NewPassword
-	}
-	return ""
+	return nil
 }
 
 // 关联user账号
@@ -1035,40 +990,11 @@ func (x *UnitPageQueryViewResp) GetView() []*View {
 	return nil
 }
 
-type Option struct {
-	Key   []string `protobuf:"bytes,1,rep,name=key" json:"key,omitempty"`
-	Value []string `protobuf:"bytes,2,rep,name=value" json:"value,omitempty"`
-}
-
-func (x *Option) Reset() { *x = Option{} }
-
-func (x *Option) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
-
-func (x *Option) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *Option) GetKey() []string {
-	if x != nil {
-		return x.Key
-	}
-	return nil
-}
-
-func (x *Option) GetValue() []string {
-	if x != nil {
-		return x.Value
-	}
-	return nil
-}
-
 // 批量创建并关联用户
 type UnitCreateAndLinkUserReq struct {
-	UnitId     string    `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	AuthType   int32     `protobuf:"varint,2,opt,name=authType" json:"authType,omitempty"`
-	AuthId     []string  `protobuf:"bytes,3,rep,name=authId" json:"authId,omitempty"`
-	VerifyCode []string  `protobuf:"bytes,4,rep,name=verifyCode" json:"verifyCode,omitempty"`
-	UserName   []string  `protobuf:"bytes,5,rep,name=userName" json:"userName,omitempty"`
-	Gender     []int32   `protobuf:"varint,6,rep,packed,name=gender" json:"gender,omitempty"`
-	Options    []*Option `protobuf:"bytes,7,rep,name=options" json:"options,omitempty"`
+	UnitId   string                        `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	AuthType int32                         `protobuf:"varint,2,opt,name=authType" json:"authType,omitempty"`
+	Users    []*UnitCreateAndLinkUserReq_U `protobuf:"bytes,3,rep,name=users" json:"users,omitempty"`
 }
 
 func (x *UnitCreateAndLinkUserReq) Reset() { *x = UnitCreateAndLinkUserReq{} }
@@ -1093,35 +1019,58 @@ func (x *UnitCreateAndLinkUserReq) GetAuthType() int32 {
 	return 0
 }
 
-func (x *UnitCreateAndLinkUserReq) GetAuthId() []string {
+func (x *UnitCreateAndLinkUserReq) GetUsers() []*UnitCreateAndLinkUserReq_U {
+	if x != nil {
+		return x.Users
+	}
+	return nil
+}
+
+type UnitCreateAndLinkUserReq_U struct {
+	AuthId     string `protobuf:"bytes,1,opt,name=authId" json:"authId,omitempty"`
+	VerifyCode string `protobuf:"bytes,2,opt,name=verifyCode" json:"verifyCode,omitempty"`
+	Name       string `protobuf:"bytes,3,opt,name=name" json:"name,omitempty"`
+	Gender     int32  `protobuf:"varint,4,opt,name=gender" json:"gender,omitempty"`
+	Options    *Form  `protobuf:"bytes,5,opt,name=options" json:"options,omitempty"`
+}
+
+func (x *UnitCreateAndLinkUserReq_U) Reset() { *x = UnitCreateAndLinkUserReq_U{} }
+
+func (x *UnitCreateAndLinkUserReq_U) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *UnitCreateAndLinkUserReq_U) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitCreateAndLinkUserReq_U) GetAuthId() string {
 	if x != nil {
 		return x.AuthId
 	}
-	return nil
+	return ""
 }
 
-func (x *UnitCreateAndLinkUserReq) GetVerifyCode() []string {
+func (x *UnitCreateAndLinkUserReq_U) GetVerifyCode() string {
 	if x != nil {
 		return x.VerifyCode
 	}
-	return nil
+	return ""
 }
 
-func (x *UnitCreateAndLinkUserReq) GetUserName() []string {
+func (x *UnitCreateAndLinkUserReq_U) GetName() string {
 	if x != nil {
-		return x.UserName
+		return x.Name
 	}
-	return nil
+	return ""
 }
 
-func (x *UnitCreateAndLinkUserReq) GetGender() []int32 {
+func (x *UnitCreateAndLinkUserReq_U) GetGender() int32 {
 	if x != nil {
 		return x.Gender
 	}
-	return nil
+	return 0
 }
 
-func (x *UnitCreateAndLinkUserReq) GetOptions() []*Option {
+func (x *UnitCreateAndLinkUserReq_U) GetOptions() *Form {
 	if x != nil {
 		return x.Options
 	}
@@ -1174,6 +1123,23 @@ func (x *ViewSignUpReq) GetView() *View {
 	return nil
 }
 
+type ViewSignUpResp struct {
+	View *View `protobuf:"bytes,1,opt,name=view" json:"view,omitempty"`
+}
+
+func (x *ViewSignUpResp) Reset() { *x = ViewSignUpResp{} }
+
+func (x *ViewSignUpResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ViewSignUpResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ViewSignUpResp) GetView() *View {
+	if x != nil {
+		return x.View
+	}
+	return nil
+}
+
 // 登录
 type ViewSignInReq struct {
 	Phone      string  `protobuf:"bytes,1,opt,name=phone" json:"phone,omitempty"`
@@ -1206,6 +1172,23 @@ func (x *ViewSignInReq) GetVerifyCode() string {
 		return *x.VerifyCode
 	}
 	return ""
+}
+
+type ViewSignInResp struct {
+	View *View `protobuf:"bytes,1,opt,name=view" json:"view,omitempty"`
+}
+
+func (x *ViewSignInResp) Reset() { *x = ViewSignInResp{} }
+
+func (x *ViewSignInResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ViewSignInResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ViewSignInResp) GetView() *View {
+	if x != nil {
+		return x.View
+	}
+	return nil
 }
 
 // 获取信息
@@ -1305,31 +1288,6 @@ func (x *ViewUpdatePasswordReq) GetNewPassword() string {
 	return ""
 }
 
-type UnitMember struct {
-	Unit  *Unit `protobuf:"bytes,1,opt,name=unit" json:"unit,omitempty"`
-	Level int32 `protobuf:"varint,2,opt,name=level" json:"level,omitempty"`
-}
-
-func (x *UnitMember) Reset() { *x = UnitMember{} }
-
-func (x *UnitMember) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
-
-func (x *UnitMember) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *UnitMember) GetUnit() *Unit {
-	if x != nil {
-		return x.Unit
-	}
-	return nil
-}
-
-func (x *UnitMember) GetLevel() int32 {
-	if x != nil {
-		return x.Level
-	}
-	return 0
-}
-
 // 查询关联unit
 type ViewBelongUnitReq struct {
 	Id                string                   `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
@@ -1357,7 +1315,7 @@ func (x *ViewBelongUnitReq) GetPaginationOptions() *basic.PaginationOptions {
 }
 
 type ViewBelongUnitResp struct {
-	UnitMembers []*UnitMember `protobuf:"bytes,1,rep,name=unitMembers" json:"unitMembers,omitempty"`
+	UnitMembers []*ViewBelongUnitResp_UnitMember `protobuf:"bytes,1,rep,name=unitMembers" json:"unitMembers,omitempty"`
 }
 
 func (x *ViewBelongUnitResp) Reset() { *x = ViewBelongUnitResp{} }
@@ -1366,11 +1324,38 @@ func (x *ViewBelongUnitResp) Marshal(in []byte) ([]byte, error) { return prutal.
 
 func (x *ViewBelongUnitResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *ViewBelongUnitResp) GetUnitMembers() []*UnitMember {
+func (x *ViewBelongUnitResp) GetUnitMembers() []*ViewBelongUnitResp_UnitMember {
 	if x != nil {
 		return x.UnitMembers
 	}
 	return nil
+}
+
+type ViewBelongUnitResp_UnitMember struct {
+	Unit  *Unit `protobuf:"bytes,1,opt,name=unit" json:"unit,omitempty"`
+	Level int32 `protobuf:"varint,2,opt,name=level" json:"level,omitempty"`
+}
+
+func (x *ViewBelongUnitResp_UnitMember) Reset() { *x = ViewBelongUnitResp_UnitMember{} }
+
+func (x *ViewBelongUnitResp_UnitMember) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *ViewBelongUnitResp_UnitMember) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ViewBelongUnitResp_UnitMember) GetUnit() *Unit {
+	if x != nil {
+		return x.Unit
+	}
+	return nil
+}
+
+func (x *ViewBelongUnitResp_UnitMember) GetLevel() int32 {
+	if x != nil {
+		return x.Level
+	}
+	return 0
 }
 
 /* user */
@@ -1416,7 +1401,24 @@ func (x *UserSignUpReq) GetStudentId() string {
 	return ""
 }
 
-// user登录
+type UserSignUpResp struct {
+	User *User `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+}
+
+func (x *UserSignUpResp) Reset() { *x = UserSignUpResp{} }
+
+func (x *UserSignUpResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UserSignUpResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UserSignUpResp) GetUser() *User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+// user登录，兼具弱验证校验方式
 type UserSignInReq struct {
 	UnitId     string  `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 	AuthType   int32   `protobuf:"varint,2,opt,name=authType" json:"authType,omitempty"`
@@ -1467,9 +1469,9 @@ func (x *UserSignInReq) GetPassword() string {
 }
 
 type UserSignInResp struct {
-	UnitId    string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	StudentId string `protobuf:"bytes,2,opt,name=studentId" json:"studentId,omitempty"`
-	UserId    string `protobuf:"bytes,3,opt,name=userId" json:"userId,omitempty"`
+	UnitId    string  `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	UserId    string  `protobuf:"bytes,2,opt,name=userId" json:"userId,omitempty"`
+	StudentId *string `protobuf:"bytes,3,opt,name=studentId" json:"studentId,omitempty"`
 }
 
 func (x *UserSignInResp) Reset() { *x = UserSignInResp{} }
@@ -1485,16 +1487,16 @@ func (x *UserSignInResp) GetUnitId() string {
 	return ""
 }
 
-func (x *UserSignInResp) GetStudentId() string {
+func (x *UserSignInResp) GetUserId() string {
 	if x != nil {
-		return x.StudentId
+		return x.UserId
 	}
 	return ""
 }
 
-func (x *UserSignInResp) GetUserId() string {
-	if x != nil {
-		return x.UserId
+func (x *UserSignInResp) GetStudentId() string {
+	if x != nil && x.StudentId != nil {
+		return *x.StudentId
 	}
 	return ""
 }
@@ -1529,7 +1531,7 @@ type UserGetInfoResp struct {
 	User      *User   `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
 	UnitId    *string `protobuf:"bytes,2,opt,name=unitId" json:"unitId,omitempty"`
 	StudentId *string `protobuf:"bytes,3,opt,name=studentId" json:"studentId,omitempty"`
-	Options   *Option `protobuf:"bytes,4,opt,name=options" json:"options,omitempty"`
+	Options   *Form   `protobuf:"bytes,4,opt,name=options" json:"options,omitempty"`
 }
 
 func (x *UserGetInfoResp) Reset() { *x = UserGetInfoResp{} }
@@ -1559,7 +1561,7 @@ func (x *UserGetInfoResp) GetStudentId() string {
 	return ""
 }
 
-func (x *UserGetInfoResp) GetOptions() *Option {
+func (x *UserGetInfoResp) GetOptions() *Form {
 	if x != nil {
 		return x.Options
 	}
@@ -1572,8 +1574,8 @@ type UserUpdateInfoReq struct {
 	User *User `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
 
 	// 修改关联信息
-	UnitId  *string   `protobuf:"bytes,2,opt,name=unitId" json:"unitId,omitempty"`
-	Options []*Option `protobuf:"bytes,3,rep,name=options" json:"options,omitempty"`
+	UnitId  *string `protobuf:"bytes,2,opt,name=unitId" json:"unitId,omitempty"`
+	Options *Form   `protobuf:"bytes,3,opt,name=options" json:"options,omitempty"`
 }
 
 func (x *UserUpdateInfoReq) Reset() { *x = UserUpdateInfoReq{} }
@@ -1596,7 +1598,7 @@ func (x *UserUpdateInfoReq) GetUnitId() string {
 	return ""
 }
 
-func (x *UserUpdateInfoReq) GetOptions() []*Option {
+func (x *UserUpdateInfoReq) GetOptions() *Form {
 	if x != nil {
 		return x.Options
 	}
@@ -1605,10 +1607,10 @@ func (x *UserUpdateInfoReq) GetOptions() []*Option {
 
 // 更新密码
 type UserUpdatePasswordReq struct {
-	Id          string  `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	OldPassword *string `protobuf:"bytes,2,opt,name=oldPassword" json:"oldPassword,omitempty"`
-	VerifyCode  *string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
-	NewPassword string  `protobuf:"bytes,4,opt,name=newPassword" json:"newPassword,omitempty"`
+	Id          string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	AuthType    int32  `protobuf:"varint,2,opt,name=authType" json:"authType,omitempty"`
+	AuthValue   string `protobuf:"bytes,3,opt,name=authValue" json:"authValue,omitempty"`
+	NewPassword string `protobuf:"bytes,4,opt,name=newPassword" json:"newPassword,omitempty"`
 }
 
 func (x *UserUpdatePasswordReq) Reset() { *x = UserUpdatePasswordReq{} }
@@ -1626,16 +1628,16 @@ func (x *UserUpdatePasswordReq) GetId() string {
 	return ""
 }
 
-func (x *UserUpdatePasswordReq) GetOldPassword() string {
-	if x != nil && x.OldPassword != nil {
-		return *x.OldPassword
+func (x *UserUpdatePasswordReq) GetAuthType() int32 {
+	if x != nil {
+		return x.AuthType
 	}
-	return ""
+	return 0
 }
 
-func (x *UserUpdatePasswordReq) GetVerifyCode() string {
-	if x != nil && x.VerifyCode != nil {
-		return *x.VerifyCode
+func (x *UserUpdatePasswordReq) GetAuthValue() string {
+	if x != nil {
+		return x.AuthValue
 	}
 	return ""
 }
