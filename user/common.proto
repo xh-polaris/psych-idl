@@ -6,7 +6,23 @@ import "basic/pagination.proto";
 
 option go_package = "user";
 
-// 类型定义 
+// 类型定义
+message form {
+  message obj {
+    string key = 1;
+    string value = 2;
+  }
+  repeated obj options = 1;
+}
+
+message UnitVerify {
+  string userId = 1;
+  int32 verifyType = 2;
+  string account = 3;
+  string password = 4;
+  form form = 5;
+}
+
 message Unit {
   string id = 1;
   string phone = 2;
@@ -16,9 +32,10 @@ message Unit {
   string contact = 6;
   int32 level = 7;
   int32 status = 8;
-  int64 createTime = 9;
-  int64 updateTime = 10;
-  int64 deleteTime = 11;
+  UnitVerify verify = 9;
+  int64 createTime = 10;
+  int64 updateTime = 11;
+  int64 deleteTime = 12;
 }
 
 message User {
@@ -34,10 +51,6 @@ message User {
   int64 deleteTime = 10;
 }
 
-message unitMembership {
-  string unitId = 1;
-  int32 level = 2;
-}
 
 message View {
   string id = 1;
@@ -46,32 +59,15 @@ message View {
   string name = 4;
   string address = 5;
   string contact = 6;
-
+  message unitMembership {
+    string unitId = 1;
+    int32 level = 2;
+  }
   repeated unitMembership unitMemberships = 7;
-
   int32 status = 8;
   int64 createTime = 9;
   int64 updateTime = 10;
   int64 deleteTime = 11;
-}
-
-
-message UnitVerify {
-  string id = 1;
-  int32 verify = 2;
-  string account = 3;
-  string password = 4;
-
-  message unitVerifyForm {
-    string key = 1;
-    string value = 2;
-  }
-  repeated unitVerifyForm form = 5;
-
-  int32 status = 6;
-  int64 createTime = 7;
-  int64 updateTime = 8;
-  int64 deleteTime = 9;
 }
 
 message UnitModel {
@@ -88,10 +84,12 @@ message UnitModel {
   int64 deleteTime = 10;
 }
 
-
 /* unit */
 // unit账号注册
 message UnitSignUpReq {
+  Unit unit = 1;
+}
+message UnitSignUpResp {
   Unit unit = 1;
 }
 
@@ -111,45 +109,34 @@ message UnitUpdateInfoReq {
 // 修改密码 
 message UnitUpdatePasswordReq {
   string id = 1;
-  optional string oldPassword = 2;
-  optional string verifyCode = 3;
+  int32 authType = 2;
+  string authId = 3;
   string newPassword = 4;
 }
 
-
-// 强验证登录 
-message UnitStrongVerifyReq {
+// unit 登录
+message UnitSignInReq {
   string phone = 1;
-  optional string password = 2;
-  optional string verifyCode = 3;
+  int32 authType = 2;
+  optional string password = 3;
+  optional string verifyCode = 4;
+}
+message UnitSignInResp {
+  Unit unit = 1;
 }
 
-
-// 弱验证登录 
-message UnitWeakVerifyReq {
-  string account = 1;
-  string password = 2;
-}
-
-
-// 生成弱验证账号 
+// 配置登录验证信息-unit_verify
 message UnitCreateVerifyReq {
-  string id = 1;  // unitId
-  int32 number = 2;
+  UnitVerify unitVerify = 1;  // 已经包含unitId
 }
 message UnitCreateVerifyResp {
-  message weakAccount {
-    string account = 1;
-    string password = 2;
-  }
-  repeated weakAccount weakAccounts = 1;
+  // 如果是弱验证，则返回账号和密码
+  UnitVerify unitVerify = 1;
 }
 
-// 修改verify密码 
-message UnitUpdateVerifyPasswordReq {
-  string account = 1;
-  string oldPassword = 2;
-  string newPassword = 3;
+// 修改verify
+message UnitUpdateVerifyReq {
+  UnitVerify unitVerify = 1;  // 已经包含unitId
 }
 
 // 关联user账号 
@@ -202,19 +189,18 @@ message UnitPageQueryViewResp {
   repeated View view = 1;
 }
 
-message option {
-  repeated string key = 1;
-  repeated string value = 2;
-}
 // 批量创建并关联用户 
 message UnitCreateAndLinkUserReq {
   string unitId = 1;
   int32 authType = 2;
-  repeated string authId = 3;
-  repeated string verifyCode = 4;
-  repeated string userName = 5;
-  repeated int32 gender = 6;
-  repeated option options = 7;
+  message u {
+    string authId = 1;
+    string verifyCode = 2;
+    string name = 3;
+    int32 gender = 4;
+    optional form options = 5;
+  }
+  repeated u users = 3;
 }
 
 message UnitCreateAndLinkViewReq {
@@ -228,12 +214,18 @@ message UnitCreateAndLinkViewReq {
 message ViewSignUpReq{
   View view = 1;
 }
+message ViewSignUpResp {
+  View view = 1;
+}
 
 // 登录 
 message ViewSignInReq {
   string phone = 1;
   optional string password = 2;
   optional string verifyCode = 3;
+}
+message ViewSignInResp {
+  View view = 1;
 }
 
 // 获取信息 
@@ -257,17 +249,17 @@ message ViewUpdatePasswordReq {
   string newPassword = 4;
 }
 
-message unitMember {
-  Unit unit = 1;
-  int32 level = 2;
-}
 
-// 查询关联unit 
+// 查询关联unit
 message ViewBelongUnitReq {
   string id = 1;
   basic.PaginationOptions paginationOptions = 2;
 }
 message ViewBelongUnitResp {
+  message unitMember {
+    Unit unit = 1;
+    int32 level = 2;
+  }
   repeated unitMember unitMembers = 1;
 }
 
@@ -280,8 +272,11 @@ message UserSignUpReq {
   optional string unitId = 3;
   optional string studentId = 4;
 }
+message UserSignUpResp {
+  User user = 1;
+}
 
-// user登录 
+// user登录，兼具弱验证校验方式
 message UserSignInReq {
   string unitId = 1;
   int32 authType = 2;
@@ -291,8 +286,8 @@ message UserSignInReq {
 }
 message UserSignInResp {
   string unitId = 1;
-  string studentId = 2;
-  string userId = 3;
+  string userId = 2;
+  optional string studentId = 3;
 }
 
 // 获取信息 
@@ -304,7 +299,7 @@ message UserGetInfoResp {
   User user = 1;
   optional string unitId = 2;
   optional string studentId = 3;
-  optional option options = 4;
+  optional form options = 4;
 }
 
 // 更新信息 
@@ -313,17 +308,16 @@ message UserUpdateInfoReq {
   User user = 1;
   // 修改关联信息
   optional string unitId = 2;
-  repeated option options = 3;
+  optional form options = 3;
 }
 
 // 更新密码 
 message UserUpdatePasswordReq {
   string id = 1;
-  optional string oldPassword = 2;
-  optional string verifyCode = 3;
+  int32 authType = 2;
+  string authValue = 3;
   string newPassword = 4;
 }
-
 
 // 分页查询关联unit 
 message UserBelongUnitReq {
