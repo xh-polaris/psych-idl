@@ -10,7 +10,7 @@ import "basic/re.proto";
 service PsychUserService {
   // Unit部分
   // 用户信息部分
-  rpc UnitSignUp(UnitSignUpReq) returns(basic.Response);
+  rpc UnitSignUp(UnitSignUpReq) returns(UnitSignUpResp);
   rpc UnitGetInfo(UnitGetInfoReq) returns(UnitGetInfoResp);
   rpc UnitUpdateInfo(UnitUpdateInfoReq) returns(basic.Response);
   rpc UnitUpdatePassword(UnitUpdatePasswordReq) returns(basic.Response);
@@ -20,10 +20,9 @@ service PsychUserService {
   rpc UnitCreateAndLinkView(UnitCreateAndLinkViewReq) returns(basic.Response);
 
   // 用户验证部分
-  rpc UnitStrongVerify(UnitStrongVerifyReq) returns(basic.Response);
-  rpc UnitWeakVerify(UnitWeakVerifyReq) returns(basic.Response);
+  rpc UnitSignIn(UnitSignInReq) returns(UnitSignInResp);
   rpc UnitCreateVerify(UnitCreateVerifyReq) returns(UnitCreateVerifyResp);
-  rpc UnitUpdateVerifyPassword(UnitUpdateVerifyPasswordReq) returns(basic.Response);
+  rpc UnitUpdateVerifyPassword(UnitUpdateVerifyReq) returns(basic.Response);
 
   // 所属账号管理部分
   rpc UnitLinkUser(UnitLinkUserReq) returns(basic.Response);
@@ -38,7 +37,7 @@ service PsychUserService {
 
   // User部分
   // 用户信息部分
-  rpc UserSignUp(UserSignUpReq) returns(basic.Response);
+  rpc UserSignUp(UserSignUpReq) returns(UserSignUpResp);
   rpc UserGetInfo(UserGetInfoReq) returns(UserGetInfoResp);
   rpc UserUpdateInfo(UserUpdateInfoReq) returns(basic.Response);
   rpc UserUpdatePassword(UserUpdatePasswordReq) returns(basic.Response);
@@ -47,11 +46,11 @@ service PsychUserService {
   rpc UserBelongUnit(UserBelongUnitReq) returns(UserBelongUnitResp);
 
   // 用户验证部分
-  rpc UserSignIn(UserSignInReq) returns(basic.Response);
+  rpc UserSignIn(UserSignInReq) returns(UserSignInResp);
 
   // View部分
   // 用户信息部分
-  rpc ViewSignUp(ViewSignUpReq) returns(basic.Response);
+  rpc ViewSignUp(ViewSignUpReq) returns(ViewSignUpResp);
   rpc ViewGetInfo(ViewGetInfoReq) returns(ViewGetInfoResp);
   rpc ViewUpdateInfo(ViewUpdateInfoReq) returns(basic.Response);
   rpc ViewUpdatePassword(ViewUpdatePasswordReq) returns(basic.Response);
@@ -60,7 +59,7 @@ service PsychUserService {
   rpc ViewBelongUnit(ViewBelongUnitReq) returns(ViewBelongUnitResp);
 
   // 用户验证部分
-  rpc ViewSignIn(ViewSignInReq) returns(basic.Response);
+  rpc ViewSignIn(ViewSignInReq) returns(ViewSignInResp);
 }
 
 
