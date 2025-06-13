@@ -288,8 +288,9 @@ message UserSignInReq {
   optional string password = 5;
 }
 message UserSignInResp {
-  User user = 1;
-  optional string studentId = 2;
+  string unitId = 1;
+  string userId = 2;
+  optional string studentId = 3;
 }
 
 // 获取信息 
