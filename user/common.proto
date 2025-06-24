@@ -19,7 +19,7 @@ message UnitVerify {
   string userId = 1;
   int32 verifyType = 2;
   string account = 3;
-  string password = 4;
+  string verifyPassword = 4;
   form form = 5;
 }
 
@@ -32,10 +32,13 @@ message Unit {
   string contact = 6;
   int32 level = 7;
   int32 status = 8;
-  UnitVerify verify = 9;
-  int64 createTime = 10;
-  int64 updateTime = 11;
-  int64 deleteTime = 12;
+  int32 verifyType = 9;
+  string account = 10;
+  string verifyPassword = 11;
+  form form = 12;
+  int64 createTime = 13;
+  int64 updateTime = 14;
+  int64 deleteTime = 15;
 }
 
 message User {
@@ -131,7 +134,7 @@ message UnitCreateVerifyReq {
 }
 message UnitCreateVerifyResp {
   // 如果是弱验证，则返回账号和密码
-  UnitVerify unitVerify = 1;
+  Unit unit = 1;
 }
 
 // 修改verify
@@ -198,7 +201,8 @@ message UnitCreateAndLinkUserReq {
     string verifyCode = 2;
     string name = 3;
     int32 gender = 4;
-    optional form options = 5;
+    string password = 5;
+    optional form options = 6;
   }
   repeated u users = 3;
 }
