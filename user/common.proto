@@ -201,7 +201,8 @@ message UnitCreateAndLinkUserReq {
     string verifyCode = 2;
     string name = 3;
     int32 gender = 4;
-    optional form options = 5;
+    string password = 5;
+    optional form options = 6;
   }
   repeated u users = 3;
 }
