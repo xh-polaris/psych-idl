@@ -6,21 +6,12 @@ import "basic/pagination.proto";
 
 option go_package = "user";
 
-// 类型定义
-message form {
-  message obj {
-    string key = 1;
-    string value = 2;
-  }
-  repeated obj options = 1;
-}
-
-message UnitVerify {
-  string userId = 1;
+message unitVerify {
+  string unitId = 1;
   int32 verifyType = 2;
   string account = 3;
   string verifyPassword = 4;
-  form form = 5;
+  map<string, string> form = 5;
 }
 
 message Unit {
@@ -35,7 +26,7 @@ message Unit {
   int32 verifyType = 9;
   string account = 10;
   string verifyPassword = 11;
-  form form = 12;
+  map<string, string> form = 12;
   int64 createTime = 13;
   int64 updateTime = 14;
   int64 deleteTime = 15;
@@ -130,7 +121,7 @@ message UnitSignInResp {
 
 // 配置登录验证信息-unit_verify
 message UnitCreateVerifyReq {
-  UnitVerify unitVerify = 1;  // 已经包含unitId
+  unitVerify verify = 1;
 }
 message UnitCreateVerifyResp {
   // 如果是弱验证，则返回账号和密码
@@ -139,7 +130,7 @@ message UnitCreateVerifyResp {
 
 // 修改verify
 message UnitUpdateVerifyReq {
-  UnitVerify unitVerify = 1;  // 已经包含unitId
+  unitVerify verify = 1;
 }
 
 // 关联user账号 
@@ -202,7 +193,7 @@ message UnitCreateAndLinkUserReq {
     string name = 3;
     int32 gender = 4;
     string password = 5;
-    optional form options = 6;
+    map<string, string> form = 6;
   }
   repeated u users = 3;
 }
@@ -303,7 +294,7 @@ message UserGetInfoResp {
   User user = 1;
   optional string unitId = 2;
   optional string studentId = 3;
-  optional form options = 4;
+  map<string, string> form = 4;
 }
 
 // 更新信息 
@@ -312,7 +303,7 @@ message UserUpdateInfoReq {
   User user = 1;
   // 修改关联信息
   optional string unitId = 2;
-  optional form options = 3;
+  map<string, string> form = 3;
 }
 
 // 更新密码 
