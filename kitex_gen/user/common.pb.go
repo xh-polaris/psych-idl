@@ -1461,6 +1461,7 @@ type UserSignInResp struct {
 	UnitId    string  `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 	UserId    string  `protobuf:"bytes,2,opt,name=userId" json:"userId,omitempty"`
 	StudentId *string `protobuf:"bytes,3,opt,name=studentId" json:"studentId,omitempty"`
+	Strong    bool    `protobuf:"varint,4,opt,name=strong" json:"strong,omitempty"`
 }
 
 func (x *UserSignInResp) Reset() { *x = UserSignInResp{} }
@@ -1488,6 +1489,13 @@ func (x *UserSignInResp) GetStudentId() string {
 		return *x.StudentId
 	}
 	return ""
+}
+
+func (x *UserSignInResp) GetStrong() bool {
+	if x != nil {
+		return x.Strong
+	}
+	return false
 }
 
 // 获取信息
