@@ -283,6 +283,7 @@ message UserSignInResp {
   string unitId = 1;
   string userId = 2;
   optional string studentId = 3;
+  bool strong = 4;
 }
 
 // 获取信息 
