@@ -1,0 +1,141 @@
+syntax = "proto3";
+
+package model;
+
+option go_package = "model";
+
+message UnitAppConfig {
+  string id = 1;
+  string unitId = 2;
+  string chat = 3;
+  string asr = 4;
+  string tts = 5;
+  string report = 6;
+  map<string, string> option = 7;
+  int32 status = 8;
+  int64 createTime = 9;
+  int64 updateTime = 10;
+}
+
+message app {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  string lang = 4;
+  string platform = 5;
+  string url = 6;
+  string appid = 7;
+  string auth = 8;
+  bool stream = 9;
+  int32 level = 10;
+  int32 status = 11;
+  int64 createTime = 13;
+  int64 expireTime = 14;
+  int64 updateTime = 15;
+  int64 deleteTime = 16;
+}
+
+message ChatApp {
+  app app = 1;
+}
+
+message TtsApp {
+  app app = 1;
+  string namespace = 2;
+  string speaker = 3;
+  string resourceId = 4;
+  message audioParam {
+    string format = 1;
+    int32 rate = 2;
+    int32 bit = 3;
+    int32 speechRate = 4;
+    int32 loudnessRate = 5;
+    string lang = 6;
+  }
+  audioParam audioParams = 5;
+}
+
+message AsrApp {
+  app app = 1;
+  string format = 2;
+  string codec = 3;
+  int32 rate = 4;
+  int32 bits = 5;
+  int32 channels = 6;
+  string modelName = 7;
+  bool enablePunc = 8;
+  bool enableDdc = 9;
+  string resultType = 10;
+}
+
+message ReportApp {
+  app app = 1;
+}
+
+message UnitAppConfigCreateReq {
+  UnitAppConfig unitAppConfig = 1;
+  bool admin = 2;
+}
+message UnitAppConfigCreateResp {
+  UnitAppConfig unitAppConfig = 1;
+}
+
+message UnitAppConfigUpdateReq {
+  UnitAppConfig unitAppConfig = 1;
+  bool admin = 2;
+}
+
+message UnitAppConfigGetReq {
+  string unitId = 1;
+  bool admin = 2;
+}
+message UnitAppConfigGetResp {
+  UnitAppConfig unitAppConfig = 1;
+}
+
+message AppCreateReq {
+  int32 type = 1;
+  oneof appDetail {
+    ChatApp chatApp = 2;
+    TtsApp ttsApp = 3;
+    AsrApp asrApp = 4;
+    ReportApp reportApp = 5;
+  }
+  UnitAppConfig unitAppConfig = 6;
+}
+message AppCreateResp {
+  oneof appDetail {
+    ChatApp chatApp = 1;
+    TtsApp ttsApp = 2;
+    AsrApp asrApp = 3;
+    ReportApp reportApp = 4;
+  }
+}
+
+message AppUpdateReq {
+  int32 type = 1;
+  oneof appDetail {
+    ChatApp chatApp = 2;
+    TtsApp ttsApp = 3;
+    AsrApp asrApp = 4;
+    ReportApp reportApp = 5;
+  }
+  UnitAppConfig unitAppConfig = 6;
+}
+
+message AppGetReq {
+  // 指定要查询的app
+  int32 type = 1;
+  UnitAppConfig unitAppConfig = 2;
+}
+message AppGetResp {
+  ChatApp chatApp = 1;
+  TtsApp ttsApp = 2;
+  AsrApp asrApp = 3;
+  ReportApp reportApp = 4;
+}
+
+message AppDeleteReq {
+  int32 type = 1;
+  UnitAppConfig unitAppConfig = 2;
+}

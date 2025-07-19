@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package model;
+
+option go_package = "model";
+
+import "model/common.proto";
+import "basic/re.proto";
+
+service PsychModelService {
+  // 单位模型配置相关接口
+  rpc UnitAppConfigCreate(UnitAppConfigCreateReq) returns (UnitAppConfigCreateResp);
+  rpc UnitAppConfigUpdate(UnitAppConfigUpdateReq) returns (basic.Response);
+  rpc UnitAppConfigGet(UnitAppConfigGetReq) returns (UnitAppConfigGetResp);
+
+  // 模型设置相关接口
+  rpc AppCreate(AppCreateReq) returns (AppCreateResp);
+  rpc AppUpdate(AppUpdateReq) returns (basic.Response);
+  rpc AppGet(AppGetReq) returns (AppGetResp);
+  rpc AppDelete(AppDeleteReq) returns (basic.Response);
+}
