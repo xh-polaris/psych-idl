@@ -16,6 +16,6 @@ service PsychModelService {
   // 模型设置相关接口
   rpc AppCreate(AppCreateReq) returns (AppCreateResp);
   rpc AppUpdate(AppUpdateReq) returns (basic.Response);
-  rpc AppGet(AppGetReq) returns (AppGetResp);
+  rpc AppGet(AppGetByUnitIdReq) returns (AppGetByUnitIdResp);
   rpc AppDelete(AppDeleteReq) returns (basic.Response);
 }
