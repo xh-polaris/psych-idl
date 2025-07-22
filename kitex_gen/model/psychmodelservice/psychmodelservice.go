@@ -690,7 +690,7 @@ func appGetHandler(ctx context.Context, handler interface{}, arg, result interfa
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(model.AppGetReq)
+		req := new(model.AppGetByUnitIdReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
@@ -720,7 +720,7 @@ func newAppGetResult() interface{} {
 }
 
 type AppGetArgs struct {
-	Req *model.AppGetReq
+	Req *model.AppGetByUnitIdReq
 }
 
 func (p *AppGetArgs) Marshal(out []byte) ([]byte, error) {
@@ -731,7 +731,7 @@ func (p *AppGetArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *AppGetArgs) Unmarshal(in []byte) error {
-	msg := new(model.AppGetReq)
+	msg := new(model.AppGetByUnitIdReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -739,9 +739,9 @@ func (p *AppGetArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var AppGetArgs_Req_DEFAULT *model.AppGetReq
+var AppGetArgs_Req_DEFAULT *model.AppGetByUnitIdReq
 
-func (p *AppGetArgs) GetReq() *model.AppGetReq {
+func (p *AppGetArgs) GetReq() *model.AppGetByUnitIdReq {
 	if !p.IsSetReq() {
 		return AppGetArgs_Req_DEFAULT
 	}
@@ -757,10 +757,10 @@ func (p *AppGetArgs) GetFirstArgument() interface{} {
 }
 
 type AppGetResult struct {
-	Success *model.AppGetResp
+	Success *model.AppGetByUnitIdResp
 }
 
-var AppGetResult_Success_DEFAULT *model.AppGetResp
+var AppGetResult_Success_DEFAULT *model.AppGetByUnitIdResp
 
 func (p *AppGetResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -770,7 +770,7 @@ func (p *AppGetResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *AppGetResult) Unmarshal(in []byte) error {
-	msg := new(model.AppGetResp)
+	msg := new(model.AppGetByUnitIdResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -778,7 +778,7 @@ func (p *AppGetResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *AppGetResult) GetSuccess() *model.AppGetResp {
+func (p *AppGetResult) GetSuccess() *model.AppGetByUnitIdResp {
 	if !p.IsSetSuccess() {
 		return AppGetResult_Success_DEFAULT
 	}
@@ -786,7 +786,7 @@ func (p *AppGetResult) GetSuccess() *model.AppGetResp {
 }
 
 func (p *AppGetResult) SetSuccess(x interface{}) {
-	p.Success = x.(*model.AppGetResp)
+	p.Success = x.(*model.AppGetByUnitIdResp)
 }
 
 func (p *AppGetResult) IsSetSuccess() bool {
@@ -968,7 +968,7 @@ func (p *kClient) AppUpdate(ctx context.Context, Req *model.AppUpdateReq) (r *ba
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) AppGet(ctx context.Context, Req *model.AppGetReq) (r *model.AppGetResp, err error) {
+func (p *kClient) AppGet(ctx context.Context, Req *model.AppGetByUnitIdReq) (r *model.AppGetByUnitIdResp, err error) {
 	var _args AppGetArgs
 	_args.Req = Req
 	var _result AppGetResult

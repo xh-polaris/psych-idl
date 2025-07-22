@@ -2,19 +2,25 @@
 
 package model
 
-import "github.com/cloudwego/prutal"
+import (
+	"github.com/xh-polaris/psych-idl/kitex_gen/basic"
+
+	"github.com/cloudwego/prutal"
+)
 
 type UnitAppConfig struct {
 	Id         string            `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
 	UnitId     string            `protobuf:"bytes,2,opt,name=unitId" json:"unitId,omitempty"`
-	Chat       string            `protobuf:"bytes,3,opt,name=chat" json:"chat,omitempty"`
-	Asr        string            `protobuf:"bytes,4,opt,name=asr" json:"asr,omitempty"`
-	Tts        string            `protobuf:"bytes,5,opt,name=tts" json:"tts,omitempty"`
-	Report     string            `protobuf:"bytes,6,opt,name=report" json:"report,omitempty"`
-	Option     map[string]string `protobuf:"bytes,7,rep,name=option" json:"option,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	Status     int32             `protobuf:"varint,8,opt,name=status" json:"status,omitempty"`
-	CreateTime int64             `protobuf:"varint,9,opt,name=createTime" json:"createTime,omitempty"`
-	UpdateTime int64             `protobuf:"varint,10,opt,name=updateTime" json:"updateTime,omitempty"`
+	Name       string            `protobuf:"bytes,3,opt,name=name" json:"name,omitempty"`
+	Video      string            `protobuf:"bytes,4,opt,name=video" json:"video,omitempty"`
+	Chat       string            `protobuf:"bytes,5,opt,name=chat" json:"chat,omitempty"`
+	Asr        string            `protobuf:"bytes,6,opt,name=asr" json:"asr,omitempty"`
+	Tts        string            `protobuf:"bytes,7,opt,name=tts" json:"tts,omitempty"`
+	Report     string            `protobuf:"bytes,8,opt,name=report" json:"report,omitempty"`
+	Option     map[string]string `protobuf:"bytes,9,rep,name=option" json:"option,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Status     int32             `protobuf:"varint,10,opt,name=status" json:"status,omitempty"`
+	CreateTime int64             `protobuf:"varint,11,opt,name=createTime" json:"createTime,omitempty"`
+	UpdateTime int64             `protobuf:"varint,12,opt,name=updateTime" json:"updateTime,omitempty"`
 }
 
 func (x *UnitAppConfig) Reset() { *x = UnitAppConfig{} }
@@ -33,6 +39,20 @@ func (x *UnitAppConfig) GetId() string {
 func (x *UnitAppConfig) GetUnitId() string {
 	if x != nil {
 		return x.UnitId
+	}
+	return ""
+}
+
+func (x *UnitAppConfig) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *UnitAppConfig) GetVideo() string {
+	if x != nil {
+		return x.Video
 	}
 	return ""
 }
@@ -862,71 +882,216 @@ type AppUpdateReq_ReportApp struct {
 
 func (*AppUpdateReq_ReportApp) isAppUpdateReq_AppDetail() {}
 
-type AppGetReq struct {
-	// 指定要查询的app
-	Type          int32          `protobuf:"varint,1,opt,name=type" json:"type,omitempty"`
-	UnitAppConfig *UnitAppConfig `protobuf:"bytes,2,opt,name=unitAppConfig" json:"unitAppConfig,omitempty"`
+type AppGetByUnitIdReq struct {
+	UnitAppConfig *UnitAppConfig `protobuf:"bytes,1,opt,name=unitAppConfig" json:"unitAppConfig,omitempty"`
 }
 
-func (x *AppGetReq) Reset() { *x = AppGetReq{} }
+func (x *AppGetByUnitIdReq) Reset() { *x = AppGetByUnitIdReq{} }
 
-func (x *AppGetReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+func (x *AppGetByUnitIdReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
 
-func (x *AppGetReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+func (x *AppGetByUnitIdReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *AppGetReq) GetType() int32 {
-	if x != nil {
-		return x.Type
-	}
-	return 0
-}
-
-func (x *AppGetReq) GetUnitAppConfig() *UnitAppConfig {
+func (x *AppGetByUnitIdReq) GetUnitAppConfig() *UnitAppConfig {
 	if x != nil {
 		return x.UnitAppConfig
 	}
 	return nil
 }
 
-type AppGetResp struct {
+type AppGetByUnitIdResp struct {
 	ChatApp   *ChatApp   `protobuf:"bytes,1,opt,name=chatApp" json:"chatApp,omitempty"`
 	TtsApp    *TtsApp    `protobuf:"bytes,2,opt,name=ttsApp" json:"ttsApp,omitempty"`
 	AsrApp    *AsrApp    `protobuf:"bytes,3,opt,name=asrApp" json:"asrApp,omitempty"`
 	ReportApp *ReportApp `protobuf:"bytes,4,opt,name=reportApp" json:"reportApp,omitempty"`
 }
 
-func (x *AppGetResp) Reset() { *x = AppGetResp{} }
+func (x *AppGetByUnitIdResp) Reset() { *x = AppGetByUnitIdResp{} }
 
-func (x *AppGetResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+func (x *AppGetByUnitIdResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
 
-func (x *AppGetResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+func (x *AppGetByUnitIdResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *AppGetResp) GetChatApp() *ChatApp {
+func (x *AppGetByUnitIdResp) GetChatApp() *ChatApp {
 	if x != nil {
 		return x.ChatApp
 	}
 	return nil
 }
 
-func (x *AppGetResp) GetTtsApp() *TtsApp {
+func (x *AppGetByUnitIdResp) GetTtsApp() *TtsApp {
 	if x != nil {
 		return x.TtsApp
 	}
 	return nil
 }
 
-func (x *AppGetResp) GetAsrApp() *AsrApp {
+func (x *AppGetByUnitIdResp) GetAsrApp() *AsrApp {
 	if x != nil {
 		return x.AsrApp
 	}
 	return nil
 }
 
-func (x *AppGetResp) GetReportApp() *ReportApp {
+func (x *AppGetByUnitIdResp) GetReportApp() *ReportApp {
 	if x != nil {
 		return x.ReportApp
 	}
 	return nil
+}
+
+type AppData struct {
+	// Types that are assignable to App:
+	//
+	//	*AppData_ChatApp
+	//	*AppData_TtsApp
+	//	*AppData_AsrApp
+	//	*AppData_ReportApp
+	App isAppData_App `protobuf_oneof:"app"`
+}
+
+func (x *AppData) Reset() { *x = AppData{} }
+
+func (x *AppData) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *AppData) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *AppData) GetApp() isAppData_App {
+	if x != nil {
+		return x.App
+	}
+	return nil
+}
+func (x *AppData) GetChatApp() *ChatApp {
+	if p, ok := x.GetApp().(*AppData_ChatApp); ok {
+		return p.ChatApp
+	}
+	return nil
+}
+
+func (x *AppData) GetTtsApp() *TtsApp {
+	if p, ok := x.GetApp().(*AppData_TtsApp); ok {
+		return p.TtsApp
+	}
+	return nil
+}
+
+func (x *AppData) GetAsrApp() *AsrApp {
+	if p, ok := x.GetApp().(*AppData_AsrApp); ok {
+		return p.AsrApp
+	}
+	return nil
+}
+
+func (x *AppData) GetReportApp() *ReportApp {
+	if p, ok := x.GetApp().(*AppData_ReportApp); ok {
+		return p.ReportApp
+	}
+	return nil
+}
+
+// XXX_OneofWrappers is for the internal use of the prutal package.
+func (*AppData) XXX_OneofWrappers() []interface{} {
+	return []interface{}{
+		(*AppData_ChatApp)(nil),
+		(*AppData_TtsApp)(nil),
+		(*AppData_AsrApp)(nil),
+		(*AppData_ReportApp)(nil),
+	}
+}
+
+type isAppData_App interface {
+	isAppData_App()
+}
+
+type AppData_ChatApp struct {
+	ChatApp *ChatApp `protobuf:"bytes,1,opt,name=chatApp" json:"chatApp,omitempty"`
+}
+
+func (*AppData_ChatApp) isAppData_App() {}
+
+type AppData_TtsApp struct {
+	TtsApp *TtsApp `protobuf:"bytes,2,opt,name=ttsApp" json:"ttsApp,omitempty"`
+}
+
+func (*AppData_TtsApp) isAppData_App() {}
+
+type AppData_AsrApp struct {
+	AsrApp *AsrApp `protobuf:"bytes,3,opt,name=asrApp" json:"asrApp,omitempty"`
+}
+
+func (*AppData_AsrApp) isAppData_App() {}
+
+type AppData_ReportApp struct {
+	ReportApp *ReportApp `protobuf:"bytes,4,opt,name=reportApp" json:"reportApp,omitempty"`
+}
+
+func (*AppData_ReportApp) isAppData_App() {}
+
+type AppGetPagesReq struct {
+	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,1,opt,name=paginationOptions" json:"paginationOptions,omitempty"`
+	Type              int32                    `protobuf:"varint,2,opt,name=type" json:"type,omitempty"`
+}
+
+func (x *AppGetPagesReq) Reset() { *x = AppGetPagesReq{} }
+
+func (x *AppGetPagesReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *AppGetPagesReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *AppGetPagesReq) GetPaginationOptions() *basic.PaginationOptions {
+	if x != nil {
+		return x.PaginationOptions
+	}
+	return nil
+}
+
+func (x *AppGetPagesReq) GetType() int32 {
+	if x != nil {
+		return x.Type
+	}
+	return 0
+}
+
+type AppGetPagesResp struct {
+	Apps     []*AppData `protobuf:"bytes,1,rep,name=apps" json:"apps,omitempty"`
+	Total    int32      `protobuf:"varint,2,opt,name=total" json:"total,omitempty"`
+	Page     int32      `protobuf:"varint,3,opt,name=page" json:"page,omitempty"`
+	PageSize int32      `protobuf:"varint,4,opt,name=pageSize" json:"pageSize,omitempty"`
+}
+
+func (x *AppGetPagesResp) Reset() { *x = AppGetPagesResp{} }
+
+func (x *AppGetPagesResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *AppGetPagesResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *AppGetPagesResp) GetApps() []*AppData {
+	if x != nil {
+		return x.Apps
+	}
+	return nil
+}
+
+func (x *AppGetPagesResp) GetTotal() int32 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+func (x *AppGetPagesResp) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *AppGetPagesResp) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
 }
 
 type AppDeleteReq struct {

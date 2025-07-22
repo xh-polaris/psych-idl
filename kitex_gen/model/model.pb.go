@@ -13,6 +13,6 @@ type PsychModelService interface {
 	UnitAppConfigGet(ctx context.Context, req *UnitAppConfigGetReq) (res *UnitAppConfigGetResp, err error)
 	AppCreate(ctx context.Context, req *AppCreateReq) (res *AppCreateResp, err error)
 	AppUpdate(ctx context.Context, req *AppUpdateReq) (res *basic.Response, err error)
-	AppGet(ctx context.Context, req *AppGetReq) (res *AppGetResp, err error)
+	AppGet(ctx context.Context, req *AppGetByUnitIdReq) (res *AppGetByUnitIdResp, err error)
 	AppDelete(ctx context.Context, req *AppDeleteReq) (res *basic.Response, err error)
 }
