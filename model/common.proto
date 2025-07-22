@@ -4,17 +4,21 @@ package model;
 
 option go_package = "model";
 
+import "basic/pagination.proto";
+
 message UnitAppConfig {
   string id = 1;
   string unitId = 2;
-  string chat = 3;
-  string asr = 4;
-  string tts = 5;
-  string report = 6;
-  map<string, string> option = 7;
-  int32 status = 8;
-  int64 createTime = 9;
-  int64 updateTime = 10;
+  string name = 3;
+  string video = 4;
+  string chat = 5;
+  string asr = 6;
+  string tts = 7;
+  string report = 8;
+  map<string, string> option = 9;
+  int32 status = 10;
+  int64 createTime = 11;
+  int64 updateTime = 12;
 }
 
 message app {
@@ -123,16 +127,34 @@ message AppUpdateReq {
   UnitAppConfig unitAppConfig = 6;
 }
 
-message AppGetReq {
-  // 指定要查询的app
-  int32 type = 1;
-  UnitAppConfig unitAppConfig = 2;
+message AppGetByUnitIdReq {
+  UnitAppConfig unitAppConfig = 1;
 }
-message AppGetResp {
+message AppGetByUnitIdResp {
   ChatApp chatApp = 1;
   TtsApp ttsApp = 2;
   AsrApp asrApp = 3;
   ReportApp reportApp = 4;
+}
+
+message AppData {
+  oneof app {
+    ChatApp chatApp = 1;
+    TtsApp ttsApp = 2;
+    AsrApp asrApp = 3;
+    ReportApp reportApp = 4;
+  }
+}
+
+message AppGetPagesReq {
+  basic.PaginationOptions paginationOptions = 1;
+  int32 type = 2;
+}
+message AppGetPagesResp {
+  repeated AppData apps = 1;
+  int32 total = 2;
+  int32 page = 3;
+  int32 pageSize = 4;
 }
 
 message AppDeleteReq {
