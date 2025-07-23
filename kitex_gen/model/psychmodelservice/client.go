@@ -17,7 +17,8 @@ type Client interface {
 	UnitAppConfigGet(ctx context.Context, Req *model.UnitAppConfigGetReq, callOptions ...callopt.Option) (r *model.UnitAppConfigGetResp, err error)
 	AppCreate(ctx context.Context, Req *model.AppCreateReq, callOptions ...callopt.Option) (r *model.AppCreateResp, err error)
 	AppUpdate(ctx context.Context, Req *model.AppUpdateReq, callOptions ...callopt.Option) (r *basic.Response, err error)
-	AppGet(ctx context.Context, Req *model.AppGetByUnitIdReq, callOptions ...callopt.Option) (r *model.AppGetByUnitIdResp, err error)
+	AppGetByUnitIdReq(ctx context.Context, Req *model.AppGetByUnitIdReq, callOptions ...callopt.Option) (r *model.AppGetByUnitIdResp, err error)
+	AppGetPagesReq(ctx context.Context, Req *model.AppGetPagesReq, callOptions ...callopt.Option) (r *model.AppGetPagesResp, err error)
 	AppDelete(ctx context.Context, Req *model.AppDeleteReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 }
 
@@ -75,9 +76,14 @@ func (p *kPsychModelServiceClient) AppUpdate(ctx context.Context, Req *model.App
 	return p.kClient.AppUpdate(ctx, Req)
 }
 
-func (p *kPsychModelServiceClient) AppGet(ctx context.Context, Req *model.AppGetByUnitIdReq, callOptions ...callopt.Option) (r *model.AppGetByUnitIdResp, err error) {
+func (p *kPsychModelServiceClient) AppGetByUnitIdReq(ctx context.Context, Req *model.AppGetByUnitIdReq, callOptions ...callopt.Option) (r *model.AppGetByUnitIdResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.AppGet(ctx, Req)
+	return p.kClient.AppGetByUnitIdReq(ctx, Req)
+}
+
+func (p *kPsychModelServiceClient) AppGetPagesReq(ctx context.Context, Req *model.AppGetPagesReq, callOptions ...callopt.Option) (r *model.AppGetPagesResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.AppGetPagesReq(ctx, Req)
 }
 
 func (p *kPsychModelServiceClient) AppDelete(ctx context.Context, Req *model.AppDeleteReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
