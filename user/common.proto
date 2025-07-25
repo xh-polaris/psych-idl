@@ -112,8 +112,7 @@ message UnitUpdatePasswordReq {
 message UnitSignInReq {
   string phone = 1;
   int32 authType = 2;
-  optional string password = 3;
-  optional string verifyCode = 4;
+  string verifyCode = 3;
 }
 message UnitSignInResp {
   Unit unit = 1;
@@ -192,7 +191,6 @@ message UnitCreateAndLinkUserReq {
     string verifyCode = 2;
     string name = 3;
     int32 gender = 4;
-    string password = 5;
     map<string, string> form = 6;
   }
   repeated u users = 3;
@@ -216,8 +214,7 @@ message ViewSignUpResp {
 // 登录 
 message ViewSignInReq {
   string phone = 1;
-  optional string password = 2;
-  optional string verifyCode = 3;
+  string verifyCode = 2;
 }
 message ViewSignInResp {
   View view = 1;
@@ -239,8 +236,7 @@ message ViewUpdateInfoReq {
 // 更新密码 
 message ViewUpdatePasswordReq {
   string id = 1;
-  optional string oldPassword = 2;
-  optional string verifyCode = 3;
+  string verifyCode = 3;
   string newPassword = 4;
 }
 
@@ -276,8 +272,7 @@ message UserSignInReq {
   string unitId = 1;
   int32 authType = 2;
   string authId = 3;
-  optional string verifyCode = 4;
-  optional string password = 5;
+  string verifyCode = 4;
 }
 message UserSignInResp {
   string unitId = 1;
