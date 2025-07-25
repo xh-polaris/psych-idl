@@ -30,10 +30,17 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
-	"UnitAppConfigGet": kitex.NewMethodInfo(
-		unitAppConfigGetHandler,
-		newUnitAppConfigGetArgs,
-		newUnitAppConfigGetResult,
+	"UnitAppConfigGetById": kitex.NewMethodInfo(
+		unitAppConfigGetByIdHandler,
+		newUnitAppConfigGetByIdArgs,
+		newUnitAppConfigGetByIdResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"UnitAppConfigGetByUnitId": kitex.NewMethodInfo(
+		unitAppConfigGetByUnitIdHandler,
+		newUnitAppConfigGetByUnitIdArgs,
+		newUnitAppConfigGetByUnitIdResult,
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
@@ -51,17 +58,17 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
-	"AppGetByUnitIdReq": kitex.NewMethodInfo(
-		appGetByUnitIdReqHandler,
-		newAppGetByUnitIdReqArgs,
-		newAppGetByUnitIdReqResult,
+	"AppGetByUnitId": kitex.NewMethodInfo(
+		appGetByUnitIdHandler,
+		newAppGetByUnitIdArgs,
+		newAppGetByUnitIdResult,
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
-	"AppGetPagesReq": kitex.NewMethodInfo(
-		appGetPagesReqHandler,
-		newAppGetPagesReqArgs,
-		newAppGetPagesReqResult,
+	"AppGetPages": kitex.NewMethodInfo(
+		appGetPagesHandler,
+		newAppGetPagesArgs,
+		newAppGetPagesResult,
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
@@ -360,52 +367,52 @@ func (p *UnitAppConfigUpdateResult) GetResult() interface{} {
 	return p.Success
 }
 
-func unitAppConfigGetHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+func unitAppConfigGetByIdHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(model.UnitAppConfigGetReq)
+		req := new(model.UnitAppConfigGetByIdReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(model.PsychModelService).UnitAppConfigGet(ctx, req)
+		resp, err := handler.(model.PsychModelService).UnitAppConfigGetById(ctx, req)
 		if err != nil {
 			return err
 		}
 		return st.SendMsg(resp)
-	case *UnitAppConfigGetArgs:
-		success, err := handler.(model.PsychModelService).UnitAppConfigGet(ctx, s.Req)
+	case *UnitAppConfigGetByIdArgs:
+		success, err := handler.(model.PsychModelService).UnitAppConfigGetById(ctx, s.Req)
 		if err != nil {
 			return err
 		}
-		realResult := result.(*UnitAppConfigGetResult)
+		realResult := result.(*UnitAppConfigGetByIdResult)
 		realResult.Success = success
 		return nil
 	default:
 		return errInvalidMessageType
 	}
 }
-func newUnitAppConfigGetArgs() interface{} {
-	return &UnitAppConfigGetArgs{}
+func newUnitAppConfigGetByIdArgs() interface{} {
+	return &UnitAppConfigGetByIdArgs{}
 }
 
-func newUnitAppConfigGetResult() interface{} {
-	return &UnitAppConfigGetResult{}
+func newUnitAppConfigGetByIdResult() interface{} {
+	return &UnitAppConfigGetByIdResult{}
 }
 
-type UnitAppConfigGetArgs struct {
-	Req *model.UnitAppConfigGetReq
+type UnitAppConfigGetByIdArgs struct {
+	Req *model.UnitAppConfigGetByIdReq
 }
 
-func (p *UnitAppConfigGetArgs) Marshal(out []byte) ([]byte, error) {
+func (p *UnitAppConfigGetByIdArgs) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetReq() {
 		return out, nil
 	}
 	return proto.Marshal(p.Req)
 }
 
-func (p *UnitAppConfigGetArgs) Unmarshal(in []byte) error {
-	msg := new(model.UnitAppConfigGetReq)
+func (p *UnitAppConfigGetByIdArgs) Unmarshal(in []byte) error {
+	msg := new(model.UnitAppConfigGetByIdReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -413,38 +420,38 @@ func (p *UnitAppConfigGetArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var UnitAppConfigGetArgs_Req_DEFAULT *model.UnitAppConfigGetReq
+var UnitAppConfigGetByIdArgs_Req_DEFAULT *model.UnitAppConfigGetByIdReq
 
-func (p *UnitAppConfigGetArgs) GetReq() *model.UnitAppConfigGetReq {
+func (p *UnitAppConfigGetByIdArgs) GetReq() *model.UnitAppConfigGetByIdReq {
 	if !p.IsSetReq() {
-		return UnitAppConfigGetArgs_Req_DEFAULT
+		return UnitAppConfigGetByIdArgs_Req_DEFAULT
 	}
 	return p.Req
 }
 
-func (p *UnitAppConfigGetArgs) IsSetReq() bool {
+func (p *UnitAppConfigGetByIdArgs) IsSetReq() bool {
 	return p.Req != nil
 }
 
-func (p *UnitAppConfigGetArgs) GetFirstArgument() interface{} {
+func (p *UnitAppConfigGetByIdArgs) GetFirstArgument() interface{} {
 	return p.Req
 }
 
-type UnitAppConfigGetResult struct {
-	Success *model.UnitAppConfigGetResp
+type UnitAppConfigGetByIdResult struct {
+	Success *model.UnitAppConfigGetByIdResp
 }
 
-var UnitAppConfigGetResult_Success_DEFAULT *model.UnitAppConfigGetResp
+var UnitAppConfigGetByIdResult_Success_DEFAULT *model.UnitAppConfigGetByIdResp
 
-func (p *UnitAppConfigGetResult) Marshal(out []byte) ([]byte, error) {
+func (p *UnitAppConfigGetByIdResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
 		return out, nil
 	}
 	return proto.Marshal(p.Success)
 }
 
-func (p *UnitAppConfigGetResult) Unmarshal(in []byte) error {
-	msg := new(model.UnitAppConfigGetResp)
+func (p *UnitAppConfigGetByIdResult) Unmarshal(in []byte) error {
+	msg := new(model.UnitAppConfigGetByIdResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -452,22 +459,133 @@ func (p *UnitAppConfigGetResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *UnitAppConfigGetResult) GetSuccess() *model.UnitAppConfigGetResp {
+func (p *UnitAppConfigGetByIdResult) GetSuccess() *model.UnitAppConfigGetByIdResp {
 	if !p.IsSetSuccess() {
-		return UnitAppConfigGetResult_Success_DEFAULT
+		return UnitAppConfigGetByIdResult_Success_DEFAULT
 	}
 	return p.Success
 }
 
-func (p *UnitAppConfigGetResult) SetSuccess(x interface{}) {
-	p.Success = x.(*model.UnitAppConfigGetResp)
+func (p *UnitAppConfigGetByIdResult) SetSuccess(x interface{}) {
+	p.Success = x.(*model.UnitAppConfigGetByIdResp)
 }
 
-func (p *UnitAppConfigGetResult) IsSetSuccess() bool {
+func (p *UnitAppConfigGetByIdResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
-func (p *UnitAppConfigGetResult) GetResult() interface{} {
+func (p *UnitAppConfigGetByIdResult) GetResult() interface{} {
+	return p.Success
+}
+
+func unitAppConfigGetByUnitIdHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(model.UnitAppConfigGetByUnitIdReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(model.PsychModelService).UnitAppConfigGetByUnitId(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *UnitAppConfigGetByUnitIdArgs:
+		success, err := handler.(model.PsychModelService).UnitAppConfigGetByUnitId(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*UnitAppConfigGetByUnitIdResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newUnitAppConfigGetByUnitIdArgs() interface{} {
+	return &UnitAppConfigGetByUnitIdArgs{}
+}
+
+func newUnitAppConfigGetByUnitIdResult() interface{} {
+	return &UnitAppConfigGetByUnitIdResult{}
+}
+
+type UnitAppConfigGetByUnitIdArgs struct {
+	Req *model.UnitAppConfigGetByUnitIdReq
+}
+
+func (p *UnitAppConfigGetByUnitIdArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *UnitAppConfigGetByUnitIdArgs) Unmarshal(in []byte) error {
+	msg := new(model.UnitAppConfigGetByUnitIdReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var UnitAppConfigGetByUnitIdArgs_Req_DEFAULT *model.UnitAppConfigGetByUnitIdReq
+
+func (p *UnitAppConfigGetByUnitIdArgs) GetReq() *model.UnitAppConfigGetByUnitIdReq {
+	if !p.IsSetReq() {
+		return UnitAppConfigGetByUnitIdArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *UnitAppConfigGetByUnitIdArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *UnitAppConfigGetByUnitIdArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type UnitAppConfigGetByUnitIdResult struct {
+	Success *model.UnitAppConfigGetByUnitIdResp
+}
+
+var UnitAppConfigGetByUnitIdResult_Success_DEFAULT *model.UnitAppConfigGetByUnitIdResp
+
+func (p *UnitAppConfigGetByUnitIdResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *UnitAppConfigGetByUnitIdResult) Unmarshal(in []byte) error {
+	msg := new(model.UnitAppConfigGetByUnitIdResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *UnitAppConfigGetByUnitIdResult) GetSuccess() *model.UnitAppConfigGetByUnitIdResp {
+	if !p.IsSetSuccess() {
+		return UnitAppConfigGetByUnitIdResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *UnitAppConfigGetByUnitIdResult) SetSuccess(x interface{}) {
+	p.Success = x.(*model.UnitAppConfigGetByUnitIdResp)
+}
+
+func (p *UnitAppConfigGetByUnitIdResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *UnitAppConfigGetByUnitIdResult) GetResult() interface{} {
 	return p.Success
 }
 
@@ -693,7 +811,7 @@ func (p *AppUpdateResult) GetResult() interface{} {
 	return p.Success
 }
 
-func appGetByUnitIdReqHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+func appGetByUnitIdHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
@@ -701,43 +819,43 @@ func appGetByUnitIdReqHandler(ctx context.Context, handler interface{}, arg, res
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(model.PsychModelService).AppGetByUnitIdReq(ctx, req)
+		resp, err := handler.(model.PsychModelService).AppGetByUnitId(ctx, req)
 		if err != nil {
 			return err
 		}
 		return st.SendMsg(resp)
-	case *AppGetByUnitIdReqArgs:
-		success, err := handler.(model.PsychModelService).AppGetByUnitIdReq(ctx, s.Req)
+	case *AppGetByUnitIdArgs:
+		success, err := handler.(model.PsychModelService).AppGetByUnitId(ctx, s.Req)
 		if err != nil {
 			return err
 		}
-		realResult := result.(*AppGetByUnitIdReqResult)
+		realResult := result.(*AppGetByUnitIdResult)
 		realResult.Success = success
 		return nil
 	default:
 		return errInvalidMessageType
 	}
 }
-func newAppGetByUnitIdReqArgs() interface{} {
-	return &AppGetByUnitIdReqArgs{}
+func newAppGetByUnitIdArgs() interface{} {
+	return &AppGetByUnitIdArgs{}
 }
 
-func newAppGetByUnitIdReqResult() interface{} {
-	return &AppGetByUnitIdReqResult{}
+func newAppGetByUnitIdResult() interface{} {
+	return &AppGetByUnitIdResult{}
 }
 
-type AppGetByUnitIdReqArgs struct {
+type AppGetByUnitIdArgs struct {
 	Req *model.AppGetByUnitIdReq
 }
 
-func (p *AppGetByUnitIdReqArgs) Marshal(out []byte) ([]byte, error) {
+func (p *AppGetByUnitIdArgs) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetReq() {
 		return out, nil
 	}
 	return proto.Marshal(p.Req)
 }
 
-func (p *AppGetByUnitIdReqArgs) Unmarshal(in []byte) error {
+func (p *AppGetByUnitIdArgs) Unmarshal(in []byte) error {
 	msg := new(model.AppGetByUnitIdReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
@@ -746,37 +864,37 @@ func (p *AppGetByUnitIdReqArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var AppGetByUnitIdReqArgs_Req_DEFAULT *model.AppGetByUnitIdReq
+var AppGetByUnitIdArgs_Req_DEFAULT *model.AppGetByUnitIdReq
 
-func (p *AppGetByUnitIdReqArgs) GetReq() *model.AppGetByUnitIdReq {
+func (p *AppGetByUnitIdArgs) GetReq() *model.AppGetByUnitIdReq {
 	if !p.IsSetReq() {
-		return AppGetByUnitIdReqArgs_Req_DEFAULT
+		return AppGetByUnitIdArgs_Req_DEFAULT
 	}
 	return p.Req
 }
 
-func (p *AppGetByUnitIdReqArgs) IsSetReq() bool {
+func (p *AppGetByUnitIdArgs) IsSetReq() bool {
 	return p.Req != nil
 }
 
-func (p *AppGetByUnitIdReqArgs) GetFirstArgument() interface{} {
+func (p *AppGetByUnitIdArgs) GetFirstArgument() interface{} {
 	return p.Req
 }
 
-type AppGetByUnitIdReqResult struct {
+type AppGetByUnitIdResult struct {
 	Success *model.AppGetByUnitIdResp
 }
 
-var AppGetByUnitIdReqResult_Success_DEFAULT *model.AppGetByUnitIdResp
+var AppGetByUnitIdResult_Success_DEFAULT *model.AppGetByUnitIdResp
 
-func (p *AppGetByUnitIdReqResult) Marshal(out []byte) ([]byte, error) {
+func (p *AppGetByUnitIdResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
 		return out, nil
 	}
 	return proto.Marshal(p.Success)
 }
 
-func (p *AppGetByUnitIdReqResult) Unmarshal(in []byte) error {
+func (p *AppGetByUnitIdResult) Unmarshal(in []byte) error {
 	msg := new(model.AppGetByUnitIdResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
@@ -785,26 +903,26 @@ func (p *AppGetByUnitIdReqResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *AppGetByUnitIdReqResult) GetSuccess() *model.AppGetByUnitIdResp {
+func (p *AppGetByUnitIdResult) GetSuccess() *model.AppGetByUnitIdResp {
 	if !p.IsSetSuccess() {
-		return AppGetByUnitIdReqResult_Success_DEFAULT
+		return AppGetByUnitIdResult_Success_DEFAULT
 	}
 	return p.Success
 }
 
-func (p *AppGetByUnitIdReqResult) SetSuccess(x interface{}) {
+func (p *AppGetByUnitIdResult) SetSuccess(x interface{}) {
 	p.Success = x.(*model.AppGetByUnitIdResp)
 }
 
-func (p *AppGetByUnitIdReqResult) IsSetSuccess() bool {
+func (p *AppGetByUnitIdResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
-func (p *AppGetByUnitIdReqResult) GetResult() interface{} {
+func (p *AppGetByUnitIdResult) GetResult() interface{} {
 	return p.Success
 }
 
-func appGetPagesReqHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+func appGetPagesHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
@@ -812,43 +930,43 @@ func appGetPagesReqHandler(ctx context.Context, handler interface{}, arg, result
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(model.PsychModelService).AppGetPagesReq(ctx, req)
+		resp, err := handler.(model.PsychModelService).AppGetPages(ctx, req)
 		if err != nil {
 			return err
 		}
 		return st.SendMsg(resp)
-	case *AppGetPagesReqArgs:
-		success, err := handler.(model.PsychModelService).AppGetPagesReq(ctx, s.Req)
+	case *AppGetPagesArgs:
+		success, err := handler.(model.PsychModelService).AppGetPages(ctx, s.Req)
 		if err != nil {
 			return err
 		}
-		realResult := result.(*AppGetPagesReqResult)
+		realResult := result.(*AppGetPagesResult)
 		realResult.Success = success
 		return nil
 	default:
 		return errInvalidMessageType
 	}
 }
-func newAppGetPagesReqArgs() interface{} {
-	return &AppGetPagesReqArgs{}
+func newAppGetPagesArgs() interface{} {
+	return &AppGetPagesArgs{}
 }
 
-func newAppGetPagesReqResult() interface{} {
-	return &AppGetPagesReqResult{}
+func newAppGetPagesResult() interface{} {
+	return &AppGetPagesResult{}
 }
 
-type AppGetPagesReqArgs struct {
+type AppGetPagesArgs struct {
 	Req *model.AppGetPagesReq
 }
 
-func (p *AppGetPagesReqArgs) Marshal(out []byte) ([]byte, error) {
+func (p *AppGetPagesArgs) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetReq() {
 		return out, nil
 	}
 	return proto.Marshal(p.Req)
 }
 
-func (p *AppGetPagesReqArgs) Unmarshal(in []byte) error {
+func (p *AppGetPagesArgs) Unmarshal(in []byte) error {
 	msg := new(model.AppGetPagesReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
@@ -857,37 +975,37 @@ func (p *AppGetPagesReqArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var AppGetPagesReqArgs_Req_DEFAULT *model.AppGetPagesReq
+var AppGetPagesArgs_Req_DEFAULT *model.AppGetPagesReq
 
-func (p *AppGetPagesReqArgs) GetReq() *model.AppGetPagesReq {
+func (p *AppGetPagesArgs) GetReq() *model.AppGetPagesReq {
 	if !p.IsSetReq() {
-		return AppGetPagesReqArgs_Req_DEFAULT
+		return AppGetPagesArgs_Req_DEFAULT
 	}
 	return p.Req
 }
 
-func (p *AppGetPagesReqArgs) IsSetReq() bool {
+func (p *AppGetPagesArgs) IsSetReq() bool {
 	return p.Req != nil
 }
 
-func (p *AppGetPagesReqArgs) GetFirstArgument() interface{} {
+func (p *AppGetPagesArgs) GetFirstArgument() interface{} {
 	return p.Req
 }
 
-type AppGetPagesReqResult struct {
+type AppGetPagesResult struct {
 	Success *model.AppGetPagesResp
 }
 
-var AppGetPagesReqResult_Success_DEFAULT *model.AppGetPagesResp
+var AppGetPagesResult_Success_DEFAULT *model.AppGetPagesResp
 
-func (p *AppGetPagesReqResult) Marshal(out []byte) ([]byte, error) {
+func (p *AppGetPagesResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
 		return out, nil
 	}
 	return proto.Marshal(p.Success)
 }
 
-func (p *AppGetPagesReqResult) Unmarshal(in []byte) error {
+func (p *AppGetPagesResult) Unmarshal(in []byte) error {
 	msg := new(model.AppGetPagesResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
@@ -896,22 +1014,22 @@ func (p *AppGetPagesReqResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *AppGetPagesReqResult) GetSuccess() *model.AppGetPagesResp {
+func (p *AppGetPagesResult) GetSuccess() *model.AppGetPagesResp {
 	if !p.IsSetSuccess() {
-		return AppGetPagesReqResult_Success_DEFAULT
+		return AppGetPagesResult_Success_DEFAULT
 	}
 	return p.Success
 }
 
-func (p *AppGetPagesReqResult) SetSuccess(x interface{}) {
+func (p *AppGetPagesResult) SetSuccess(x interface{}) {
 	p.Success = x.(*model.AppGetPagesResp)
 }
 
-func (p *AppGetPagesReqResult) IsSetSuccess() bool {
+func (p *AppGetPagesResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
-func (p *AppGetPagesReqResult) GetResult() interface{} {
+func (p *AppGetPagesResult) GetResult() interface{} {
 	return p.Success
 }
 
@@ -1056,11 +1174,21 @@ func (p *kClient) UnitAppConfigUpdate(ctx context.Context, Req *model.UnitAppCon
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) UnitAppConfigGet(ctx context.Context, Req *model.UnitAppConfigGetReq) (r *model.UnitAppConfigGetResp, err error) {
-	var _args UnitAppConfigGetArgs
+func (p *kClient) UnitAppConfigGetById(ctx context.Context, Req *model.UnitAppConfigGetByIdReq) (r *model.UnitAppConfigGetByIdResp, err error) {
+	var _args UnitAppConfigGetByIdArgs
 	_args.Req = Req
-	var _result UnitAppConfigGetResult
-	if err = p.c.Call(ctx, "UnitAppConfigGet", &_args, &_result); err != nil {
+	var _result UnitAppConfigGetByIdResult
+	if err = p.c.Call(ctx, "UnitAppConfigGetById", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) UnitAppConfigGetByUnitId(ctx context.Context, Req *model.UnitAppConfigGetByUnitIdReq) (r *model.UnitAppConfigGetByUnitIdResp, err error) {
+	var _args UnitAppConfigGetByUnitIdArgs
+	_args.Req = Req
+	var _result UnitAppConfigGetByUnitIdResult
+	if err = p.c.Call(ctx, "UnitAppConfigGetByUnitId", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
@@ -1086,21 +1214,21 @@ func (p *kClient) AppUpdate(ctx context.Context, Req *model.AppUpdateReq) (r *ba
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) AppGetByUnitIdReq(ctx context.Context, Req *model.AppGetByUnitIdReq) (r *model.AppGetByUnitIdResp, err error) {
-	var _args AppGetByUnitIdReqArgs
+func (p *kClient) AppGetByUnitId(ctx context.Context, Req *model.AppGetByUnitIdReq) (r *model.AppGetByUnitIdResp, err error) {
+	var _args AppGetByUnitIdArgs
 	_args.Req = Req
-	var _result AppGetByUnitIdReqResult
-	if err = p.c.Call(ctx, "AppGetByUnitIdReq", &_args, &_result); err != nil {
+	var _result AppGetByUnitIdResult
+	if err = p.c.Call(ctx, "AppGetByUnitId", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) AppGetPagesReq(ctx context.Context, Req *model.AppGetPagesReq) (r *model.AppGetPagesResp, err error) {
-	var _args AppGetPagesReqArgs
+func (p *kClient) AppGetPages(ctx context.Context, Req *model.AppGetPagesReq) (r *model.AppGetPagesResp, err error) {
+	var _args AppGetPagesArgs
 	_args.Req = Req
-	var _result AppGetPagesReqResult
-	if err = p.c.Call(ctx, "AppGetPagesReq", &_args, &_result); err != nil {
+	var _result AppGetPagesResult
+	if err = p.c.Call(ctx, "AppGetPages", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

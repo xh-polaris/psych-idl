@@ -10,10 +10,11 @@ import (
 type PsychModelService interface {
 	UnitAppConfigCreate(ctx context.Context, req *UnitAppConfigCreateReq) (res *UnitAppConfigCreateResp, err error)
 	UnitAppConfigUpdate(ctx context.Context, req *UnitAppConfigUpdateReq) (res *basic.Response, err error)
-	UnitAppConfigGet(ctx context.Context, req *UnitAppConfigGetReq) (res *UnitAppConfigGetResp, err error)
+	UnitAppConfigGetById(ctx context.Context, req *UnitAppConfigGetByIdReq) (res *UnitAppConfigGetByIdResp, err error)
+	UnitAppConfigGetByUnitId(ctx context.Context, req *UnitAppConfigGetByUnitIdReq) (res *UnitAppConfigGetByUnitIdResp, err error)
 	AppCreate(ctx context.Context, req *AppCreateReq) (res *AppCreateResp, err error)
 	AppUpdate(ctx context.Context, req *AppUpdateReq) (res *basic.Response, err error)
-	AppGetByUnitIdReq(ctx context.Context, req *AppGetByUnitIdReq) (res *AppGetByUnitIdResp, err error)
-	AppGetPagesReq(ctx context.Context, req *AppGetPagesReq) (res *AppGetPagesResp, err error)
+	AppGetByUnitId(ctx context.Context, req *AppGetByUnitIdReq) (res *AppGetByUnitIdResp, err error)
+	AppGetPages(ctx context.Context, req *AppGetPagesReq) (res *AppGetPagesResp, err error)
 	AppDelete(ctx context.Context, req *AppDeleteReq) (res *basic.Response, err error)
 }

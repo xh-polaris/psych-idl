@@ -14,11 +14,12 @@ import (
 type Client interface {
 	UnitAppConfigCreate(ctx context.Context, Req *model.UnitAppConfigCreateReq, callOptions ...callopt.Option) (r *model.UnitAppConfigCreateResp, err error)
 	UnitAppConfigUpdate(ctx context.Context, Req *model.UnitAppConfigUpdateReq, callOptions ...callopt.Option) (r *basic.Response, err error)
-	UnitAppConfigGet(ctx context.Context, Req *model.UnitAppConfigGetReq, callOptions ...callopt.Option) (r *model.UnitAppConfigGetResp, err error)
+	UnitAppConfigGetById(ctx context.Context, Req *model.UnitAppConfigGetByIdReq, callOptions ...callopt.Option) (r *model.UnitAppConfigGetByIdResp, err error)
+	UnitAppConfigGetByUnitId(ctx context.Context, Req *model.UnitAppConfigGetByUnitIdReq, callOptions ...callopt.Option) (r *model.UnitAppConfigGetByUnitIdResp, err error)
 	AppCreate(ctx context.Context, Req *model.AppCreateReq, callOptions ...callopt.Option) (r *model.AppCreateResp, err error)
 	AppUpdate(ctx context.Context, Req *model.AppUpdateReq, callOptions ...callopt.Option) (r *basic.Response, err error)
-	AppGetByUnitIdReq(ctx context.Context, Req *model.AppGetByUnitIdReq, callOptions ...callopt.Option) (r *model.AppGetByUnitIdResp, err error)
-	AppGetPagesReq(ctx context.Context, Req *model.AppGetPagesReq, callOptions ...callopt.Option) (r *model.AppGetPagesResp, err error)
+	AppGetByUnitId(ctx context.Context, Req *model.AppGetByUnitIdReq, callOptions ...callopt.Option) (r *model.AppGetByUnitIdResp, err error)
+	AppGetPages(ctx context.Context, Req *model.AppGetPagesReq, callOptions ...callopt.Option) (r *model.AppGetPagesResp, err error)
 	AppDelete(ctx context.Context, Req *model.AppDeleteReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 }
 
@@ -61,9 +62,14 @@ func (p *kPsychModelServiceClient) UnitAppConfigUpdate(ctx context.Context, Req 
 	return p.kClient.UnitAppConfigUpdate(ctx, Req)
 }
 
-func (p *kPsychModelServiceClient) UnitAppConfigGet(ctx context.Context, Req *model.UnitAppConfigGetReq, callOptions ...callopt.Option) (r *model.UnitAppConfigGetResp, err error) {
+func (p *kPsychModelServiceClient) UnitAppConfigGetById(ctx context.Context, Req *model.UnitAppConfigGetByIdReq, callOptions ...callopt.Option) (r *model.UnitAppConfigGetByIdResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.UnitAppConfigGet(ctx, Req)
+	return p.kClient.UnitAppConfigGetById(ctx, Req)
+}
+
+func (p *kPsychModelServiceClient) UnitAppConfigGetByUnitId(ctx context.Context, Req *model.UnitAppConfigGetByUnitIdReq, callOptions ...callopt.Option) (r *model.UnitAppConfigGetByUnitIdResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.UnitAppConfigGetByUnitId(ctx, Req)
 }
 
 func (p *kPsychModelServiceClient) AppCreate(ctx context.Context, Req *model.AppCreateReq, callOptions ...callopt.Option) (r *model.AppCreateResp, err error) {
@@ -76,14 +82,14 @@ func (p *kPsychModelServiceClient) AppUpdate(ctx context.Context, Req *model.App
 	return p.kClient.AppUpdate(ctx, Req)
 }
 
-func (p *kPsychModelServiceClient) AppGetByUnitIdReq(ctx context.Context, Req *model.AppGetByUnitIdReq, callOptions ...callopt.Option) (r *model.AppGetByUnitIdResp, err error) {
+func (p *kPsychModelServiceClient) AppGetByUnitId(ctx context.Context, Req *model.AppGetByUnitIdReq, callOptions ...callopt.Option) (r *model.AppGetByUnitIdResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.AppGetByUnitIdReq(ctx, Req)
+	return p.kClient.AppGetByUnitId(ctx, Req)
 }
 
-func (p *kPsychModelServiceClient) AppGetPagesReq(ctx context.Context, Req *model.AppGetPagesReq, callOptions ...callopt.Option) (r *model.AppGetPagesResp, err error) {
+func (p *kPsychModelServiceClient) AppGetPages(ctx context.Context, Req *model.AppGetPagesReq, callOptions ...callopt.Option) (r *model.AppGetPagesResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.AppGetPagesReq(ctx, Req)
+	return p.kClient.AppGetPages(ctx, Req)
 }
 
 func (p *kPsychModelServiceClient) AppDelete(ctx context.Context, Req *model.AppDeleteReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
