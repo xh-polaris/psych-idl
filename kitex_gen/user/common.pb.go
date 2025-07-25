@@ -621,10 +621,9 @@ func (x *UnitUpdatePasswordReq) GetNewPassword() string {
 
 // unit 登录
 type UnitSignInReq struct {
-	Phone      string  `protobuf:"bytes,1,opt,name=phone" json:"phone,omitempty"`
-	AuthType   int32   `protobuf:"varint,2,opt,name=authType" json:"authType,omitempty"`
-	Password   *string `protobuf:"bytes,3,opt,name=password" json:"password,omitempty"`
-	VerifyCode *string `protobuf:"bytes,4,opt,name=verifyCode" json:"verifyCode,omitempty"`
+	Phone      string `protobuf:"bytes,1,opt,name=phone" json:"phone,omitempty"`
+	AuthType   int32  `protobuf:"varint,2,opt,name=authType" json:"authType,omitempty"`
+	VerifyCode string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
 }
 
 func (x *UnitSignInReq) Reset() { *x = UnitSignInReq{} }
@@ -647,16 +646,9 @@ func (x *UnitSignInReq) GetAuthType() int32 {
 	return 0
 }
 
-func (x *UnitSignInReq) GetPassword() string {
-	if x != nil && x.Password != nil {
-		return *x.Password
-	}
-	return ""
-}
-
 func (x *UnitSignInReq) GetVerifyCode() string {
-	if x != nil && x.VerifyCode != nil {
-		return *x.VerifyCode
+	if x != nil {
+		return x.VerifyCode
 	}
 	return ""
 }
@@ -1012,7 +1004,6 @@ type UnitCreateAndLinkUserReq_U struct {
 	VerifyCode string            `protobuf:"bytes,2,opt,name=verifyCode" json:"verifyCode,omitempty"`
 	Name       string            `protobuf:"bytes,3,opt,name=name" json:"name,omitempty"`
 	Gender     int32             `protobuf:"varint,4,opt,name=gender" json:"gender,omitempty"`
-	Password   string            `protobuf:"bytes,5,opt,name=password" json:"password,omitempty"`
 	Form       map[string]string `protobuf:"bytes,6,rep,name=form" json:"form,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 }
 
@@ -1050,13 +1041,6 @@ func (x *UnitCreateAndLinkUserReq_U) GetGender() int32 {
 		return x.Gender
 	}
 	return 0
-}
-
-func (x *UnitCreateAndLinkUserReq_U) GetPassword() string {
-	if x != nil {
-		return x.Password
-	}
-	return ""
 }
 
 func (x *UnitCreateAndLinkUserReq_U) GetForm() map[string]string {
@@ -1131,9 +1115,8 @@ func (x *ViewSignUpResp) GetView() *View {
 
 // 登录
 type ViewSignInReq struct {
-	Phone      string  `protobuf:"bytes,1,opt,name=phone" json:"phone,omitempty"`
-	Password   *string `protobuf:"bytes,2,opt,name=password" json:"password,omitempty"`
-	VerifyCode *string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
+	Phone      string `protobuf:"bytes,1,opt,name=phone" json:"phone,omitempty"`
+	VerifyCode string `protobuf:"bytes,2,opt,name=verifyCode" json:"verifyCode,omitempty"`
 }
 
 func (x *ViewSignInReq) Reset() { *x = ViewSignInReq{} }
@@ -1149,16 +1132,9 @@ func (x *ViewSignInReq) GetPhone() string {
 	return ""
 }
 
-func (x *ViewSignInReq) GetPassword() string {
-	if x != nil && x.Password != nil {
-		return *x.Password
-	}
-	return ""
-}
-
 func (x *ViewSignInReq) GetVerifyCode() string {
-	if x != nil && x.VerifyCode != nil {
-		return *x.VerifyCode
+	if x != nil {
+		return x.VerifyCode
 	}
 	return ""
 }
@@ -1235,10 +1211,9 @@ func (x *ViewUpdateInfoReq) GetView() *View {
 
 // 更新密码
 type ViewUpdatePasswordReq struct {
-	Id          string  `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	OldPassword *string `protobuf:"bytes,2,opt,name=oldPassword" json:"oldPassword,omitempty"`
-	VerifyCode  *string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
-	NewPassword string  `protobuf:"bytes,4,opt,name=newPassword" json:"newPassword,omitempty"`
+	Id          string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	VerifyCode  string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
+	NewPassword string `protobuf:"bytes,4,opt,name=newPassword" json:"newPassword,omitempty"`
 }
 
 func (x *ViewUpdatePasswordReq) Reset() { *x = ViewUpdatePasswordReq{} }
@@ -1256,16 +1231,9 @@ func (x *ViewUpdatePasswordReq) GetId() string {
 	return ""
 }
 
-func (x *ViewUpdatePasswordReq) GetOldPassword() string {
-	if x != nil && x.OldPassword != nil {
-		return *x.OldPassword
-	}
-	return ""
-}
-
 func (x *ViewUpdatePasswordReq) GetVerifyCode() string {
-	if x != nil && x.VerifyCode != nil {
-		return *x.VerifyCode
+	if x != nil {
+		return x.VerifyCode
 	}
 	return ""
 }
@@ -1409,11 +1377,10 @@ func (x *UserSignUpResp) GetUser() *User {
 
 // user登录，兼具弱验证校验方式
 type UserSignInReq struct {
-	UnitId     string  `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	AuthType   int32   `protobuf:"varint,2,opt,name=authType" json:"authType,omitempty"`
-	AuthId     string  `protobuf:"bytes,3,opt,name=authId" json:"authId,omitempty"`
-	VerifyCode *string `protobuf:"bytes,4,opt,name=verifyCode" json:"verifyCode,omitempty"`
-	Password   *string `protobuf:"bytes,5,opt,name=password" json:"password,omitempty"`
+	UnitId     string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	AuthType   int32  `protobuf:"varint,2,opt,name=authType" json:"authType,omitempty"`
+	AuthId     string `protobuf:"bytes,3,opt,name=authId" json:"authId,omitempty"`
+	VerifyCode string `protobuf:"bytes,4,opt,name=verifyCode" json:"verifyCode,omitempty"`
 }
 
 func (x *UserSignInReq) Reset() { *x = UserSignInReq{} }
@@ -1444,15 +1411,8 @@ func (x *UserSignInReq) GetAuthId() string {
 }
 
 func (x *UserSignInReq) GetVerifyCode() string {
-	if x != nil && x.VerifyCode != nil {
-		return *x.VerifyCode
-	}
-	return ""
-}
-
-func (x *UserSignInReq) GetPassword() string {
-	if x != nil && x.Password != nil {
-		return *x.Password
+	if x != nil {
+		return x.VerifyCode
 	}
 	return ""
 }
