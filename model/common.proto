@@ -21,7 +21,7 @@ message UnitAppConfig {
   int64 updateTime = 12;
 }
 
-message app {
+message App {
   string id = 1;
   string name = 2;
   string description = 3;
@@ -39,12 +39,21 @@ message app {
   int64 deleteTime = 16;
 }
 
+message AppData {
+  oneof app {
+    ChatApp chatApp = 1;
+    TtsApp ttsApp = 2;
+    AsrApp asrApp = 3;
+    ReportApp reportApp = 4;
+  }
+}
+
 message ChatApp {
-  app app = 1;
+  App app = 1;
 }
 
 message TtsApp {
-  app app = 1;
+  App app = 1;
   string namespace = 2;
   string speaker = 3;
   string resourceId = 4;
@@ -60,7 +69,7 @@ message TtsApp {
 }
 
 message AsrApp {
-  app app = 1;
+  App app = 1;
   string format = 2;
   string codec = 3;
   int32 rate = 4;
@@ -73,7 +82,7 @@ message AsrApp {
 }
 
 message ReportApp {
-  app app = 1;
+  App app = 1;
 }
 
 message UnitAppConfigCreateReq {
@@ -89,46 +98,39 @@ message UnitAppConfigUpdateReq {
   bool admin = 2;
 }
 
-message UnitAppConfigGetReq {
+message UnitAppConfigGetByIdReq {
+  string id = 1;
+  bool admin = 2;
+}
+message UnitAppConfigGetByIdResp {
+  UnitAppConfig unitAppConfig = 1;
+}
+
+message UnitAppConfigGetByUnitIdReq {
   string unitId = 1;
   bool admin = 2;
 }
-message UnitAppConfigGetResp {
+message UnitAppConfigGetByUnitIdResp {
   UnitAppConfig unitAppConfig = 1;
 }
 
 message AppCreateReq {
   int32 type = 1;
-  oneof appDetail {
-    ChatApp chatApp = 2;
-    TtsApp ttsApp = 3;
-    AsrApp asrApp = 4;
-    ReportApp reportApp = 5;
-  }
-  UnitAppConfig unitAppConfig = 6;
+  AppData app = 2;
+  string configId = 3;
 }
 message AppCreateResp {
-  oneof appDetail {
-    ChatApp chatApp = 1;
-    TtsApp ttsApp = 2;
-    AsrApp asrApp = 3;
-    ReportApp reportApp = 4;
-  }
+  AppData app = 1;
 }
 
 message AppUpdateReq {
   int32 type = 1;
-  oneof appDetail {
-    ChatApp chatApp = 2;
-    TtsApp ttsApp = 3;
-    AsrApp asrApp = 4;
-    ReportApp reportApp = 5;
-  }
-  UnitAppConfig unitAppConfig = 6;
+  AppData app = 2;
+  string configId = 3;
 }
 
 message AppGetByUnitIdReq {
-  UnitAppConfig unitAppConfig = 1;
+  string unitId = 1;
 }
 message AppGetByUnitIdResp {
   ChatApp chatApp = 1;
@@ -137,27 +139,18 @@ message AppGetByUnitIdResp {
   ReportApp reportApp = 4;
 }
 
-message AppData {
-  oneof app {
-    ChatApp chatApp = 1;
-    TtsApp ttsApp = 2;
-    AsrApp asrApp = 3;
-    ReportApp reportApp = 4;
-  }
-}
-
 message AppGetPagesReq {
   basic.PaginationOptions paginationOptions = 1;
   int32 type = 2;
 }
 message AppGetPagesResp {
   repeated AppData apps = 1;
-  int32 total = 2;
-  int32 page = 3;
-  int32 pageSize = 4;
+  int64 total = 2;
+  int64 page = 3;
+  int64 pageSize = 4;
 }
 
 message AppDeleteReq {
   int32 type = 1;
-  UnitAppConfig unitAppConfig = 2;
+  string configId = 2;
 }
