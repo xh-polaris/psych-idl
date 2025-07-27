@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package core_api;
+
+option go_package = "core_api";
+
+import "core_api/common.proto";
+import "basic/http.proto";
+
+service CoreApi {
+  rpc SignIn(UserSignInReq) returns (UserSignInResp) {
+    option (http.post) = "/user/sign_in";
+  }
+}

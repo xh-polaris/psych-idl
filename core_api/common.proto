@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package core_api;
+
+option go_package = "core_api";
+
+import "basic/pagination.proto";
+
+message UserSignInReq {
+  string unitId = 1;
+  int32 authType = 2;
+  string authId = 3;
+  string verifyCode = 4;
+}
+message UserSignInResp {
+  string unitId = 1;
+  string userId = 2;
+  optional string studentId = 3;
+  bool strong = 4;
+}
