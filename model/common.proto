@@ -28,8 +28,8 @@ message App {
   string lang = 4;
   string platform = 5;
   string url = 6;
-  string appid = 7;
-  string auth = 8;
+  string appId = 7;
+  string accessKey = 8;
   bool stream = 9;
   int32 level = 10;
   int32 status = 11;
@@ -104,6 +104,10 @@ message UnitAppConfigGetByIdReq {
 }
 message UnitAppConfigGetByIdResp {
   UnitAppConfig unitAppConfig = 1;
+  optional ChatApp chatApp = 2;
+  optional TtsApp ttsApp = 3;
+  optional AsrApp asrApp = 4;
+  optional ReportApp reportApp = 5;
 }
 
 message UnitAppConfigGetByUnitIdReq {
@@ -112,6 +116,10 @@ message UnitAppConfigGetByUnitIdReq {
 }
 message UnitAppConfigGetByUnitIdResp {
   UnitAppConfig unitAppConfig = 1;
+  optional ChatApp chatApp = 2;
+  optional TtsApp ttsApp = 3;
+  optional AsrApp asrApp = 4;
+  optional ReportApp reportApp = 5;
 }
 
 message AppCreateReq {
@@ -133,17 +141,17 @@ message AppGetByUnitIdReq {
   string unitId = 1;
 }
 message AppGetByUnitIdResp {
-  ChatApp chatApp = 1;
-  TtsApp ttsApp = 2;
-  AsrApp asrApp = 3;
-  ReportApp reportApp = 4;
+  optional ChatApp chatApp = 1;
+  optional TtsApp ttsApp = 2;
+  optional AsrApp asrApp = 3;
+  optional ReportApp reportApp = 4;
 }
 
-message AppGetPagesReq {
+message AppListReq {
   basic.PaginationOptions paginationOptions = 1;
   int32 type = 2;
 }
-message AppGetPagesResp {
+message AppListResp {
   repeated AppData apps = 1;
   int64 total = 2;
   int64 page = 3;
