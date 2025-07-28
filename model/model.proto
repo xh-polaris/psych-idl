@@ -18,6 +18,6 @@ service PsychModelService {
   rpc AppCreate(AppCreateReq) returns (AppCreateResp);
   rpc AppUpdate(AppUpdateReq) returns (basic.Response);
   rpc AppGetByUnitId(AppGetByUnitIdReq) returns (AppGetByUnitIdResp);
-  rpc AppGetPages(AppGetPagesReq) returns (AppGetPagesResp);
+  rpc AppList(AppListReq) returns (AppListResp);
   rpc AppDelete(AppDeleteReq) returns (basic.Response);
 }
