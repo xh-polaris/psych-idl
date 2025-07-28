@@ -104,10 +104,10 @@ message UnitAppConfigGetByIdReq {
 }
 message UnitAppConfigGetByIdResp {
   UnitAppConfig unitAppConfig = 1;
-  ChatApp chatApp = 2;
-  TtsApp ttsApp = 3;
-  AsrApp asrApp = 4;
-  ReportApp reportApp = 5;
+  optional ChatApp chatApp = 2;
+  optional TtsApp ttsApp = 3;
+  optional AsrApp asrApp = 4;
+  optional ReportApp reportApp = 5;
 }
 
 message UnitAppConfigGetByUnitIdReq {
@@ -116,10 +116,10 @@ message UnitAppConfigGetByUnitIdReq {
 }
 message UnitAppConfigGetByUnitIdResp {
   UnitAppConfig unitAppConfig = 1;
-  ChatApp chatApp = 2;
-  TtsApp ttsApp = 3;
-  AsrApp asrApp = 4;
-  ReportApp reportApp = 5;
+  optional ChatApp chatApp = 2;
+  optional TtsApp ttsApp = 3;
+  optional AsrApp asrApp = 4;
+  optional ReportApp reportApp = 5;
 }
 
 message AppCreateReq {
@@ -141,10 +141,10 @@ message AppGetByUnitIdReq {
   string unitId = 1;
 }
 message AppGetByUnitIdResp {
-  ChatApp chatApp = 1;
-  TtsApp ttsApp = 2;
-  AsrApp asrApp = 3;
-  ReportApp reportApp = 4;
+  optional ChatApp chatApp = 1;
+  optional TtsApp ttsApp = 2;
+  optional AsrApp asrApp = 3;
+  optional ReportApp reportApp = 4;
 }
 
 message AppGetPagesReq {
