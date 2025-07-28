@@ -28,8 +28,8 @@ message App {
   string lang = 4;
   string platform = 5;
   string url = 6;
-  string appid = 7;
-  string auth = 8;
+  string appId = 7;
+  string accessKey = 8;
   bool stream = 9;
   int32 level = 10;
   int32 status = 11;
@@ -104,6 +104,10 @@ message UnitAppConfigGetByIdReq {
 }
 message UnitAppConfigGetByIdResp {
   UnitAppConfig unitAppConfig = 1;
+  ChatApp chatApp = 2;
+  TtsApp ttsApp = 3;
+  AsrApp asrApp = 4;
+  ReportApp reportApp = 5;
 }
 
 message UnitAppConfigGetByUnitIdReq {
@@ -112,6 +116,10 @@ message UnitAppConfigGetByUnitIdReq {
 }
 message UnitAppConfigGetByUnitIdResp {
   UnitAppConfig unitAppConfig = 1;
+  ChatApp chatApp = 2;
+  TtsApp ttsApp = 3;
+  AsrApp asrApp = 4;
+  ReportApp reportApp = 5;
 }
 
 message AppCreateReq {
