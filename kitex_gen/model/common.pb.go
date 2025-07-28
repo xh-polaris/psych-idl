@@ -120,8 +120,8 @@ type App struct {
 	Lang        string `protobuf:"bytes,4,opt,name=lang" json:"lang,omitempty"`
 	Platform    string `protobuf:"bytes,5,opt,name=platform" json:"platform,omitempty"`
 	Url         string `protobuf:"bytes,6,opt,name=url" json:"url,omitempty"`
-	Appid       string `protobuf:"bytes,7,opt,name=appid" json:"appid,omitempty"`
-	Auth        string `protobuf:"bytes,8,opt,name=auth" json:"auth,omitempty"`
+	AppId       string `protobuf:"bytes,7,opt,name=appId" json:"appId,omitempty"`
+	AccessKey   string `protobuf:"bytes,8,opt,name=accessKey" json:"accessKey,omitempty"`
 	Stream      bool   `protobuf:"varint,9,opt,name=stream" json:"stream,omitempty"`
 	Level       int32  `protobuf:"varint,10,opt,name=level" json:"level,omitempty"`
 	Status      int32  `protobuf:"varint,11,opt,name=status" json:"status,omitempty"`
@@ -179,16 +179,16 @@ func (x *App) GetUrl() string {
 	return ""
 }
 
-func (x *App) GetAppid() string {
+func (x *App) GetAppId() string {
 	if x != nil {
-		return x.Appid
+		return x.AppId
 	}
 	return ""
 }
 
-func (x *App) GetAuth() string {
+func (x *App) GetAccessKey() string {
 	if x != nil {
-		return x.Auth
+		return x.AccessKey
 	}
 	return ""
 }
@@ -661,6 +661,10 @@ func (x *UnitAppConfigGetByIdReq) GetAdmin() bool {
 
 type UnitAppConfigGetByIdResp struct {
 	UnitAppConfig *UnitAppConfig `protobuf:"bytes,1,opt,name=unitAppConfig" json:"unitAppConfig,omitempty"`
+	ChatApp       *ChatApp       `protobuf:"bytes,2,opt,name=chatApp" json:"chatApp,omitempty"`
+	TtsApp        *TtsApp        `protobuf:"bytes,3,opt,name=ttsApp" json:"ttsApp,omitempty"`
+	AsrApp        *AsrApp        `protobuf:"bytes,4,opt,name=asrApp" json:"asrApp,omitempty"`
+	ReportApp     *ReportApp     `protobuf:"bytes,5,opt,name=reportApp" json:"reportApp,omitempty"`
 }
 
 func (x *UnitAppConfigGetByIdResp) Reset() { *x = UnitAppConfigGetByIdResp{} }
@@ -674,6 +678,34 @@ func (x *UnitAppConfigGetByIdResp) Unmarshal(in []byte) error { return prutal.Un
 func (x *UnitAppConfigGetByIdResp) GetUnitAppConfig() *UnitAppConfig {
 	if x != nil {
 		return x.UnitAppConfig
+	}
+	return nil
+}
+
+func (x *UnitAppConfigGetByIdResp) GetChatApp() *ChatApp {
+	if x != nil {
+		return x.ChatApp
+	}
+	return nil
+}
+
+func (x *UnitAppConfigGetByIdResp) GetTtsApp() *TtsApp {
+	if x != nil {
+		return x.TtsApp
+	}
+	return nil
+}
+
+func (x *UnitAppConfigGetByIdResp) GetAsrApp() *AsrApp {
+	if x != nil {
+		return x.AsrApp
+	}
+	return nil
+}
+
+func (x *UnitAppConfigGetByIdResp) GetReportApp() *ReportApp {
+	if x != nil {
+		return x.ReportApp
 	}
 	return nil
 }
@@ -707,6 +739,10 @@ func (x *UnitAppConfigGetByUnitIdReq) GetAdmin() bool {
 
 type UnitAppConfigGetByUnitIdResp struct {
 	UnitAppConfig *UnitAppConfig `protobuf:"bytes,1,opt,name=unitAppConfig" json:"unitAppConfig,omitempty"`
+	ChatApp       *ChatApp       `protobuf:"bytes,2,opt,name=chatApp" json:"chatApp,omitempty"`
+	TtsApp        *TtsApp        `protobuf:"bytes,3,opt,name=ttsApp" json:"ttsApp,omitempty"`
+	AsrApp        *AsrApp        `protobuf:"bytes,4,opt,name=asrApp" json:"asrApp,omitempty"`
+	ReportApp     *ReportApp     `protobuf:"bytes,5,opt,name=reportApp" json:"reportApp,omitempty"`
 }
 
 func (x *UnitAppConfigGetByUnitIdResp) Reset() { *x = UnitAppConfigGetByUnitIdResp{} }
@@ -720,6 +756,34 @@ func (x *UnitAppConfigGetByUnitIdResp) Unmarshal(in []byte) error { return pruta
 func (x *UnitAppConfigGetByUnitIdResp) GetUnitAppConfig() *UnitAppConfig {
 	if x != nil {
 		return x.UnitAppConfig
+	}
+	return nil
+}
+
+func (x *UnitAppConfigGetByUnitIdResp) GetChatApp() *ChatApp {
+	if x != nil {
+		return x.ChatApp
+	}
+	return nil
+}
+
+func (x *UnitAppConfigGetByUnitIdResp) GetTtsApp() *TtsApp {
+	if x != nil {
+		return x.TtsApp
+	}
+	return nil
+}
+
+func (x *UnitAppConfigGetByUnitIdResp) GetAsrApp() *AsrApp {
+	if x != nil {
+		return x.AsrApp
+	}
+	return nil
+}
+
+func (x *UnitAppConfigGetByUnitIdResp) GetReportApp() *ReportApp {
+	if x != nil {
+		return x.ReportApp
 	}
 	return nil
 }
@@ -865,66 +929,66 @@ func (x *AppGetByUnitIdResp) GetReportApp() *ReportApp {
 	return nil
 }
 
-type AppGetPagesReq struct {
+type AppListReq struct {
 	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,1,opt,name=paginationOptions" json:"paginationOptions,omitempty"`
 	Type              int32                    `protobuf:"varint,2,opt,name=type" json:"type,omitempty"`
 }
 
-func (x *AppGetPagesReq) Reset() { *x = AppGetPagesReq{} }
+func (x *AppListReq) Reset() { *x = AppListReq{} }
 
-func (x *AppGetPagesReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+func (x *AppListReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
 
-func (x *AppGetPagesReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+func (x *AppListReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *AppGetPagesReq) GetPaginationOptions() *basic.PaginationOptions {
+func (x *AppListReq) GetPaginationOptions() *basic.PaginationOptions {
 	if x != nil {
 		return x.PaginationOptions
 	}
 	return nil
 }
 
-func (x *AppGetPagesReq) GetType() int32 {
+func (x *AppListReq) GetType() int32 {
 	if x != nil {
 		return x.Type
 	}
 	return 0
 }
 
-type AppGetPagesResp struct {
+type AppListResp struct {
 	Apps     []*AppData `protobuf:"bytes,1,rep,name=apps" json:"apps,omitempty"`
 	Total    int64      `protobuf:"varint,2,opt,name=total" json:"total,omitempty"`
 	Page     int64      `protobuf:"varint,3,opt,name=page" json:"page,omitempty"`
 	PageSize int64      `protobuf:"varint,4,opt,name=pageSize" json:"pageSize,omitempty"`
 }
 
-func (x *AppGetPagesResp) Reset() { *x = AppGetPagesResp{} }
+func (x *AppListResp) Reset() { *x = AppListResp{} }
 
-func (x *AppGetPagesResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+func (x *AppListResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
 
-func (x *AppGetPagesResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+func (x *AppListResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *AppGetPagesResp) GetApps() []*AppData {
+func (x *AppListResp) GetApps() []*AppData {
 	if x != nil {
 		return x.Apps
 	}
 	return nil
 }
 
-func (x *AppGetPagesResp) GetTotal() int64 {
+func (x *AppListResp) GetTotal() int64 {
 	if x != nil {
 		return x.Total
 	}
 	return 0
 }
 
-func (x *AppGetPagesResp) GetPage() int64 {
+func (x *AppListResp) GetPage() int64 {
 	if x != nil {
 		return x.Page
 	}
 	return 0
 }
 
-func (x *AppGetPagesResp) GetPageSize() int64 {
+func (x *AppListResp) GetPageSize() int64 {
 	if x != nil {
 		return x.PageSize
 	}
