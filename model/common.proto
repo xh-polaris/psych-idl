@@ -40,11 +40,12 @@ message App {
 }
 
 message AppData {
+  int32 type = 1;
   oneof app {
-    ChatApp chatApp = 1;
-    TtsApp ttsApp = 2;
-    AsrApp asrApp = 3;
-    ReportApp reportApp = 4;
+    ChatApp chatApp = 2;
+    TtsApp ttsApp = 3;
+    AsrApp asrApp = 4;
+    ReportApp reportApp = 5;
   }
 }
 
@@ -104,10 +105,7 @@ message UnitAppConfigGetByIdReq {
 }
 message UnitAppConfigGetByIdResp {
   UnitAppConfig unitAppConfig = 1;
-  optional ChatApp chatApp = 2;
-  optional TtsApp ttsApp = 3;
-  optional AsrApp asrApp = 4;
-  optional ReportApp reportApp = 5;
+  repeated AppData apps = 2;
 }
 
 message UnitAppConfigGetByUnitIdReq {
@@ -116,35 +114,34 @@ message UnitAppConfigGetByUnitIdReq {
 }
 message UnitAppConfigGetByUnitIdResp {
   UnitAppConfig unitAppConfig = 1;
-  optional ChatApp chatApp = 2;
-  optional TtsApp ttsApp = 3;
-  optional AsrApp asrApp = 4;
-  optional ReportApp reportApp = 5;
+  repeated AppData apps = 2;
 }
 
 message AppCreateReq {
-  int32 type = 1;
-  AppData app = 2;
-  string configId = 3;
+  AppData app = 1;
+  string configId = 2;
 }
 message AppCreateResp {
   AppData app = 1;
 }
 
 message AppUpdateReq {
-  int32 type = 1;
-  AppData app = 2;
-  string configId = 3;
+  AppData app = 1;
+  string configId = 2;
 }
 
-message AppGetByUnitIdReq {
-  string unitId = 1;
+message AppGetByConfigIdReq {
+  string configId = 1;
 }
-message AppGetByUnitIdResp {
-  optional ChatApp chatApp = 1;
-  optional TtsApp ttsApp = 2;
-  optional AsrApp asrApp = 3;
-  optional ReportApp reportApp = 4;
+message AppGetByConfigIdResp {
+  repeated AppData apps = 1;
+}
+
+message AppGetByIdReq {
+  string id = 1;
+}
+message AppGetByIdResp {
+  AppData app = 1;
 }
 
 message AppListReq {
