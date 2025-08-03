@@ -18,7 +18,8 @@ type Client interface {
 	UnitAppConfigGetByUnitId(ctx context.Context, Req *model.UnitAppConfigGetByUnitIdReq, callOptions ...callopt.Option) (r *model.UnitAppConfigGetByUnitIdResp, err error)
 	AppCreate(ctx context.Context, Req *model.AppCreateReq, callOptions ...callopt.Option) (r *model.AppCreateResp, err error)
 	AppUpdate(ctx context.Context, Req *model.AppUpdateReq, callOptions ...callopt.Option) (r *basic.Response, err error)
-	AppGetByUnitId(ctx context.Context, Req *model.AppGetByUnitIdReq, callOptions ...callopt.Option) (r *model.AppGetByUnitIdResp, err error)
+	AppGetById(ctx context.Context, Req *model.AppGetByIdReq, callOptions ...callopt.Option) (r *model.AppGetByIdResp, err error)
+	AppGetByConfigId(ctx context.Context, Req *model.AppGetByConfigIdReq, callOptions ...callopt.Option) (r *model.AppGetByConfigIdResp, err error)
 	AppList(ctx context.Context, Req *model.AppListReq, callOptions ...callopt.Option) (r *model.AppListResp, err error)
 	AppDelete(ctx context.Context, Req *model.AppDeleteReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 }
@@ -82,9 +83,14 @@ func (p *kPsychModelServiceClient) AppUpdate(ctx context.Context, Req *model.App
 	return p.kClient.AppUpdate(ctx, Req)
 }
 
-func (p *kPsychModelServiceClient) AppGetByUnitId(ctx context.Context, Req *model.AppGetByUnitIdReq, callOptions ...callopt.Option) (r *model.AppGetByUnitIdResp, err error) {
+func (p *kPsychModelServiceClient) AppGetById(ctx context.Context, Req *model.AppGetByIdReq, callOptions ...callopt.Option) (r *model.AppGetByIdResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.AppGetByUnitId(ctx, Req)
+	return p.kClient.AppGetById(ctx, Req)
+}
+
+func (p *kPsychModelServiceClient) AppGetByConfigId(ctx context.Context, Req *model.AppGetByConfigIdReq, callOptions ...callopt.Option) (r *model.AppGetByConfigIdResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.AppGetByConfigId(ctx, Req)
 }
 
 func (p *kPsychModelServiceClient) AppList(ctx context.Context, Req *model.AppListReq, callOptions ...callopt.Option) (r *model.AppListResp, err error) {

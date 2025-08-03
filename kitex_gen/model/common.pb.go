@@ -243,6 +243,7 @@ func (x *App) GetDeleteTime() int64 {
 }
 
 type AppData struct {
+	Type int32 `protobuf:"varint,1,opt,name=type" json:"type,omitempty"`
 	// Types that are assignable to App:
 	//
 	//	*AppData_ChatApp
@@ -257,6 +258,13 @@ func (x *AppData) Reset() { *x = AppData{} }
 func (x *AppData) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
 
 func (x *AppData) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *AppData) GetType() int32 {
+	if x != nil {
+		return x.Type
+	}
+	return 0
+}
 
 func (x *AppData) GetApp() isAppData_App {
 	if x != nil {
@@ -307,25 +315,25 @@ type isAppData_App interface {
 }
 
 type AppData_ChatApp struct {
-	ChatApp *ChatApp `protobuf:"bytes,1,opt,name=chatApp" json:"chatApp,omitempty"`
+	ChatApp *ChatApp `protobuf:"bytes,2,opt,name=chatApp" json:"chatApp,omitempty"`
 }
 
 func (*AppData_ChatApp) isAppData_App() {}
 
 type AppData_TtsApp struct {
-	TtsApp *TtsApp `protobuf:"bytes,2,opt,name=ttsApp" json:"ttsApp,omitempty"`
+	TtsApp *TtsApp `protobuf:"bytes,3,opt,name=ttsApp" json:"ttsApp,omitempty"`
 }
 
 func (*AppData_TtsApp) isAppData_App() {}
 
 type AppData_AsrApp struct {
-	AsrApp *AsrApp `protobuf:"bytes,3,opt,name=asrApp" json:"asrApp,omitempty"`
+	AsrApp *AsrApp `protobuf:"bytes,4,opt,name=asrApp" json:"asrApp,omitempty"`
 }
 
 func (*AppData_AsrApp) isAppData_App() {}
 
 type AppData_ReportApp struct {
-	ReportApp *ReportApp `protobuf:"bytes,4,opt,name=reportApp" json:"reportApp,omitempty"`
+	ReportApp *ReportApp `protobuf:"bytes,5,opt,name=reportApp" json:"reportApp,omitempty"`
 }
 
 func (*AppData_ReportApp) isAppData_App() {}
@@ -661,10 +669,7 @@ func (x *UnitAppConfigGetByIdReq) GetAdmin() bool {
 
 type UnitAppConfigGetByIdResp struct {
 	UnitAppConfig *UnitAppConfig `protobuf:"bytes,1,opt,name=unitAppConfig" json:"unitAppConfig,omitempty"`
-	ChatApp       *ChatApp       `protobuf:"bytes,2,opt,name=chatApp" json:"chatApp,omitempty"`
-	TtsApp        *TtsApp        `protobuf:"bytes,3,opt,name=ttsApp" json:"ttsApp,omitempty"`
-	AsrApp        *AsrApp        `protobuf:"bytes,4,opt,name=asrApp" json:"asrApp,omitempty"`
-	ReportApp     *ReportApp     `protobuf:"bytes,5,opt,name=reportApp" json:"reportApp,omitempty"`
+	Apps          []*AppData     `protobuf:"bytes,2,rep,name=apps" json:"apps,omitempty"`
 }
 
 func (x *UnitAppConfigGetByIdResp) Reset() { *x = UnitAppConfigGetByIdResp{} }
@@ -682,30 +687,9 @@ func (x *UnitAppConfigGetByIdResp) GetUnitAppConfig() *UnitAppConfig {
 	return nil
 }
 
-func (x *UnitAppConfigGetByIdResp) GetChatApp() *ChatApp {
+func (x *UnitAppConfigGetByIdResp) GetApps() []*AppData {
 	if x != nil {
-		return x.ChatApp
-	}
-	return nil
-}
-
-func (x *UnitAppConfigGetByIdResp) GetTtsApp() *TtsApp {
-	if x != nil {
-		return x.TtsApp
-	}
-	return nil
-}
-
-func (x *UnitAppConfigGetByIdResp) GetAsrApp() *AsrApp {
-	if x != nil {
-		return x.AsrApp
-	}
-	return nil
-}
-
-func (x *UnitAppConfigGetByIdResp) GetReportApp() *ReportApp {
-	if x != nil {
-		return x.ReportApp
+		return x.Apps
 	}
 	return nil
 }
@@ -739,10 +723,7 @@ func (x *UnitAppConfigGetByUnitIdReq) GetAdmin() bool {
 
 type UnitAppConfigGetByUnitIdResp struct {
 	UnitAppConfig *UnitAppConfig `protobuf:"bytes,1,opt,name=unitAppConfig" json:"unitAppConfig,omitempty"`
-	ChatApp       *ChatApp       `protobuf:"bytes,2,opt,name=chatApp" json:"chatApp,omitempty"`
-	TtsApp        *TtsApp        `protobuf:"bytes,3,opt,name=ttsApp" json:"ttsApp,omitempty"`
-	AsrApp        *AsrApp        `protobuf:"bytes,4,opt,name=asrApp" json:"asrApp,omitempty"`
-	ReportApp     *ReportApp     `protobuf:"bytes,5,opt,name=reportApp" json:"reportApp,omitempty"`
+	Apps          []*AppData     `protobuf:"bytes,2,rep,name=apps" json:"apps,omitempty"`
 }
 
 func (x *UnitAppConfigGetByUnitIdResp) Reset() { *x = UnitAppConfigGetByUnitIdResp{} }
@@ -760,38 +741,16 @@ func (x *UnitAppConfigGetByUnitIdResp) GetUnitAppConfig() *UnitAppConfig {
 	return nil
 }
 
-func (x *UnitAppConfigGetByUnitIdResp) GetChatApp() *ChatApp {
+func (x *UnitAppConfigGetByUnitIdResp) GetApps() []*AppData {
 	if x != nil {
-		return x.ChatApp
-	}
-	return nil
-}
-
-func (x *UnitAppConfigGetByUnitIdResp) GetTtsApp() *TtsApp {
-	if x != nil {
-		return x.TtsApp
-	}
-	return nil
-}
-
-func (x *UnitAppConfigGetByUnitIdResp) GetAsrApp() *AsrApp {
-	if x != nil {
-		return x.AsrApp
-	}
-	return nil
-}
-
-func (x *UnitAppConfigGetByUnitIdResp) GetReportApp() *ReportApp {
-	if x != nil {
-		return x.ReportApp
+		return x.Apps
 	}
 	return nil
 }
 
 type AppCreateReq struct {
-	Type     int32    `protobuf:"varint,1,opt,name=type" json:"type,omitempty"`
-	App      *AppData `protobuf:"bytes,2,opt,name=app" json:"app,omitempty"`
-	ConfigId string   `protobuf:"bytes,3,opt,name=configId" json:"configId,omitempty"`
+	App      *AppData `protobuf:"bytes,1,opt,name=app" json:"app,omitempty"`
+	ConfigId string   `protobuf:"bytes,2,opt,name=configId" json:"configId,omitempty"`
 }
 
 func (x *AppCreateReq) Reset() { *x = AppCreateReq{} }
@@ -799,13 +758,6 @@ func (x *AppCreateReq) Reset() { *x = AppCreateReq{} }
 func (x *AppCreateReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
 
 func (x *AppCreateReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *AppCreateReq) GetType() int32 {
-	if x != nil {
-		return x.Type
-	}
-	return 0
-}
 
 func (x *AppCreateReq) GetApp() *AppData {
 	if x != nil {
@@ -839,9 +791,8 @@ func (x *AppCreateResp) GetApp() *AppData {
 }
 
 type AppUpdateReq struct {
-	Type     int32    `protobuf:"varint,1,opt,name=type" json:"type,omitempty"`
-	App      *AppData `protobuf:"bytes,2,opt,name=app" json:"app,omitempty"`
-	ConfigId string   `protobuf:"bytes,3,opt,name=configId" json:"configId,omitempty"`
+	App      *AppData `protobuf:"bytes,1,opt,name=app" json:"app,omitempty"`
+	ConfigId string   `protobuf:"bytes,2,opt,name=configId" json:"configId,omitempty"`
 }
 
 func (x *AppUpdateReq) Reset() { *x = AppUpdateReq{} }
@@ -849,13 +800,6 @@ func (x *AppUpdateReq) Reset() { *x = AppUpdateReq{} }
 func (x *AppUpdateReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
 
 func (x *AppUpdateReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *AppUpdateReq) GetType() int32 {
-	if x != nil {
-		return x.Type
-	}
-	return 0
-}
 
 func (x *AppUpdateReq) GetApp() *AppData {
 	if x != nil {
@@ -871,60 +815,70 @@ func (x *AppUpdateReq) GetConfigId() string {
 	return ""
 }
 
-type AppGetByUnitIdReq struct {
-	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+type AppGetByConfigIdReq struct {
+	ConfigId string `protobuf:"bytes,1,opt,name=configId" json:"configId,omitempty"`
 }
 
-func (x *AppGetByUnitIdReq) Reset() { *x = AppGetByUnitIdReq{} }
+func (x *AppGetByConfigIdReq) Reset() { *x = AppGetByConfigIdReq{} }
 
-func (x *AppGetByUnitIdReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+func (x *AppGetByConfigIdReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
 
-func (x *AppGetByUnitIdReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+func (x *AppGetByConfigIdReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *AppGetByUnitIdReq) GetUnitId() string {
+func (x *AppGetByConfigIdReq) GetConfigId() string {
 	if x != nil {
-		return x.UnitId
+		return x.ConfigId
 	}
 	return ""
 }
 
-type AppGetByUnitIdResp struct {
-	ChatApp   *ChatApp   `protobuf:"bytes,1,opt,name=chatApp" json:"chatApp,omitempty"`
-	TtsApp    *TtsApp    `protobuf:"bytes,2,opt,name=ttsApp" json:"ttsApp,omitempty"`
-	AsrApp    *AsrApp    `protobuf:"bytes,3,opt,name=asrApp" json:"asrApp,omitempty"`
-	ReportApp *ReportApp `protobuf:"bytes,4,opt,name=reportApp" json:"reportApp,omitempty"`
+type AppGetByConfigIdResp struct {
+	Apps []*AppData `protobuf:"bytes,1,rep,name=apps" json:"apps,omitempty"`
 }
 
-func (x *AppGetByUnitIdResp) Reset() { *x = AppGetByUnitIdResp{} }
+func (x *AppGetByConfigIdResp) Reset() { *x = AppGetByConfigIdResp{} }
 
-func (x *AppGetByUnitIdResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+func (x *AppGetByConfigIdResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
 
-func (x *AppGetByUnitIdResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+func (x *AppGetByConfigIdResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *AppGetByUnitIdResp) GetChatApp() *ChatApp {
+func (x *AppGetByConfigIdResp) GetApps() []*AppData {
 	if x != nil {
-		return x.ChatApp
+		return x.Apps
 	}
 	return nil
 }
 
-func (x *AppGetByUnitIdResp) GetTtsApp() *TtsApp {
-	if x != nil {
-		return x.TtsApp
-	}
-	return nil
+type AppGetByIdReq struct {
+	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
 }
 
-func (x *AppGetByUnitIdResp) GetAsrApp() *AsrApp {
+func (x *AppGetByIdReq) Reset() { *x = AppGetByIdReq{} }
+
+func (x *AppGetByIdReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *AppGetByIdReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *AppGetByIdReq) GetId() string {
 	if x != nil {
-		return x.AsrApp
+		return x.Id
 	}
-	return nil
+	return ""
 }
 
-func (x *AppGetByUnitIdResp) GetReportApp() *ReportApp {
+type AppGetByIdResp struct {
+	App *AppData `protobuf:"bytes,1,opt,name=app" json:"app,omitempty"`
+}
+
+func (x *AppGetByIdResp) Reset() { *x = AppGetByIdResp{} }
+
+func (x *AppGetByIdResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *AppGetByIdResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *AppGetByIdResp) GetApp() *AppData {
 	if x != nil {
-		return x.ReportApp
+		return x.App
 	}
 	return nil
 }
