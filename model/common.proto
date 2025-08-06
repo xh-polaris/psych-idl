@@ -10,7 +10,7 @@ message UnitAppConfig {
   string id = 1;
   string unitId = 2;
   string name = 3;
-  string video = 4;
+  string view = 4;
   string chat = 5;
   string asr = 6;
   string tts = 7;
