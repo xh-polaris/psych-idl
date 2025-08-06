@@ -5,6 +5,7 @@ package model;
 option go_package = "model";
 
 import "basic/pagination.proto";
+import "google/protobuf/any.proto";
 
 message UnitAppConfig {
   string id = 1;
@@ -15,7 +16,7 @@ message UnitAppConfig {
   string asr = 6;
   string tts = 7;
   string report = 8;
-  map<string, string> option = 9;
+  map<string, google.protobuf.Any> form = 9;
   int32 status = 10;
   int64 createTime = 11;
   int64 updateTime = 12;

@@ -3,6 +3,7 @@ syntax = "proto3";
 package user;
 
 import "basic/pagination.proto";
+import "google/protobuf/any.proto";
 
 option go_package = "user";
 
@@ -11,7 +12,7 @@ message unitVerify {
   int32 verifyType = 2;
   string account = 3;
   string verifyPassword = 4;
-  map<string, string> form = 5;
+  map<string, google.protobuf.Any> form = 5;
 }
 
 message Unit {
@@ -26,7 +27,7 @@ message Unit {
   int32 verifyType = 9;
   string account = 10;
   string verifyPassword = 11;
-  map<string, string> form = 12;
+  map<string, google.protobuf.Any> form = 12;
   int64 createTime = 13;
   int64 updateTime = 14;
   int64 deleteTime = 15;
@@ -191,7 +192,7 @@ message UnitCreateAndLinkUserReq {
     string verifyCode = 2;
     string name = 3;
     int32 gender = 4;
-    map<string, string> form = 6;
+    map<string, google.protobuf.Any> form = 6;
   }
   repeated u users = 3;
 }
@@ -290,7 +291,7 @@ message UserGetInfoResp {
   User user = 1;
   optional string unitId = 2;
   optional string studentId = 3;
-  map<string, string> form = 4;
+  map<string, google.protobuf.Any> form = 4;
 }
 
 // 更新信息 
@@ -299,7 +300,7 @@ message UserUpdateInfoReq {
   User user = 1;
   // 修改关联信息
   optional string unitId = 2;
-  map<string, string> form = 3;
+  map<string, google.protobuf.Any> form = 3;
 }
 
 // 更新密码 
