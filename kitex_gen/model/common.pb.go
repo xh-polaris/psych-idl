@@ -4,23 +4,24 @@ package model
 
 import (
 	"github.com/xh-polaris/psych-idl/kitex_gen/basic"
+	"google.golang.org/protobuf/types/known/anypb"
 
 	"github.com/cloudwego/prutal"
 )
 
 type UnitAppConfig struct {
-	Id         string            `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	UnitId     string            `protobuf:"bytes,2,opt,name=unitId" json:"unitId,omitempty"`
-	Name       string            `protobuf:"bytes,3,opt,name=name" json:"name,omitempty"`
-	Video      string            `protobuf:"bytes,4,opt,name=video" json:"video,omitempty"`
-	Chat       string            `protobuf:"bytes,5,opt,name=chat" json:"chat,omitempty"`
-	Asr        string            `protobuf:"bytes,6,opt,name=asr" json:"asr,omitempty"`
-	Tts        string            `protobuf:"bytes,7,opt,name=tts" json:"tts,omitempty"`
-	Report     string            `protobuf:"bytes,8,opt,name=report" json:"report,omitempty"`
-	Option     map[string]string `protobuf:"bytes,9,rep,name=option" json:"option,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	Status     int32             `protobuf:"varint,10,opt,name=status" json:"status,omitempty"`
-	CreateTime int64             `protobuf:"varint,11,opt,name=createTime" json:"createTime,omitempty"`
-	UpdateTime int64             `protobuf:"varint,12,opt,name=updateTime" json:"updateTime,omitempty"`
+	Id         string                `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	UnitId     string                `protobuf:"bytes,2,opt,name=unitId" json:"unitId,omitempty"`
+	Name       string                `protobuf:"bytes,3,opt,name=name" json:"name,omitempty"`
+	View       string                `protobuf:"bytes,4,opt,name=view" json:"view,omitempty"`
+	Chat       string                `protobuf:"bytes,5,opt,name=chat" json:"chat,omitempty"`
+	Asr        string                `protobuf:"bytes,6,opt,name=asr" json:"asr,omitempty"`
+	Tts        string                `protobuf:"bytes,7,opt,name=tts" json:"tts,omitempty"`
+	Report     string                `protobuf:"bytes,8,opt,name=report" json:"report,omitempty"`
+	Form       map[string]*anypb.Any `protobuf:"bytes,9,rep,name=form" json:"form,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Status     int32                 `protobuf:"varint,10,opt,name=status" json:"status,omitempty"`
+	CreateTime int64                 `protobuf:"varint,11,opt,name=createTime" json:"createTime,omitempty"`
+	UpdateTime int64                 `protobuf:"varint,12,opt,name=updateTime" json:"updateTime,omitempty"`
 }
 
 func (x *UnitAppConfig) Reset() { *x = UnitAppConfig{} }
@@ -50,9 +51,9 @@ func (x *UnitAppConfig) GetName() string {
 	return ""
 }
 
-func (x *UnitAppConfig) GetVideo() string {
+func (x *UnitAppConfig) GetView() string {
 	if x != nil {
-		return x.Video
+		return x.View
 	}
 	return ""
 }
@@ -85,9 +86,9 @@ func (x *UnitAppConfig) GetReport() string {
 	return ""
 }
 
-func (x *UnitAppConfig) GetOption() map[string]string {
+func (x *UnitAppConfig) GetForm() map[string]*anypb.Any {
 	if x != nil {
-		return x.Option
+		return x.Form
 	}
 	return nil
 }

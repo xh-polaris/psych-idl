@@ -4,16 +4,17 @@ package user
 
 import (
 	"github.com/xh-polaris/psych-idl/kitex_gen/basic"
+	"google.golang.org/protobuf/types/known/anypb"
 
 	"github.com/cloudwego/prutal"
 )
 
 type UnitVerify struct {
-	UnitId         string            `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	VerifyType     int32             `protobuf:"varint,2,opt,name=verifyType" json:"verifyType,omitempty"`
-	Account        string            `protobuf:"bytes,3,opt,name=account" json:"account,omitempty"`
-	VerifyPassword string            `protobuf:"bytes,4,opt,name=verifyPassword" json:"verifyPassword,omitempty"`
-	Form           map[string]string `protobuf:"bytes,5,rep,name=form" json:"form,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	UnitId         string                `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	VerifyType     int32                 `protobuf:"varint,2,opt,name=verifyType" json:"verifyType,omitempty"`
+	Account        string                `protobuf:"bytes,3,opt,name=account" json:"account,omitempty"`
+	VerifyPassword string                `protobuf:"bytes,4,opt,name=verifyPassword" json:"verifyPassword,omitempty"`
+	Form           map[string]*anypb.Any `protobuf:"bytes,5,rep,name=form" json:"form,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 }
 
 func (x *UnitVerify) Reset() { *x = UnitVerify{} }
@@ -50,7 +51,7 @@ func (x *UnitVerify) GetVerifyPassword() string {
 	return ""
 }
 
-func (x *UnitVerify) GetForm() map[string]string {
+func (x *UnitVerify) GetForm() map[string]*anypb.Any {
 	if x != nil {
 		return x.Form
 	}
@@ -58,21 +59,21 @@ func (x *UnitVerify) GetForm() map[string]string {
 }
 
 type Unit struct {
-	Id             string            `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	Phone          string            `protobuf:"bytes,2,opt,name=phone" json:"phone,omitempty"`
-	Password       string            `protobuf:"bytes,3,opt,name=password" json:"password,omitempty"`
-	Name           string            `protobuf:"bytes,4,opt,name=name" json:"name,omitempty"`
-	Address        string            `protobuf:"bytes,5,opt,name=address" json:"address,omitempty"`
-	Contact        string            `protobuf:"bytes,6,opt,name=contact" json:"contact,omitempty"`
-	Level          int32             `protobuf:"varint,7,opt,name=level" json:"level,omitempty"`
-	Status         int32             `protobuf:"varint,8,opt,name=status" json:"status,omitempty"`
-	VerifyType     int32             `protobuf:"varint,9,opt,name=verifyType" json:"verifyType,omitempty"`
-	Account        string            `protobuf:"bytes,10,opt,name=account" json:"account,omitempty"`
-	VerifyPassword string            `protobuf:"bytes,11,opt,name=verifyPassword" json:"verifyPassword,omitempty"`
-	Form           map[string]string `protobuf:"bytes,12,rep,name=form" json:"form,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	CreateTime     int64             `protobuf:"varint,13,opt,name=createTime" json:"createTime,omitempty"`
-	UpdateTime     int64             `protobuf:"varint,14,opt,name=updateTime" json:"updateTime,omitempty"`
-	DeleteTime     int64             `protobuf:"varint,15,opt,name=deleteTime" json:"deleteTime,omitempty"`
+	Id             string                `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	Phone          string                `protobuf:"bytes,2,opt,name=phone" json:"phone,omitempty"`
+	Password       string                `protobuf:"bytes,3,opt,name=password" json:"password,omitempty"`
+	Name           string                `protobuf:"bytes,4,opt,name=name" json:"name,omitempty"`
+	Address        string                `protobuf:"bytes,5,opt,name=address" json:"address,omitempty"`
+	Contact        string                `protobuf:"bytes,6,opt,name=contact" json:"contact,omitempty"`
+	Level          int32                 `protobuf:"varint,7,opt,name=level" json:"level,omitempty"`
+	Status         int32                 `protobuf:"varint,8,opt,name=status" json:"status,omitempty"`
+	VerifyType     int32                 `protobuf:"varint,9,opt,name=verifyType" json:"verifyType,omitempty"`
+	Account        string                `protobuf:"bytes,10,opt,name=account" json:"account,omitempty"`
+	VerifyPassword string                `protobuf:"bytes,11,opt,name=verifyPassword" json:"verifyPassword,omitempty"`
+	Form           map[string]*anypb.Any `protobuf:"bytes,12,rep,name=form" json:"form,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	CreateTime     int64                 `protobuf:"varint,13,opt,name=createTime" json:"createTime,omitempty"`
+	UpdateTime     int64                 `protobuf:"varint,14,opt,name=updateTime" json:"updateTime,omitempty"`
+	DeleteTime     int64                 `protobuf:"varint,15,opt,name=deleteTime" json:"deleteTime,omitempty"`
 }
 
 func (x *Unit) Reset() { *x = Unit{} }
@@ -158,7 +159,7 @@ func (x *Unit) GetVerifyPassword() string {
 	return ""
 }
 
-func (x *Unit) GetForm() map[string]string {
+func (x *Unit) GetForm() map[string]*anypb.Any {
 	if x != nil {
 		return x.Form
 	}
@@ -1000,11 +1001,11 @@ func (x *UnitCreateAndLinkUserReq) GetUsers() []*UnitCreateAndLinkUserReq_U {
 }
 
 type UnitCreateAndLinkUserReq_U struct {
-	AuthId     string            `protobuf:"bytes,1,opt,name=authId" json:"authId,omitempty"`
-	VerifyCode string            `protobuf:"bytes,2,opt,name=verifyCode" json:"verifyCode,omitempty"`
-	Name       string            `protobuf:"bytes,3,opt,name=name" json:"name,omitempty"`
-	Gender     int32             `protobuf:"varint,4,opt,name=gender" json:"gender,omitempty"`
-	Form       map[string]string `protobuf:"bytes,6,rep,name=form" json:"form,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	AuthId     string                `protobuf:"bytes,1,opt,name=authId" json:"authId,omitempty"`
+	VerifyCode string                `protobuf:"bytes,2,opt,name=verifyCode" json:"verifyCode,omitempty"`
+	Name       string                `protobuf:"bytes,3,opt,name=name" json:"name,omitempty"`
+	Gender     int32                 `protobuf:"varint,4,opt,name=gender" json:"gender,omitempty"`
+	Form       map[string]*anypb.Any `protobuf:"bytes,6,rep,name=form" json:"form,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 }
 
 func (x *UnitCreateAndLinkUserReq_U) Reset() { *x = UnitCreateAndLinkUserReq_U{} }
@@ -1043,7 +1044,7 @@ func (x *UnitCreateAndLinkUserReq_U) GetGender() int32 {
 	return 0
 }
 
-func (x *UnitCreateAndLinkUserReq_U) GetForm() map[string]string {
+func (x *UnitCreateAndLinkUserReq_U) GetForm() map[string]*anypb.Any {
 	if x != nil {
 		return x.Form
 	}
@@ -1485,10 +1486,10 @@ func (x *UserGetInfoReq) GetUnitId() string {
 }
 
 type UserGetInfoResp struct {
-	User      *User             `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
-	UnitId    *string           `protobuf:"bytes,2,opt,name=unitId" json:"unitId,omitempty"`
-	StudentId *string           `protobuf:"bytes,3,opt,name=studentId" json:"studentId,omitempty"`
-	Form      map[string]string `protobuf:"bytes,4,rep,name=form" json:"form,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	User      *User                 `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	UnitId    *string               `protobuf:"bytes,2,opt,name=unitId" json:"unitId,omitempty"`
+	StudentId *string               `protobuf:"bytes,3,opt,name=studentId" json:"studentId,omitempty"`
+	Form      map[string]*anypb.Any `protobuf:"bytes,4,rep,name=form" json:"form,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 }
 
 func (x *UserGetInfoResp) Reset() { *x = UserGetInfoResp{} }
@@ -1518,7 +1519,7 @@ func (x *UserGetInfoResp) GetStudentId() string {
 	return ""
 }
 
-func (x *UserGetInfoResp) GetForm() map[string]string {
+func (x *UserGetInfoResp) GetForm() map[string]*anypb.Any {
 	if x != nil {
 		return x.Form
 	}
@@ -1531,8 +1532,8 @@ type UserUpdateInfoReq struct {
 	User *User `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
 
 	// 修改关联信息
-	UnitId *string           `protobuf:"bytes,2,opt,name=unitId" json:"unitId,omitempty"`
-	Form   map[string]string `protobuf:"bytes,3,rep,name=form" json:"form,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	UnitId *string               `protobuf:"bytes,2,opt,name=unitId" json:"unitId,omitempty"`
+	Form   map[string]*anypb.Any `protobuf:"bytes,3,rep,name=form" json:"form,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 }
 
 func (x *UserUpdateInfoReq) Reset() { *x = UserUpdateInfoReq{} }
@@ -1555,7 +1556,7 @@ func (x *UserUpdateInfoReq) GetUnitId() string {
 	return ""
 }
 
-func (x *UserUpdateInfoReq) GetForm() map[string]string {
+func (x *UserUpdateInfoReq) GetForm() map[string]*anypb.Any {
 	if x != nil {
 		return x.Form
 	}
