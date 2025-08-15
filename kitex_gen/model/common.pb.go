@@ -362,6 +362,7 @@ type TtsApp struct {
 	Speaker     string             `protobuf:"bytes,3,opt,name=speaker" json:"speaker,omitempty"`
 	ResourceId  string             `protobuf:"bytes,4,opt,name=resourceId" json:"resourceId,omitempty"`
 	AudioParams *TtsApp_AudioParam `protobuf:"bytes,5,opt,name=audioParams" json:"audioParams,omitempty"`
+	Provider    string             `protobuf:"bytes,6,opt,name=provider" json:"provider,omitempty"`
 }
 
 func (x *TtsApp) Reset() { *x = TtsApp{} }
@@ -405,13 +406,23 @@ func (x *TtsApp) GetAudioParams() *TtsApp_AudioParam {
 	return nil
 }
 
+func (x *TtsApp) GetProvider() string {
+	if x != nil {
+		return x.Provider
+	}
+	return ""
+}
+
 type TtsApp_AudioParam struct {
 	Format       string `protobuf:"bytes,1,opt,name=format" json:"format,omitempty"`
-	Rate         int32  `protobuf:"varint,2,opt,name=rate" json:"rate,omitempty"`
-	Bit          int32  `protobuf:"varint,3,opt,name=bit" json:"bit,omitempty"`
-	SpeechRate   int32  `protobuf:"varint,4,opt,name=speechRate" json:"speechRate,omitempty"`
-	LoudnessRate int32  `protobuf:"varint,5,opt,name=loudnessRate" json:"loudnessRate,omitempty"`
-	Lang         string `protobuf:"bytes,6,opt,name=lang" json:"lang,omitempty"`
+	Codec        string `protobuf:"bytes,2,opt,name=codec" json:"codec,omitempty"`
+	Rate         int32  `protobuf:"varint,3,opt,name=rate" json:"rate,omitempty"`
+	Bits         int32  `protobuf:"varint,4,opt,name=bits" json:"bits,omitempty"`
+	Channels     int32  `protobuf:"varint,5,opt,name=channels" json:"channels,omitempty"`
+	SpeechRate   int32  `protobuf:"varint,6,opt,name=speechRate" json:"speechRate,omitempty"`
+	LoudnessRate int32  `protobuf:"varint,7,opt,name=loudnessRate" json:"loudnessRate,omitempty"`
+	Lang         string `protobuf:"bytes,8,opt,name=lang" json:"lang,omitempty"`
+	ResultType   string `protobuf:"bytes,9,opt,name=resultType" json:"resultType,omitempty"`
 }
 
 func (x *TtsApp_AudioParam) Reset() { *x = TtsApp_AudioParam{} }
@@ -427,6 +438,13 @@ func (x *TtsApp_AudioParam) GetFormat() string {
 	return ""
 }
 
+func (x *TtsApp_AudioParam) GetCodec() string {
+	if x != nil {
+		return x.Codec
+	}
+	return ""
+}
+
 func (x *TtsApp_AudioParam) GetRate() int32 {
 	if x != nil {
 		return x.Rate
@@ -434,9 +452,16 @@ func (x *TtsApp_AudioParam) GetRate() int32 {
 	return 0
 }
 
-func (x *TtsApp_AudioParam) GetBit() int32 {
+func (x *TtsApp_AudioParam) GetBits() int32 {
 	if x != nil {
-		return x.Bit
+		return x.Bits
+	}
+	return 0
+}
+
+func (x *TtsApp_AudioParam) GetChannels() int32 {
+	if x != nil {
+		return x.Channels
 	}
 	return 0
 }
@@ -458,6 +483,13 @@ func (x *TtsApp_AudioParam) GetLoudnessRate() int32 {
 func (x *TtsApp_AudioParam) GetLang() string {
 	if x != nil {
 		return x.Lang
+	}
+	return ""
+}
+
+func (x *TtsApp_AudioParam) GetResultType() string {
+	if x != nil {
+		return x.ResultType
 	}
 	return ""
 }
