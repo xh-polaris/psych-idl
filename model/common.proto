@@ -61,13 +61,17 @@ message TtsApp {
   string resourceId = 4;
   message audioParam {
     string format = 1;
-    int32 rate = 2;
-    int32 bit = 3;
-    int32 speechRate = 4;
-    int32 loudnessRate = 5;
-    string lang = 6;
+    string codec = 2;
+    int32 rate = 3;
+    int32 bits = 4;
+    int32 channels = 5;
+    int32 speechRate = 6;
+    int32 loudnessRate = 7;
+    string lang = 8;
+    string resultType = 9;
   }
   audioParam audioParams = 5;
+  string provider = 6;
 }
 
 message AsrApp {
