@@ -10,7 +10,7 @@ message UnitAppConfig {
   string id = 1;
   string unitId = 2;
   string name = 3;
-  string video = 4;
+  string view = 4;
   string chat = 5;
   string asr = 6;
   string tts = 7;
@@ -35,9 +35,8 @@ message App {
   int32 level = 11;
   int32 status = 12;
   int64 createTime = 13;
-  int64 expireTime = 14;
-  int64 updateTime = 15;
-  int64 deleteTime = 16;
+  int64 updateTime = 14;
+  int64 deleteTime = 15;
 }
 
 message AppData {
