@@ -120,12 +120,13 @@ type App struct {
 	Description string `protobuf:"bytes,3,opt,name=description" json:"description,omitempty"`
 	Lang        string `protobuf:"bytes,4,opt,name=lang" json:"lang,omitempty"`
 	Platform    string `protobuf:"bytes,5,opt,name=platform" json:"platform,omitempty"`
-	Url         string `protobuf:"bytes,6,opt,name=url" json:"url,omitempty"`
-	AppId       string `protobuf:"bytes,7,opt,name=appId" json:"appId,omitempty"`
-	AccessKey   string `protobuf:"bytes,8,opt,name=accessKey" json:"accessKey,omitempty"`
-	Stream      bool   `protobuf:"varint,9,opt,name=stream" json:"stream,omitempty"`
-	Level       int32  `protobuf:"varint,10,opt,name=level" json:"level,omitempty"`
-	Status      int32  `protobuf:"varint,11,opt,name=status" json:"status,omitempty"`
+	Provider    string `protobuf:"bytes,6,opt,name=provider" json:"provider,omitempty"`
+	Url         string `protobuf:"bytes,7,opt,name=url" json:"url,omitempty"`
+	AppId       string `protobuf:"bytes,8,opt,name=appId" json:"appId,omitempty"`
+	AccessKey   string `protobuf:"bytes,9,opt,name=accessKey" json:"accessKey,omitempty"`
+	Stream      bool   `protobuf:"varint,10,opt,name=stream" json:"stream,omitempty"`
+	Level       int32  `protobuf:"varint,11,opt,name=level" json:"level,omitempty"`
+	Status      int32  `protobuf:"varint,12,opt,name=status" json:"status,omitempty"`
 	CreateTime  int64  `protobuf:"varint,13,opt,name=createTime" json:"createTime,omitempty"`
 	ExpireTime  int64  `protobuf:"varint,14,opt,name=expireTime" json:"expireTime,omitempty"`
 	UpdateTime  int64  `protobuf:"varint,15,opt,name=updateTime" json:"updateTime,omitempty"`
@@ -169,6 +170,13 @@ func (x *App) GetLang() string {
 func (x *App) GetPlatform() string {
 	if x != nil {
 		return x.Platform
+	}
+	return ""
+}
+
+func (x *App) GetProvider() string {
+	if x != nil {
+		return x.Provider
 	}
 	return ""
 }
@@ -362,7 +370,6 @@ type TtsApp struct {
 	Speaker     string             `protobuf:"bytes,3,opt,name=speaker" json:"speaker,omitempty"`
 	ResourceId  string             `protobuf:"bytes,4,opt,name=resourceId" json:"resourceId,omitempty"`
 	AudioParams *TtsApp_AudioParam `protobuf:"bytes,5,opt,name=audioParams" json:"audioParams,omitempty"`
-	Provider    string             `protobuf:"bytes,6,opt,name=provider" json:"provider,omitempty"`
 }
 
 func (x *TtsApp) Reset() { *x = TtsApp{} }
@@ -404,13 +411,6 @@ func (x *TtsApp) GetAudioParams() *TtsApp_AudioParam {
 		return x.AudioParams
 	}
 	return nil
-}
-
-func (x *TtsApp) GetProvider() string {
-	if x != nil {
-		return x.Provider
-	}
-	return ""
 }
 
 type TtsApp_AudioParam struct {
@@ -505,6 +505,7 @@ type AsrApp struct {
 	EnablePunc bool   `protobuf:"varint,8,opt,name=enablePunc" json:"enablePunc,omitempty"`
 	EnableDdc  bool   `protobuf:"varint,9,opt,name=enableDdc" json:"enableDdc,omitempty"`
 	ResultType string `protobuf:"bytes,10,opt,name=resultType" json:"resultType,omitempty"`
+	ResourceId string `protobuf:"bytes,11,opt,name=resourceId" json:"resourceId,omitempty"`
 }
 
 func (x *AsrApp) Reset() { *x = AsrApp{} }
@@ -579,6 +580,13 @@ func (x *AsrApp) GetEnableDdc() bool {
 func (x *AsrApp) GetResultType() string {
 	if x != nil {
 		return x.ResultType
+	}
+	return ""
+}
+
+func (x *AsrApp) GetResourceId() string {
+	if x != nil {
+		return x.ResourceId
 	}
 	return ""
 }
