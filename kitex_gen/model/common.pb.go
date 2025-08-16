@@ -128,9 +128,8 @@ type App struct {
 	Level       int32  `protobuf:"varint,11,opt,name=level" json:"level,omitempty"`
 	Status      int32  `protobuf:"varint,12,opt,name=status" json:"status,omitempty"`
 	CreateTime  int64  `protobuf:"varint,13,opt,name=createTime" json:"createTime,omitempty"`
-	ExpireTime  int64  `protobuf:"varint,14,opt,name=expireTime" json:"expireTime,omitempty"`
-	UpdateTime  int64  `protobuf:"varint,15,opt,name=updateTime" json:"updateTime,omitempty"`
-	DeleteTime  int64  `protobuf:"varint,16,opt,name=deleteTime" json:"deleteTime,omitempty"`
+	UpdateTime  int64  `protobuf:"varint,14,opt,name=updateTime" json:"updateTime,omitempty"`
+	DeleteTime  int64  `protobuf:"varint,15,opt,name=deleteTime" json:"deleteTime,omitempty"`
 }
 
 func (x *App) Reset() { *x = App{} }
@@ -226,13 +225,6 @@ func (x *App) GetStatus() int32 {
 func (x *App) GetCreateTime() int64 {
 	if x != nil {
 		return x.CreateTime
-	}
-	return 0
-}
-
-func (x *App) GetExpireTime() int64 {
-	if x != nil {
-		return x.ExpireTime
 	}
 	return 0
 }
