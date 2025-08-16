@@ -28,12 +28,13 @@ message App {
   string description = 3;
   string lang = 4;
   string platform = 5;
-  string url = 6;
-  string appId = 7;
-  string accessKey = 8;
-  bool stream = 9;
-  int32 level = 10;
-  int32 status = 11;
+  string provider = 6;
+  string url = 7;
+  string appId = 8;
+  string accessKey = 9;
+  bool stream = 10;
+  int32 level = 11;
+  int32 status = 12;
   int64 createTime = 13;
   int64 expireTime = 14;
   int64 updateTime = 15;
@@ -71,7 +72,6 @@ message TtsApp {
     string resultType = 9;
   }
   audioParam audioParams = 5;
-  string provider = 6;
 }
 
 message AsrApp {
@@ -85,6 +85,7 @@ message AsrApp {
   bool enablePunc = 8;
   bool enableDdc = 9;
   string resultType = 10;
+  string resourceId = 11;
 }
 
 message ReportApp {
