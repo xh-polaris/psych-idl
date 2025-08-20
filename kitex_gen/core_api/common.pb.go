@@ -109,3 +109,12 @@ func (x *UserSignInResp) GetMsg() string {
 	}
 	return ""
 }
+
+type UnitSignInReq struct {
+}
+
+func (x *UnitSignInReq) Reset() { *x = UnitSignInReq{} }
+
+func (x *UnitSignInReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UnitSignInReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
