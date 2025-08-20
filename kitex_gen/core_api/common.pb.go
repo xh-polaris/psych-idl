@@ -109,21 +109,3 @@ func (x *UserSignInResp) GetMsg() string {
 	}
 	return ""
 }
-
-type UnitSignInReq struct {
-}
-
-func (x *UnitSignInReq) Reset() { *x = UnitSignInReq{} }
-
-func (x *UnitSignInReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
-
-func (x *UnitSignInReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-type UnitSignInResp struct {
-}
-
-func (x *UnitSignInResp) Reset() { *x = UnitSignInResp{} }
-
-func (x *UnitSignInResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
-
-func (x *UnitSignInResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
