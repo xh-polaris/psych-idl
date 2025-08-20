@@ -23,10 +23,3 @@ message UserSignInResp {
   int32 code = 255;
   string msg = 256;
 }
-
-message UnitSignInReq {
-
-}
-message UnitSignInResp {
-
-}
