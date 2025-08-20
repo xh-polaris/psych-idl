@@ -51,6 +51,8 @@ type UserSignInResp struct {
 	StudentId *string `protobuf:"bytes,3,opt,name=studentId" json:"studentId,omitempty"`
 	Strong    bool    `protobuf:"varint,4,opt,name=strong" json:"strong,omitempty"`
 	Token     string  `protobuf:"bytes,5,opt,name=token" json:"token,omitempty"`
+	Code      int32   `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg       string  `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *UserSignInResp) Reset() { *x = UserSignInResp{} }
@@ -90,6 +92,20 @@ func (x *UserSignInResp) GetStrong() bool {
 func (x *UserSignInResp) GetToken() string {
 	if x != nil {
 		return x.Token
+	}
+	return ""
+}
+
+func (x *UserSignInResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *UserSignInResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
 	}
 	return ""
 }
