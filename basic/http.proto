@@ -3,7 +3,7 @@ syntax = "proto2";
 
 package http;
 
-import "basic/descriptor.proto";
+import "google/protobuf/descriptor.proto";
 
 option go_package = "http";
 
