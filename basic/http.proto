@@ -1,13 +1,13 @@
-// idl/api.proto; 注解拓展
+// psych-idl/basic/http.proto; 注解拓展
 syntax = "proto2";
 
 package http;
 
-import "basic/descriptor.proto";
+import "google/protobuf/descriptor.proto";
 
 option go_package = "http";
 
-extend basic.FieldOptions {
+extend google.protobuf.FieldOptions {
   optional string raw_body = 50101;
   optional string query = 50102;
   optional string header = 50103;
@@ -20,7 +20,7 @@ extend basic.FieldOptions {
   optional string js_conv = 50109;
 }
 
-extend basic.MethodOptions {
+extend google.protobuf.MethodOptions {
   optional string get = 50201;
   optional string post = 50202;
   optional string put = 50203;
@@ -39,6 +39,6 @@ extend basic.MethodOptions {
   optional string baseurl = 50308;
 }
 
-extend basic.EnumValueOptions {
+extend google.protobuf.EnumValueOptions {
   optional int32 http_code = 50401;
 }
