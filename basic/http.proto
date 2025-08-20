@@ -7,7 +7,7 @@ import "basic/descriptor.proto";
 
 option go_package = "http";
 
-extend google.protobuf.FieldOptions {
+extend basic.FieldOptions {
   optional string raw_body = 50101;
   optional string query = 50102;
   optional string header = 50103;
@@ -20,7 +20,7 @@ extend google.protobuf.FieldOptions {
   optional string js_conv = 50109;
 }
 
-extend google.protobuf.MethodOptions {
+extend basic.MethodOptions {
   optional string get = 50201;
   optional string post = 50202;
   optional string put = 50203;
@@ -39,6 +39,6 @@ extend google.protobuf.MethodOptions {
   optional string baseurl = 50308;
 }
 
-extend google.protobuf.EnumValueOptions {
+extend basic.EnumValueOptions {
   optional int32 http_code = 50401;
 }

@@ -39,7 +39,7 @@
 
 syntax = "proto2";
 
-package google.protobuf;
+package basic;
 
 option go_package = "github.com/xh-polaris/psych-idl/kitex_gen/descriptorpb";
 option java_package = "com.google.protobuf";
