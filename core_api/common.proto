@@ -6,6 +6,8 @@ option go_package = "core_api";
 
 import "basic/pagination.proto";
 
+// 所有的core_api的resp需要统一增加code:255和msg:256
+
 message UserSignInReq {
   string unitId = 1;
   int32 authType = 2;
@@ -18,4 +20,6 @@ message UserSignInResp {
   optional string studentId = 3;
   bool strong = 4;
   string token = 5;
+  int32 code = 255;
+  string msg = 256;
 }
