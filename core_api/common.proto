@@ -27,3 +27,6 @@ message UserSignInResp {
 message UnitSignInReq {
 
 }
+message UnitSignInResp {
+
+}
