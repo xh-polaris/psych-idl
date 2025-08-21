@@ -5,7 +5,7 @@ package core_api;
 option go_package = "core_api";
 
 import "basic/pagination.proto";
-import "google/protobuf/any.proto";
+import "google/protobuf/struct.proto";
 
 // 可返回给前端的用户信息
 message User {
@@ -43,7 +43,7 @@ message UserGetInfoReq {
 }
 message UserGetInfoResp {
   User user = 1;
-  map<string, google.protobuf.Any> form = 2;
+  google.protobuf.Struct info = 2;
   int32 code = 255;
   string msg = 256;
 }
