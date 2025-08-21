@@ -3,7 +3,7 @@
 package core_api
 
 import (
-	"google.golang.org/protobuf/types/known/anypb"
+	"google.golang.org/protobuf/types/known/structpb"
 
 	"github.com/cloudwego/prutal"
 )
@@ -199,10 +199,10 @@ func (x *UserGetInfoReq) Marshal(in []byte) ([]byte, error) { return prutal.Mars
 func (x *UserGetInfoReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
 type UserGetInfoResp struct {
-	User *User                 `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
-	Form map[string]*anypb.Any `protobuf:"bytes,2,rep,name=form" json:"form,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	Code int32                 `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg  string                `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+	User *User            `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	Info *structpb.Struct `protobuf:"bytes,2,opt,name=info" json:"info,omitempty"`
+	Code int32            `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg  string           `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *UserGetInfoResp) Reset() { *x = UserGetInfoResp{} }
@@ -218,9 +218,9 @@ func (x *UserGetInfoResp) GetUser() *User {
 	return nil
 }
 
-func (x *UserGetInfoResp) GetForm() map[string]*anypb.Any {
+func (x *UserGetInfoResp) GetInfo() *structpb.Struct {
 	if x != nil {
-		return x.Form
+		return x.Info
 	}
 	return nil
 }
