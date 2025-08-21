@@ -5,6 +5,20 @@ package core_api;
 option go_package = "core_api";
 
 import "basic/pagination.proto";
+import "google/protobuf/any.proto";
+
+// 可返回给前端的用户信息
+message User {
+  string id = 1;
+  string phone = 2;
+  string name = 4;
+  string birth = 5;
+  int32 gender = 6;
+  int32 status = 7;
+  int64 createTime = 8;
+  int64 updateTime = 9;
+}
+
 
 // 所有的core_api的resp需要统一增加code:255和msg:256
 
@@ -20,6 +34,16 @@ message UserSignInResp {
   optional string studentId = 3;
   bool strong = 4;
   string token = 5;
+  int32 code = 255;
+  string msg = 256;
+}
+
+// 获取信息
+message UserGetInfoReq {
+}
+message UserGetInfoResp {
+  User user = 1;
+  map<string, google.protobuf.Any> form = 2;
   int32 code = 255;
   string msg = 256;
 }
