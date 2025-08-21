@@ -5,5 +5,6 @@ package core_api
 import "context"
 
 type CoreApi interface {
-	SignIn(ctx context.Context, req *UserSignInReq) (res *UserSignInResp, err error)
+	UserSignIn(ctx context.Context, req *UserSignInReq) (res *UserSignInResp, err error)
+	UserGetInfo(ctx context.Context, req *UserGetInfoReq) (res *UserGetInfoResp, err error)
 }

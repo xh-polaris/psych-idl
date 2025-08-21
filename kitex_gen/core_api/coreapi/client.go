@@ -11,7 +11,8 @@ import (
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
-	SignIn(ctx context.Context, Req *core_api.UserSignInReq, callOptions ...callopt.Option) (r *core_api.UserSignInResp, err error)
+	UserSignIn(ctx context.Context, Req *core_api.UserSignInReq, callOptions ...callopt.Option) (r *core_api.UserSignInResp, err error)
+	UserGetInfo(ctx context.Context, Req *core_api.UserGetInfoReq, callOptions ...callopt.Option) (r *core_api.UserGetInfoResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -43,7 +44,12 @@ type kCoreApiClient struct {
 	*kClient
 }
 
-func (p *kCoreApiClient) SignIn(ctx context.Context, Req *core_api.UserSignInReq, callOptions ...callopt.Option) (r *core_api.UserSignInResp, err error) {
+func (p *kCoreApiClient) UserSignIn(ctx context.Context, Req *core_api.UserSignInReq, callOptions ...callopt.Option) (r *core_api.UserSignInResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.SignIn(ctx, Req)
+	return p.kClient.UserSignIn(ctx, Req)
+}
+
+func (p *kCoreApiClient) UserGetInfo(ctx context.Context, Req *core_api.UserGetInfoReq, callOptions ...callopt.Option) (r *core_api.UserGetInfoResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.UserGetInfo(ctx, Req)
 }
