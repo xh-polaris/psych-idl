@@ -11,14 +11,14 @@ import "google/protobuf/any.proto";
 /* User */
 message User {
   string id = 1;
-  int32 codeType = 2;
+  string codeType = 2;
   string code = 3;
   string password = 4;
   string unitId = 5;
   string name = 6;
   string birth = 7;
-  int32 gender = 8;
-  int32 status = 9;
+  string gender = 8;
+  string status = 9;
   int32 enrollYear = 10;
   int32 grade = 11;
   int32 class = 12;
@@ -40,7 +40,7 @@ message UserSignUpResp {
 // 登录相关，支持弱校验
 message UserSignInReq {
   string unitId = 1;
-  int32 authType = 2;
+  string authType = 2;
   string authId = 3;
   string verifyCode = 4;
   string password = 5;
@@ -67,7 +67,7 @@ message UserUpdateInfoReq {
 // 更新密码
 message UserUpdatePasswordReq {
   string id = 1;
-  int32 authType = 2;
+  string authType = 2;
   string authValue = 3;
   string newPassword = 4;
 }
@@ -80,8 +80,8 @@ message Unit {
   string name = 4;
   string address = 5;
   string contact = 6;
-  int32 level = 7;
-  int32 status = 8;
+  string level = 7;
+  string status = 8;
   int64 createTime = 9;
   int64 updateTime = 10;
   int64 deleteTime = 11;
@@ -98,7 +98,7 @@ message UnitSignUpResp {
 // 登录相关
 message UnitSignInReq {
   string phone = 1;
-  int32 authType = 2;
+  string authType = 2;
   string verifyCode = 3;
 }
 message UnitSignInResp {
@@ -121,7 +121,7 @@ message UnitUpdateInfoReq {
 // 更新密码
 message UnitUpdatePasswordReq {
   string id = 1;
-  int32 authType = 2;
+  string authType = 2;
   string authValue = 3;
   string newPassword = 4;
 }
@@ -135,6 +135,6 @@ message UnitLinkUserReq {
 // 创建并关联用户
 message UnitCreateAndLinkUserReq {
   string unitId = 1;
-  int32 codeType = 2;
+  string codeType = 2;
   repeated User users = 3;
 }
