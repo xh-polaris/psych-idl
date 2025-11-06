@@ -80,7 +80,7 @@ message Unit {
   string name = 4;
   string address = 5;
   string contact = 6;
-  string level = 7;
+  int32 level = 7;
   string status = 8;
   int64 createTime = 9;
   int64 updateTime = 10;
