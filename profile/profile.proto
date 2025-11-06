@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package model;
+
+option go_package = "profile";
+
+import "basic/re.proto";
+import "profile/common.proto";
+
+service PsychProfileService {
+  /* User */
+  rpc UserSignUp(UserSignUpReq) returns (UserSignUpResp);
+  rpc UserSignIn(UserSignInReq) returns (UserSignInResp);
+  rpc UserGetInfo(UserGetInfoReq) returns (UserGetInfoResp);
+  rpc UserUpdateInfo(UserUpdateInfoReq) returns (basic.Response);
+  rpc UserUpdatePassword(UserUpdatePasswordReq) returns (basic.Response);
+
+  /* Unit */
+  // 账号相关
+  rpc UnitSignUp(UnitSignUpReq) returns (UnitSignUpResp);
+  rpc UnitSignIn(UnitSignInReq) returns (UnitSignInResp);
+  rpc UnitGetInfo(UnitGetInfoReq) returns (UnitGetInfoResp);
+  rpc UnitUpdateInfo(UnitUpdateInfoReq) returns (basic.Response);
+  rpc UnitUpdatePassword(UnitUpdatePasswordReq) returns (basic.Response);
+  // 操作相关
+  rpc UnitLinkUser(UnitLinkUserReq) returns (basic.Response);
+  rpc UnitCreateAndLinkUser(UnitCreateAndLinkUserReq) returns (basic.Response);
+}
