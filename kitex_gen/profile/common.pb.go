@@ -377,7 +377,7 @@ type Unit struct {
 	Name       string `protobuf:"bytes,4,opt,name=name" json:"name,omitempty"`
 	Address    string `protobuf:"bytes,5,opt,name=address" json:"address,omitempty"`
 	Contact    string `protobuf:"bytes,6,opt,name=contact" json:"contact,omitempty"`
-	Level      string `protobuf:"bytes,7,opt,name=level" json:"level,omitempty"`
+	Level      int32  `protobuf:"varint,7,opt,name=level" json:"level,omitempty"`
 	Status     string `protobuf:"bytes,8,opt,name=status" json:"status,omitempty"`
 	CreateTime int64  `protobuf:"varint,9,opt,name=createTime" json:"createTime,omitempty"`
 	UpdateTime int64  `protobuf:"varint,10,opt,name=updateTime" json:"updateTime,omitempty"`
@@ -432,11 +432,11 @@ func (x *Unit) GetContact() string {
 	return ""
 }
 
-func (x *Unit) GetLevel() string {
+func (x *Unit) GetLevel() int32 {
 	if x != nil {
 		return x.Level
 	}
-	return ""
+	return 0
 }
 
 func (x *Unit) GetStatus() string {
