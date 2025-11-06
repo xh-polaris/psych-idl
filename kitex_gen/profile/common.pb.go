@@ -11,14 +11,14 @@ import (
 /* User */
 type User struct {
 	Id         string                `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	CodeType   int32                 `protobuf:"varint,2,opt,name=codeType" json:"codeType,omitempty"`
+	CodeType   string                `protobuf:"bytes,2,opt,name=codeType" json:"codeType,omitempty"`
 	Code       string                `protobuf:"bytes,3,opt,name=code" json:"code,omitempty"`
 	Password   string                `protobuf:"bytes,4,opt,name=password" json:"password,omitempty"`
 	UnitId     string                `protobuf:"bytes,5,opt,name=unitId" json:"unitId,omitempty"`
 	Name       string                `protobuf:"bytes,6,opt,name=name" json:"name,omitempty"`
 	Birth      string                `protobuf:"bytes,7,opt,name=birth" json:"birth,omitempty"`
-	Gender     int32                 `protobuf:"varint,8,opt,name=gender" json:"gender,omitempty"`
-	Status     int32                 `protobuf:"varint,9,opt,name=status" json:"status,omitempty"`
+	Gender     string                `protobuf:"bytes,8,opt,name=gender" json:"gender,omitempty"`
+	Status     string                `protobuf:"bytes,9,opt,name=status" json:"status,omitempty"`
 	EnrollYear int32                 `protobuf:"varint,10,opt,name=enrollYear" json:"enrollYear,omitempty"`
 	Grade      int32                 `protobuf:"varint,11,opt,name=grade" json:"grade,omitempty"`
 	Class      int32                 `protobuf:"varint,12,opt,name=class" json:"class,omitempty"`
@@ -41,11 +41,11 @@ func (x *User) GetId() string {
 	return ""
 }
 
-func (x *User) GetCodeType() int32 {
+func (x *User) GetCodeType() string {
 	if x != nil {
 		return x.CodeType
 	}
-	return 0
+	return ""
 }
 
 func (x *User) GetCode() string {
@@ -83,18 +83,18 @@ func (x *User) GetBirth() string {
 	return ""
 }
 
-func (x *User) GetGender() int32 {
+func (x *User) GetGender() string {
 	if x != nil {
 		return x.Gender
 	}
-	return 0
+	return ""
 }
 
-func (x *User) GetStatus() int32 {
+func (x *User) GetStatus() string {
 	if x != nil {
 		return x.Status
 	}
-	return 0
+	return ""
 }
 
 func (x *User) GetEnrollYear() int32 {
@@ -192,7 +192,7 @@ func (x *UserSignUpResp) GetUser() *User {
 // 登录相关，支持弱校验
 type UserSignInReq struct {
 	UnitId     string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	AuthType   int32  `protobuf:"varint,2,opt,name=authType" json:"authType,omitempty"`
+	AuthType   string `protobuf:"bytes,2,opt,name=authType" json:"authType,omitempty"`
 	AuthId     string `protobuf:"bytes,3,opt,name=authId" json:"authId,omitempty"`
 	VerifyCode string `protobuf:"bytes,4,opt,name=verifyCode" json:"verifyCode,omitempty"`
 	Password   string `protobuf:"bytes,5,opt,name=password" json:"password,omitempty"`
@@ -211,11 +211,11 @@ func (x *UserSignInReq) GetUnitId() string {
 	return ""
 }
 
-func (x *UserSignInReq) GetAuthType() int32 {
+func (x *UserSignInReq) GetAuthType() string {
 	if x != nil {
 		return x.AuthType
 	}
-	return 0
+	return ""
 }
 
 func (x *UserSignInReq) GetAuthId() string {
@@ -328,7 +328,7 @@ func (x *UserUpdateInfoReq) GetUser() *User {
 // 更新密码
 type UserUpdatePasswordReq struct {
 	Id          string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	AuthType    int32  `protobuf:"varint,2,opt,name=authType" json:"authType,omitempty"`
+	AuthType    string `protobuf:"bytes,2,opt,name=authType" json:"authType,omitempty"`
 	AuthValue   string `protobuf:"bytes,3,opt,name=authValue" json:"authValue,omitempty"`
 	NewPassword string `protobuf:"bytes,4,opt,name=newPassword" json:"newPassword,omitempty"`
 }
@@ -348,11 +348,11 @@ func (x *UserUpdatePasswordReq) GetId() string {
 	return ""
 }
 
-func (x *UserUpdatePasswordReq) GetAuthType() int32 {
+func (x *UserUpdatePasswordReq) GetAuthType() string {
 	if x != nil {
 		return x.AuthType
 	}
-	return 0
+	return ""
 }
 
 func (x *UserUpdatePasswordReq) GetAuthValue() string {
@@ -377,8 +377,8 @@ type Unit struct {
 	Name       string `protobuf:"bytes,4,opt,name=name" json:"name,omitempty"`
 	Address    string `protobuf:"bytes,5,opt,name=address" json:"address,omitempty"`
 	Contact    string `protobuf:"bytes,6,opt,name=contact" json:"contact,omitempty"`
-	Level      int32  `protobuf:"varint,7,opt,name=level" json:"level,omitempty"`
-	Status     int32  `protobuf:"varint,8,opt,name=status" json:"status,omitempty"`
+	Level      string `protobuf:"bytes,7,opt,name=level" json:"level,omitempty"`
+	Status     string `protobuf:"bytes,8,opt,name=status" json:"status,omitempty"`
 	CreateTime int64  `protobuf:"varint,9,opt,name=createTime" json:"createTime,omitempty"`
 	UpdateTime int64  `protobuf:"varint,10,opt,name=updateTime" json:"updateTime,omitempty"`
 	DeleteTime int64  `protobuf:"varint,11,opt,name=deleteTime" json:"deleteTime,omitempty"`
@@ -432,18 +432,18 @@ func (x *Unit) GetContact() string {
 	return ""
 }
 
-func (x *Unit) GetLevel() int32 {
+func (x *Unit) GetLevel() string {
 	if x != nil {
 		return x.Level
 	}
-	return 0
+	return ""
 }
 
-func (x *Unit) GetStatus() int32 {
+func (x *Unit) GetStatus() string {
 	if x != nil {
 		return x.Status
 	}
-	return 0
+	return ""
 }
 
 func (x *Unit) GetCreateTime() int64 {
@@ -505,7 +505,7 @@ func (x *UnitSignUpResp) GetUnit() *Unit {
 // 登录相关
 type UnitSignInReq struct {
 	Phone      string `protobuf:"bytes,1,opt,name=phone" json:"phone,omitempty"`
-	AuthType   int32  `protobuf:"varint,2,opt,name=authType" json:"authType,omitempty"`
+	AuthType   string `protobuf:"bytes,2,opt,name=authType" json:"authType,omitempty"`
 	VerifyCode string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
 }
 
@@ -522,11 +522,11 @@ func (x *UnitSignInReq) GetPhone() string {
 	return ""
 }
 
-func (x *UnitSignInReq) GetAuthType() int32 {
+func (x *UnitSignInReq) GetAuthType() string {
 	if x != nil {
 		return x.AuthType
 	}
-	return 0
+	return ""
 }
 
 func (x *UnitSignInReq) GetVerifyCode() string {
@@ -609,7 +609,7 @@ func (x *UnitUpdateInfoReq) GetUnit() *Unit {
 // 更新密码
 type UnitUpdatePasswordReq struct {
 	Id          string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	AuthType    int32  `protobuf:"varint,2,opt,name=authType" json:"authType,omitempty"`
+	AuthType    string `protobuf:"bytes,2,opt,name=authType" json:"authType,omitempty"`
 	AuthValue   string `protobuf:"bytes,3,opt,name=authValue" json:"authValue,omitempty"`
 	NewPassword string `protobuf:"bytes,4,opt,name=newPassword" json:"newPassword,omitempty"`
 }
@@ -629,11 +629,11 @@ func (x *UnitUpdatePasswordReq) GetId() string {
 	return ""
 }
 
-func (x *UnitUpdatePasswordReq) GetAuthType() int32 {
+func (x *UnitUpdatePasswordReq) GetAuthType() string {
 	if x != nil {
 		return x.AuthType
 	}
-	return 0
+	return ""
 }
 
 func (x *UnitUpdatePasswordReq) GetAuthValue() string {
@@ -679,7 +679,7 @@ func (x *UnitLinkUserReq) GetUserId() string {
 // 创建并关联用户
 type UnitCreateAndLinkUserReq struct {
 	UnitId   string  `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	CodeType int32   `protobuf:"varint,2,opt,name=codeType" json:"codeType,omitempty"`
+	CodeType string  `protobuf:"bytes,2,opt,name=codeType" json:"codeType,omitempty"`
 	Users    []*User `protobuf:"bytes,3,rep,name=users" json:"users,omitempty"`
 }
 
@@ -698,11 +698,11 @@ func (x *UnitCreateAndLinkUserReq) GetUnitId() string {
 	return ""
 }
 
-func (x *UnitCreateAndLinkUserReq) GetCodeType() int32 {
+func (x *UnitCreateAndLinkUserReq) GetCodeType() string {
 	if x != nil {
 		return x.CodeType
 	}
-	return 0
+	return ""
 }
 
 func (x *UnitCreateAndLinkUserReq) GetUsers() []*User {
