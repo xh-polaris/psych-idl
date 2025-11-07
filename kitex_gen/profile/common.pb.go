@@ -16,7 +16,7 @@ type User struct {
 	Password   string                `protobuf:"bytes,4,opt,name=password" json:"password,omitempty"`
 	UnitId     string                `protobuf:"bytes,5,opt,name=unitId" json:"unitId,omitempty"`
 	Name       string                `protobuf:"bytes,6,opt,name=name" json:"name,omitempty"`
-	Birth      string                `protobuf:"bytes,7,opt,name=birth" json:"birth,omitempty"`
+	Birth      int64                 `protobuf:"varint,7,opt,name=birth" json:"birth,omitempty"`
 	Gender     string                `protobuf:"bytes,8,opt,name=gender" json:"gender,omitempty"`
 	Status     string                `protobuf:"bytes,9,opt,name=status" json:"status,omitempty"`
 	EnrollYear int32                 `protobuf:"varint,10,opt,name=enrollYear" json:"enrollYear,omitempty"`
@@ -76,11 +76,11 @@ func (x *User) GetName() string {
 	return ""
 }
 
-func (x *User) GetBirth() string {
+func (x *User) GetBirth() int64 {
 	if x != nil {
 		return x.Birth
 	}
-	return ""
+	return 0
 }
 
 func (x *User) GetGender() string {
