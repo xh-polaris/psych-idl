@@ -31,7 +31,6 @@ message User {
 // 注册相关
 message UserSignUpReq {
   User user = 1;
-  string verifyCode = 2;
 }
 message UserSignUpResp {
   User user = 1;
@@ -95,9 +94,9 @@ message UnitSignUpResp {
 
 // 登录相关
 message UnitSignInReq {
-  string phone = 1;
-  string authType = 2;
-  string verifyCode = 3;
+  string authType = 1;
+  string authId = 2;
+  string authValue = 3;
 }
 message UnitSignInResp {
   string unitId = 1;
