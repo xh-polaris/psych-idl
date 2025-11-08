@@ -148,8 +148,7 @@ func (x *User) GetDeleteTime() int64 {
 
 // 注册相关
 type UserSignUpReq struct {
-	User       *User  `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
-	VerifyCode string `protobuf:"bytes,2,opt,name=verifyCode" json:"verifyCode,omitempty"`
+	User *User `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
 }
 
 func (x *UserSignUpReq) Reset() { *x = UserSignUpReq{} }
@@ -163,13 +162,6 @@ func (x *UserSignUpReq) GetUser() *User {
 		return x.User
 	}
 	return nil
-}
-
-func (x *UserSignUpReq) GetVerifyCode() string {
-	if x != nil {
-		return x.VerifyCode
-	}
-	return ""
 }
 
 type UserSignUpResp struct {
@@ -488,9 +480,9 @@ func (x *UnitSignUpResp) GetUnit() *Unit {
 
 // 登录相关
 type UnitSignInReq struct {
-	Phone      string `protobuf:"bytes,1,opt,name=phone" json:"phone,omitempty"`
-	AuthType   string `protobuf:"bytes,2,opt,name=authType" json:"authType,omitempty"`
-	VerifyCode string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
+	AuthType  string `protobuf:"bytes,1,opt,name=authType" json:"authType,omitempty"`
+	AuthId    string `protobuf:"bytes,2,opt,name=authId" json:"authId,omitempty"`
+	AuthValue string `protobuf:"bytes,3,opt,name=authValue" json:"authValue,omitempty"`
 }
 
 func (x *UnitSignInReq) Reset() { *x = UnitSignInReq{} }
@@ -499,13 +491,6 @@ func (x *UnitSignInReq) Marshal(in []byte) ([]byte, error) { return prutal.Marsh
 
 func (x *UnitSignInReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *UnitSignInReq) GetPhone() string {
-	if x != nil {
-		return x.Phone
-	}
-	return ""
-}
-
 func (x *UnitSignInReq) GetAuthType() string {
 	if x != nil {
 		return x.AuthType
@@ -513,9 +498,16 @@ func (x *UnitSignInReq) GetAuthType() string {
 	return ""
 }
 
-func (x *UnitSignInReq) GetVerifyCode() string {
+func (x *UnitSignInReq) GetAuthId() string {
 	if x != nil {
-		return x.VerifyCode
+		return x.AuthId
+	}
+	return ""
+}
+
+func (x *UnitSignInReq) GetAuthValue() string {
+	if x != nil {
+		return x.AuthValue
 	}
 	return ""
 }
