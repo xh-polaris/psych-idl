@@ -24,8 +24,9 @@ type Client interface {
 	UnitUpdatePassword(ctx context.Context, Req *profile.UnitUpdatePasswordReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	UnitLinkUser(ctx context.Context, Req *profile.UnitLinkUserReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	UnitCreateAndLinkUser(ctx context.Context, Req *profile.UnitCreateAndLinkUserReq, callOptions ...callopt.Option) (r *basic.Response, err error)
-	UnitAppConfigCreateOrUpDate(ctx context.Context, Req *profile.ConfigCreateOrUpdateReq, callOptions ...callopt.Option) (r *basic.Response, err error)
-	UnitAppConfigFindByUnitID(ctx context.Context, Req *profile.ConfigGetByUnitIdReq, callOptions ...callopt.Option) (r *profile.ConfigGetByUnitIdResp, err error)
+	ConfigCreate(ctx context.Context, Req *profile.ConfigCreateOrUpdateReq, callOptions ...callopt.Option) (r *basic.Response, err error)
+	ConfigUpdate(ctx context.Context, Req *profile.ConfigCreateOrUpdateReq, callOptions ...callopt.Option) (r *basic.Response, err error)
+	ConfigFindByUnitID(ctx context.Context, Req *profile.ConfigGetByUnitIdReq, callOptions ...callopt.Option) (r *profile.ConfigGetByUnitIdResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -117,12 +118,17 @@ func (p *kPsychProfileServiceClient) UnitCreateAndLinkUser(ctx context.Context, 
 	return p.kClient.UnitCreateAndLinkUser(ctx, Req)
 }
 
-func (p *kPsychProfileServiceClient) UnitAppConfigCreateOrUpDate(ctx context.Context, Req *profile.ConfigCreateOrUpdateReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
+func (p *kPsychProfileServiceClient) ConfigCreate(ctx context.Context, Req *profile.ConfigCreateOrUpdateReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.UnitAppConfigCreateOrUpDate(ctx, Req)
+	return p.kClient.ConfigCreate(ctx, Req)
 }
 
-func (p *kPsychProfileServiceClient) UnitAppConfigFindByUnitID(ctx context.Context, Req *profile.ConfigGetByUnitIdReq, callOptions ...callopt.Option) (r *profile.ConfigGetByUnitIdResp, err error) {
+func (p *kPsychProfileServiceClient) ConfigUpdate(ctx context.Context, Req *profile.ConfigCreateOrUpdateReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.UnitAppConfigFindByUnitID(ctx, Req)
+	return p.kClient.ConfigUpdate(ctx, Req)
+}
+
+func (p *kPsychProfileServiceClient) ConfigFindByUnitID(ctx context.Context, Req *profile.ConfigGetByUnitIdReq, callOptions ...callopt.Option) (r *profile.ConfigGetByUnitIdResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ConfigFindByUnitID(ctx, Req)
 }

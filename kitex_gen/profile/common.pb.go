@@ -694,9 +694,6 @@ type ChatApp struct {
 	Description string `protobuf:"bytes,2,opt,name=description" json:"description,omitempty"`
 	Provider    string `protobuf:"bytes,3,opt,name=provider" json:"provider,omitempty"`
 	AppId       string `protobuf:"bytes,4,opt,name=appId" json:"appId,omitempty"`
-	AccessKey   string `protobuf:"bytes,5,opt,name=accessKey" json:"accessKey,omitempty"`
-	CreateTime  int64  `protobuf:"varint,6,opt,name=createTime" json:"createTime,omitempty"`
-	UpdateTime  int64  `protobuf:"varint,7,opt,name=updateTime" json:"updateTime,omitempty"`
 }
 
 func (x *ChatApp) Reset() { *x = ChatApp{} }
@@ -733,35 +730,11 @@ func (x *ChatApp) GetAppId() string {
 	return ""
 }
 
-func (x *ChatApp) GetAccessKey() string {
-	if x != nil {
-		return x.AccessKey
-	}
-	return ""
-}
-
-func (x *ChatApp) GetCreateTime() int64 {
-	if x != nil {
-		return x.CreateTime
-	}
-	return 0
-}
-
-func (x *ChatApp) GetUpdateTime() int64 {
-	if x != nil {
-		return x.UpdateTime
-	}
-	return 0
-}
-
 type TtsApp struct {
 	Name        string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
 	Description string `protobuf:"bytes,2,opt,name=description" json:"description,omitempty"`
 	Provider    string `protobuf:"bytes,3,opt,name=provider" json:"provider,omitempty"`
 	AppId       string `protobuf:"bytes,4,opt,name=appId" json:"appId,omitempty"`
-	AccessKey   string `protobuf:"bytes,5,opt,name=accessKey" json:"accessKey,omitempty"`
-	CreateTime  int64  `protobuf:"varint,6,opt,name=createTime" json:"createTime,omitempty"`
-	UpdateTime  int64  `protobuf:"varint,7,opt,name=updateTime" json:"updateTime,omitempty"`
 }
 
 func (x *TtsApp) Reset() { *x = TtsApp{} }
@@ -798,35 +771,11 @@ func (x *TtsApp) GetAppId() string {
 	return ""
 }
 
-func (x *TtsApp) GetAccessKey() string {
-	if x != nil {
-		return x.AccessKey
-	}
-	return ""
-}
-
-func (x *TtsApp) GetCreateTime() int64 {
-	if x != nil {
-		return x.CreateTime
-	}
-	return 0
-}
-
-func (x *TtsApp) GetUpdateTime() int64 {
-	if x != nil {
-		return x.UpdateTime
-	}
-	return 0
-}
-
 type ReportApp struct {
 	Name        string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
 	Description string `protobuf:"bytes,2,opt,name=description" json:"description,omitempty"`
 	Provider    string `protobuf:"bytes,3,opt,name=provider" json:"provider,omitempty"`
 	AppId       string `protobuf:"bytes,4,opt,name=appId" json:"appId,omitempty"`
-	AccessKey   string `protobuf:"bytes,5,opt,name=accessKey" json:"accessKey,omitempty"`
-	CreateTime  int64  `protobuf:"varint,6,opt,name=createTime" json:"createTime,omitempty"`
-	UpdateTime  int64  `protobuf:"varint,7,opt,name=updateTime" json:"updateTime,omitempty"`
 }
 
 func (x *ReportApp) Reset() { *x = ReportApp{} }
@@ -861,27 +810,6 @@ func (x *ReportApp) GetAppId() string {
 		return x.AppId
 	}
 	return ""
-}
-
-func (x *ReportApp) GetAccessKey() string {
-	if x != nil {
-		return x.AccessKey
-	}
-	return ""
-}
-
-func (x *ReportApp) GetCreateTime() int64 {
-	if x != nil {
-		return x.CreateTime
-	}
-	return 0
-}
-
-func (x *ReportApp) GetUpdateTime() int64 {
-	if x != nil {
-		return x.UpdateTime
-	}
-	return 0
 }
 
 type Config struct {
