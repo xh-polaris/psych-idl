@@ -1516,7 +1516,7 @@ func unitAppConfigCreateOrUpDateHandler(ctx context.Context, handler interface{}
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(profile.UnitAppConfigCreateOrUpdateReq)
+		req := new(profile.ConfigCreateOrUpdateReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
@@ -1546,7 +1546,7 @@ func newUnitAppConfigCreateOrUpDateResult() interface{} {
 }
 
 type UnitAppConfigCreateOrUpDateArgs struct {
-	Req *profile.UnitAppConfigCreateOrUpdateReq
+	Req *profile.ConfigCreateOrUpdateReq
 }
 
 func (p *UnitAppConfigCreateOrUpDateArgs) Marshal(out []byte) ([]byte, error) {
@@ -1557,7 +1557,7 @@ func (p *UnitAppConfigCreateOrUpDateArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *UnitAppConfigCreateOrUpDateArgs) Unmarshal(in []byte) error {
-	msg := new(profile.UnitAppConfigCreateOrUpdateReq)
+	msg := new(profile.ConfigCreateOrUpdateReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -1565,9 +1565,9 @@ func (p *UnitAppConfigCreateOrUpDateArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var UnitAppConfigCreateOrUpDateArgs_Req_DEFAULT *profile.UnitAppConfigCreateOrUpdateReq
+var UnitAppConfigCreateOrUpDateArgs_Req_DEFAULT *profile.ConfigCreateOrUpdateReq
 
-func (p *UnitAppConfigCreateOrUpDateArgs) GetReq() *profile.UnitAppConfigCreateOrUpdateReq {
+func (p *UnitAppConfigCreateOrUpDateArgs) GetReq() *profile.ConfigCreateOrUpdateReq {
 	if !p.IsSetReq() {
 		return UnitAppConfigCreateOrUpDateArgs_Req_DEFAULT
 	}
@@ -1627,7 +1627,7 @@ func unitAppConfigFindByUnitIDHandler(ctx context.Context, handler interface{}, 
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(profile.UnitAppConfigGetByUnitIdReq)
+		req := new(profile.ConfigGetByUnitIdReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
@@ -1657,7 +1657,7 @@ func newUnitAppConfigFindByUnitIDResult() interface{} {
 }
 
 type UnitAppConfigFindByUnitIDArgs struct {
-	Req *profile.UnitAppConfigGetByUnitIdReq
+	Req *profile.ConfigGetByUnitIdReq
 }
 
 func (p *UnitAppConfigFindByUnitIDArgs) Marshal(out []byte) ([]byte, error) {
@@ -1668,7 +1668,7 @@ func (p *UnitAppConfigFindByUnitIDArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *UnitAppConfigFindByUnitIDArgs) Unmarshal(in []byte) error {
-	msg := new(profile.UnitAppConfigGetByUnitIdReq)
+	msg := new(profile.ConfigGetByUnitIdReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -1676,9 +1676,9 @@ func (p *UnitAppConfigFindByUnitIDArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var UnitAppConfigFindByUnitIDArgs_Req_DEFAULT *profile.UnitAppConfigGetByUnitIdReq
+var UnitAppConfigFindByUnitIDArgs_Req_DEFAULT *profile.ConfigGetByUnitIdReq
 
-func (p *UnitAppConfigFindByUnitIDArgs) GetReq() *profile.UnitAppConfigGetByUnitIdReq {
+func (p *UnitAppConfigFindByUnitIDArgs) GetReq() *profile.ConfigGetByUnitIdReq {
 	if !p.IsSetReq() {
 		return UnitAppConfigFindByUnitIDArgs_Req_DEFAULT
 	}
@@ -1694,10 +1694,10 @@ func (p *UnitAppConfigFindByUnitIDArgs) GetFirstArgument() interface{} {
 }
 
 type UnitAppConfigFindByUnitIDResult struct {
-	Success *profile.UnitAppConfigGetByUnitIdResp
+	Success *profile.ConfigGetByUnitIdResp
 }
 
-var UnitAppConfigFindByUnitIDResult_Success_DEFAULT *profile.UnitAppConfigGetByUnitIdResp
+var UnitAppConfigFindByUnitIDResult_Success_DEFAULT *profile.ConfigGetByUnitIdResp
 
 func (p *UnitAppConfigFindByUnitIDResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -1707,7 +1707,7 @@ func (p *UnitAppConfigFindByUnitIDResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *UnitAppConfigFindByUnitIDResult) Unmarshal(in []byte) error {
-	msg := new(profile.UnitAppConfigGetByUnitIdResp)
+	msg := new(profile.ConfigGetByUnitIdResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -1715,7 +1715,7 @@ func (p *UnitAppConfigFindByUnitIDResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *UnitAppConfigFindByUnitIDResult) GetSuccess() *profile.UnitAppConfigGetByUnitIdResp {
+func (p *UnitAppConfigFindByUnitIDResult) GetSuccess() *profile.ConfigGetByUnitIdResp {
 	if !p.IsSetSuccess() {
 		return UnitAppConfigFindByUnitIDResult_Success_DEFAULT
 	}
@@ -1723,7 +1723,7 @@ func (p *UnitAppConfigFindByUnitIDResult) GetSuccess() *profile.UnitAppConfigGet
 }
 
 func (p *UnitAppConfigFindByUnitIDResult) SetSuccess(x interface{}) {
-	p.Success = x.(*profile.UnitAppConfigGetByUnitIdResp)
+	p.Success = x.(*profile.ConfigGetByUnitIdResp)
 }
 
 func (p *UnitAppConfigFindByUnitIDResult) IsSetSuccess() bool {
@@ -1864,7 +1864,7 @@ func (p *kClient) UnitCreateAndLinkUser(ctx context.Context, Req *profile.UnitCr
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) UnitAppConfigCreateOrUpDate(ctx context.Context, Req *profile.UnitAppConfigCreateOrUpdateReq) (r *basic.Response, err error) {
+func (p *kClient) UnitAppConfigCreateOrUpDate(ctx context.Context, Req *profile.ConfigCreateOrUpdateReq) (r *basic.Response, err error) {
 	var _args UnitAppConfigCreateOrUpDateArgs
 	_args.Req = Req
 	var _result UnitAppConfigCreateOrUpDateResult
@@ -1874,7 +1874,7 @@ func (p *kClient) UnitAppConfigCreateOrUpDate(ctx context.Context, Req *profile.
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) UnitAppConfigFindByUnitID(ctx context.Context, Req *profile.UnitAppConfigGetByUnitIdReq) (r *profile.UnitAppConfigGetByUnitIdResp, err error) {
+func (p *kClient) UnitAppConfigFindByUnitID(ctx context.Context, Req *profile.ConfigGetByUnitIdReq) (r *profile.ConfigGetByUnitIdResp, err error) {
 	var _args UnitAppConfigFindByUnitIDArgs
 	_args.Req = Req
 	var _result UnitAppConfigFindByUnitIDResult
