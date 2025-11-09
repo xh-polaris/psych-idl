@@ -100,6 +100,20 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
+	"UnitAppConfigCreateOrUpDate": kitex.NewMethodInfo(
+		unitAppConfigCreateOrUpDateHandler,
+		newUnitAppConfigCreateOrUpDateArgs,
+		newUnitAppConfigCreateOrUpDateResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"UnitAppConfigFindByUnitID": kitex.NewMethodInfo(
+		unitAppConfigFindByUnitIDHandler,
+		newUnitAppConfigFindByUnitIDArgs,
+		newUnitAppConfigFindByUnitIDResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
 }
 
 var (
@@ -1498,6 +1512,228 @@ func (p *UnitCreateAndLinkUserResult) GetResult() interface{} {
 	return p.Success
 }
 
+func unitAppConfigCreateOrUpDateHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(profile.UnitAppConfigCreateOrUpdateReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(profile.PsychProfileService).UnitAppConfigCreateOrUpDate(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *UnitAppConfigCreateOrUpDateArgs:
+		success, err := handler.(profile.PsychProfileService).UnitAppConfigCreateOrUpDate(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*UnitAppConfigCreateOrUpDateResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newUnitAppConfigCreateOrUpDateArgs() interface{} {
+	return &UnitAppConfigCreateOrUpDateArgs{}
+}
+
+func newUnitAppConfigCreateOrUpDateResult() interface{} {
+	return &UnitAppConfigCreateOrUpDateResult{}
+}
+
+type UnitAppConfigCreateOrUpDateArgs struct {
+	Req *profile.UnitAppConfigCreateOrUpdateReq
+}
+
+func (p *UnitAppConfigCreateOrUpDateArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *UnitAppConfigCreateOrUpDateArgs) Unmarshal(in []byte) error {
+	msg := new(profile.UnitAppConfigCreateOrUpdateReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var UnitAppConfigCreateOrUpDateArgs_Req_DEFAULT *profile.UnitAppConfigCreateOrUpdateReq
+
+func (p *UnitAppConfigCreateOrUpDateArgs) GetReq() *profile.UnitAppConfigCreateOrUpdateReq {
+	if !p.IsSetReq() {
+		return UnitAppConfigCreateOrUpDateArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *UnitAppConfigCreateOrUpDateArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *UnitAppConfigCreateOrUpDateArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type UnitAppConfigCreateOrUpDateResult struct {
+	Success *basic.Response
+}
+
+var UnitAppConfigCreateOrUpDateResult_Success_DEFAULT *basic.Response
+
+func (p *UnitAppConfigCreateOrUpDateResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *UnitAppConfigCreateOrUpDateResult) Unmarshal(in []byte) error {
+	msg := new(basic.Response)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *UnitAppConfigCreateOrUpDateResult) GetSuccess() *basic.Response {
+	if !p.IsSetSuccess() {
+		return UnitAppConfigCreateOrUpDateResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *UnitAppConfigCreateOrUpDateResult) SetSuccess(x interface{}) {
+	p.Success = x.(*basic.Response)
+}
+
+func (p *UnitAppConfigCreateOrUpDateResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *UnitAppConfigCreateOrUpDateResult) GetResult() interface{} {
+	return p.Success
+}
+
+func unitAppConfigFindByUnitIDHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(profile.UnitAppConfigGetByUnitIdReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(profile.PsychProfileService).UnitAppConfigFindByUnitID(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *UnitAppConfigFindByUnitIDArgs:
+		success, err := handler.(profile.PsychProfileService).UnitAppConfigFindByUnitID(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*UnitAppConfigFindByUnitIDResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newUnitAppConfigFindByUnitIDArgs() interface{} {
+	return &UnitAppConfigFindByUnitIDArgs{}
+}
+
+func newUnitAppConfigFindByUnitIDResult() interface{} {
+	return &UnitAppConfigFindByUnitIDResult{}
+}
+
+type UnitAppConfigFindByUnitIDArgs struct {
+	Req *profile.UnitAppConfigGetByUnitIdReq
+}
+
+func (p *UnitAppConfigFindByUnitIDArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *UnitAppConfigFindByUnitIDArgs) Unmarshal(in []byte) error {
+	msg := new(profile.UnitAppConfigGetByUnitIdReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var UnitAppConfigFindByUnitIDArgs_Req_DEFAULT *profile.UnitAppConfigGetByUnitIdReq
+
+func (p *UnitAppConfigFindByUnitIDArgs) GetReq() *profile.UnitAppConfigGetByUnitIdReq {
+	if !p.IsSetReq() {
+		return UnitAppConfigFindByUnitIDArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *UnitAppConfigFindByUnitIDArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *UnitAppConfigFindByUnitIDArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type UnitAppConfigFindByUnitIDResult struct {
+	Success *profile.UnitAppConfigGetByUnitIdResp
+}
+
+var UnitAppConfigFindByUnitIDResult_Success_DEFAULT *profile.UnitAppConfigGetByUnitIdResp
+
+func (p *UnitAppConfigFindByUnitIDResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *UnitAppConfigFindByUnitIDResult) Unmarshal(in []byte) error {
+	msg := new(profile.UnitAppConfigGetByUnitIdResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *UnitAppConfigFindByUnitIDResult) GetSuccess() *profile.UnitAppConfigGetByUnitIdResp {
+	if !p.IsSetSuccess() {
+		return UnitAppConfigFindByUnitIDResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *UnitAppConfigFindByUnitIDResult) SetSuccess(x interface{}) {
+	p.Success = x.(*profile.UnitAppConfigGetByUnitIdResp)
+}
+
+func (p *UnitAppConfigFindByUnitIDResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *UnitAppConfigFindByUnitIDResult) GetResult() interface{} {
+	return p.Success
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -1623,6 +1859,26 @@ func (p *kClient) UnitCreateAndLinkUser(ctx context.Context, Req *profile.UnitCr
 	_args.Req = Req
 	var _result UnitCreateAndLinkUserResult
 	if err = p.c.Call(ctx, "UnitCreateAndLinkUser", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) UnitAppConfigCreateOrUpDate(ctx context.Context, Req *profile.UnitAppConfigCreateOrUpdateReq) (r *basic.Response, err error) {
+	var _args UnitAppConfigCreateOrUpDateArgs
+	_args.Req = Req
+	var _result UnitAppConfigCreateOrUpDateResult
+	if err = p.c.Call(ctx, "UnitAppConfigCreateOrUpDate", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) UnitAppConfigFindByUnitID(ctx context.Context, Req *profile.UnitAppConfigGetByUnitIdReq) (r *profile.UnitAppConfigGetByUnitIdResp, err error) {
+	var _args UnitAppConfigFindByUnitIDArgs
+	_args.Req = Req
+	var _result UnitAppConfigFindByUnitIDResult
+	if err = p.c.Call(ctx, "UnitAppConfigFindByUnitID", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
