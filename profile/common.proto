@@ -135,3 +135,51 @@ message UnitCreateAndLinkUserReq {
   string codeType = 2;
   repeated User users = 3;
 }
+
+/*Config*/
+message App {
+  string name = 1;
+  string description = 2;
+  string provider = 3;
+  string appId = 4;
+  string accessKey = 5;
+  int64 createTime = 6;
+  int64 updateTime = 7;
+}
+
+message ChatApp {
+  App app = 1;
+};
+
+message TtsApp {
+  App app = 1;
+};
+
+message ReportApp {
+  App app = 1;
+}
+
+message UnitAppConfig {
+  string id = 1;
+  string type = 2;
+  ChatApp chat = 3;
+  TtsApp tts = 4;
+  ReportApp report = 5;
+  int32 status = 6;
+  int64 createTime = 7;
+  int64 updateTime = 8;
+}
+
+message UnitAppConfigCreateOrUpdateReq {
+  UnitAppConfig unitAppConfig = 1;
+  bool admin = 2;
+}
+
+message UnitAppConfigGetByUnitIdReq {
+  string id = 1;
+  bool admin = 2;
+}
+message UnitAppConfigGetByUnitIdResp {
+  UnitAppConfig unitAppConfig = 1;
+}
+
