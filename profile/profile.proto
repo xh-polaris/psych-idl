@@ -27,6 +27,7 @@ service PsychProfileService {
   rpc UnitCreateAndLinkUser(UnitCreateAndLinkUserReq) returns (basic.Response);
 
   /* Config */
-  rpc UnitAppConfigCreateOrUpDate(ConfigCreateOrUpdateReq) returns (basic.Response);
-  rpc UnitAppConfigFindByUnitID (ConfigGetByUnitIdReq) returns (ConfigGetByUnitIdResp);
+  rpc ConfigCreate(ConfigCreateOrUpdateReq) returns (basic.Response);
+  rpc ConfigUpdate(ConfigCreateOrUpdateReq) returns (basic.Response);
+  rpc ConfigFindByUnitID (ConfigGetByUnitIdReq) returns (ConfigGetByUnitIdResp);
 }

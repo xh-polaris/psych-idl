@@ -142,9 +142,6 @@ message ChatApp {
   string description = 2;
   string provider = 3;
   string appId = 4;
-  string accessKey = 5;
-  int64 createTime = 6;
-  int64 updateTime = 7;
 };
 
 message TtsApp {
@@ -152,9 +149,6 @@ message TtsApp {
   string description = 2;
   string provider = 3;
   string appId = 4;
-  string accessKey = 5;
-  int64 createTime = 6;
-  int64 updateTime = 7;
 };
 
 message ReportApp {
@@ -162,9 +156,6 @@ message ReportApp {
   string description = 2;
   string provider = 3;
   string appId = 4;
-  string accessKey = 5;
-  int64 createTime = 6;
-  int64 updateTime = 7;
 }
 
 message Config {
