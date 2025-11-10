@@ -28,6 +28,6 @@ service PsychProfileService {
 
   /* Config */
   rpc ConfigCreate(ConfigCreateOrUpdateReq) returns (basic.Response);
-  rpc ConfigUpdate(ConfigCreateOrUpdateReq) returns (basic.Response);
-  rpc ConfigFindByUnitID (ConfigGetByUnitIdReq) returns (ConfigGetByUnitIdResp);
+  rpc ConfigUpdateInfo(ConfigCreateOrUpdateReq) returns (basic.Response);
+  rpc ConfigGetByUnitID (ConfigGetByUnitIdReq) returns (ConfigGetByUnitIdResp);
 }
