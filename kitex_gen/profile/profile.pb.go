@@ -21,6 +21,6 @@ type PsychProfileService interface {
 	UnitLinkUser(ctx context.Context, req *UnitLinkUserReq) (res *basic.Response, err error)
 	UnitCreateAndLinkUser(ctx context.Context, req *UnitCreateAndLinkUserReq) (res *basic.Response, err error)
 	ConfigCreate(ctx context.Context, req *ConfigCreateOrUpdateReq) (res *basic.Response, err error)
-	ConfigUpdate(ctx context.Context, req *ConfigCreateOrUpdateReq) (res *basic.Response, err error)
-	ConfigFindByUnitID(ctx context.Context, req *ConfigGetByUnitIdReq) (res *ConfigGetByUnitIdResp, err error)
+	ConfigUpdateInfo(ctx context.Context, req *ConfigCreateOrUpdateReq) (res *basic.Response, err error)
+	ConfigGetByUnitID(ctx context.Context, req *ConfigGetByUnitIdReq) (res *ConfigGetByUnitIdResp, err error)
 }

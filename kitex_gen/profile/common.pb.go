@@ -730,41 +730,41 @@ func (x *ChatApp) GetAppId() string {
 	return ""
 }
 
-type TtsApp struct {
+type TTSApp struct {
 	Name        string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
 	Description string `protobuf:"bytes,2,opt,name=description" json:"description,omitempty"`
 	Provider    string `protobuf:"bytes,3,opt,name=provider" json:"provider,omitempty"`
 	AppId       string `protobuf:"bytes,4,opt,name=appId" json:"appId,omitempty"`
 }
 
-func (x *TtsApp) Reset() { *x = TtsApp{} }
+func (x *TTSApp) Reset() { *x = TTSApp{} }
 
-func (x *TtsApp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+func (x *TTSApp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
 
-func (x *TtsApp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+func (x *TTSApp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *TtsApp) GetName() string {
+func (x *TTSApp) GetName() string {
 	if x != nil {
 		return x.Name
 	}
 	return ""
 }
 
-func (x *TtsApp) GetDescription() string {
+func (x *TTSApp) GetDescription() string {
 	if x != nil {
 		return x.Description
 	}
 	return ""
 }
 
-func (x *TtsApp) GetProvider() string {
+func (x *TTSApp) GetProvider() string {
 	if x != nil {
 		return x.Provider
 	}
 	return ""
 }
 
-func (x *TtsApp) GetAppId() string {
+func (x *TTSApp) GetAppId() string {
 	if x != nil {
 		return x.AppId
 	}
@@ -814,11 +814,11 @@ func (x *ReportApp) GetAppId() string {
 
 type Config struct {
 	UnitID     string     `protobuf:"bytes,1,opt,name=unitID" json:"unitID,omitempty"`
-	Type       int32      `protobuf:"varint,2,opt,name=type" json:"type,omitempty"`
+	Type       string     `protobuf:"bytes,2,opt,name=type" json:"type,omitempty"` // chain | end2end
 	Chat       *ChatApp   `protobuf:"bytes,3,opt,name=chat" json:"chat,omitempty"`
-	Tts        *TtsApp    `protobuf:"bytes,4,opt,name=tts" json:"tts,omitempty"`
+	Tts        *TTSApp    `protobuf:"bytes,4,opt,name=tts" json:"tts,omitempty"`
 	Report     *ReportApp `protobuf:"bytes,5,opt,name=report" json:"report,omitempty"`
-	Status     int32      `protobuf:"varint,6,opt,name=status" json:"status,omitempty"`
+	Status     string     `protobuf:"bytes,6,opt,name=status" json:"status,omitempty"` // active | deleted
 	CreateTime int64      `protobuf:"varint,7,opt,name=createTime" json:"createTime,omitempty"`
 	UpdateTime int64      `protobuf:"varint,8,opt,name=updateTime" json:"updateTime,omitempty"`
 }
@@ -836,11 +836,11 @@ func (x *Config) GetUnitID() string {
 	return ""
 }
 
-func (x *Config) GetType() int32 {
+func (x *Config) GetType() string {
 	if x != nil {
 		return x.Type
 	}
-	return 0
+	return ""
 }
 
 func (x *Config) GetChat() *ChatApp {
@@ -850,7 +850,7 @@ func (x *Config) GetChat() *ChatApp {
 	return nil
 }
 
-func (x *Config) GetTts() *TtsApp {
+func (x *Config) GetTts() *TTSApp {
 	if x != nil {
 		return x.Tts
 	}
@@ -864,11 +864,11 @@ func (x *Config) GetReport() *ReportApp {
 	return nil
 }
 
-func (x *Config) GetStatus() int32 {
+func (x *Config) GetStatus() string {
 	if x != nil {
 		return x.Status
 	}
-	return 0
+	return ""
 }
 
 func (x *Config) GetCreateTime() int64 {
@@ -913,8 +913,8 @@ func (x *ConfigCreateOrUpdateReq) GetAdmin() bool {
 }
 
 type ConfigGetByUnitIdReq struct {
-	Id    string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	Admin bool   `protobuf:"varint,2,opt,name=admin" json:"admin,omitempty"`
+	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	Admin  bool   `protobuf:"varint,2,opt,name=admin" json:"admin,omitempty"`
 }
 
 func (x *ConfigGetByUnitIdReq) Reset() { *x = ConfigGetByUnitIdReq{} }
@@ -923,9 +923,9 @@ func (x *ConfigGetByUnitIdReq) Marshal(in []byte) ([]byte, error) { return pruta
 
 func (x *ConfigGetByUnitIdReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *ConfigGetByUnitIdReq) GetId() string {
+func (x *ConfigGetByUnitIdReq) GetUnitId() string {
 	if x != nil {
-		return x.Id
+		return x.UnitId
 	}
 	return ""
 }
