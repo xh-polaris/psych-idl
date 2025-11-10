@@ -813,7 +813,7 @@ func (x *ReportApp) GetAppId() string {
 }
 
 type Config struct {
-	UnitID     string     `protobuf:"bytes,1,opt,name=unitID" json:"unitID,omitempty"`
+	UnitId     string     `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 	Type       string     `protobuf:"bytes,2,opt,name=type" json:"type,omitempty"` // chain | end2end
 	Chat       *ChatApp   `protobuf:"bytes,3,opt,name=chat" json:"chat,omitempty"`
 	Tts        *TTSApp    `protobuf:"bytes,4,opt,name=tts" json:"tts,omitempty"`
@@ -829,9 +829,9 @@ func (x *Config) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppen
 
 func (x *Config) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *Config) GetUnitID() string {
+func (x *Config) GetUnitId() string {
 	if x != nil {
-		return x.UnitID
+		return x.UnitId
 	}
 	return ""
 }
@@ -888,6 +888,7 @@ func (x *Config) GetUpdateTime() int64 {
 type ConfigCreateOrUpdateReq struct {
 	Config *Config `protobuf:"bytes,1,opt,name=config" json:"config,omitempty"`
 	Admin  bool    `protobuf:"varint,2,opt,name=admin" json:"admin,omitempty"`
+	Id     string  `protobuf:"bytes,3,opt,name=id" json:"id,omitempty"`
 }
 
 func (x *ConfigCreateOrUpdateReq) Reset() { *x = ConfigCreateOrUpdateReq{} }
@@ -910,6 +911,13 @@ func (x *ConfigCreateOrUpdateReq) GetAdmin() bool {
 		return x.Admin
 	}
 	return false
+}
+
+func (x *ConfigCreateOrUpdateReq) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
 }
 
 type ConfigGetByUnitIdReq struct {
