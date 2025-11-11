@@ -888,7 +888,6 @@ func (x *Config) GetUpdateTime() int64 {
 type ConfigCreateOrUpdateReq struct {
 	Config *Config `protobuf:"bytes,1,opt,name=config" json:"config,omitempty"`
 	Admin  bool    `protobuf:"varint,2,opt,name=admin" json:"admin,omitempty"`
-	Id     string  `protobuf:"bytes,3,opt,name=id" json:"id,omitempty"`
 }
 
 func (x *ConfigCreateOrUpdateReq) Reset() { *x = ConfigCreateOrUpdateReq{} }
@@ -911,13 +910,6 @@ func (x *ConfigCreateOrUpdateReq) GetAdmin() bool {
 		return x.Admin
 	}
 	return false
-}
-
-func (x *ConfigCreateOrUpdateReq) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
 }
 
 type ConfigGetByUnitIdReq struct {
