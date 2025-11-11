@@ -172,7 +172,6 @@ message Config {
 message ConfigCreateOrUpdateReq {
   Config config = 1;
   bool admin = 2;
-  string id = 3;
 }
 
 message ConfigGetByUnitIdReq {
