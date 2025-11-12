@@ -1479,10 +1479,10 @@ func (p *UnitCreateAndLinkUserArgs) GetFirstArgument() interface{} {
 }
 
 type UnitCreateAndLinkUserResult struct {
-	Success *basic.Response
+	Success *profile.UnitCreateAndLinkUserResp
 }
 
-var UnitCreateAndLinkUserResult_Success_DEFAULT *basic.Response
+var UnitCreateAndLinkUserResult_Success_DEFAULT *profile.UnitCreateAndLinkUserResp
 
 func (p *UnitCreateAndLinkUserResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -1492,7 +1492,7 @@ func (p *UnitCreateAndLinkUserResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *UnitCreateAndLinkUserResult) Unmarshal(in []byte) error {
-	msg := new(basic.Response)
+	msg := new(profile.UnitCreateAndLinkUserResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -1500,7 +1500,7 @@ func (p *UnitCreateAndLinkUserResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *UnitCreateAndLinkUserResult) GetSuccess() *basic.Response {
+func (p *UnitCreateAndLinkUserResult) GetSuccess() *profile.UnitCreateAndLinkUserResp {
 	if !p.IsSetSuccess() {
 		return UnitCreateAndLinkUserResult_Success_DEFAULT
 	}
@@ -1508,7 +1508,7 @@ func (p *UnitCreateAndLinkUserResult) GetSuccess() *basic.Response {
 }
 
 func (p *UnitCreateAndLinkUserResult) SetSuccess(x interface{}) {
-	p.Success = x.(*basic.Response)
+	p.Success = x.(*profile.UnitCreateAndLinkUserResp)
 }
 
 func (p *UnitCreateAndLinkUserResult) IsSetSuccess() bool {
@@ -1972,7 +1972,7 @@ func (p *kClient) UnitLinkUser(ctx context.Context, Req *profile.UnitLinkUserReq
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) UnitCreateAndLinkUser(ctx context.Context, Req *profile.UnitCreateAndLinkUserReq) (r *basic.Response, err error) {
+func (p *kClient) UnitCreateAndLinkUser(ctx context.Context, Req *profile.UnitCreateAndLinkUserReq) (r *profile.UnitCreateAndLinkUserResp, err error) {
 	var _args UnitCreateAndLinkUserArgs
 	_args.Req = Req
 	var _result UnitCreateAndLinkUserResult

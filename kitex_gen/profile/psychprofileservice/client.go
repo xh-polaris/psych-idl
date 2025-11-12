@@ -23,7 +23,7 @@ type Client interface {
 	UnitUpdateInfo(ctx context.Context, Req *profile.UnitUpdateInfoReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	UnitUpdatePassword(ctx context.Context, Req *profile.UnitUpdatePasswordReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	UnitLinkUser(ctx context.Context, Req *profile.UnitLinkUserReq, callOptions ...callopt.Option) (r *basic.Response, err error)
-	UnitCreateAndLinkUser(ctx context.Context, Req *profile.UnitCreateAndLinkUserReq, callOptions ...callopt.Option) (r *basic.Response, err error)
+	UnitCreateAndLinkUser(ctx context.Context, Req *profile.UnitCreateAndLinkUserReq, callOptions ...callopt.Option) (r *profile.UnitCreateAndLinkUserResp, err error)
 	ConfigCreate(ctx context.Context, Req *profile.ConfigCreateOrUpdateReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	ConfigUpdateInfo(ctx context.Context, Req *profile.ConfigCreateOrUpdateReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	ConfigGetByUnitID(ctx context.Context, Req *profile.ConfigGetByUnitIdReq, callOptions ...callopt.Option) (r *profile.ConfigGetByUnitIdResp, err error)
@@ -113,7 +113,7 @@ func (p *kPsychProfileServiceClient) UnitLinkUser(ctx context.Context, Req *prof
 	return p.kClient.UnitLinkUser(ctx, Req)
 }
 
-func (p *kPsychProfileServiceClient) UnitCreateAndLinkUser(ctx context.Context, Req *profile.UnitCreateAndLinkUserReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
+func (p *kPsychProfileServiceClient) UnitCreateAndLinkUser(ctx context.Context, Req *profile.UnitCreateAndLinkUserReq, callOptions ...callopt.Option) (r *profile.UnitCreateAndLinkUserResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.UnitCreateAndLinkUser(ctx, Req)
 }

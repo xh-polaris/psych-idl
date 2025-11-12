@@ -688,6 +688,41 @@ func (x *UnitCreateAndLinkUserReq) GetUsers() []*User {
 	return nil
 }
 
+type UnitCreateAndLinkUserResp struct {
+	AllCount     int32 `protobuf:"varint,1,opt,name=allCount" json:"allCount,omitempty"`
+	SuccessCount int32 `protobuf:"varint,2,opt,name=successCount" json:"successCount,omitempty"`
+	SkipCount    int32 `protobuf:"varint,3,opt,name=skipCount" json:"skipCount,omitempty"`
+}
+
+func (x *UnitCreateAndLinkUserResp) Reset() { *x = UnitCreateAndLinkUserResp{} }
+
+func (x *UnitCreateAndLinkUserResp) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *UnitCreateAndLinkUserResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitCreateAndLinkUserResp) GetAllCount() int32 {
+	if x != nil {
+		return x.AllCount
+	}
+	return 0
+}
+
+func (x *UnitCreateAndLinkUserResp) GetSuccessCount() int32 {
+	if x != nil {
+		return x.SuccessCount
+	}
+	return 0
+}
+
+func (x *UnitCreateAndLinkUserResp) GetSkipCount() int32 {
+	if x != nil {
+		return x.SkipCount
+	}
+	return 0
+}
+
 /*Config*/
 type ChatApp struct {
 	Name        string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
