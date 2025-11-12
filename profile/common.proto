@@ -135,6 +135,11 @@ message UnitCreateAndLinkUserReq {
   string codeType = 2;
   repeated User users = 3;
 }
+message UnitCreateAndLinkUserResp {
+  int32 allCount = 1;
+  int32 successCount = 2;
+  int32 skipCount = 3;
+}
 
 /*Config*/
 message ChatApp {
@@ -181,4 +186,3 @@ message ConfigGetByUnitIdReq {
 message ConfigGetByUnitIdResp {
   Config config = 1;
 }
-

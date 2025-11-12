@@ -24,7 +24,7 @@ service PsychProfileService {
   rpc UnitUpdatePassword(UnitUpdatePasswordReq) returns (basic.Response);
   // 操作相关
   rpc UnitLinkUser(UnitLinkUserReq) returns (basic.Response);
-  rpc UnitCreateAndLinkUser(UnitCreateAndLinkUserReq) returns (basic.Response);
+  rpc UnitCreateAndLinkUser(UnitCreateAndLinkUserReq) returns (UnitCreateAndLinkUserResp);
 
   /* Config */
   rpc ConfigCreate(ConfigCreateOrUpdateReq) returns (basic.Response);
