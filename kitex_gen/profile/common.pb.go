@@ -183,6 +183,7 @@ func (x *UserSignUpResp) GetUser() *User {
 
 // 登录相关，支持弱校验
 type UserSignInReq struct {
+	UnitId    string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 	AuthType  string `protobuf:"bytes,2,opt,name=authType" json:"authType,omitempty"`
 	AuthId    string `protobuf:"bytes,3,opt,name=authId" json:"authId,omitempty"`
 	AuthValue string `protobuf:"bytes,4,opt,name=authValue" json:"authValue,omitempty"`
@@ -193,6 +194,13 @@ func (x *UserSignInReq) Reset() { *x = UserSignInReq{} }
 func (x *UserSignInReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
 
 func (x *UserSignInReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UserSignInReq) GetUnitId() string {
+	if x != nil {
+		return x.UnitId
+	}
+	return ""
+}
 
 func (x *UserSignInReq) GetAuthType() string {
 	if x != nil {
