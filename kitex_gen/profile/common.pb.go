@@ -226,7 +226,6 @@ func (x *UserSignInReq) GetAuthValue() string {
 type UserSignInResp struct {
 	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 	UserId string `protobuf:"bytes,2,opt,name=userId" json:"userId,omitempty"`
-	Strong bool   `protobuf:"varint,3,opt,name=strong" json:"strong,omitempty"`
 }
 
 func (x *UserSignInResp) Reset() { *x = UserSignInResp{} }
@@ -247,13 +246,6 @@ func (x *UserSignInResp) GetUserId() string {
 		return x.UserId
 	}
 	return ""
-}
-
-func (x *UserSignInResp) GetStrong() bool {
-	if x != nil {
-		return x.Strong
-	}
-	return false
 }
 
 // 获取信息
