@@ -3,84 +3,10 @@
 package core_api
 
 import (
-	"google.golang.org/protobuf/types/known/structpb"
+	"github.com/xh-polaris/psych-idl/kitex_gen/profile"
 
 	"github.com/cloudwego/prutal"
 )
-
-// 可返回给前端的用户信息
-type User struct {
-	Id         string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	Phone      string `protobuf:"bytes,2,opt,name=phone" json:"phone,omitempty"`
-	Name       string `protobuf:"bytes,4,opt,name=name" json:"name,omitempty"`
-	Birth      string `protobuf:"bytes,5,opt,name=birth" json:"birth,omitempty"`
-	Gender     int32  `protobuf:"varint,6,opt,name=gender" json:"gender,omitempty"`
-	Status     int32  `protobuf:"varint,7,opt,name=status" json:"status,omitempty"`
-	CreateTime int64  `protobuf:"varint,8,opt,name=createTime" json:"createTime,omitempty"`
-	UpdateTime int64  `protobuf:"varint,9,opt,name=updateTime" json:"updateTime,omitempty"`
-}
-
-func (x *User) Reset() { *x = User{} }
-
-func (x *User) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
-
-func (x *User) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *User) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *User) GetPhone() string {
-	if x != nil {
-		return x.Phone
-	}
-	return ""
-}
-
-func (x *User) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *User) GetBirth() string {
-	if x != nil {
-		return x.Birth
-	}
-	return ""
-}
-
-func (x *User) GetGender() int32 {
-	if x != nil {
-		return x.Gender
-	}
-	return 0
-}
-
-func (x *User) GetStatus() int32 {
-	if x != nil {
-		return x.Status
-	}
-	return 0
-}
-
-func (x *User) GetCreateTime() int64 {
-	if x != nil {
-		return x.CreateTime
-	}
-	return 0
-}
-
-func (x *User) GetUpdateTime() int64 {
-	if x != nil {
-		return x.UpdateTime
-	}
-	return 0
-}
 
 type UserSignInReq struct {
 	UnitId    string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
@@ -199,10 +125,9 @@ func (x *UserGetInfoReq) Marshal(in []byte) ([]byte, error) { return prutal.Mars
 func (x *UserGetInfoReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
 type UserGetInfoResp struct {
-	User *User            `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
-	Info *structpb.Struct `protobuf:"bytes,2,opt,name=info" json:"info,omitempty"`
-	Code int32            `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg  string           `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+	User *profile.User `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	Code int32         `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg  string        `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *UserGetInfoResp) Reset() { *x = UserGetInfoResp{} }
@@ -211,16 +136,9 @@ func (x *UserGetInfoResp) Marshal(in []byte) ([]byte, error) { return prutal.Mar
 
 func (x *UserGetInfoResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *UserGetInfoResp) GetUser() *User {
+func (x *UserGetInfoResp) GetUser() *profile.User {
 	if x != nil {
 		return x.User
-	}
-	return nil
-}
-
-func (x *UserGetInfoResp) GetInfo() *structpb.Struct {
-	if x != nil {
-		return x.Info
 	}
 	return nil
 }
