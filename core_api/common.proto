@@ -24,15 +24,15 @@ message User {
 
 message UserSignInReq {
   string unitId = 1;
-  int32 authType = 2;
+  string authType = 2;
   string authId = 3;
-  string verifyCode = 4;
+  string authValue = 4;
 }
 message UserSignInResp {
   string unitId = 1;
   string userId = 2;
-  optional string studentId = 3;
-  bool strong = 4;
+  string codeType = 3;
+  string codeValue = 4;
   string token = 5;
   int32 code = 255;
   string msg = 256;
