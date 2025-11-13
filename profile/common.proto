@@ -46,7 +46,6 @@ message UserSignInReq {
 message UserSignInResp {
   string unitId = 1;
   string userId = 2;
-  bool strong = 3;
 }
 
 // 获取信息
