@@ -83,10 +83,10 @@ func (x *User) GetUpdateTime() int64 {
 }
 
 type UserSignInReq struct {
-	UnitId     string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	AuthType   int32  `protobuf:"varint,2,opt,name=authType" json:"authType,omitempty"`
-	AuthId     string `protobuf:"bytes,3,opt,name=authId" json:"authId,omitempty"`
-	VerifyCode string `protobuf:"bytes,4,opt,name=verifyCode" json:"verifyCode,omitempty"`
+	UnitId    string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	AuthType  string `protobuf:"bytes,2,opt,name=authType" json:"authType,omitempty"`
+	AuthId    string `protobuf:"bytes,3,opt,name=authId" json:"authId,omitempty"`
+	AuthValue string `protobuf:"bytes,4,opt,name=authValue" json:"authValue,omitempty"`
 }
 
 func (x *UserSignInReq) Reset() { *x = UserSignInReq{} }
@@ -102,11 +102,11 @@ func (x *UserSignInReq) GetUnitId() string {
 	return ""
 }
 
-func (x *UserSignInReq) GetAuthType() int32 {
+func (x *UserSignInReq) GetAuthType() string {
 	if x != nil {
 		return x.AuthType
 	}
-	return 0
+	return ""
 }
 
 func (x *UserSignInReq) GetAuthId() string {
@@ -116,21 +116,21 @@ func (x *UserSignInReq) GetAuthId() string {
 	return ""
 }
 
-func (x *UserSignInReq) GetVerifyCode() string {
+func (x *UserSignInReq) GetAuthValue() string {
 	if x != nil {
-		return x.VerifyCode
+		return x.AuthValue
 	}
 	return ""
 }
 
 type UserSignInResp struct {
-	UnitId    string  `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	UserId    string  `protobuf:"bytes,2,opt,name=userId" json:"userId,omitempty"`
-	StudentId *string `protobuf:"bytes,3,opt,name=studentId" json:"studentId,omitempty"`
-	Strong    bool    `protobuf:"varint,4,opt,name=strong" json:"strong,omitempty"`
-	Token     string  `protobuf:"bytes,5,opt,name=token" json:"token,omitempty"`
-	Code      int32   `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg       string  `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+	UnitId    string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	UserId    string `protobuf:"bytes,2,opt,name=userId" json:"userId,omitempty"`
+	CodeType  string `protobuf:"bytes,3,opt,name=codeType" json:"codeType,omitempty"`
+	CodeValue string `protobuf:"bytes,4,opt,name=codeValue" json:"codeValue,omitempty"`
+	Token     string `protobuf:"bytes,5,opt,name=token" json:"token,omitempty"`
+	Code      int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg       string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *UserSignInResp) Reset() { *x = UserSignInResp{} }
@@ -153,18 +153,18 @@ func (x *UserSignInResp) GetUserId() string {
 	return ""
 }
 
-func (x *UserSignInResp) GetStudentId() string {
-	if x != nil && x.StudentId != nil {
-		return *x.StudentId
+func (x *UserSignInResp) GetCodeType() string {
+	if x != nil {
+		return x.CodeType
 	}
 	return ""
 }
 
-func (x *UserSignInResp) GetStrong() bool {
+func (x *UserSignInResp) GetCodeValue() string {
 	if x != nil {
-		return x.Strong
+		return x.CodeValue
 	}
-	return false
+	return ""
 }
 
 func (x *UserSignInResp) GetToken() string {
