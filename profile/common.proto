@@ -39,9 +39,9 @@ message UserSignUpResp {
 // 登录相关，支持弱校验
 message UserSignInReq {
   string unitId = 1;
-  string authType = 2;
+  int32 authType = 2;
   string authId = 3;
-  string authValue = 4;
+  string verifyCode = 4;
 }
 message UserSignInResp {
   string unitId = 1;
