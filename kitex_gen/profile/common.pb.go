@@ -181,7 +181,7 @@ func (x *UserSignUpResp) GetUser() *User {
 	return nil
 }
 
-// 登录相关，支持弱校验
+// 登录相关
 type UserSignInReq struct {
 	UnitId     string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 	AuthType   int32  `protobuf:"varint,2,opt,name=authType" json:"authType,omitempty"`
@@ -224,8 +224,10 @@ func (x *UserSignInReq) GetVerifyCode() string {
 }
 
 type UserSignInResp struct {
-	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	UserId string `protobuf:"bytes,2,opt,name=userId" json:"userId,omitempty"`
+	UnitId   string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	UserId   string `protobuf:"bytes,2,opt,name=userId" json:"userId,omitempty"`
+	Code     string `protobuf:"bytes,3,opt,name=code" json:"code,omitempty"`
+	CodeType string `protobuf:"bytes,4,opt,name=codeType" json:"codeType,omitempty"`
 }
 
 func (x *UserSignInResp) Reset() { *x = UserSignInResp{} }
@@ -244,6 +246,20 @@ func (x *UserSignInResp) GetUnitId() string {
 func (x *UserSignInResp) GetUserId() string {
 	if x != nil {
 		return x.UserId
+	}
+	return ""
+}
+
+func (x *UserSignInResp) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+func (x *UserSignInResp) GetCodeType() string {
+	if x != nil {
+		return x.CodeType
 	}
 	return ""
 }
