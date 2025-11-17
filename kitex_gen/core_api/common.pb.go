@@ -10,7 +10,7 @@ import (
 
 type UserSignInReq struct {
 	UnitId     string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	AuthType   string `protobuf:"bytes,2,opt,name=authType" json:"authType,omitempty"`
+	AuthType   int32  `protobuf:"varint,2,opt,name=authType" json:"authType,omitempty"`
 	AuthId     string `protobuf:"bytes,3,opt,name=authId" json:"authId,omitempty"`
 	VerifyCode string `protobuf:"bytes,4,opt,name=verifyCode" json:"verifyCode,omitempty"`
 }
@@ -28,11 +28,11 @@ func (x *UserSignInReq) GetUnitId() string {
 	return ""
 }
 
-func (x *UserSignInReq) GetAuthType() string {
+func (x *UserSignInReq) GetAuthType() int32 {
 	if x != nil {
 		return x.AuthType
 	}
-	return ""
+	return 0
 }
 
 func (x *UserSignInReq) GetAuthId() string {
