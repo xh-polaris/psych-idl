@@ -320,8 +320,8 @@ func (x *UserUpdateInfoReq) GetUser() *User {
 // 更新密码
 type UserUpdatePasswordReq struct {
 	Id          string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	AuthType    string `protobuf:"bytes,2,opt,name=authType" json:"authType,omitempty"`
-	AuthValue   string `protobuf:"bytes,3,opt,name=authValue" json:"authValue,omitempty"`
+	AuthType    int32  `protobuf:"varint,2,opt,name=authType" json:"authType,omitempty"`
+	VerifyCode  string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
 	NewPassword string `protobuf:"bytes,4,opt,name=newPassword" json:"newPassword,omitempty"`
 }
 
@@ -340,16 +340,16 @@ func (x *UserUpdatePasswordReq) GetId() string {
 	return ""
 }
 
-func (x *UserUpdatePasswordReq) GetAuthType() string {
+func (x *UserUpdatePasswordReq) GetAuthType() int32 {
 	if x != nil {
 		return x.AuthType
 	}
-	return ""
+	return 0
 }
 
-func (x *UserUpdatePasswordReq) GetAuthValue() string {
+func (x *UserUpdatePasswordReq) GetVerifyCode() string {
 	if x != nil {
-		return x.AuthValue
+		return x.VerifyCode
 	}
 	return ""
 }
