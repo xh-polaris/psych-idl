@@ -9,10 +9,10 @@ import (
 )
 
 type UserSignInReq struct {
-	UnitId    string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	AuthType  string `protobuf:"bytes,2,opt,name=authType" json:"authType,omitempty"`
-	AuthId    string `protobuf:"bytes,3,opt,name=authId" json:"authId,omitempty"`
-	AuthValue string `protobuf:"bytes,4,opt,name=authValue" json:"authValue,omitempty"`
+	UnitId     string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	AuthType   string `protobuf:"bytes,2,opt,name=authType" json:"authType,omitempty"`
+	AuthId     string `protobuf:"bytes,3,opt,name=authId" json:"authId,omitempty"`
+	VerifyCode string `protobuf:"bytes,4,opt,name=verifyCode" json:"verifyCode,omitempty"`
 }
 
 func (x *UserSignInReq) Reset() { *x = UserSignInReq{} }
@@ -42,9 +42,9 @@ func (x *UserSignInReq) GetAuthId() string {
 	return ""
 }
 
-func (x *UserSignInReq) GetAuthValue() string {
+func (x *UserSignInReq) GetVerifyCode() string {
 	if x != nil {
-		return x.AuthValue
+		return x.VerifyCode
 	}
 	return ""
 }
