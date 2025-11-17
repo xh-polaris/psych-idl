@@ -496,9 +496,9 @@ func (x *UnitSignUpResp) GetUnit() *Unit {
 
 // 登录相关
 type UnitSignInReq struct {
-	AuthType  string `protobuf:"bytes,1,opt,name=authType" json:"authType,omitempty"`
-	AuthId    string `protobuf:"bytes,2,opt,name=authId" json:"authId,omitempty"`
-	AuthValue string `protobuf:"bytes,3,opt,name=authValue" json:"authValue,omitempty"`
+	AuthType   int32  `protobuf:"varint,1,opt,name=authType" json:"authType,omitempty"`
+	AuthId     string `protobuf:"bytes,2,opt,name=authId" json:"authId,omitempty"`
+	VerifyCode string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
 }
 
 func (x *UnitSignInReq) Reset() { *x = UnitSignInReq{} }
@@ -507,11 +507,11 @@ func (x *UnitSignInReq) Marshal(in []byte) ([]byte, error) { return prutal.Marsh
 
 func (x *UnitSignInReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *UnitSignInReq) GetAuthType() string {
+func (x *UnitSignInReq) GetAuthType() int32 {
 	if x != nil {
 		return x.AuthType
 	}
-	return ""
+	return 0
 }
 
 func (x *UnitSignInReq) GetAuthId() string {
@@ -521,9 +521,9 @@ func (x *UnitSignInReq) GetAuthId() string {
 	return ""
 }
 
-func (x *UnitSignInReq) GetAuthValue() string {
+func (x *UnitSignInReq) GetVerifyCode() string {
 	if x != nil {
-		return x.AuthValue
+		return x.VerifyCode
 	}
 	return ""
 }
@@ -601,8 +601,8 @@ func (x *UnitUpdateInfoReq) GetUnit() *Unit {
 // 更新密码
 type UnitUpdatePasswordReq struct {
 	Id          string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	AuthType    string `protobuf:"bytes,2,opt,name=authType" json:"authType,omitempty"`
-	AuthValue   string `protobuf:"bytes,3,opt,name=authValue" json:"authValue,omitempty"`
+	AuthType    int32  `protobuf:"varint,2,opt,name=authType" json:"authType,omitempty"`
+	VerifyCode  string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
 	NewPassword string `protobuf:"bytes,4,opt,name=newPassword" json:"newPassword,omitempty"`
 }
 
@@ -621,16 +621,16 @@ func (x *UnitUpdatePasswordReq) GetId() string {
 	return ""
 }
 
-func (x *UnitUpdatePasswordReq) GetAuthType() string {
+func (x *UnitUpdatePasswordReq) GetAuthType() int32 {
 	if x != nil {
 		return x.AuthType
 	}
-	return ""
+	return 0
 }
 
-func (x *UnitUpdatePasswordReq) GetAuthValue() string {
+func (x *UnitUpdatePasswordReq) GetVerifyCode() string {
 	if x != nil {
-		return x.AuthValue
+		return x.VerifyCode
 	}
 	return ""
 }
