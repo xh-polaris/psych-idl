@@ -156,6 +156,7 @@ message TTSApp {
   string description = 2;
   string provider = 3;
   string appId = 4;
+  string speaker = 5;
 };
 
 message ReportApp {
