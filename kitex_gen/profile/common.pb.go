@@ -786,6 +786,7 @@ type TTSApp struct {
 	Description string `protobuf:"bytes,2,opt,name=description" json:"description,omitempty"`
 	Provider    string `protobuf:"bytes,3,opt,name=provider" json:"provider,omitempty"`
 	AppId       string `protobuf:"bytes,4,opt,name=appId" json:"appId,omitempty"`
+	Speaker     string `protobuf:"bytes,5,opt,name=speaker" json:"speaker,omitempty"`
 }
 
 func (x *TTSApp) Reset() { *x = TTSApp{} }
@@ -818,6 +819,13 @@ func (x *TTSApp) GetProvider() string {
 func (x *TTSApp) GetAppId() string {
 	if x != nil {
 		return x.AppId
+	}
+	return ""
+}
+
+func (x *TTSApp) GetSpeaker() string {
+	if x != nil {
+		return x.Speaker
 	}
 	return ""
 }
