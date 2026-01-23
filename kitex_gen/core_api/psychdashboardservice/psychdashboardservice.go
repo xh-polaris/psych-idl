@@ -9,7 +9,7 @@ import (
 	kitex "github.com/cloudwego/kitex/pkg/serviceinfo"
 	streaming "github.com/cloudwego/kitex/pkg/streaming"
 	proto "github.com/cloudwego/prutal"
-	dashboard "github.com/xh-polaris/psych-idl/kitex_gen/dashboard"
+	core_api "github.com/xh-polaris/psych-idl/kitex_gen/core_api"
 )
 
 var errInvalidMessageType = errors.New("invalid message type for service method handler")
@@ -74,7 +74,7 @@ func NewServiceInfoForStreamClient() *kitex.ServiceInfo {
 
 func newServiceInfo(hasStreaming bool, keepStreamingMethods bool, keepNonStreamingMethods bool) *kitex.ServiceInfo {
 	serviceName := "PsychDashboardService"
-	handlerType := (*dashboard.PsychDashboardService)(nil)
+	handlerType := (*core_api.PsychDashboardService)(nil)
 	methods := map[string]kitex.MethodInfo{}
 	for name, m := range serviceMethods {
 		if m.IsStreaming() && !keepStreamingMethods {
@@ -106,17 +106,17 @@ func dashboardGetDataOverviewHandler(ctx context.Context, handler interface{}, a
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(dashboard.DashboardGetDataOverviewReq)
+		req := new(core_api.DashboardGetDataOverviewReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(dashboard.PsychDashboardService).DashboardGetDataOverview(ctx, req)
+		resp, err := handler.(core_api.PsychDashboardService).DashboardGetDataOverview(ctx, req)
 		if err != nil {
 			return err
 		}
 		return st.SendMsg(resp)
 	case *DashboardGetDataOverviewArgs:
-		success, err := handler.(dashboard.PsychDashboardService).DashboardGetDataOverview(ctx, s.Req)
+		success, err := handler.(core_api.PsychDashboardService).DashboardGetDataOverview(ctx, s.Req)
 		if err != nil {
 			return err
 		}
@@ -136,7 +136,7 @@ func newDashboardGetDataOverviewResult() interface{} {
 }
 
 type DashboardGetDataOverviewArgs struct {
-	Req *dashboard.DashboardGetDataOverviewReq
+	Req *core_api.DashboardGetDataOverviewReq
 }
 
 func (p *DashboardGetDataOverviewArgs) Marshal(out []byte) ([]byte, error) {
@@ -147,7 +147,7 @@ func (p *DashboardGetDataOverviewArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *DashboardGetDataOverviewArgs) Unmarshal(in []byte) error {
-	msg := new(dashboard.DashboardGetDataOverviewReq)
+	msg := new(core_api.DashboardGetDataOverviewReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -155,9 +155,9 @@ func (p *DashboardGetDataOverviewArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var DashboardGetDataOverviewArgs_Req_DEFAULT *dashboard.DashboardGetDataOverviewReq
+var DashboardGetDataOverviewArgs_Req_DEFAULT *core_api.DashboardGetDataOverviewReq
 
-func (p *DashboardGetDataOverviewArgs) GetReq() *dashboard.DashboardGetDataOverviewReq {
+func (p *DashboardGetDataOverviewArgs) GetReq() *core_api.DashboardGetDataOverviewReq {
 	if !p.IsSetReq() {
 		return DashboardGetDataOverviewArgs_Req_DEFAULT
 	}
@@ -173,10 +173,10 @@ func (p *DashboardGetDataOverviewArgs) GetFirstArgument() interface{} {
 }
 
 type DashboardGetDataOverviewResult struct {
-	Success *dashboard.DashboardGetDataOverviewResp
+	Success *core_api.DashboardGetDataOverviewResp
 }
 
-var DashboardGetDataOverviewResult_Success_DEFAULT *dashboard.DashboardGetDataOverviewResp
+var DashboardGetDataOverviewResult_Success_DEFAULT *core_api.DashboardGetDataOverviewResp
 
 func (p *DashboardGetDataOverviewResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -186,7 +186,7 @@ func (p *DashboardGetDataOverviewResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *DashboardGetDataOverviewResult) Unmarshal(in []byte) error {
-	msg := new(dashboard.DashboardGetDataOverviewResp)
+	msg := new(core_api.DashboardGetDataOverviewResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -194,7 +194,7 @@ func (p *DashboardGetDataOverviewResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *DashboardGetDataOverviewResult) GetSuccess() *dashboard.DashboardGetDataOverviewResp {
+func (p *DashboardGetDataOverviewResult) GetSuccess() *core_api.DashboardGetDataOverviewResp {
 	if !p.IsSetSuccess() {
 		return DashboardGetDataOverviewResult_Success_DEFAULT
 	}
@@ -202,7 +202,7 @@ func (p *DashboardGetDataOverviewResult) GetSuccess() *dashboard.DashboardGetDat
 }
 
 func (p *DashboardGetDataOverviewResult) SetSuccess(x interface{}) {
-	p.Success = x.(*dashboard.DashboardGetDataOverviewResp)
+	p.Success = x.(*core_api.DashboardGetDataOverviewResp)
 }
 
 func (p *DashboardGetDataOverviewResult) IsSetSuccess() bool {
@@ -217,17 +217,17 @@ func dashboardGetDataTrendHandler(ctx context.Context, handler interface{}, arg,
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(dashboard.DashboardGetDataTrendReq)
+		req := new(core_api.DashboardGetDataTrendReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(dashboard.PsychDashboardService).DashboardGetDataTrend(ctx, req)
+		resp, err := handler.(core_api.PsychDashboardService).DashboardGetDataTrend(ctx, req)
 		if err != nil {
 			return err
 		}
 		return st.SendMsg(resp)
 	case *DashboardGetDataTrendArgs:
-		success, err := handler.(dashboard.PsychDashboardService).DashboardGetDataTrend(ctx, s.Req)
+		success, err := handler.(core_api.PsychDashboardService).DashboardGetDataTrend(ctx, s.Req)
 		if err != nil {
 			return err
 		}
@@ -247,7 +247,7 @@ func newDashboardGetDataTrendResult() interface{} {
 }
 
 type DashboardGetDataTrendArgs struct {
-	Req *dashboard.DashboardGetDataTrendReq
+	Req *core_api.DashboardGetDataTrendReq
 }
 
 func (p *DashboardGetDataTrendArgs) Marshal(out []byte) ([]byte, error) {
@@ -258,7 +258,7 @@ func (p *DashboardGetDataTrendArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *DashboardGetDataTrendArgs) Unmarshal(in []byte) error {
-	msg := new(dashboard.DashboardGetDataTrendReq)
+	msg := new(core_api.DashboardGetDataTrendReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -266,9 +266,9 @@ func (p *DashboardGetDataTrendArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var DashboardGetDataTrendArgs_Req_DEFAULT *dashboard.DashboardGetDataTrendReq
+var DashboardGetDataTrendArgs_Req_DEFAULT *core_api.DashboardGetDataTrendReq
 
-func (p *DashboardGetDataTrendArgs) GetReq() *dashboard.DashboardGetDataTrendReq {
+func (p *DashboardGetDataTrendArgs) GetReq() *core_api.DashboardGetDataTrendReq {
 	if !p.IsSetReq() {
 		return DashboardGetDataTrendArgs_Req_DEFAULT
 	}
@@ -284,10 +284,10 @@ func (p *DashboardGetDataTrendArgs) GetFirstArgument() interface{} {
 }
 
 type DashboardGetDataTrendResult struct {
-	Success *dashboard.DashboardGetDataTrendResp
+	Success *core_api.DashboardGetDataTrendResp
 }
 
-var DashboardGetDataTrendResult_Success_DEFAULT *dashboard.DashboardGetDataTrendResp
+var DashboardGetDataTrendResult_Success_DEFAULT *core_api.DashboardGetDataTrendResp
 
 func (p *DashboardGetDataTrendResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -297,7 +297,7 @@ func (p *DashboardGetDataTrendResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *DashboardGetDataTrendResult) Unmarshal(in []byte) error {
-	msg := new(dashboard.DashboardGetDataTrendResp)
+	msg := new(core_api.DashboardGetDataTrendResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -305,7 +305,7 @@ func (p *DashboardGetDataTrendResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *DashboardGetDataTrendResult) GetSuccess() *dashboard.DashboardGetDataTrendResp {
+func (p *DashboardGetDataTrendResult) GetSuccess() *core_api.DashboardGetDataTrendResp {
 	if !p.IsSetSuccess() {
 		return DashboardGetDataTrendResult_Success_DEFAULT
 	}
@@ -313,7 +313,7 @@ func (p *DashboardGetDataTrendResult) GetSuccess() *dashboard.DashboardGetDataTr
 }
 
 func (p *DashboardGetDataTrendResult) SetSuccess(x interface{}) {
-	p.Success = x.(*dashboard.DashboardGetDataTrendResp)
+	p.Success = x.(*core_api.DashboardGetDataTrendResp)
 }
 
 func (p *DashboardGetDataTrendResult) IsSetSuccess() bool {
@@ -328,17 +328,17 @@ func dashboardListUnitsHandler(ctx context.Context, handler interface{}, arg, re
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(dashboard.DashboardListUnitsReq)
+		req := new(core_api.DashboardListUnitsReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(dashboard.PsychDashboardService).DashboardListUnits(ctx, req)
+		resp, err := handler.(core_api.PsychDashboardService).DashboardListUnits(ctx, req)
 		if err != nil {
 			return err
 		}
 		return st.SendMsg(resp)
 	case *DashboardListUnitsArgs:
-		success, err := handler.(dashboard.PsychDashboardService).DashboardListUnits(ctx, s.Req)
+		success, err := handler.(core_api.PsychDashboardService).DashboardListUnits(ctx, s.Req)
 		if err != nil {
 			return err
 		}
@@ -358,7 +358,7 @@ func newDashboardListUnitsResult() interface{} {
 }
 
 type DashboardListUnitsArgs struct {
-	Req *dashboard.DashboardListUnitsReq
+	Req *core_api.DashboardListUnitsReq
 }
 
 func (p *DashboardListUnitsArgs) Marshal(out []byte) ([]byte, error) {
@@ -369,7 +369,7 @@ func (p *DashboardListUnitsArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *DashboardListUnitsArgs) Unmarshal(in []byte) error {
-	msg := new(dashboard.DashboardListUnitsReq)
+	msg := new(core_api.DashboardListUnitsReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -377,9 +377,9 @@ func (p *DashboardListUnitsArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var DashboardListUnitsArgs_Req_DEFAULT *dashboard.DashboardListUnitsReq
+var DashboardListUnitsArgs_Req_DEFAULT *core_api.DashboardListUnitsReq
 
-func (p *DashboardListUnitsArgs) GetReq() *dashboard.DashboardListUnitsReq {
+func (p *DashboardListUnitsArgs) GetReq() *core_api.DashboardListUnitsReq {
 	if !p.IsSetReq() {
 		return DashboardListUnitsArgs_Req_DEFAULT
 	}
@@ -395,10 +395,10 @@ func (p *DashboardListUnitsArgs) GetFirstArgument() interface{} {
 }
 
 type DashboardListUnitsResult struct {
-	Success *dashboard.DashboardListUnitsResp
+	Success *core_api.DashboardListUnitsResp
 }
 
-var DashboardListUnitsResult_Success_DEFAULT *dashboard.DashboardListUnitsResp
+var DashboardListUnitsResult_Success_DEFAULT *core_api.DashboardListUnitsResp
 
 func (p *DashboardListUnitsResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -408,7 +408,7 @@ func (p *DashboardListUnitsResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *DashboardListUnitsResult) Unmarshal(in []byte) error {
-	msg := new(dashboard.DashboardListUnitsResp)
+	msg := new(core_api.DashboardListUnitsResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -416,7 +416,7 @@ func (p *DashboardListUnitsResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *DashboardListUnitsResult) GetSuccess() *dashboard.DashboardListUnitsResp {
+func (p *DashboardListUnitsResult) GetSuccess() *core_api.DashboardListUnitsResp {
 	if !p.IsSetSuccess() {
 		return DashboardListUnitsResult_Success_DEFAULT
 	}
@@ -424,7 +424,7 @@ func (p *DashboardListUnitsResult) GetSuccess() *dashboard.DashboardListUnitsRes
 }
 
 func (p *DashboardListUnitsResult) SetSuccess(x interface{}) {
-	p.Success = x.(*dashboard.DashboardListUnitsResp)
+	p.Success = x.(*core_api.DashboardListUnitsResp)
 }
 
 func (p *DashboardListUnitsResult) IsSetSuccess() bool {
@@ -445,7 +445,7 @@ func newServiceClient(c client.Client) *kClient {
 	}
 }
 
-func (p *kClient) DashboardGetDataOverview(ctx context.Context, Req *dashboard.DashboardGetDataOverviewReq) (r *dashboard.DashboardGetDataOverviewResp, err error) {
+func (p *kClient) DashboardGetDataOverview(ctx context.Context, Req *core_api.DashboardGetDataOverviewReq) (r *core_api.DashboardGetDataOverviewResp, err error) {
 	var _args DashboardGetDataOverviewArgs
 	_args.Req = Req
 	var _result DashboardGetDataOverviewResult
@@ -455,7 +455,7 @@ func (p *kClient) DashboardGetDataOverview(ctx context.Context, Req *dashboard.D
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) DashboardGetDataTrend(ctx context.Context, Req *dashboard.DashboardGetDataTrendReq) (r *dashboard.DashboardGetDataTrendResp, err error) {
+func (p *kClient) DashboardGetDataTrend(ctx context.Context, Req *core_api.DashboardGetDataTrendReq) (r *core_api.DashboardGetDataTrendResp, err error) {
 	var _args DashboardGetDataTrendArgs
 	_args.Req = Req
 	var _result DashboardGetDataTrendResult
@@ -465,7 +465,7 @@ func (p *kClient) DashboardGetDataTrend(ctx context.Context, Req *dashboard.Dash
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) DashboardListUnits(ctx context.Context, Req *dashboard.DashboardListUnitsReq) (r *dashboard.DashboardListUnitsResp, err error) {
+func (p *kClient) DashboardListUnits(ctx context.Context, Req *core_api.DashboardListUnitsReq) (r *core_api.DashboardListUnitsResp, err error) {
 	var _args DashboardListUnitsArgs
 	_args.Req = Req
 	var _result DashboardListUnitsResult
