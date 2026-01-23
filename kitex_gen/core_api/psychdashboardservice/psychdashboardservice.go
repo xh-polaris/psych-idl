@@ -86,7 +86,7 @@ func newServiceInfo(hasStreaming bool, keepStreamingMethods bool, keepNonStreami
 		methods[name] = m
 	}
 	extra := map[string]interface{}{
-		"PackageName": "dashboard",
+		"PackageName": "core_api",
 	}
 	if hasStreaming {
 		extra["streaming"] = hasStreaming
