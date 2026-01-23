@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package dashboard;
 
-option go_package = "dashboard";
+option go_package = "core_api";
 
 import "dashboard/common.proto";
 import "basic/http.proto";
