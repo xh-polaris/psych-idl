@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package core_api;
+
+option go_package = "core_api";
+
+import "core_api/common.proto";
+import "basic/http.proto";
+
+service PsychDashboardService {
+  // 数据看板
+  rpc DashboardGetDataOverview(DashboardGetDataOverviewReq) returns (DashboardGetDataOverviewResp) {
+    option (http.get) = "/dashboard/overview";
+  }
+  rpc DashboardGetDataTrend(DashboardGetDataTrendReq) returns (DashboardGetDataTrendResp) {
+    option (http.get) = "/dashboard/trend";
+  }
+  rpc DashboardListUnits(DashboardListUnitsReq) returns (DashboardListUnitsResp) {
+    option (http.get) = "/dashboard/units";
+  }
+//  rpc DashboardGetPsycheTrend(DashboardGetPsycheTrendReq) returns (DashboardGetPsycheTrendResp) {
+//    option (http.get) = "/dashboard/psyche_trend";
+//  }
+//  // 预警管理
+//  rpc DashboardGetAlertOverview(DashboardGetAlertOverviewReq) returns (DashboardGetAlertOverviewResp) {
+//    option (http.get) = "/dashboard/alert_overview";
+//  }
+//  rpc DashboardListAlertUsers(DashboardListAlertUsersReq) returns (DashboardListAlertUsersResp) {
+//    option (http.get) = "/dashboard/alert_users";
+//  }
+//  // 用户管理
+//  rpc DashboardListClasses(DashboardListClassesReq) returns (DashboardListClassesResp) {
+//    option (http.get) = "/dashboard/classes";
+//  }
+//  rpc DashboardListUsers(DashboardListUsersReq) returns (DashboardListUsersResp) {
+//    option (http.get) = "/dashboard/users";
+//  }
+}
