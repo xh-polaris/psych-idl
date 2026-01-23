@@ -96,9 +96,9 @@ message UnitSignUpResp {
 
 // 登录相关
 message UnitSignInReq {
-  string authType = 1;
+  int32 authType = 1;
   string authId = 2;
-  string authValue = 3;
+  string verifyCode = 3;
 }
 message UnitSignInResp {
   string unitId = 1;
@@ -120,8 +120,8 @@ message UnitUpdateInfoReq {
 // 更新密码
 message UnitUpdatePasswordReq {
   string id = 1;
-  string authType = 2;
-  string authValue = 3;
+  int32 authType = 2;
+  string verifyCode = 3;
   string newPassword = 4;
 }
 
@@ -156,6 +156,7 @@ message TTSApp {
   string description = 2;
   string provider = 3;
   string appId = 4;
+  string speaker = 5;
 };
 
 message ReportApp {
