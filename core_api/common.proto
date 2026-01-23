@@ -11,6 +11,8 @@ import "profile/common.proto";
 
 // 所有的core_api的resp需要统一增加code:255和msg:256
 
+/* core_api */
+
 message UserSignInReq {
   string unitId = 1;
   int32 authType = 2;
@@ -32,6 +34,83 @@ message UserGetInfoReq {
 }
 message UserGetInfoResp {
   profile.User user = 1;
+  int32 code = 255;
+  string msg = 256;
+}
+
+/* dashboard */
+
+// 数据看板
+message DashboardGetDataOverviewReq {
+  optional string unitId = 1;
+}
+message DashboardGetDataOverviewResp {
+  int32 totalUsers = 1;
+  int32 weeklyIncreaseUsers = 2;
+  double weeklyIncreaseUsersRate = 3;
+  optional int32 activeUsers = 4;
+  optional int32 weeklyIncreaseActiveUsers = 5;
+  optional double weeklyIncreaseActiveUsersRate = 6;
+  int32 totalConversations = 7;
+  int32 weeklyIncreaseConversations = 8;
+  double weeklyIncreaseConversationsRate = 9;
+  double averageTimePerConversation = 10; // minutes
+  double weeklyIncreaseAverageTimePerConversation = 11; // minutes
+  double weeklyIncreaseAverageTimePerConversationRate = 12;
+  int32 alarmUsers = 13;
+  int32 weeklyIncreaseAlarmUsers = 14;
+  double weeklyIncreaseAlarmUsersRate = 15;
+  optional int32 totalUnits = 16;
+  optional int32 weeklyIncreaseUnits = 17;
+  optional double weeklyIncreaseUnitsRate = 18;
+  int32 code = 255;
+  string msg = 256;
+}
+
+message DashboardGetDataTrendReq {
+  optional string unitId = 1;
+}
+message TrendEvent {
+  string id = 1;
+  int64 timestamp = 2;
+}
+message ConversationDistributionEvent {
+  string id = 1;
+  int32 duration = 2; // minutes
+}
+message DeviceCount {
+  int32 deviceType = 1; // 0: 小程序 1: APP 2: 实体 3: Web
+  int32 count = 2;
+}
+message DashboardGetDataTrendResp {
+  repeated TrendEvent activeTrends = 1;
+  repeated TrendEvent conversationTrends = 2;
+  repeated ConversationDistributionEvent conversationDistributions = 3;
+  repeated DeviceCount deviceCounts = 4;
+  int32 code = 255;
+  string msg = 256;
+}
+
+message DashboardListUnitsReq {
+  basic.PaginationOptions pagination = 1;
+}
+message DashboardListUnitsResp {
+  repeated profile.Unit units = 1;
+  basic.Pagination pagination = 2;
+  int32 code = 255;
+  string msg = 256;
+}
+
+message DashboardGetPsycheTrendReq {
+  optional string unitId = 1;
+}
+message PsycheEvent {
+  string userId = 1;
+  int32 psycheType = 2; // 0: 正常 1: 低危 2: 中危 3: 高危
+  int32 male = 3;
+}
+message DashboardGetPsycheTrendResp {
+  repeated PsycheEvent psycheTrends = 1;
   int32 code = 255;
   string msg = 256;
 }
