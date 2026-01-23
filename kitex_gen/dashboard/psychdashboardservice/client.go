@@ -6,14 +6,14 @@ import (
 	"context"
 	client "github.com/cloudwego/kitex/client"
 	callopt "github.com/cloudwego/kitex/client/callopt"
-	core_api "github.com/xh-polaris/psych-idl/kitex_gen/core_api"
+	dashboard "github.com/xh-polaris/psych-idl/kitex_gen/dashboard"
 )
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
-	DashboardGetDataOverview(ctx context.Context, Req *core_api.DashboardGetDataOverviewReq, callOptions ...callopt.Option) (r *core_api.DashboardGetDataOverviewResp, err error)
-	DashboardGetDataTrend(ctx context.Context, Req *core_api.DashboardGetDataTrendReq, callOptions ...callopt.Option) (r *core_api.DashboardGetDataTrendResp, err error)
-	DashboardListUnits(ctx context.Context, Req *core_api.DashboardListUnitsReq, callOptions ...callopt.Option) (r *core_api.DashboardListUnitsResp, err error)
+	DashboardGetDataOverview(ctx context.Context, Req *dashboard.DashboardGetDataOverviewReq, callOptions ...callopt.Option) (r *dashboard.DashboardGetDataOverviewResp, err error)
+	DashboardGetDataTrend(ctx context.Context, Req *dashboard.DashboardGetDataTrendReq, callOptions ...callopt.Option) (r *dashboard.DashboardGetDataTrendResp, err error)
+	DashboardListUnits(ctx context.Context, Req *dashboard.DashboardListUnitsReq, callOptions ...callopt.Option) (r *dashboard.DashboardListUnitsResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -45,17 +45,17 @@ type kPsychDashboardServiceClient struct {
 	*kClient
 }
 
-func (p *kPsychDashboardServiceClient) DashboardGetDataOverview(ctx context.Context, Req *core_api.DashboardGetDataOverviewReq, callOptions ...callopt.Option) (r *core_api.DashboardGetDataOverviewResp, err error) {
+func (p *kPsychDashboardServiceClient) DashboardGetDataOverview(ctx context.Context, Req *dashboard.DashboardGetDataOverviewReq, callOptions ...callopt.Option) (r *dashboard.DashboardGetDataOverviewResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.DashboardGetDataOverview(ctx, Req)
 }
 
-func (p *kPsychDashboardServiceClient) DashboardGetDataTrend(ctx context.Context, Req *core_api.DashboardGetDataTrendReq, callOptions ...callopt.Option) (r *core_api.DashboardGetDataTrendResp, err error) {
+func (p *kPsychDashboardServiceClient) DashboardGetDataTrend(ctx context.Context, Req *dashboard.DashboardGetDataTrendReq, callOptions ...callopt.Option) (r *dashboard.DashboardGetDataTrendResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.DashboardGetDataTrend(ctx, Req)
 }
 
-func (p *kPsychDashboardServiceClient) DashboardListUnits(ctx context.Context, Req *core_api.DashboardListUnitsReq, callOptions ...callopt.Option) (r *core_api.DashboardListUnitsResp, err error) {
+func (p *kPsychDashboardServiceClient) DashboardListUnits(ctx context.Context, Req *dashboard.DashboardListUnitsReq, callOptions ...callopt.Option) (r *dashboard.DashboardListUnitsResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.DashboardListUnits(ctx, Req)
 }

@@ -3,11 +3,11 @@ package psychdashboardservice
 
 import (
 	server "github.com/cloudwego/kitex/server"
-	core_api "github.com/xh-polaris/psych-idl/kitex_gen/core_api"
+	dashboard "github.com/xh-polaris/psych-idl/kitex_gen/dashboard"
 )
 
 // NewServer creates a server.Server with the given handler and options.
-func NewServer(handler core_api.PsychDashboardService, opts ...server.Option) server.Server {
+func NewServer(handler dashboard.PsychDashboardService, opts ...server.Option) server.Server {
 	var options []server.Option
 
 	options = append(options, opts...)
@@ -19,6 +19,6 @@ func NewServer(handler core_api.PsychDashboardService, opts ...server.Option) se
 	return svr
 }
 
-func RegisterService(svr server.Server, handler core_api.PsychDashboardService, opts ...server.RegisterOption) error {
+func RegisterService(svr server.Server, handler dashboard.PsychDashboardService, opts ...server.RegisterOption) error {
 	return svr.RegisterService(serviceInfo(), handler, opts...)
 }
