@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-package core_api;
+package dashboard;
 
-option go_package = "core_api";
+option go_package = "dashboard";
 
-import "core_api/common.proto";
+import "dashboard/common.proto";
 import "basic/http.proto";
 
 service PsychDashboardService {
