@@ -12,12 +12,12 @@ service PsychDashboardService {
   rpc DashboardGetDataOverview(DashboardGetDataOverviewReq) returns (DashboardGetDataOverviewResp) {
     option (http.get) = "/dashboard/overview";
   }
-  rpc DashboardGetDataTrend(DashboardGetDataTrendReq) returns (DashboardGetDataTrendResp) {
-    option (http.get) = "/dashboard/trend";
-  }
-  rpc DashboardListUnits(DashboardListUnitsReq) returns (DashboardListUnitsResp) {
-    option (http.get) = "/dashboard/units";
-  }
+//  rpc DashboardGetDataTrend(DashboardGetDataTrendReq) returns (DashboardGetDataTrendResp) {
+//    option (http.get) = "/dashboard/trend";
+//  }
+//  rpc DashboardListUnits(DashboardListUnitsReq) returns (DashboardListUnitsResp) {
+//    option (http.get) = "/dashboard/units";
+//  }
 //  rpc DashboardGetPsycheTrend(DashboardGetPsycheTrendReq) returns (DashboardGetPsycheTrendResp) {
 //    option (http.get) = "/dashboard/psyche_trend";
 //  }
