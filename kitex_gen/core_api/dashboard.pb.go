@@ -6,6 +6,4 @@ import "context"
 
 type PsychDashboardService interface {
 	DashboardGetDataOverview(ctx context.Context, req *DashboardGetDataOverviewReq) (res *DashboardGetDataOverviewResp, err error)
-	DashboardGetDataTrend(ctx context.Context, req *DashboardGetDataTrendReq) (res *DashboardGetDataTrendResp, err error)
-	DashboardListUnits(ctx context.Context, req *DashboardListUnitsReq) (res *DashboardListUnitsResp, err error)
 }

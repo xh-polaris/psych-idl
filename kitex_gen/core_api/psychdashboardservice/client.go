@@ -12,8 +12,6 @@ import (
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
 	DashboardGetDataOverview(ctx context.Context, Req *core_api.DashboardGetDataOverviewReq, callOptions ...callopt.Option) (r *core_api.DashboardGetDataOverviewResp, err error)
-	DashboardGetDataTrend(ctx context.Context, Req *core_api.DashboardGetDataTrendReq, callOptions ...callopt.Option) (r *core_api.DashboardGetDataTrendResp, err error)
-	DashboardListUnits(ctx context.Context, Req *core_api.DashboardListUnitsReq, callOptions ...callopt.Option) (r *core_api.DashboardListUnitsResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -48,14 +46,4 @@ type kPsychDashboardServiceClient struct {
 func (p *kPsychDashboardServiceClient) DashboardGetDataOverview(ctx context.Context, Req *core_api.DashboardGetDataOverviewReq, callOptions ...callopt.Option) (r *core_api.DashboardGetDataOverviewResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.DashboardGetDataOverview(ctx, Req)
-}
-
-func (p *kPsychDashboardServiceClient) DashboardGetDataTrend(ctx context.Context, Req *core_api.DashboardGetDataTrendReq, callOptions ...callopt.Option) (r *core_api.DashboardGetDataTrendResp, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.DashboardGetDataTrend(ctx, Req)
-}
-
-func (p *kPsychDashboardServiceClient) DashboardListUnits(ctx context.Context, Req *core_api.DashboardListUnitsReq, callOptions ...callopt.Option) (r *core_api.DashboardListUnitsResp, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.DashboardListUnits(ctx, Req)
 }
