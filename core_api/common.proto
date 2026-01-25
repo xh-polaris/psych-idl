@@ -66,3 +66,95 @@ message DashboardGetDataOverviewResp {
   int32 code = 255;
   string msg = 256;
 }
+
+
+
+// 预警管理
+message GetAlarmOverviewReq {
+  string unitId = 1;
+}
+message GetAlarmOverviewResp {
+  int32 total = 1;      // 当前高风险用户总数
+  int32 processed = 2;  // 当前已处理数
+  int32 pending = 3;    // 当前待处理数
+  int32 track = 4;      // 当前需追踪数
+  double totalChange = 5;      // 对比上周总数变化百分比
+  double processedChange = 6;  // 对比上周已处理变化百分比
+  double pendingChange = 7;    // 对比上周待处理变化百分比
+  double trackChange = 8;      // 对比上周需追踪变化百分比
+  int32 code = 255;
+  string msg = 256;
+}
+
+message ListAlarmRecordsReq {
+  string unitId = 1;
+  optional string emotion = 2;
+  optional string status = 3;
+  optional string keyword = 4;
+  basic.PaginationOptions paginationOptions = 5;
+}
+message ListAlarmRecordsResp {
+  repeated AlarmRecord records = 1;
+  basic.Pagination pagination = 2;
+  int32 code = 255;
+  string msg = 256;
+}
+
+message AlarmRecord {
+  string id = 1;  // 唯一Id
+  string emotion = 2;  // 情绪状态
+  repeated string keywords = 3;  // 关键词列表
+  string status = 4;  // 处理状态
+  profile.User user = 5;  // 用户信息
+  int32  totalConversationRounds = 6;  // 总对话轮数
+  int64  lastConversationTime = 7;  // 上次对话时间（分钟时间戳）
+}
+
+
+
+// 用户管理
+message ClassInfo {
+  int32 class = 1;
+  int32 UserNum = 2;
+  int32 alarmNum = 3;
+  string teacherName = 4;
+  string teacherPhone = 5;
+}
+
+message GradeInfo {
+  int32 grade = 1;
+  repeated ClassInfo classes = 2;
+}
+
+message ListByClassesReq {
+  string unitId = 1;
+  optional int32 grade = 2;
+  optional int32 class = 3;
+}
+message ListByClassesResp {
+  repeated GradeInfo grades = 1;
+  int32 code = 255;
+  string msg = 256;
+}
+
+message RiskUser {
+  profile.User user = 1;
+  int32 level = 2;
+  int32  totalConversationRounds = 3;  // 总对话轮数
+  int64  lastConversationTime = 4;  // 上次对话时间（分钟时间戳）
+  repeated string keywords = 5;
+}
+
+message ListByRiskReq{
+  string unitId = 1;
+  optional int32 level = 2;
+  optional string gender = 3;
+  optional string keyword = 4;
+  basic.PaginationOptions paginationOptions = 5;
+}
+message ListByRiskResp {
+  repeated RiskUser riskUsers = 1;
+  basic.Pagination pagination = 2;
+  int32 code = 255;
+  string msg = 256;
+}
