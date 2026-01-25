@@ -3,6 +3,7 @@
 package core_api
 
 import (
+	"github.com/xh-polaris/psych-idl/kitex_gen/basic"
 	"github.com/xh-polaris/psych-idl/kitex_gen/profile"
 
 	"github.com/cloudwego/prutal"
@@ -342,6 +343,548 @@ func (x *DashboardGetDataOverviewResp) GetCode() int32 {
 }
 
 func (x *DashboardGetDataOverviewResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+// 预警管理
+type GetAlarmOverviewReq struct {
+	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+}
+
+func (x *GetAlarmOverviewReq) Reset() { *x = GetAlarmOverviewReq{} }
+
+func (x *GetAlarmOverviewReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *GetAlarmOverviewReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *GetAlarmOverviewReq) GetUnitId() string {
+	if x != nil {
+		return x.UnitId
+	}
+	return ""
+}
+
+type GetAlarmOverviewResp struct {
+	Total           int32   `protobuf:"varint,1,opt,name=total" json:"total,omitempty"`                      // 当前高风险用户总数
+	Processed       int32   `protobuf:"varint,2,opt,name=processed" json:"processed,omitempty"`              // 当前已处理数
+	Pending         int32   `protobuf:"varint,3,opt,name=pending" json:"pending,omitempty"`                  // 当前待处理数
+	Track           int32   `protobuf:"varint,4,opt,name=track" json:"track,omitempty"`                      // 当前需追踪数
+	TotalChange     float64 `protobuf:"fixed64,5,opt,name=totalChange" json:"totalChange,omitempty"`         // 对比上周总数变化百分比
+	ProcessedChange float64 `protobuf:"fixed64,6,opt,name=processedChange" json:"processedChange,omitempty"` // 对比上周已处理变化百分比
+	PendingChange   float64 `protobuf:"fixed64,7,opt,name=pendingChange" json:"pendingChange,omitempty"`     // 对比上周待处理变化百分比
+	TrackChange     float64 `protobuf:"fixed64,8,opt,name=trackChange" json:"trackChange,omitempty"`         // 对比上周需追踪变化百分比
+	Code            int32   `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg             string  `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *GetAlarmOverviewResp) Reset() { *x = GetAlarmOverviewResp{} }
+
+func (x *GetAlarmOverviewResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *GetAlarmOverviewResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *GetAlarmOverviewResp) GetTotal() int32 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+func (x *GetAlarmOverviewResp) GetProcessed() int32 {
+	if x != nil {
+		return x.Processed
+	}
+	return 0
+}
+
+func (x *GetAlarmOverviewResp) GetPending() int32 {
+	if x != nil {
+		return x.Pending
+	}
+	return 0
+}
+
+func (x *GetAlarmOverviewResp) GetTrack() int32 {
+	if x != nil {
+		return x.Track
+	}
+	return 0
+}
+
+func (x *GetAlarmOverviewResp) GetTotalChange() float64 {
+	if x != nil {
+		return x.TotalChange
+	}
+	return 0
+}
+
+func (x *GetAlarmOverviewResp) GetProcessedChange() float64 {
+	if x != nil {
+		return x.ProcessedChange
+	}
+	return 0
+}
+
+func (x *GetAlarmOverviewResp) GetPendingChange() float64 {
+	if x != nil {
+		return x.PendingChange
+	}
+	return 0
+}
+
+func (x *GetAlarmOverviewResp) GetTrackChange() float64 {
+	if x != nil {
+		return x.TrackChange
+	}
+	return 0
+}
+
+func (x *GetAlarmOverviewResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *GetAlarmOverviewResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+type ListAlarmRecordsReq struct {
+	UnitId            string                   `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	Emotion           *string                  `protobuf:"bytes,2,opt,name=emotion" json:"emotion,omitempty"`
+	Status            *string                  `protobuf:"bytes,3,opt,name=status" json:"status,omitempty"`
+	Keyword           *string                  `protobuf:"bytes,4,opt,name=keyword" json:"keyword,omitempty"`
+	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,5,opt,name=paginationOptions" json:"paginationOptions,omitempty"`
+}
+
+func (x *ListAlarmRecordsReq) Reset() { *x = ListAlarmRecordsReq{} }
+
+func (x *ListAlarmRecordsReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ListAlarmRecordsReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ListAlarmRecordsReq) GetUnitId() string {
+	if x != nil {
+		return x.UnitId
+	}
+	return ""
+}
+
+func (x *ListAlarmRecordsReq) GetEmotion() string {
+	if x != nil && x.Emotion != nil {
+		return *x.Emotion
+	}
+	return ""
+}
+
+func (x *ListAlarmRecordsReq) GetStatus() string {
+	if x != nil && x.Status != nil {
+		return *x.Status
+	}
+	return ""
+}
+
+func (x *ListAlarmRecordsReq) GetKeyword() string {
+	if x != nil && x.Keyword != nil {
+		return *x.Keyword
+	}
+	return ""
+}
+
+func (x *ListAlarmRecordsReq) GetPaginationOptions() *basic.PaginationOptions {
+	if x != nil {
+		return x.PaginationOptions
+	}
+	return nil
+}
+
+type ListAlarmRecordsResp struct {
+	Records    []*AlarmRecord    `protobuf:"bytes,1,rep,name=records" json:"records,omitempty"`
+	Pagination *basic.Pagination `protobuf:"bytes,2,opt,name=pagination" json:"pagination,omitempty"`
+	Code       int32             `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg        string            `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *ListAlarmRecordsResp) Reset() { *x = ListAlarmRecordsResp{} }
+
+func (x *ListAlarmRecordsResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ListAlarmRecordsResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ListAlarmRecordsResp) GetRecords() []*AlarmRecord {
+	if x != nil {
+		return x.Records
+	}
+	return nil
+}
+
+func (x *ListAlarmRecordsResp) GetPagination() *basic.Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+func (x *ListAlarmRecordsResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *ListAlarmRecordsResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+type AlarmRecord struct {
+	Id                      string        `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`                                            // 唯一Id
+	Emotion                 string        `protobuf:"bytes,2,opt,name=emotion" json:"emotion,omitempty"`                                  // 情绪状态
+	Keywords                []string      `protobuf:"bytes,3,rep,name=keywords" json:"keywords,omitempty"`                                // 关键词列表
+	Status                  string        `protobuf:"bytes,4,opt,name=status" json:"status,omitempty"`                                    // 处理状态
+	User                    *profile.User `protobuf:"bytes,5,opt,name=user" json:"user,omitempty"`                                        // 用户信息
+	TotalConversationRounds int32         `protobuf:"varint,6,opt,name=totalConversationRounds" json:"totalConversationRounds,omitempty"` // 总对话轮数
+	LastConversationTime    int64         `protobuf:"varint,7,opt,name=lastConversationTime" json:"lastConversationTime,omitempty"`       // 上次对话时间（分钟时间戳）
+}
+
+func (x *AlarmRecord) Reset() { *x = AlarmRecord{} }
+
+func (x *AlarmRecord) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *AlarmRecord) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *AlarmRecord) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *AlarmRecord) GetEmotion() string {
+	if x != nil {
+		return x.Emotion
+	}
+	return ""
+}
+
+func (x *AlarmRecord) GetKeywords() []string {
+	if x != nil {
+		return x.Keywords
+	}
+	return nil
+}
+
+func (x *AlarmRecord) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *AlarmRecord) GetUser() *profile.User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+func (x *AlarmRecord) GetTotalConversationRounds() int32 {
+	if x != nil {
+		return x.TotalConversationRounds
+	}
+	return 0
+}
+
+func (x *AlarmRecord) GetLastConversationTime() int64 {
+	if x != nil {
+		return x.LastConversationTime
+	}
+	return 0
+}
+
+// 用户管理
+type ClassInfo struct {
+	Class        int32  `protobuf:"varint,1,opt,name=class" json:"class,omitempty"`
+	UserNum      int32  `protobuf:"varint,2,opt,name=UserNum" json:"UserNum,omitempty"`
+	AlarmNum     int32  `protobuf:"varint,3,opt,name=alarmNum" json:"alarmNum,omitempty"`
+	TeacherName  string `protobuf:"bytes,4,opt,name=teacherName" json:"teacherName,omitempty"`
+	TeacherPhone string `protobuf:"bytes,5,opt,name=teacherPhone" json:"teacherPhone,omitempty"`
+}
+
+func (x *ClassInfo) Reset() { *x = ClassInfo{} }
+
+func (x *ClassInfo) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ClassInfo) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ClassInfo) GetClass() int32 {
+	if x != nil {
+		return x.Class
+	}
+	return 0
+}
+
+func (x *ClassInfo) GetUserNum() int32 {
+	if x != nil {
+		return x.UserNum
+	}
+	return 0
+}
+
+func (x *ClassInfo) GetAlarmNum() int32 {
+	if x != nil {
+		return x.AlarmNum
+	}
+	return 0
+}
+
+func (x *ClassInfo) GetTeacherName() string {
+	if x != nil {
+		return x.TeacherName
+	}
+	return ""
+}
+
+func (x *ClassInfo) GetTeacherPhone() string {
+	if x != nil {
+		return x.TeacherPhone
+	}
+	return ""
+}
+
+type GradeInfo struct {
+	Grade   int32        `protobuf:"varint,1,opt,name=grade" json:"grade,omitempty"`
+	Classes []*ClassInfo `protobuf:"bytes,2,rep,name=classes" json:"classes,omitempty"`
+}
+
+func (x *GradeInfo) Reset() { *x = GradeInfo{} }
+
+func (x *GradeInfo) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *GradeInfo) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *GradeInfo) GetGrade() int32 {
+	if x != nil {
+		return x.Grade
+	}
+	return 0
+}
+
+func (x *GradeInfo) GetClasses() []*ClassInfo {
+	if x != nil {
+		return x.Classes
+	}
+	return nil
+}
+
+type ListByClassesReq struct {
+	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	Grade  *int32 `protobuf:"varint,2,opt,name=grade" json:"grade,omitempty"`
+	Class  *int32 `protobuf:"varint,3,opt,name=class" json:"class,omitempty"`
+}
+
+func (x *ListByClassesReq) Reset() { *x = ListByClassesReq{} }
+
+func (x *ListByClassesReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ListByClassesReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ListByClassesReq) GetUnitId() string {
+	if x != nil {
+		return x.UnitId
+	}
+	return ""
+}
+
+func (x *ListByClassesReq) GetGrade() int32 {
+	if x != nil && x.Grade != nil {
+		return *x.Grade
+	}
+	return 0
+}
+
+func (x *ListByClassesReq) GetClass() int32 {
+	if x != nil && x.Class != nil {
+		return *x.Class
+	}
+	return 0
+}
+
+type ListByClassesResp struct {
+	Grades []*GradeInfo `protobuf:"bytes,1,rep,name=grades" json:"grades,omitempty"`
+	Code   int32        `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg    string       `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *ListByClassesResp) Reset() { *x = ListByClassesResp{} }
+
+func (x *ListByClassesResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ListByClassesResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ListByClassesResp) GetGrades() []*GradeInfo {
+	if x != nil {
+		return x.Grades
+	}
+	return nil
+}
+
+func (x *ListByClassesResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *ListByClassesResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+type RiskUser struct {
+	User                    *profile.User `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	Level                   int32         `protobuf:"varint,2,opt,name=level" json:"level,omitempty"`
+	TotalConversationRounds int32         `protobuf:"varint,3,opt,name=totalConversationRounds" json:"totalConversationRounds,omitempty"` // 总对话轮数
+	LastConversationTime    int64         `protobuf:"varint,4,opt,name=lastConversationTime" json:"lastConversationTime,omitempty"`       // 上次对话时间（分钟时间戳）
+	Keywords                []string      `protobuf:"bytes,5,rep,name=keywords" json:"keywords,omitempty"`
+}
+
+func (x *RiskUser) Reset() { *x = RiskUser{} }
+
+func (x *RiskUser) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *RiskUser) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *RiskUser) GetUser() *profile.User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+func (x *RiskUser) GetLevel() int32 {
+	if x != nil {
+		return x.Level
+	}
+	return 0
+}
+
+func (x *RiskUser) GetTotalConversationRounds() int32 {
+	if x != nil {
+		return x.TotalConversationRounds
+	}
+	return 0
+}
+
+func (x *RiskUser) GetLastConversationTime() int64 {
+	if x != nil {
+		return x.LastConversationTime
+	}
+	return 0
+}
+
+func (x *RiskUser) GetKeywords() []string {
+	if x != nil {
+		return x.Keywords
+	}
+	return nil
+}
+
+type ListByRiskReq struct {
+	UnitId            string                   `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	Level             *int32                   `protobuf:"varint,2,opt,name=level" json:"level,omitempty"`
+	Gender            *string                  `protobuf:"bytes,3,opt,name=gender" json:"gender,omitempty"`
+	Keyword           *string                  `protobuf:"bytes,4,opt,name=keyword" json:"keyword,omitempty"`
+	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,5,opt,name=paginationOptions" json:"paginationOptions,omitempty"`
+}
+
+func (x *ListByRiskReq) Reset() { *x = ListByRiskReq{} }
+
+func (x *ListByRiskReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ListByRiskReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ListByRiskReq) GetUnitId() string {
+	if x != nil {
+		return x.UnitId
+	}
+	return ""
+}
+
+func (x *ListByRiskReq) GetLevel() int32 {
+	if x != nil && x.Level != nil {
+		return *x.Level
+	}
+	return 0
+}
+
+func (x *ListByRiskReq) GetGender() string {
+	if x != nil && x.Gender != nil {
+		return *x.Gender
+	}
+	return ""
+}
+
+func (x *ListByRiskReq) GetKeyword() string {
+	if x != nil && x.Keyword != nil {
+		return *x.Keyword
+	}
+	return ""
+}
+
+func (x *ListByRiskReq) GetPaginationOptions() *basic.PaginationOptions {
+	if x != nil {
+		return x.PaginationOptions
+	}
+	return nil
+}
+
+type ListByRiskResp struct {
+	RiskUsers  []*RiskUser       `protobuf:"bytes,1,rep,name=riskUsers" json:"riskUsers,omitempty"`
+	Pagination *basic.Pagination `protobuf:"bytes,2,opt,name=pagination" json:"pagination,omitempty"`
+	Code       int32             `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg        string            `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *ListByRiskResp) Reset() { *x = ListByRiskResp{} }
+
+func (x *ListByRiskResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ListByRiskResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ListByRiskResp) GetRiskUsers() []*RiskUser {
+	if x != nil {
+		return x.RiskUsers
+	}
+	return nil
+}
+
+func (x *ListByRiskResp) GetPagination() *basic.Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+func (x *ListByRiskResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *ListByRiskResp) GetMsg() string {
 	if x != nil {
 		return x.Msg
 	}
