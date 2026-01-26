@@ -67,7 +67,62 @@ message DashboardGetDataOverviewResp {
   string msg = 256;
 }
 
-// TODO 定义剩余req和resp
+message DashboardGetDataTrendReq {
+  string unitId = 1;
+}
+message DashboardGetDataTrendResp {
+  repeated TrendPoint activePoints = 1;
+  repeated TrendPoint conversationPoints = 2;
+  repeated conversationDuration conversationDurations = 3;
+  int32 code = 255;
+  string msg = 256;
+}
+message TrendPoint {
+  int32 week = 1;     // 1=Mon ... 7=Sun
+  int32 hour = 2;        // 0–23
+  int32 count = 3;
+}
+message conversationDuration {
+  int32 minutes = 1;
+  int32 count = 2;
+}
+
+message DashboardListUnitsReq {}
+message DashboardListUnitsResp {
+  repeated DashboardUnit units = 1;
+  int32 code = 255;
+  string msg = 256;
+}
+message DashboardUnit {
+  string type = 1;
+  string name = 2;
+  string property = 3;
+  int32 userCount = 4;
+  double averageConversationMinutes = 5;
+  int32 riskUserCount = 6;
+  int64 updateTime = 7;
+}
+
+message DashboardGetPsycheTrendReq {
+  string unitId = 1;
+}
+message DashboardGetPsycheTrendResp {
+  repeated RiskDistribution risks = 1;
+  repeated Keyword keywords = 2;
+  int32 code = 255;
+  string msg = 256;
+}
+message RiskDistribution {
+  int32 level = 1; // 0=正常 1=低危 2=中危 3=高危
+  int32 gender = 2; // 0=all 1=male 2=female
+  int32 count = 3;
+}
+message Keyword {
+  string keyword = 1;
+  int32 count = 2;
+}
+
+
 
 // 预警管理
 message DashboardGetAlarmOverviewReq {

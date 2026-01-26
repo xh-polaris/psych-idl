@@ -18,15 +18,15 @@ service CoreApi {
   rpc DashboardGetDataOverview(DashboardGetDataOverviewReq) returns (DashboardGetDataOverviewResp) {
     option (http.get) = "/dashboard/overview";
   }
-  //  rpc DashboardGetDataTrend(DashboardGetDataTrendReq) returns (DashboardGetDataTrendResp) {
-  //    option (http.get) = "/dashboard/trend";
-  //  }
-  //  rpc DashboardListUnits(DashboardListUnitsReq) returns (DashboardListUnitsResp) {
-  //    option (http.get) = "/dashboard/units";
-  //  }
-  //  rpc DashboardGetPsycheTrend(DashboardGetPsycheTrendReq) returns (DashboardGetPsycheTrendResp) {
-  //    option (http.get) = "/dashboard/psyche_trend";
-  //  }
+    rpc DashboardGetDataTrend(DashboardGetDataTrendReq) returns (DashboardGetDataTrendResp) {
+      option (http.get) = "/dashboard/trend";
+    }
+    rpc DashboardListUnits(DashboardListUnitsReq) returns (DashboardListUnitsResp) {
+      option (http.get) = "/dashboard/units";
+    }
+    rpc DashboardGetPsycheTrend(DashboardGetPsycheTrendReq) returns (DashboardGetPsycheTrendResp) {
+      option (http.get) = "/dashboard/psyche_trend";
+    }
   // 预警管理
   rpc DashboardGetAlarmOverview(DashboardGetAlarmOverviewReq) returns (DashboardGetAlarmOverviewResp) {
     option (http.get) = "/dashboard/alarm_overview";
