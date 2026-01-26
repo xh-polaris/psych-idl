@@ -13,6 +13,11 @@ import (
 type Client interface {
 	UserSignIn(ctx context.Context, Req *core_api.UserSignInReq, callOptions ...callopt.Option) (r *core_api.UserSignInResp, err error)
 	UserGetInfo(ctx context.Context, Req *core_api.UserGetInfoReq, callOptions ...callopt.Option) (r *core_api.UserGetInfoResp, err error)
+	DashboardGetDataOverview(ctx context.Context, Req *core_api.DashboardGetDataOverviewReq, callOptions ...callopt.Option) (r *core_api.DashboardGetDataOverviewResp, err error)
+	DashboardGetAlarmOverview(ctx context.Context, Req *core_api.DashboardGetAlarmOverviewReq, callOptions ...callopt.Option) (r *core_api.DashboardGetAlarmOverviewResp, err error)
+	DashboardListAlarmUsers(ctx context.Context, Req *core_api.DashboardListAlarmRecordsReq, callOptions ...callopt.Option) (r *core_api.DashboardListAlarmRecordsReq, err error)
+	DashboardListClasses(ctx context.Context, Req *core_api.DashboardListClassesReq, callOptions ...callopt.Option) (r *core_api.DashboardListClassesResp, err error)
+	DashboardListUsers(ctx context.Context, Req *core_api.DashboardListUsersReq, callOptions ...callopt.Option) (r *core_api.DashboardListUsersResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -52,4 +57,29 @@ func (p *kCoreApiClient) UserSignIn(ctx context.Context, Req *core_api.UserSignI
 func (p *kCoreApiClient) UserGetInfo(ctx context.Context, Req *core_api.UserGetInfoReq, callOptions ...callopt.Option) (r *core_api.UserGetInfoResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.UserGetInfo(ctx, Req)
+}
+
+func (p *kCoreApiClient) DashboardGetDataOverview(ctx context.Context, Req *core_api.DashboardGetDataOverviewReq, callOptions ...callopt.Option) (r *core_api.DashboardGetDataOverviewResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DashboardGetDataOverview(ctx, Req)
+}
+
+func (p *kCoreApiClient) DashboardGetAlarmOverview(ctx context.Context, Req *core_api.DashboardGetAlarmOverviewReq, callOptions ...callopt.Option) (r *core_api.DashboardGetAlarmOverviewResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DashboardGetAlarmOverview(ctx, Req)
+}
+
+func (p *kCoreApiClient) DashboardListAlarmUsers(ctx context.Context, Req *core_api.DashboardListAlarmRecordsReq, callOptions ...callopt.Option) (r *core_api.DashboardListAlarmRecordsReq, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DashboardListAlarmUsers(ctx, Req)
+}
+
+func (p *kCoreApiClient) DashboardListClasses(ctx context.Context, Req *core_api.DashboardListClassesReq, callOptions ...callopt.Option) (r *core_api.DashboardListClassesResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DashboardListClasses(ctx, Req)
+}
+
+func (p *kCoreApiClient) DashboardListUsers(ctx context.Context, Req *core_api.DashboardListUsersReq, callOptions ...callopt.Option) (r *core_api.DashboardListUsersResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DashboardListUsers(ctx, Req)
 }

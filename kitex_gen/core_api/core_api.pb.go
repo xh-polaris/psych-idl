@@ -7,4 +7,9 @@ import "context"
 type CoreApi interface {
 	UserSignIn(ctx context.Context, req *UserSignInReq) (res *UserSignInResp, err error)
 	UserGetInfo(ctx context.Context, req *UserGetInfoReq) (res *UserGetInfoResp, err error)
+	DashboardGetDataOverview(ctx context.Context, req *DashboardGetDataOverviewReq) (res *DashboardGetDataOverviewResp, err error)
+	DashboardGetAlarmOverview(ctx context.Context, req *DashboardGetAlarmOverviewReq) (res *DashboardGetAlarmOverviewResp, err error)
+	DashboardListAlarmUsers(ctx context.Context, req *DashboardListAlarmRecordsReq) (res *DashboardListAlarmRecordsReq, err error)
+	DashboardListClasses(ctx context.Context, req *DashboardListClassesReq) (res *DashboardListClassesResp, err error)
+	DashboardListUsers(ctx context.Context, req *DashboardListUsersReq) (res *DashboardListUsersResp, err error)
 }
