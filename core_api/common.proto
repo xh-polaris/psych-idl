@@ -70,10 +70,10 @@ message DashboardGetDataOverviewResp {
 
 
 // 预警管理
-message GetAlarmOverviewReq {
+message DashboardGetAlarmOverviewReq {
   string unitId = 1;
 }
-message GetAlarmOverviewResp {
+message DashboardGetAlarmOverviewResp {
   int32 total = 1;      // 当前高风险用户总数
   int32 processed = 2;  // 当前已处理数
   int32 pending = 3;    // 当前待处理数
@@ -86,14 +86,14 @@ message GetAlarmOverviewResp {
   string msg = 256;
 }
 
-message ListAlarmRecordsReq {
+message DashboardListAlarmRecordsReq {
   string unitId = 1;
   optional string emotion = 2;
   optional string status = 3;
   optional string keyword = 4;
   basic.PaginationOptions paginationOptions = 5;
 }
-message ListAlarmRecordsResp {
+message DashboardListAlarmRecordsResp {
   repeated AlarmRecord records = 1;
   basic.Pagination pagination = 2;
   int32 code = 255;
@@ -126,12 +126,12 @@ message GradeInfo {
   repeated ClassInfo classes = 2;
 }
 
-message ListByClassesReq {
+message DashboardListClassesReq {
   string unitId = 1;
   optional int32 grade = 2;
   optional int32 class = 3;
 }
-message ListByClassesResp {
+message DashboardListClassesResp {
   repeated GradeInfo grades = 1;
   int32 code = 255;
   string msg = 256;
@@ -145,14 +145,14 @@ message RiskUser {
   repeated string keywords = 5;
 }
 
-message ListByRiskReq{
+message DashboardListUsersReq{
   string unitId = 1;
   optional int32 level = 2;
   optional string gender = 3;
   optional string keyword = 4;
   basic.PaginationOptions paginationOptions = 5;
 }
-message ListByRiskResp {
+message DashboardListUsersResp {
   repeated RiskUser riskUsers = 1;
   basic.Pagination pagination = 2;
   int32 code = 255;

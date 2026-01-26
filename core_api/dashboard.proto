@@ -21,18 +21,18 @@ service PsychDashboardService {
 //  rpc DashboardGetPsycheTrend(DashboardGetPsycheTrendReq) returns (DashboardGetPsycheTrendResp) {
 //    option (http.get) = "/dashboard/psyche_trend";
 //  }
-//  // 预警管理
-//  rpc DashboardGetAlertOverview(DashboardGetAlertOverviewReq) returns (DashboardGetAlertOverviewResp) {
-//    option (http.get) = "/dashboard/alert_overview";
-//  }
-//  rpc DashboardListAlertUsers(DashboardListAlertUsersReq) returns (DashboardListAlertUsersResp) {
-//    option (http.get) = "/dashboard/alert_users";
-//  }
-//  // 用户管理
-//  rpc DashboardListClasses(DashboardListClassesReq) returns (DashboardListClassesResp) {
-//    option (http.get) = "/dashboard/classes";
-//  }
-//  rpc DashboardListUsers(DashboardListUsersReq) returns (DashboardListUsersResp) {
-//    option (http.get) = "/dashboard/users";
-//  }
+  // 预警管理
+  rpc DashboardGetAlarmOverview(DashboardGetAlarmOverviewReq) returns (DashboardGetAlarmOverviewResp) {
+    option (http.get) = "/dashboard/alarm_overview";
+  }
+  rpc DashboardListAlarmUsers(DashboardListAlarmRecordsReq) returns (DashboardListAlarmRecordsReq) {
+    option (http.get) = "/dashboard/alarm_users";
+  }
+  // 用户管理
+  rpc DashboardListClasses(DashboardListClassesReq) returns (DashboardListClassesResp) {
+    option (http.get) = "/dashboard/classes";
+  }
+  rpc DashboardListUsers(DashboardListUsersReq) returns (DashboardListUsersResp) {
+    option (http.get) = "/dashboard/users";
+  }
 }
