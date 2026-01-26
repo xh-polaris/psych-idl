@@ -68,7 +68,7 @@ message DashboardGetDataOverviewResp {
 }
 
 message DashboardGetDataTrendReq {
-  string unitId = 1;
+  optional string unitId = 1;
 }
 message DashboardGetDataTrendResp {
   repeated TrendPoint activePoints = 1;
@@ -103,10 +103,10 @@ message DashboardUnit {
   int64 updateTime = 7;
 }
 
-message DashboardGetPsycheTrendReq {
+message DashboardGetPsychTrendReq {
   string unitId = 1;
 }
-message DashboardGetPsycheTrendResp {
+message DashboardGetPsychTrendResp {
   repeated RiskDistribution risks = 1;
   repeated Keyword keywords = 2;
   int32 code = 255;
