@@ -22,6 +22,34 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
+	"DashboardGetAlarmOverview": kitex.NewMethodInfo(
+		dashboardGetAlarmOverviewHandler,
+		newDashboardGetAlarmOverviewArgs,
+		newDashboardGetAlarmOverviewResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"DashboardListAlarmUsers": kitex.NewMethodInfo(
+		dashboardListAlarmUsersHandler,
+		newDashboardListAlarmUsersArgs,
+		newDashboardListAlarmUsersResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"DashboardListClasses": kitex.NewMethodInfo(
+		dashboardListClassesHandler,
+		newDashboardListClassesArgs,
+		newDashboardListClassesResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"DashboardListUsers": kitex.NewMethodInfo(
+		dashboardListUsersHandler,
+		newDashboardListUsersArgs,
+		newDashboardListUsersResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
 }
 
 var (
@@ -199,6 +227,450 @@ func (p *DashboardGetDataOverviewResult) GetResult() interface{} {
 	return p.Success
 }
 
+func dashboardGetAlarmOverviewHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.DashboardGetAlarmOverviewReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.PsychDashboardService).DashboardGetAlarmOverview(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *DashboardGetAlarmOverviewArgs:
+		success, err := handler.(core_api.PsychDashboardService).DashboardGetAlarmOverview(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*DashboardGetAlarmOverviewResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newDashboardGetAlarmOverviewArgs() interface{} {
+	return &DashboardGetAlarmOverviewArgs{}
+}
+
+func newDashboardGetAlarmOverviewResult() interface{} {
+	return &DashboardGetAlarmOverviewResult{}
+}
+
+type DashboardGetAlarmOverviewArgs struct {
+	Req *core_api.DashboardGetAlarmOverviewReq
+}
+
+func (p *DashboardGetAlarmOverviewArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *DashboardGetAlarmOverviewArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.DashboardGetAlarmOverviewReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var DashboardGetAlarmOverviewArgs_Req_DEFAULT *core_api.DashboardGetAlarmOverviewReq
+
+func (p *DashboardGetAlarmOverviewArgs) GetReq() *core_api.DashboardGetAlarmOverviewReq {
+	if !p.IsSetReq() {
+		return DashboardGetAlarmOverviewArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *DashboardGetAlarmOverviewArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *DashboardGetAlarmOverviewArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type DashboardGetAlarmOverviewResult struct {
+	Success *core_api.DashboardGetAlarmOverviewResp
+}
+
+var DashboardGetAlarmOverviewResult_Success_DEFAULT *core_api.DashboardGetAlarmOverviewResp
+
+func (p *DashboardGetAlarmOverviewResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *DashboardGetAlarmOverviewResult) Unmarshal(in []byte) error {
+	msg := new(core_api.DashboardGetAlarmOverviewResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *DashboardGetAlarmOverviewResult) GetSuccess() *core_api.DashboardGetAlarmOverviewResp {
+	if !p.IsSetSuccess() {
+		return DashboardGetAlarmOverviewResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *DashboardGetAlarmOverviewResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.DashboardGetAlarmOverviewResp)
+}
+
+func (p *DashboardGetAlarmOverviewResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *DashboardGetAlarmOverviewResult) GetResult() interface{} {
+	return p.Success
+}
+
+func dashboardListAlarmUsersHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.DashboardListAlarmRecordsReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.PsychDashboardService).DashboardListAlarmUsers(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *DashboardListAlarmUsersArgs:
+		success, err := handler.(core_api.PsychDashboardService).DashboardListAlarmUsers(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*DashboardListAlarmUsersResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newDashboardListAlarmUsersArgs() interface{} {
+	return &DashboardListAlarmUsersArgs{}
+}
+
+func newDashboardListAlarmUsersResult() interface{} {
+	return &DashboardListAlarmUsersResult{}
+}
+
+type DashboardListAlarmUsersArgs struct {
+	Req *core_api.DashboardListAlarmRecordsReq
+}
+
+func (p *DashboardListAlarmUsersArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *DashboardListAlarmUsersArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.DashboardListAlarmRecordsReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var DashboardListAlarmUsersArgs_Req_DEFAULT *core_api.DashboardListAlarmRecordsReq
+
+func (p *DashboardListAlarmUsersArgs) GetReq() *core_api.DashboardListAlarmRecordsReq {
+	if !p.IsSetReq() {
+		return DashboardListAlarmUsersArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *DashboardListAlarmUsersArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *DashboardListAlarmUsersArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type DashboardListAlarmUsersResult struct {
+	Success *core_api.DashboardListAlarmRecordsReq
+}
+
+var DashboardListAlarmUsersResult_Success_DEFAULT *core_api.DashboardListAlarmRecordsReq
+
+func (p *DashboardListAlarmUsersResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *DashboardListAlarmUsersResult) Unmarshal(in []byte) error {
+	msg := new(core_api.DashboardListAlarmRecordsReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *DashboardListAlarmUsersResult) GetSuccess() *core_api.DashboardListAlarmRecordsReq {
+	if !p.IsSetSuccess() {
+		return DashboardListAlarmUsersResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *DashboardListAlarmUsersResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.DashboardListAlarmRecordsReq)
+}
+
+func (p *DashboardListAlarmUsersResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *DashboardListAlarmUsersResult) GetResult() interface{} {
+	return p.Success
+}
+
+func dashboardListClassesHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.DashboardListClassesReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.PsychDashboardService).DashboardListClasses(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *DashboardListClassesArgs:
+		success, err := handler.(core_api.PsychDashboardService).DashboardListClasses(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*DashboardListClassesResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newDashboardListClassesArgs() interface{} {
+	return &DashboardListClassesArgs{}
+}
+
+func newDashboardListClassesResult() interface{} {
+	return &DashboardListClassesResult{}
+}
+
+type DashboardListClassesArgs struct {
+	Req *core_api.DashboardListClassesReq
+}
+
+func (p *DashboardListClassesArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *DashboardListClassesArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.DashboardListClassesReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var DashboardListClassesArgs_Req_DEFAULT *core_api.DashboardListClassesReq
+
+func (p *DashboardListClassesArgs) GetReq() *core_api.DashboardListClassesReq {
+	if !p.IsSetReq() {
+		return DashboardListClassesArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *DashboardListClassesArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *DashboardListClassesArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type DashboardListClassesResult struct {
+	Success *core_api.DashboardListClassesResp
+}
+
+var DashboardListClassesResult_Success_DEFAULT *core_api.DashboardListClassesResp
+
+func (p *DashboardListClassesResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *DashboardListClassesResult) Unmarshal(in []byte) error {
+	msg := new(core_api.DashboardListClassesResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *DashboardListClassesResult) GetSuccess() *core_api.DashboardListClassesResp {
+	if !p.IsSetSuccess() {
+		return DashboardListClassesResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *DashboardListClassesResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.DashboardListClassesResp)
+}
+
+func (p *DashboardListClassesResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *DashboardListClassesResult) GetResult() interface{} {
+	return p.Success
+}
+
+func dashboardListUsersHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.DashboardListUsersReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.PsychDashboardService).DashboardListUsers(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *DashboardListUsersArgs:
+		success, err := handler.(core_api.PsychDashboardService).DashboardListUsers(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*DashboardListUsersResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newDashboardListUsersArgs() interface{} {
+	return &DashboardListUsersArgs{}
+}
+
+func newDashboardListUsersResult() interface{} {
+	return &DashboardListUsersResult{}
+}
+
+type DashboardListUsersArgs struct {
+	Req *core_api.DashboardListUsersReq
+}
+
+func (p *DashboardListUsersArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *DashboardListUsersArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.DashboardListUsersReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var DashboardListUsersArgs_Req_DEFAULT *core_api.DashboardListUsersReq
+
+func (p *DashboardListUsersArgs) GetReq() *core_api.DashboardListUsersReq {
+	if !p.IsSetReq() {
+		return DashboardListUsersArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *DashboardListUsersArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *DashboardListUsersArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type DashboardListUsersResult struct {
+	Success *core_api.DashboardListUsersResp
+}
+
+var DashboardListUsersResult_Success_DEFAULT *core_api.DashboardListUsersResp
+
+func (p *DashboardListUsersResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *DashboardListUsersResult) Unmarshal(in []byte) error {
+	msg := new(core_api.DashboardListUsersResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *DashboardListUsersResult) GetSuccess() *core_api.DashboardListUsersResp {
+	if !p.IsSetSuccess() {
+		return DashboardListUsersResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *DashboardListUsersResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.DashboardListUsersResp)
+}
+
+func (p *DashboardListUsersResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *DashboardListUsersResult) GetResult() interface{} {
+	return p.Success
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -214,6 +686,46 @@ func (p *kClient) DashboardGetDataOverview(ctx context.Context, Req *core_api.Da
 	_args.Req = Req
 	var _result DashboardGetDataOverviewResult
 	if err = p.c.Call(ctx, "DashboardGetDataOverview", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) DashboardGetAlarmOverview(ctx context.Context, Req *core_api.DashboardGetAlarmOverviewReq) (r *core_api.DashboardGetAlarmOverviewResp, err error) {
+	var _args DashboardGetAlarmOverviewArgs
+	_args.Req = Req
+	var _result DashboardGetAlarmOverviewResult
+	if err = p.c.Call(ctx, "DashboardGetAlarmOverview", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) DashboardListAlarmUsers(ctx context.Context, Req *core_api.DashboardListAlarmRecordsReq) (r *core_api.DashboardListAlarmRecordsReq, err error) {
+	var _args DashboardListAlarmUsersArgs
+	_args.Req = Req
+	var _result DashboardListAlarmUsersResult
+	if err = p.c.Call(ctx, "DashboardListAlarmUsers", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) DashboardListClasses(ctx context.Context, Req *core_api.DashboardListClassesReq) (r *core_api.DashboardListClassesResp, err error) {
+	var _args DashboardListClassesArgs
+	_args.Req = Req
+	var _result DashboardListClassesResult
+	if err = p.c.Call(ctx, "DashboardListClasses", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) DashboardListUsers(ctx context.Context, Req *core_api.DashboardListUsersReq) (r *core_api.DashboardListUsersResp, err error) {
+	var _args DashboardListUsersArgs
+	_args.Req = Req
+	var _result DashboardListUsersResult
+	if err = p.c.Call(ctx, "DashboardListUsers", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

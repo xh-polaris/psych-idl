@@ -12,6 +12,10 @@ import (
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
 	DashboardGetDataOverview(ctx context.Context, Req *core_api.DashboardGetDataOverviewReq, callOptions ...callopt.Option) (r *core_api.DashboardGetDataOverviewResp, err error)
+	DashboardGetAlarmOverview(ctx context.Context, Req *core_api.DashboardGetAlarmOverviewReq, callOptions ...callopt.Option) (r *core_api.DashboardGetAlarmOverviewResp, err error)
+	DashboardListAlarmUsers(ctx context.Context, Req *core_api.DashboardListAlarmRecordsReq, callOptions ...callopt.Option) (r *core_api.DashboardListAlarmRecordsReq, err error)
+	DashboardListClasses(ctx context.Context, Req *core_api.DashboardListClassesReq, callOptions ...callopt.Option) (r *core_api.DashboardListClassesResp, err error)
+	DashboardListUsers(ctx context.Context, Req *core_api.DashboardListUsersReq, callOptions ...callopt.Option) (r *core_api.DashboardListUsersResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -46,4 +50,24 @@ type kPsychDashboardServiceClient struct {
 func (p *kPsychDashboardServiceClient) DashboardGetDataOverview(ctx context.Context, Req *core_api.DashboardGetDataOverviewReq, callOptions ...callopt.Option) (r *core_api.DashboardGetDataOverviewResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.DashboardGetDataOverview(ctx, Req)
+}
+
+func (p *kPsychDashboardServiceClient) DashboardGetAlarmOverview(ctx context.Context, Req *core_api.DashboardGetAlarmOverviewReq, callOptions ...callopt.Option) (r *core_api.DashboardGetAlarmOverviewResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DashboardGetAlarmOverview(ctx, Req)
+}
+
+func (p *kPsychDashboardServiceClient) DashboardListAlarmUsers(ctx context.Context, Req *core_api.DashboardListAlarmRecordsReq, callOptions ...callopt.Option) (r *core_api.DashboardListAlarmRecordsReq, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DashboardListAlarmUsers(ctx, Req)
+}
+
+func (p *kPsychDashboardServiceClient) DashboardListClasses(ctx context.Context, Req *core_api.DashboardListClassesReq, callOptions ...callopt.Option) (r *core_api.DashboardListClassesResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DashboardListClasses(ctx, Req)
+}
+
+func (p *kPsychDashboardServiceClient) DashboardListUsers(ctx context.Context, Req *core_api.DashboardListUsersReq, callOptions ...callopt.Option) (r *core_api.DashboardListUsersResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DashboardListUsers(ctx, Req)
 }
