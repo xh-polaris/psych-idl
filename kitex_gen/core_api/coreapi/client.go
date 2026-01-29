@@ -6,19 +6,33 @@ import (
 	"context"
 	client "github.com/cloudwego/kitex/client"
 	callopt "github.com/cloudwego/kitex/client/callopt"
+	basic "github.com/xh-polaris/psych-idl/kitex_gen/basic"
 	core_api "github.com/xh-polaris/psych-idl/kitex_gen/core_api"
 )
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
+	UserSignUp(ctx context.Context, Req *core_api.UserSignUpReq, callOptions ...callopt.Option) (r *core_api.UserSignUpResp, err error)
 	UserSignIn(ctx context.Context, Req *core_api.UserSignInReq, callOptions ...callopt.Option) (r *core_api.UserSignInResp, err error)
 	UserGetInfo(ctx context.Context, Req *core_api.UserGetInfoReq, callOptions ...callopt.Option) (r *core_api.UserGetInfoResp, err error)
+	UserUpdateInfo(ctx context.Context, Req *core_api.UserUpdateInfoReq, callOptions ...callopt.Option) (r *basic.Response, err error)
+	UserUpdatePassword(ctx context.Context, Req *core_api.UserUpdatePasswordReq, callOptions ...callopt.Option) (r *basic.Response, err error)
+	UnitSignUp(ctx context.Context, Req *core_api.UnitSignUpReq, callOptions ...callopt.Option) (r *core_api.UnitSignUpResp, err error)
+	UnitSignIn(ctx context.Context, Req *core_api.UnitSignInReq, callOptions ...callopt.Option) (r *core_api.UnitSignInResp, err error)
+	UnitGetInfo(ctx context.Context, Req *core_api.UnitGetInfoReq, callOptions ...callopt.Option) (r *core_api.UnitGetInfoResp, err error)
+	UnitUpdateInfo(ctx context.Context, Req *core_api.UnitUpdateInfoReq, callOptions ...callopt.Option) (r *basic.Response, err error)
+	UnitUpdatePassword(ctx context.Context, Req *core_api.UnitUpdatePasswordReq, callOptions ...callopt.Option) (r *basic.Response, err error)
+	UnitLinkUser(ctx context.Context, Req *core_api.UnitLinkUserReq, callOptions ...callopt.Option) (r *basic.Response, err error)
+	UnitCreateAndLinkUser(ctx context.Context, Req *core_api.UnitCreateAndLinkUserReq, callOptions ...callopt.Option) (r *core_api.UnitCreateAndLinkUserResp, err error)
+	ConfigCreate(ctx context.Context, Req *core_api.ConfigCreateOrUpdateReq, callOptions ...callopt.Option) (r *basic.Response, err error)
+	ConfigUpdateInfo(ctx context.Context, Req *core_api.ConfigCreateOrUpdateReq, callOptions ...callopt.Option) (r *basic.Response, err error)
+	ConfigGetByUnitID(ctx context.Context, Req *core_api.ConfigGetByUnitIdReq, callOptions ...callopt.Option) (r *core_api.ConfigGetByUnitIdResp, err error)
 	DashboardGetDataOverview(ctx context.Context, Req *core_api.DashboardGetDataOverviewReq, callOptions ...callopt.Option) (r *core_api.DashboardGetDataOverviewResp, err error)
 	DashboardGetDataTrend(ctx context.Context, Req *core_api.DashboardGetDataTrendReq, callOptions ...callopt.Option) (r *core_api.DashboardGetDataTrendResp, err error)
 	DashboardListUnits(ctx context.Context, Req *core_api.DashboardListUnitsReq, callOptions ...callopt.Option) (r *core_api.DashboardListUnitsResp, err error)
 	DashboardGetPsychTrend(ctx context.Context, Req *core_api.DashboardGetPsychTrendReq, callOptions ...callopt.Option) (r *core_api.DashboardGetPsychTrendResp, err error)
 	DashboardGetAlarmOverview(ctx context.Context, Req *core_api.DashboardGetAlarmOverviewReq, callOptions ...callopt.Option) (r *core_api.DashboardGetAlarmOverviewResp, err error)
-	DashboardListAlarmRecords(ctx context.Context, Req *core_api.DashboardListAlarmRecordsReq, callOptions ...callopt.Option) (r *core_api.DashboardListAlarmRecordsReq, err error)
+	DashboardListAlarmRecords(ctx context.Context, Req *core_api.DashboardListAlarmRecordsReq, callOptions ...callopt.Option) (r *core_api.DashboardListAlarmRecordsResp, err error)
 	DashboardListClasses(ctx context.Context, Req *core_api.DashboardListClassesReq, callOptions ...callopt.Option) (r *core_api.DashboardListClassesResp, err error)
 	DashboardListUsers(ctx context.Context, Req *core_api.DashboardListUsersReq, callOptions ...callopt.Option) (r *core_api.DashboardListUsersResp, err error)
 }
@@ -52,6 +66,11 @@ type kCoreApiClient struct {
 	*kClient
 }
 
+func (p *kCoreApiClient) UserSignUp(ctx context.Context, Req *core_api.UserSignUpReq, callOptions ...callopt.Option) (r *core_api.UserSignUpResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.UserSignUp(ctx, Req)
+}
+
 func (p *kCoreApiClient) UserSignIn(ctx context.Context, Req *core_api.UserSignInReq, callOptions ...callopt.Option) (r *core_api.UserSignInResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.UserSignIn(ctx, Req)
@@ -60,6 +79,66 @@ func (p *kCoreApiClient) UserSignIn(ctx context.Context, Req *core_api.UserSignI
 func (p *kCoreApiClient) UserGetInfo(ctx context.Context, Req *core_api.UserGetInfoReq, callOptions ...callopt.Option) (r *core_api.UserGetInfoResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.UserGetInfo(ctx, Req)
+}
+
+func (p *kCoreApiClient) UserUpdateInfo(ctx context.Context, Req *core_api.UserUpdateInfoReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.UserUpdateInfo(ctx, Req)
+}
+
+func (p *kCoreApiClient) UserUpdatePassword(ctx context.Context, Req *core_api.UserUpdatePasswordReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.UserUpdatePassword(ctx, Req)
+}
+
+func (p *kCoreApiClient) UnitSignUp(ctx context.Context, Req *core_api.UnitSignUpReq, callOptions ...callopt.Option) (r *core_api.UnitSignUpResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.UnitSignUp(ctx, Req)
+}
+
+func (p *kCoreApiClient) UnitSignIn(ctx context.Context, Req *core_api.UnitSignInReq, callOptions ...callopt.Option) (r *core_api.UnitSignInResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.UnitSignIn(ctx, Req)
+}
+
+func (p *kCoreApiClient) UnitGetInfo(ctx context.Context, Req *core_api.UnitGetInfoReq, callOptions ...callopt.Option) (r *core_api.UnitGetInfoResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.UnitGetInfo(ctx, Req)
+}
+
+func (p *kCoreApiClient) UnitUpdateInfo(ctx context.Context, Req *core_api.UnitUpdateInfoReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.UnitUpdateInfo(ctx, Req)
+}
+
+func (p *kCoreApiClient) UnitUpdatePassword(ctx context.Context, Req *core_api.UnitUpdatePasswordReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.UnitUpdatePassword(ctx, Req)
+}
+
+func (p *kCoreApiClient) UnitLinkUser(ctx context.Context, Req *core_api.UnitLinkUserReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.UnitLinkUser(ctx, Req)
+}
+
+func (p *kCoreApiClient) UnitCreateAndLinkUser(ctx context.Context, Req *core_api.UnitCreateAndLinkUserReq, callOptions ...callopt.Option) (r *core_api.UnitCreateAndLinkUserResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.UnitCreateAndLinkUser(ctx, Req)
+}
+
+func (p *kCoreApiClient) ConfigCreate(ctx context.Context, Req *core_api.ConfigCreateOrUpdateReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ConfigCreate(ctx, Req)
+}
+
+func (p *kCoreApiClient) ConfigUpdateInfo(ctx context.Context, Req *core_api.ConfigCreateOrUpdateReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ConfigUpdateInfo(ctx, Req)
+}
+
+func (p *kCoreApiClient) ConfigGetByUnitID(ctx context.Context, Req *core_api.ConfigGetByUnitIdReq, callOptions ...callopt.Option) (r *core_api.ConfigGetByUnitIdResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ConfigGetByUnitID(ctx, Req)
 }
 
 func (p *kCoreApiClient) DashboardGetDataOverview(ctx context.Context, Req *core_api.DashboardGetDataOverviewReq, callOptions ...callopt.Option) (r *core_api.DashboardGetDataOverviewResp, err error) {
@@ -87,7 +166,7 @@ func (p *kCoreApiClient) DashboardGetAlarmOverview(ctx context.Context, Req *cor
 	return p.kClient.DashboardGetAlarmOverview(ctx, Req)
 }
 
-func (p *kCoreApiClient) DashboardListAlarmRecords(ctx context.Context, Req *core_api.DashboardListAlarmRecordsReq, callOptions ...callopt.Option) (r *core_api.DashboardListAlarmRecordsReq, err error) {
+func (p *kCoreApiClient) DashboardListAlarmRecords(ctx context.Context, Req *core_api.DashboardListAlarmRecordsReq, callOptions ...callopt.Option) (r *core_api.DashboardListAlarmRecordsResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.DashboardListAlarmRecords(ctx, Req)
 }

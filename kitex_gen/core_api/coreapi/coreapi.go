@@ -9,12 +9,20 @@ import (
 	kitex "github.com/cloudwego/kitex/pkg/serviceinfo"
 	streaming "github.com/cloudwego/kitex/pkg/streaming"
 	proto "github.com/cloudwego/prutal"
+	basic "github.com/xh-polaris/psych-idl/kitex_gen/basic"
 	core_api "github.com/xh-polaris/psych-idl/kitex_gen/core_api"
 )
 
 var errInvalidMessageType = errors.New("invalid message type for service method handler")
 
 var serviceMethods = map[string]kitex.MethodInfo{
+	"UserSignUp": kitex.NewMethodInfo(
+		userSignUpHandler,
+		newUserSignUpArgs,
+		newUserSignUpResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
 	"UserSignIn": kitex.NewMethodInfo(
 		userSignInHandler,
 		newUserSignInArgs,
@@ -26,6 +34,90 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		userGetInfoHandler,
 		newUserGetInfoArgs,
 		newUserGetInfoResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"UserUpdateInfo": kitex.NewMethodInfo(
+		userUpdateInfoHandler,
+		newUserUpdateInfoArgs,
+		newUserUpdateInfoResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"UserUpdatePassword": kitex.NewMethodInfo(
+		userUpdatePasswordHandler,
+		newUserUpdatePasswordArgs,
+		newUserUpdatePasswordResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"UnitSignUp": kitex.NewMethodInfo(
+		unitSignUpHandler,
+		newUnitSignUpArgs,
+		newUnitSignUpResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"UnitSignIn": kitex.NewMethodInfo(
+		unitSignInHandler,
+		newUnitSignInArgs,
+		newUnitSignInResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"UnitGetInfo": kitex.NewMethodInfo(
+		unitGetInfoHandler,
+		newUnitGetInfoArgs,
+		newUnitGetInfoResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"UnitUpdateInfo": kitex.NewMethodInfo(
+		unitUpdateInfoHandler,
+		newUnitUpdateInfoArgs,
+		newUnitUpdateInfoResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"UnitUpdatePassword": kitex.NewMethodInfo(
+		unitUpdatePasswordHandler,
+		newUnitUpdatePasswordArgs,
+		newUnitUpdatePasswordResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"UnitLinkUser": kitex.NewMethodInfo(
+		unitLinkUserHandler,
+		newUnitLinkUserArgs,
+		newUnitLinkUserResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"UnitCreateAndLinkUser": kitex.NewMethodInfo(
+		unitCreateAndLinkUserHandler,
+		newUnitCreateAndLinkUserArgs,
+		newUnitCreateAndLinkUserResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"ConfigCreate": kitex.NewMethodInfo(
+		configCreateHandler,
+		newConfigCreateArgs,
+		newConfigCreateResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"ConfigUpdateInfo": kitex.NewMethodInfo(
+		configUpdateInfoHandler,
+		newConfigUpdateInfoArgs,
+		newConfigUpdateInfoResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"ConfigGetByUnitID": kitex.NewMethodInfo(
+		configGetByUnitIDHandler,
+		newConfigGetByUnitIDArgs,
+		newConfigGetByUnitIDResult,
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
@@ -149,6 +241,117 @@ func newServiceInfo(hasStreaming bool, keepStreamingMethods bool, keepNonStreami
 		Extra:           extra,
 	}
 	return svcInfo
+}
+
+func userSignUpHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.UserSignUpReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.CoreApi).UserSignUp(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *UserSignUpArgs:
+		success, err := handler.(core_api.CoreApi).UserSignUp(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*UserSignUpResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newUserSignUpArgs() interface{} {
+	return &UserSignUpArgs{}
+}
+
+func newUserSignUpResult() interface{} {
+	return &UserSignUpResult{}
+}
+
+type UserSignUpArgs struct {
+	Req *core_api.UserSignUpReq
+}
+
+func (p *UserSignUpArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *UserSignUpArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.UserSignUpReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var UserSignUpArgs_Req_DEFAULT *core_api.UserSignUpReq
+
+func (p *UserSignUpArgs) GetReq() *core_api.UserSignUpReq {
+	if !p.IsSetReq() {
+		return UserSignUpArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *UserSignUpArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *UserSignUpArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type UserSignUpResult struct {
+	Success *core_api.UserSignUpResp
+}
+
+var UserSignUpResult_Success_DEFAULT *core_api.UserSignUpResp
+
+func (p *UserSignUpResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *UserSignUpResult) Unmarshal(in []byte) error {
+	msg := new(core_api.UserSignUpResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *UserSignUpResult) GetSuccess() *core_api.UserSignUpResp {
+	if !p.IsSetSuccess() {
+		return UserSignUpResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *UserSignUpResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.UserSignUpResp)
+}
+
+func (p *UserSignUpResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *UserSignUpResult) GetResult() interface{} {
+	return p.Success
 }
 
 func userSignInHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
@@ -370,6 +573,1338 @@ func (p *UserGetInfoResult) IsSetSuccess() bool {
 }
 
 func (p *UserGetInfoResult) GetResult() interface{} {
+	return p.Success
+}
+
+func userUpdateInfoHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.UserUpdateInfoReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.CoreApi).UserUpdateInfo(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *UserUpdateInfoArgs:
+		success, err := handler.(core_api.CoreApi).UserUpdateInfo(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*UserUpdateInfoResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newUserUpdateInfoArgs() interface{} {
+	return &UserUpdateInfoArgs{}
+}
+
+func newUserUpdateInfoResult() interface{} {
+	return &UserUpdateInfoResult{}
+}
+
+type UserUpdateInfoArgs struct {
+	Req *core_api.UserUpdateInfoReq
+}
+
+func (p *UserUpdateInfoArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *UserUpdateInfoArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.UserUpdateInfoReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var UserUpdateInfoArgs_Req_DEFAULT *core_api.UserUpdateInfoReq
+
+func (p *UserUpdateInfoArgs) GetReq() *core_api.UserUpdateInfoReq {
+	if !p.IsSetReq() {
+		return UserUpdateInfoArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *UserUpdateInfoArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *UserUpdateInfoArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type UserUpdateInfoResult struct {
+	Success *basic.Response
+}
+
+var UserUpdateInfoResult_Success_DEFAULT *basic.Response
+
+func (p *UserUpdateInfoResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *UserUpdateInfoResult) Unmarshal(in []byte) error {
+	msg := new(basic.Response)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *UserUpdateInfoResult) GetSuccess() *basic.Response {
+	if !p.IsSetSuccess() {
+		return UserUpdateInfoResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *UserUpdateInfoResult) SetSuccess(x interface{}) {
+	p.Success = x.(*basic.Response)
+}
+
+func (p *UserUpdateInfoResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *UserUpdateInfoResult) GetResult() interface{} {
+	return p.Success
+}
+
+func userUpdatePasswordHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.UserUpdatePasswordReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.CoreApi).UserUpdatePassword(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *UserUpdatePasswordArgs:
+		success, err := handler.(core_api.CoreApi).UserUpdatePassword(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*UserUpdatePasswordResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newUserUpdatePasswordArgs() interface{} {
+	return &UserUpdatePasswordArgs{}
+}
+
+func newUserUpdatePasswordResult() interface{} {
+	return &UserUpdatePasswordResult{}
+}
+
+type UserUpdatePasswordArgs struct {
+	Req *core_api.UserUpdatePasswordReq
+}
+
+func (p *UserUpdatePasswordArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *UserUpdatePasswordArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.UserUpdatePasswordReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var UserUpdatePasswordArgs_Req_DEFAULT *core_api.UserUpdatePasswordReq
+
+func (p *UserUpdatePasswordArgs) GetReq() *core_api.UserUpdatePasswordReq {
+	if !p.IsSetReq() {
+		return UserUpdatePasswordArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *UserUpdatePasswordArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *UserUpdatePasswordArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type UserUpdatePasswordResult struct {
+	Success *basic.Response
+}
+
+var UserUpdatePasswordResult_Success_DEFAULT *basic.Response
+
+func (p *UserUpdatePasswordResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *UserUpdatePasswordResult) Unmarshal(in []byte) error {
+	msg := new(basic.Response)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *UserUpdatePasswordResult) GetSuccess() *basic.Response {
+	if !p.IsSetSuccess() {
+		return UserUpdatePasswordResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *UserUpdatePasswordResult) SetSuccess(x interface{}) {
+	p.Success = x.(*basic.Response)
+}
+
+func (p *UserUpdatePasswordResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *UserUpdatePasswordResult) GetResult() interface{} {
+	return p.Success
+}
+
+func unitSignUpHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.UnitSignUpReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.CoreApi).UnitSignUp(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *UnitSignUpArgs:
+		success, err := handler.(core_api.CoreApi).UnitSignUp(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*UnitSignUpResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newUnitSignUpArgs() interface{} {
+	return &UnitSignUpArgs{}
+}
+
+func newUnitSignUpResult() interface{} {
+	return &UnitSignUpResult{}
+}
+
+type UnitSignUpArgs struct {
+	Req *core_api.UnitSignUpReq
+}
+
+func (p *UnitSignUpArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *UnitSignUpArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.UnitSignUpReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var UnitSignUpArgs_Req_DEFAULT *core_api.UnitSignUpReq
+
+func (p *UnitSignUpArgs) GetReq() *core_api.UnitSignUpReq {
+	if !p.IsSetReq() {
+		return UnitSignUpArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *UnitSignUpArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *UnitSignUpArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type UnitSignUpResult struct {
+	Success *core_api.UnitSignUpResp
+}
+
+var UnitSignUpResult_Success_DEFAULT *core_api.UnitSignUpResp
+
+func (p *UnitSignUpResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *UnitSignUpResult) Unmarshal(in []byte) error {
+	msg := new(core_api.UnitSignUpResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *UnitSignUpResult) GetSuccess() *core_api.UnitSignUpResp {
+	if !p.IsSetSuccess() {
+		return UnitSignUpResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *UnitSignUpResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.UnitSignUpResp)
+}
+
+func (p *UnitSignUpResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *UnitSignUpResult) GetResult() interface{} {
+	return p.Success
+}
+
+func unitSignInHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.UnitSignInReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.CoreApi).UnitSignIn(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *UnitSignInArgs:
+		success, err := handler.(core_api.CoreApi).UnitSignIn(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*UnitSignInResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newUnitSignInArgs() interface{} {
+	return &UnitSignInArgs{}
+}
+
+func newUnitSignInResult() interface{} {
+	return &UnitSignInResult{}
+}
+
+type UnitSignInArgs struct {
+	Req *core_api.UnitSignInReq
+}
+
+func (p *UnitSignInArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *UnitSignInArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.UnitSignInReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var UnitSignInArgs_Req_DEFAULT *core_api.UnitSignInReq
+
+func (p *UnitSignInArgs) GetReq() *core_api.UnitSignInReq {
+	if !p.IsSetReq() {
+		return UnitSignInArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *UnitSignInArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *UnitSignInArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type UnitSignInResult struct {
+	Success *core_api.UnitSignInResp
+}
+
+var UnitSignInResult_Success_DEFAULT *core_api.UnitSignInResp
+
+func (p *UnitSignInResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *UnitSignInResult) Unmarshal(in []byte) error {
+	msg := new(core_api.UnitSignInResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *UnitSignInResult) GetSuccess() *core_api.UnitSignInResp {
+	if !p.IsSetSuccess() {
+		return UnitSignInResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *UnitSignInResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.UnitSignInResp)
+}
+
+func (p *UnitSignInResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *UnitSignInResult) GetResult() interface{} {
+	return p.Success
+}
+
+func unitGetInfoHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.UnitGetInfoReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.CoreApi).UnitGetInfo(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *UnitGetInfoArgs:
+		success, err := handler.(core_api.CoreApi).UnitGetInfo(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*UnitGetInfoResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newUnitGetInfoArgs() interface{} {
+	return &UnitGetInfoArgs{}
+}
+
+func newUnitGetInfoResult() interface{} {
+	return &UnitGetInfoResult{}
+}
+
+type UnitGetInfoArgs struct {
+	Req *core_api.UnitGetInfoReq
+}
+
+func (p *UnitGetInfoArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *UnitGetInfoArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.UnitGetInfoReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var UnitGetInfoArgs_Req_DEFAULT *core_api.UnitGetInfoReq
+
+func (p *UnitGetInfoArgs) GetReq() *core_api.UnitGetInfoReq {
+	if !p.IsSetReq() {
+		return UnitGetInfoArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *UnitGetInfoArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *UnitGetInfoArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type UnitGetInfoResult struct {
+	Success *core_api.UnitGetInfoResp
+}
+
+var UnitGetInfoResult_Success_DEFAULT *core_api.UnitGetInfoResp
+
+func (p *UnitGetInfoResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *UnitGetInfoResult) Unmarshal(in []byte) error {
+	msg := new(core_api.UnitGetInfoResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *UnitGetInfoResult) GetSuccess() *core_api.UnitGetInfoResp {
+	if !p.IsSetSuccess() {
+		return UnitGetInfoResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *UnitGetInfoResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.UnitGetInfoResp)
+}
+
+func (p *UnitGetInfoResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *UnitGetInfoResult) GetResult() interface{} {
+	return p.Success
+}
+
+func unitUpdateInfoHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.UnitUpdateInfoReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.CoreApi).UnitUpdateInfo(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *UnitUpdateInfoArgs:
+		success, err := handler.(core_api.CoreApi).UnitUpdateInfo(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*UnitUpdateInfoResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newUnitUpdateInfoArgs() interface{} {
+	return &UnitUpdateInfoArgs{}
+}
+
+func newUnitUpdateInfoResult() interface{} {
+	return &UnitUpdateInfoResult{}
+}
+
+type UnitUpdateInfoArgs struct {
+	Req *core_api.UnitUpdateInfoReq
+}
+
+func (p *UnitUpdateInfoArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *UnitUpdateInfoArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.UnitUpdateInfoReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var UnitUpdateInfoArgs_Req_DEFAULT *core_api.UnitUpdateInfoReq
+
+func (p *UnitUpdateInfoArgs) GetReq() *core_api.UnitUpdateInfoReq {
+	if !p.IsSetReq() {
+		return UnitUpdateInfoArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *UnitUpdateInfoArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *UnitUpdateInfoArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type UnitUpdateInfoResult struct {
+	Success *basic.Response
+}
+
+var UnitUpdateInfoResult_Success_DEFAULT *basic.Response
+
+func (p *UnitUpdateInfoResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *UnitUpdateInfoResult) Unmarshal(in []byte) error {
+	msg := new(basic.Response)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *UnitUpdateInfoResult) GetSuccess() *basic.Response {
+	if !p.IsSetSuccess() {
+		return UnitUpdateInfoResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *UnitUpdateInfoResult) SetSuccess(x interface{}) {
+	p.Success = x.(*basic.Response)
+}
+
+func (p *UnitUpdateInfoResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *UnitUpdateInfoResult) GetResult() interface{} {
+	return p.Success
+}
+
+func unitUpdatePasswordHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.UnitUpdatePasswordReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.CoreApi).UnitUpdatePassword(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *UnitUpdatePasswordArgs:
+		success, err := handler.(core_api.CoreApi).UnitUpdatePassword(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*UnitUpdatePasswordResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newUnitUpdatePasswordArgs() interface{} {
+	return &UnitUpdatePasswordArgs{}
+}
+
+func newUnitUpdatePasswordResult() interface{} {
+	return &UnitUpdatePasswordResult{}
+}
+
+type UnitUpdatePasswordArgs struct {
+	Req *core_api.UnitUpdatePasswordReq
+}
+
+func (p *UnitUpdatePasswordArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *UnitUpdatePasswordArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.UnitUpdatePasswordReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var UnitUpdatePasswordArgs_Req_DEFAULT *core_api.UnitUpdatePasswordReq
+
+func (p *UnitUpdatePasswordArgs) GetReq() *core_api.UnitUpdatePasswordReq {
+	if !p.IsSetReq() {
+		return UnitUpdatePasswordArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *UnitUpdatePasswordArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *UnitUpdatePasswordArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type UnitUpdatePasswordResult struct {
+	Success *basic.Response
+}
+
+var UnitUpdatePasswordResult_Success_DEFAULT *basic.Response
+
+func (p *UnitUpdatePasswordResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *UnitUpdatePasswordResult) Unmarshal(in []byte) error {
+	msg := new(basic.Response)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *UnitUpdatePasswordResult) GetSuccess() *basic.Response {
+	if !p.IsSetSuccess() {
+		return UnitUpdatePasswordResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *UnitUpdatePasswordResult) SetSuccess(x interface{}) {
+	p.Success = x.(*basic.Response)
+}
+
+func (p *UnitUpdatePasswordResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *UnitUpdatePasswordResult) GetResult() interface{} {
+	return p.Success
+}
+
+func unitLinkUserHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.UnitLinkUserReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.CoreApi).UnitLinkUser(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *UnitLinkUserArgs:
+		success, err := handler.(core_api.CoreApi).UnitLinkUser(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*UnitLinkUserResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newUnitLinkUserArgs() interface{} {
+	return &UnitLinkUserArgs{}
+}
+
+func newUnitLinkUserResult() interface{} {
+	return &UnitLinkUserResult{}
+}
+
+type UnitLinkUserArgs struct {
+	Req *core_api.UnitLinkUserReq
+}
+
+func (p *UnitLinkUserArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *UnitLinkUserArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.UnitLinkUserReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var UnitLinkUserArgs_Req_DEFAULT *core_api.UnitLinkUserReq
+
+func (p *UnitLinkUserArgs) GetReq() *core_api.UnitLinkUserReq {
+	if !p.IsSetReq() {
+		return UnitLinkUserArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *UnitLinkUserArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *UnitLinkUserArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type UnitLinkUserResult struct {
+	Success *basic.Response
+}
+
+var UnitLinkUserResult_Success_DEFAULT *basic.Response
+
+func (p *UnitLinkUserResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *UnitLinkUserResult) Unmarshal(in []byte) error {
+	msg := new(basic.Response)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *UnitLinkUserResult) GetSuccess() *basic.Response {
+	if !p.IsSetSuccess() {
+		return UnitLinkUserResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *UnitLinkUserResult) SetSuccess(x interface{}) {
+	p.Success = x.(*basic.Response)
+}
+
+func (p *UnitLinkUserResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *UnitLinkUserResult) GetResult() interface{} {
+	return p.Success
+}
+
+func unitCreateAndLinkUserHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.UnitCreateAndLinkUserReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.CoreApi).UnitCreateAndLinkUser(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *UnitCreateAndLinkUserArgs:
+		success, err := handler.(core_api.CoreApi).UnitCreateAndLinkUser(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*UnitCreateAndLinkUserResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newUnitCreateAndLinkUserArgs() interface{} {
+	return &UnitCreateAndLinkUserArgs{}
+}
+
+func newUnitCreateAndLinkUserResult() interface{} {
+	return &UnitCreateAndLinkUserResult{}
+}
+
+type UnitCreateAndLinkUserArgs struct {
+	Req *core_api.UnitCreateAndLinkUserReq
+}
+
+func (p *UnitCreateAndLinkUserArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *UnitCreateAndLinkUserArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.UnitCreateAndLinkUserReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var UnitCreateAndLinkUserArgs_Req_DEFAULT *core_api.UnitCreateAndLinkUserReq
+
+func (p *UnitCreateAndLinkUserArgs) GetReq() *core_api.UnitCreateAndLinkUserReq {
+	if !p.IsSetReq() {
+		return UnitCreateAndLinkUserArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *UnitCreateAndLinkUserArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *UnitCreateAndLinkUserArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type UnitCreateAndLinkUserResult struct {
+	Success *core_api.UnitCreateAndLinkUserResp
+}
+
+var UnitCreateAndLinkUserResult_Success_DEFAULT *core_api.UnitCreateAndLinkUserResp
+
+func (p *UnitCreateAndLinkUserResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *UnitCreateAndLinkUserResult) Unmarshal(in []byte) error {
+	msg := new(core_api.UnitCreateAndLinkUserResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *UnitCreateAndLinkUserResult) GetSuccess() *core_api.UnitCreateAndLinkUserResp {
+	if !p.IsSetSuccess() {
+		return UnitCreateAndLinkUserResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *UnitCreateAndLinkUserResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.UnitCreateAndLinkUserResp)
+}
+
+func (p *UnitCreateAndLinkUserResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *UnitCreateAndLinkUserResult) GetResult() interface{} {
+	return p.Success
+}
+
+func configCreateHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.ConfigCreateOrUpdateReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.CoreApi).ConfigCreate(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *ConfigCreateArgs:
+		success, err := handler.(core_api.CoreApi).ConfigCreate(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*ConfigCreateResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newConfigCreateArgs() interface{} {
+	return &ConfigCreateArgs{}
+}
+
+func newConfigCreateResult() interface{} {
+	return &ConfigCreateResult{}
+}
+
+type ConfigCreateArgs struct {
+	Req *core_api.ConfigCreateOrUpdateReq
+}
+
+func (p *ConfigCreateArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *ConfigCreateArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.ConfigCreateOrUpdateReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var ConfigCreateArgs_Req_DEFAULT *core_api.ConfigCreateOrUpdateReq
+
+func (p *ConfigCreateArgs) GetReq() *core_api.ConfigCreateOrUpdateReq {
+	if !p.IsSetReq() {
+		return ConfigCreateArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *ConfigCreateArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *ConfigCreateArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type ConfigCreateResult struct {
+	Success *basic.Response
+}
+
+var ConfigCreateResult_Success_DEFAULT *basic.Response
+
+func (p *ConfigCreateResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *ConfigCreateResult) Unmarshal(in []byte) error {
+	msg := new(basic.Response)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *ConfigCreateResult) GetSuccess() *basic.Response {
+	if !p.IsSetSuccess() {
+		return ConfigCreateResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *ConfigCreateResult) SetSuccess(x interface{}) {
+	p.Success = x.(*basic.Response)
+}
+
+func (p *ConfigCreateResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *ConfigCreateResult) GetResult() interface{} {
+	return p.Success
+}
+
+func configUpdateInfoHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.ConfigCreateOrUpdateReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.CoreApi).ConfigUpdateInfo(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *ConfigUpdateInfoArgs:
+		success, err := handler.(core_api.CoreApi).ConfigUpdateInfo(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*ConfigUpdateInfoResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newConfigUpdateInfoArgs() interface{} {
+	return &ConfigUpdateInfoArgs{}
+}
+
+func newConfigUpdateInfoResult() interface{} {
+	return &ConfigUpdateInfoResult{}
+}
+
+type ConfigUpdateInfoArgs struct {
+	Req *core_api.ConfigCreateOrUpdateReq
+}
+
+func (p *ConfigUpdateInfoArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *ConfigUpdateInfoArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.ConfigCreateOrUpdateReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var ConfigUpdateInfoArgs_Req_DEFAULT *core_api.ConfigCreateOrUpdateReq
+
+func (p *ConfigUpdateInfoArgs) GetReq() *core_api.ConfigCreateOrUpdateReq {
+	if !p.IsSetReq() {
+		return ConfigUpdateInfoArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *ConfigUpdateInfoArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *ConfigUpdateInfoArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type ConfigUpdateInfoResult struct {
+	Success *basic.Response
+}
+
+var ConfigUpdateInfoResult_Success_DEFAULT *basic.Response
+
+func (p *ConfigUpdateInfoResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *ConfigUpdateInfoResult) Unmarshal(in []byte) error {
+	msg := new(basic.Response)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *ConfigUpdateInfoResult) GetSuccess() *basic.Response {
+	if !p.IsSetSuccess() {
+		return ConfigUpdateInfoResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *ConfigUpdateInfoResult) SetSuccess(x interface{}) {
+	p.Success = x.(*basic.Response)
+}
+
+func (p *ConfigUpdateInfoResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *ConfigUpdateInfoResult) GetResult() interface{} {
+	return p.Success
+}
+
+func configGetByUnitIDHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.ConfigGetByUnitIdReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.CoreApi).ConfigGetByUnitID(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *ConfigGetByUnitIDArgs:
+		success, err := handler.(core_api.CoreApi).ConfigGetByUnitID(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*ConfigGetByUnitIDResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newConfigGetByUnitIDArgs() interface{} {
+	return &ConfigGetByUnitIDArgs{}
+}
+
+func newConfigGetByUnitIDResult() interface{} {
+	return &ConfigGetByUnitIDResult{}
+}
+
+type ConfigGetByUnitIDArgs struct {
+	Req *core_api.ConfigGetByUnitIdReq
+}
+
+func (p *ConfigGetByUnitIDArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *ConfigGetByUnitIDArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.ConfigGetByUnitIdReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var ConfigGetByUnitIDArgs_Req_DEFAULT *core_api.ConfigGetByUnitIdReq
+
+func (p *ConfigGetByUnitIDArgs) GetReq() *core_api.ConfigGetByUnitIdReq {
+	if !p.IsSetReq() {
+		return ConfigGetByUnitIDArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *ConfigGetByUnitIDArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *ConfigGetByUnitIDArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type ConfigGetByUnitIDResult struct {
+	Success *core_api.ConfigGetByUnitIdResp
+}
+
+var ConfigGetByUnitIDResult_Success_DEFAULT *core_api.ConfigGetByUnitIdResp
+
+func (p *ConfigGetByUnitIDResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *ConfigGetByUnitIDResult) Unmarshal(in []byte) error {
+	msg := new(core_api.ConfigGetByUnitIdResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *ConfigGetByUnitIDResult) GetSuccess() *core_api.ConfigGetByUnitIdResp {
+	if !p.IsSetSuccess() {
+		return ConfigGetByUnitIDResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *ConfigGetByUnitIDResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.ConfigGetByUnitIdResp)
+}
+
+func (p *ConfigGetByUnitIDResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *ConfigGetByUnitIDResult) GetResult() interface{} {
 	return p.Success
 }
 
@@ -999,10 +2534,10 @@ func (p *DashboardListAlarmRecordsArgs) GetFirstArgument() interface{} {
 }
 
 type DashboardListAlarmRecordsResult struct {
-	Success *core_api.DashboardListAlarmRecordsReq
+	Success *core_api.DashboardListAlarmRecordsResp
 }
 
-var DashboardListAlarmRecordsResult_Success_DEFAULT *core_api.DashboardListAlarmRecordsReq
+var DashboardListAlarmRecordsResult_Success_DEFAULT *core_api.DashboardListAlarmRecordsResp
 
 func (p *DashboardListAlarmRecordsResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -1012,7 +2547,7 @@ func (p *DashboardListAlarmRecordsResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *DashboardListAlarmRecordsResult) Unmarshal(in []byte) error {
-	msg := new(core_api.DashboardListAlarmRecordsReq)
+	msg := new(core_api.DashboardListAlarmRecordsResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -1020,7 +2555,7 @@ func (p *DashboardListAlarmRecordsResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *DashboardListAlarmRecordsResult) GetSuccess() *core_api.DashboardListAlarmRecordsReq {
+func (p *DashboardListAlarmRecordsResult) GetSuccess() *core_api.DashboardListAlarmRecordsResp {
 	if !p.IsSetSuccess() {
 		return DashboardListAlarmRecordsResult_Success_DEFAULT
 	}
@@ -1028,7 +2563,7 @@ func (p *DashboardListAlarmRecordsResult) GetSuccess() *core_api.DashboardListAl
 }
 
 func (p *DashboardListAlarmRecordsResult) SetSuccess(x interface{}) {
-	p.Success = x.(*core_api.DashboardListAlarmRecordsReq)
+	p.Success = x.(*core_api.DashboardListAlarmRecordsResp)
 }
 
 func (p *DashboardListAlarmRecordsResult) IsSetSuccess() bool {
@@ -1271,6 +2806,16 @@ func newServiceClient(c client.Client) *kClient {
 	}
 }
 
+func (p *kClient) UserSignUp(ctx context.Context, Req *core_api.UserSignUpReq) (r *core_api.UserSignUpResp, err error) {
+	var _args UserSignUpArgs
+	_args.Req = Req
+	var _result UserSignUpResult
+	if err = p.c.Call(ctx, "UserSignUp", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
 func (p *kClient) UserSignIn(ctx context.Context, Req *core_api.UserSignInReq) (r *core_api.UserSignInResp, err error) {
 	var _args UserSignInArgs
 	_args.Req = Req
@@ -1286,6 +2831,126 @@ func (p *kClient) UserGetInfo(ctx context.Context, Req *core_api.UserGetInfoReq)
 	_args.Req = Req
 	var _result UserGetInfoResult
 	if err = p.c.Call(ctx, "UserGetInfo", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) UserUpdateInfo(ctx context.Context, Req *core_api.UserUpdateInfoReq) (r *basic.Response, err error) {
+	var _args UserUpdateInfoArgs
+	_args.Req = Req
+	var _result UserUpdateInfoResult
+	if err = p.c.Call(ctx, "UserUpdateInfo", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) UserUpdatePassword(ctx context.Context, Req *core_api.UserUpdatePasswordReq) (r *basic.Response, err error) {
+	var _args UserUpdatePasswordArgs
+	_args.Req = Req
+	var _result UserUpdatePasswordResult
+	if err = p.c.Call(ctx, "UserUpdatePassword", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) UnitSignUp(ctx context.Context, Req *core_api.UnitSignUpReq) (r *core_api.UnitSignUpResp, err error) {
+	var _args UnitSignUpArgs
+	_args.Req = Req
+	var _result UnitSignUpResult
+	if err = p.c.Call(ctx, "UnitSignUp", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) UnitSignIn(ctx context.Context, Req *core_api.UnitSignInReq) (r *core_api.UnitSignInResp, err error) {
+	var _args UnitSignInArgs
+	_args.Req = Req
+	var _result UnitSignInResult
+	if err = p.c.Call(ctx, "UnitSignIn", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) UnitGetInfo(ctx context.Context, Req *core_api.UnitGetInfoReq) (r *core_api.UnitGetInfoResp, err error) {
+	var _args UnitGetInfoArgs
+	_args.Req = Req
+	var _result UnitGetInfoResult
+	if err = p.c.Call(ctx, "UnitGetInfo", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) UnitUpdateInfo(ctx context.Context, Req *core_api.UnitUpdateInfoReq) (r *basic.Response, err error) {
+	var _args UnitUpdateInfoArgs
+	_args.Req = Req
+	var _result UnitUpdateInfoResult
+	if err = p.c.Call(ctx, "UnitUpdateInfo", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) UnitUpdatePassword(ctx context.Context, Req *core_api.UnitUpdatePasswordReq) (r *basic.Response, err error) {
+	var _args UnitUpdatePasswordArgs
+	_args.Req = Req
+	var _result UnitUpdatePasswordResult
+	if err = p.c.Call(ctx, "UnitUpdatePassword", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) UnitLinkUser(ctx context.Context, Req *core_api.UnitLinkUserReq) (r *basic.Response, err error) {
+	var _args UnitLinkUserArgs
+	_args.Req = Req
+	var _result UnitLinkUserResult
+	if err = p.c.Call(ctx, "UnitLinkUser", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) UnitCreateAndLinkUser(ctx context.Context, Req *core_api.UnitCreateAndLinkUserReq) (r *core_api.UnitCreateAndLinkUserResp, err error) {
+	var _args UnitCreateAndLinkUserArgs
+	_args.Req = Req
+	var _result UnitCreateAndLinkUserResult
+	if err = p.c.Call(ctx, "UnitCreateAndLinkUser", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ConfigCreate(ctx context.Context, Req *core_api.ConfigCreateOrUpdateReq) (r *basic.Response, err error) {
+	var _args ConfigCreateArgs
+	_args.Req = Req
+	var _result ConfigCreateResult
+	if err = p.c.Call(ctx, "ConfigCreate", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ConfigUpdateInfo(ctx context.Context, Req *core_api.ConfigCreateOrUpdateReq) (r *basic.Response, err error) {
+	var _args ConfigUpdateInfoArgs
+	_args.Req = Req
+	var _result ConfigUpdateInfoResult
+	if err = p.c.Call(ctx, "ConfigUpdateInfo", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ConfigGetByUnitID(ctx context.Context, Req *core_api.ConfigGetByUnitIdReq) (r *core_api.ConfigGetByUnitIdResp, err error) {
+	var _args ConfigGetByUnitIDArgs
+	_args.Req = Req
+	var _result ConfigGetByUnitIDResult
+	if err = p.c.Call(ctx, "ConfigGetByUnitID", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
@@ -1341,7 +3006,7 @@ func (p *kClient) DashboardGetAlarmOverview(ctx context.Context, Req *core_api.D
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) DashboardListAlarmRecords(ctx context.Context, Req *core_api.DashboardListAlarmRecordsReq) (r *core_api.DashboardListAlarmRecordsReq, err error) {
+func (p *kClient) DashboardListAlarmRecords(ctx context.Context, Req *core_api.DashboardListAlarmRecordsReq) (r *core_api.DashboardListAlarmRecordsResp, err error) {
 	var _args DashboardListAlarmRecordsArgs
 	_args.Req = Req
 	var _result DashboardListAlarmRecordsResult

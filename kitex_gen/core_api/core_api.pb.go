@@ -2,17 +2,33 @@
 
 package core_api
 
-import "context"
+import (
+	"context"
+	"github.com/xh-polaris/psych-idl/kitex_gen/basic"
+)
 
 type CoreApi interface {
+	UserSignUp(ctx context.Context, req *UserSignUpReq) (res *UserSignUpResp, err error)
 	UserSignIn(ctx context.Context, req *UserSignInReq) (res *UserSignInResp, err error)
 	UserGetInfo(ctx context.Context, req *UserGetInfoReq) (res *UserGetInfoResp, err error)
+	UserUpdateInfo(ctx context.Context, req *UserUpdateInfoReq) (res *basic.Response, err error)
+	UserUpdatePassword(ctx context.Context, req *UserUpdatePasswordReq) (res *basic.Response, err error)
+	UnitSignUp(ctx context.Context, req *UnitSignUpReq) (res *UnitSignUpResp, err error)
+	UnitSignIn(ctx context.Context, req *UnitSignInReq) (res *UnitSignInResp, err error)
+	UnitGetInfo(ctx context.Context, req *UnitGetInfoReq) (res *UnitGetInfoResp, err error)
+	UnitUpdateInfo(ctx context.Context, req *UnitUpdateInfoReq) (res *basic.Response, err error)
+	UnitUpdatePassword(ctx context.Context, req *UnitUpdatePasswordReq) (res *basic.Response, err error)
+	UnitLinkUser(ctx context.Context, req *UnitLinkUserReq) (res *basic.Response, err error)
+	UnitCreateAndLinkUser(ctx context.Context, req *UnitCreateAndLinkUserReq) (res *UnitCreateAndLinkUserResp, err error)
+	ConfigCreate(ctx context.Context, req *ConfigCreateOrUpdateReq) (res *basic.Response, err error)
+	ConfigUpdateInfo(ctx context.Context, req *ConfigCreateOrUpdateReq) (res *basic.Response, err error)
+	ConfigGetByUnitID(ctx context.Context, req *ConfigGetByUnitIdReq) (res *ConfigGetByUnitIdResp, err error)
 	DashboardGetDataOverview(ctx context.Context, req *DashboardGetDataOverviewReq) (res *DashboardGetDataOverviewResp, err error)
 	DashboardGetDataTrend(ctx context.Context, req *DashboardGetDataTrendReq) (res *DashboardGetDataTrendResp, err error)
 	DashboardListUnits(ctx context.Context, req *DashboardListUnitsReq) (res *DashboardListUnitsResp, err error)
 	DashboardGetPsychTrend(ctx context.Context, req *DashboardGetPsychTrendReq) (res *DashboardGetPsychTrendResp, err error)
 	DashboardGetAlarmOverview(ctx context.Context, req *DashboardGetAlarmOverviewReq) (res *DashboardGetAlarmOverviewResp, err error)
-	DashboardListAlarmRecords(ctx context.Context, req *DashboardListAlarmRecordsReq) (res *DashboardListAlarmRecordsReq, err error)
+	DashboardListAlarmRecords(ctx context.Context, req *DashboardListAlarmRecordsReq) (res *DashboardListAlarmRecordsResp, err error)
 	DashboardListClasses(ctx context.Context, req *DashboardListClassesReq) (res *DashboardListClassesResp, err error)
 	DashboardListUsers(ctx context.Context, req *DashboardListUsersReq) (res *DashboardListUsersResp, err error)
 }
