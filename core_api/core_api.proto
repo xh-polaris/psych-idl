@@ -6,14 +6,63 @@ option go_package = "core_api";
 
 import "core_api/common.proto";
 import "basic/http.proto";
+import "basic/re.proto";
 
 service CoreApi {
-  rpc UserSignIn(UserSignInReq) returns (UserSignInResp) {
+  // 原profile接口
+  /* User */
+  rpc UserSignUp(UserSignUpReq) returns (UserSignUpResp){
+    option (http.post) = "/user/sign_up";
+  }
+  rpc UserSignIn(UserSignInReq) returns (UserSignInResp){
     option (http.post) = "/user/sign_in";
   }
-  rpc UserGetInfo(UserGetInfoReq) returns (UserGetInfoResp) {
-    option (http.get) = "/user/info";
+  rpc UserGetInfo(UserGetInfoReq) returns (UserGetInfoResp){
+    option (http.get) = "/user/get_info";
   }
+  rpc UserUpdateInfo(UserUpdateInfoReq) returns (basic.Response){
+    option (http.post) = "/user/update_info";
+  }
+  rpc UserUpdatePassword(UserUpdatePasswordReq) returns (basic.Response){
+    option (http.post) = "/user/update_password";
+  }
+
+  /* Unit */
+  // 账号相关
+  rpc UnitSignUp(UnitSignUpReq) returns (UnitSignUpResp){
+    option (http.post) = "/unit/sign_up";
+  }
+  rpc UnitSignIn(UnitSignInReq) returns (UnitSignInResp){
+    option (http.post) = "/unit/sign_in";
+  }
+  rpc UnitGetInfo(UnitGetInfoReq) returns (UnitGetInfoResp){
+    option (http.get) = "/unit/get_info";
+  }
+  rpc UnitUpdateInfo(UnitUpdateInfoReq) returns (basic.Response){
+    option (http.post) = "/unit/update_info";
+  }
+  rpc UnitUpdatePassword(UnitUpdatePasswordReq) returns (basic.Response){
+    option (http.post) = "/unit/update_password";
+  }
+  // 操作相关
+  rpc UnitLinkUser(UnitLinkUserReq) returns (basic.Response){
+    option (http.post) = "/unit/link_user";
+  }
+  rpc UnitCreateAndLinkUser(UnitCreateAndLinkUserReq) returns (UnitCreateAndLinkUserResp){
+    option (http.post) = "/unit/create_and_link_user";
+  }
+
+  /* Config */
+  rpc ConfigCreate(ConfigCreateOrUpdateReq) returns (basic.Response){
+    option (http.post) = "/config/create";
+  }
+  rpc ConfigUpdateInfo(ConfigCreateOrUpdateReq) returns (basic.Response){
+    option (http.post) = "/config/update_info";
+  }
+  rpc ConfigGetByUnitID (ConfigGetByUnitIdReq) returns (ConfigGetByUnitIdResp){
+    option (http.get) = "/config/get_by_unit_id";
+  }
+
   // 数据看板
   rpc DashboardGetDataOverview(DashboardGetDataOverviewReq) returns (DashboardGetDataOverviewResp) {
     option (http.get) = "/dashboard/overview";
@@ -31,8 +80,8 @@ service CoreApi {
   rpc DashboardGetAlarmOverview(DashboardGetAlarmOverviewReq) returns (DashboardGetAlarmOverviewResp) {
     option (http.get) = "/dashboard/alarm_overview";
   }
-  rpc DashboardListAlarmRecords(DashboardListAlarmRecordsReq) returns (DashboardListAlarmRecordsReq) {
-    option (http.get) = "/dashboard/alarm_users";
+  rpc DashboardListAlarmRecords(DashboardListAlarmRecordsReq) returns (DashboardListAlarmRecordsResp) {
+    option (http.get) = "/dashboard/alarm_records";
   }
   // 用户管理
   rpc DashboardListClasses(DashboardListClassesReq) returns (DashboardListClassesResp) {
