@@ -82,23 +82,23 @@ func (x *DashboardGetDataOverviewReq) GetUnitId() string {
 }
 
 type DashboardGetDataOverviewResp struct {
-	TotalUsers                                   int32    `protobuf:"varint,1,opt,name=totalUsers" json:"totalUsers,omitempty"`
-	WeeklyIncreaseUsers                          int32    `protobuf:"varint,2,opt,name=weeklyIncreaseUsers" json:"weeklyIncreaseUsers,omitempty"`
+	TotalUsers                                   int64    `protobuf:"varint,1,opt,name=totalUsers" json:"totalUsers,omitempty"`
+	WeeklyIncreaseUsers                          int64    `protobuf:"varint,2,opt,name=weeklyIncreaseUsers" json:"weeklyIncreaseUsers,omitempty"`
 	WeeklyIncreaseUsersRate                      float64  `protobuf:"fixed64,3,opt,name=weeklyIncreaseUsersRate" json:"weeklyIncreaseUsersRate,omitempty"`
-	ActiveUsers                                  *int32   `protobuf:"varint,4,opt,name=activeUsers" json:"activeUsers,omitempty"`
-	WeeklyIncreaseActiveUsers                    *int32   `protobuf:"varint,5,opt,name=weeklyIncreaseActiveUsers" json:"weeklyIncreaseActiveUsers,omitempty"`
+	ActiveUsers                                  *int64   `protobuf:"varint,4,opt,name=activeUsers" json:"activeUsers,omitempty"`
+	WeeklyIncreaseActiveUsers                    *int64   `protobuf:"varint,5,opt,name=weeklyIncreaseActiveUsers" json:"weeklyIncreaseActiveUsers,omitempty"`
 	WeeklyIncreaseActiveUsersRate                *float64 `protobuf:"fixed64,6,opt,name=weeklyIncreaseActiveUsersRate" json:"weeklyIncreaseActiveUsersRate,omitempty"`
-	TotalConversations                           int32    `protobuf:"varint,7,opt,name=totalConversations" json:"totalConversations,omitempty"`
-	WeeklyIncreaseConversations                  int32    `protobuf:"varint,8,opt,name=weeklyIncreaseConversations" json:"weeklyIncreaseConversations,omitempty"`
+	TotalConversations                           int64    `protobuf:"varint,7,opt,name=totalConversations" json:"totalConversations,omitempty"`
+	WeeklyIncreaseConversations                  int64    `protobuf:"varint,8,opt,name=weeklyIncreaseConversations" json:"weeklyIncreaseConversations,omitempty"`
 	WeeklyIncreaseConversationsRate              float64  `protobuf:"fixed64,9,opt,name=weeklyIncreaseConversationsRate" json:"weeklyIncreaseConversationsRate,omitempty"`
 	AverageTimePerConversation                   float64  `protobuf:"fixed64,10,opt,name=averageTimePerConversation" json:"averageTimePerConversation,omitempty"`                             // minutes
 	WeeklyIncreaseAverageTimePerConversation     float64  `protobuf:"fixed64,11,opt,name=weeklyIncreaseAverageTimePerConversation" json:"weeklyIncreaseAverageTimePerConversation,omitempty"` // minutes
 	WeeklyIncreaseAverageTimePerConversationRate float64  `protobuf:"fixed64,12,opt,name=weeklyIncreaseAverageTimePerConversationRate" json:"weeklyIncreaseAverageTimePerConversationRate,omitempty"`
-	AlarmUsers                                   int32    `protobuf:"varint,13,opt,name=alarmUsers" json:"alarmUsers,omitempty"`
-	WeeklyIncreaseAlarmUsers                     int32    `protobuf:"varint,14,opt,name=weeklyIncreaseAlarmUsers" json:"weeklyIncreaseAlarmUsers,omitempty"`
+	AlarmUsers                                   int64    `protobuf:"varint,13,opt,name=alarmUsers" json:"alarmUsers,omitempty"`
+	WeeklyIncreaseAlarmUsers                     int64    `protobuf:"varint,14,opt,name=weeklyIncreaseAlarmUsers" json:"weeklyIncreaseAlarmUsers,omitempty"`
 	WeeklyIncreaseAlarmUsersRate                 float64  `protobuf:"fixed64,15,opt,name=weeklyIncreaseAlarmUsersRate" json:"weeklyIncreaseAlarmUsersRate,omitempty"`
-	TotalUnits                                   *int32   `protobuf:"varint,16,opt,name=totalUnits" json:"totalUnits,omitempty"`
-	WeeklyIncreaseUnits                          *int32   `protobuf:"varint,17,opt,name=weeklyIncreaseUnits" json:"weeklyIncreaseUnits,omitempty"`
+	TotalUnits                                   *int64   `protobuf:"varint,16,opt,name=totalUnits" json:"totalUnits,omitempty"`
+	WeeklyIncreaseUnits                          *int64   `protobuf:"varint,17,opt,name=weeklyIncreaseUnits" json:"weeklyIncreaseUnits,omitempty"`
 	WeeklyIncreaseUnitsRate                      *float64 `protobuf:"fixed64,18,opt,name=weeklyIncreaseUnitsRate" json:"weeklyIncreaseUnitsRate,omitempty"`
 	Code                                         int32    `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
 	Msg                                          string   `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
@@ -112,14 +112,14 @@ func (x *DashboardGetDataOverviewResp) Marshal(in []byte) ([]byte, error) {
 
 func (x *DashboardGetDataOverviewResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *DashboardGetDataOverviewResp) GetTotalUsers() int32 {
+func (x *DashboardGetDataOverviewResp) GetTotalUsers() int64 {
 	if x != nil {
 		return x.TotalUsers
 	}
 	return 0
 }
 
-func (x *DashboardGetDataOverviewResp) GetWeeklyIncreaseUsers() int32 {
+func (x *DashboardGetDataOverviewResp) GetWeeklyIncreaseUsers() int64 {
 	if x != nil {
 		return x.WeeklyIncreaseUsers
 	}
@@ -133,14 +133,14 @@ func (x *DashboardGetDataOverviewResp) GetWeeklyIncreaseUsersRate() float64 {
 	return 0
 }
 
-func (x *DashboardGetDataOverviewResp) GetActiveUsers() int32 {
+func (x *DashboardGetDataOverviewResp) GetActiveUsers() int64 {
 	if x != nil && x.ActiveUsers != nil {
 		return *x.ActiveUsers
 	}
 	return 0
 }
 
-func (x *DashboardGetDataOverviewResp) GetWeeklyIncreaseActiveUsers() int32 {
+func (x *DashboardGetDataOverviewResp) GetWeeklyIncreaseActiveUsers() int64 {
 	if x != nil && x.WeeklyIncreaseActiveUsers != nil {
 		return *x.WeeklyIncreaseActiveUsers
 	}
@@ -154,14 +154,14 @@ func (x *DashboardGetDataOverviewResp) GetWeeklyIncreaseActiveUsersRate() float6
 	return 0
 }
 
-func (x *DashboardGetDataOverviewResp) GetTotalConversations() int32 {
+func (x *DashboardGetDataOverviewResp) GetTotalConversations() int64 {
 	if x != nil {
 		return x.TotalConversations
 	}
 	return 0
 }
 
-func (x *DashboardGetDataOverviewResp) GetWeeklyIncreaseConversations() int32 {
+func (x *DashboardGetDataOverviewResp) GetWeeklyIncreaseConversations() int64 {
 	if x != nil {
 		return x.WeeklyIncreaseConversations
 	}
@@ -196,14 +196,14 @@ func (x *DashboardGetDataOverviewResp) GetWeeklyIncreaseAverageTimePerConversati
 	return 0
 }
 
-func (x *DashboardGetDataOverviewResp) GetAlarmUsers() int32 {
+func (x *DashboardGetDataOverviewResp) GetAlarmUsers() int64 {
 	if x != nil {
 		return x.AlarmUsers
 	}
 	return 0
 }
 
-func (x *DashboardGetDataOverviewResp) GetWeeklyIncreaseAlarmUsers() int32 {
+func (x *DashboardGetDataOverviewResp) GetWeeklyIncreaseAlarmUsers() int64 {
 	if x != nil {
 		return x.WeeklyIncreaseAlarmUsers
 	}
@@ -217,14 +217,14 @@ func (x *DashboardGetDataOverviewResp) GetWeeklyIncreaseAlarmUsersRate() float64
 	return 0
 }
 
-func (x *DashboardGetDataOverviewResp) GetTotalUnits() int32 {
+func (x *DashboardGetDataOverviewResp) GetTotalUnits() int64 {
 	if x != nil && x.TotalUnits != nil {
 		return *x.TotalUnits
 	}
 	return 0
 }
 
-func (x *DashboardGetDataOverviewResp) GetWeeklyIncreaseUnits() int32 {
+func (x *DashboardGetDataOverviewResp) GetWeeklyIncreaseUnits() int64 {
 	if x != nil && x.WeeklyIncreaseUnits != nil {
 		return *x.WeeklyIncreaseUnits
 	}
@@ -325,7 +325,7 @@ func (x *DashboardGetDataTrendResp) GetMsg() string {
 type TrendPoint struct {
 	Week  int32 `protobuf:"varint,1,opt,name=week" json:"week,omitempty"` // 1=Mon ... 7=Sun
 	Hour  int32 `protobuf:"varint,2,opt,name=hour" json:"hour,omitempty"` // 0–23
-	Count int32 `protobuf:"varint,3,opt,name=count" json:"count,omitempty"`
+	Count int64 `protobuf:"varint,3,opt,name=count" json:"count,omitempty"`
 }
 
 func (x *TrendPoint) Reset() { *x = TrendPoint{} }
@@ -348,7 +348,7 @@ func (x *TrendPoint) GetHour() int32 {
 	return 0
 }
 
-func (x *TrendPoint) GetCount() int32 {
+func (x *TrendPoint) GetCount() int64 {
 	if x != nil {
 		return x.Count
 	}
@@ -357,7 +357,7 @@ func (x *TrendPoint) GetCount() int32 {
 
 type ConversationDuration struct {
 	Minutes int32 `protobuf:"varint,1,opt,name=minutes" json:"minutes,omitempty"`
-	Count   int32 `protobuf:"varint,2,opt,name=count" json:"count,omitempty"`
+	Count   int64 `protobuf:"varint,2,opt,name=count" json:"count,omitempty"`
 }
 
 func (x *ConversationDuration) Reset() { *x = ConversationDuration{} }
@@ -373,7 +373,7 @@ func (x *ConversationDuration) GetMinutes() int32 {
 	return 0
 }
 
-func (x *ConversationDuration) GetCount() int32 {
+func (x *ConversationDuration) GetCount() int64 {
 	if x != nil {
 		return x.Count
 	}
@@ -430,9 +430,9 @@ type DashboardUnit struct {
 	Type                       string  `protobuf:"bytes,1,opt,name=type" json:"type,omitempty"`
 	Name                       string  `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
 	Property                   string  `protobuf:"bytes,3,opt,name=property" json:"property,omitempty"`
-	UserCount                  int32   `protobuf:"varint,4,opt,name=userCount" json:"userCount,omitempty"`
+	UserCount                  int64   `protobuf:"varint,4,opt,name=userCount" json:"userCount,omitempty"`
 	AverageConversationMinutes float64 `protobuf:"fixed64,5,opt,name=averageConversationMinutes" json:"averageConversationMinutes,omitempty"`
-	RiskUserCount              int32   `protobuf:"varint,6,opt,name=riskUserCount" json:"riskUserCount,omitempty"`
+	RiskUserCount              int64   `protobuf:"varint,6,opt,name=riskUserCount" json:"riskUserCount,omitempty"`
 	UpdateTime                 int64   `protobuf:"varint,7,opt,name=updateTime" json:"updateTime,omitempty"`
 }
 
@@ -463,7 +463,7 @@ func (x *DashboardUnit) GetProperty() string {
 	return ""
 }
 
-func (x *DashboardUnit) GetUserCount() int32 {
+func (x *DashboardUnit) GetUserCount() int64 {
 	if x != nil {
 		return x.UserCount
 	}
@@ -477,7 +477,7 @@ func (x *DashboardUnit) GetAverageConversationMinutes() float64 {
 	return 0
 }
 
-func (x *DashboardUnit) GetRiskUserCount() int32 {
+func (x *DashboardUnit) GetRiskUserCount() int64 {
 	if x != nil {
 		return x.RiskUserCount
 	}
@@ -556,7 +556,7 @@ func (x *DashboardGetPsychTrendResp) GetMsg() string {
 type RiskDistribution struct {
 	Level  int32 `protobuf:"varint,1,opt,name=level" json:"level,omitempty"`   // 0=正常 1=低危 2=中危 3=高危
 	Gender int32 `protobuf:"varint,2,opt,name=gender" json:"gender,omitempty"` // 0=all 1=male 2=female
-	Count  int32 `protobuf:"varint,3,opt,name=count" json:"count,omitempty"`
+	Count  int64 `protobuf:"varint,3,opt,name=count" json:"count,omitempty"`
 }
 
 func (x *RiskDistribution) Reset() { *x = RiskDistribution{} }
@@ -579,7 +579,7 @@ func (x *RiskDistribution) GetGender() int32 {
 	return 0
 }
 
-func (x *RiskDistribution) GetCount() int32 {
+func (x *RiskDistribution) GetCount() int64 {
 	if x != nil {
 		return x.Count
 	}
@@ -588,7 +588,7 @@ func (x *RiskDistribution) GetCount() int32 {
 
 type Keyword struct {
 	Keyword string `protobuf:"bytes,1,opt,name=keyword" json:"keyword,omitempty"`
-	Count   int32  `protobuf:"varint,2,opt,name=count" json:"count,omitempty"`
+	Count   int64  `protobuf:"varint,2,opt,name=count" json:"count,omitempty"`
 }
 
 func (x *Keyword) Reset() { *x = Keyword{} }
@@ -604,7 +604,7 @@ func (x *Keyword) GetKeyword() string {
 	return ""
 }
 
-func (x *Keyword) GetCount() int32 {
+func (x *Keyword) GetCount() int64 {
 	if x != nil {
 		return x.Count
 	}
