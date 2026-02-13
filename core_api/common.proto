@@ -30,23 +30,23 @@ message DashboardGetDataOverviewReq {
   optional string unitId = 1[(http.query) = "unitId"];
 }
 message DashboardGetDataOverviewResp {
-  int32 totalUsers = 1;
-  int32 weeklyIncreaseUsers = 2;
+  int64 totalUsers = 1;
+  int64 weeklyIncreaseUsers = 2;
   double weeklyIncreaseUsersRate = 3;
-  optional int32 activeUsers = 4;
-  optional int32 weeklyIncreaseActiveUsers = 5;
+  optional int64 activeUsers = 4;
+  optional int64 weeklyIncreaseActiveUsers = 5;
   optional double weeklyIncreaseActiveUsersRate = 6;
-  int32 totalConversations = 7;
-  int32 weeklyIncreaseConversations = 8;
+  int64 totalConversations = 7;
+  int64 weeklyIncreaseConversations = 8;
   double weeklyIncreaseConversationsRate = 9;
   double averageTimePerConversation = 10; // minutes
   double weeklyIncreaseAverageTimePerConversation = 11; // minutes
   double weeklyIncreaseAverageTimePerConversationRate = 12;
-  int32 alarmUsers = 13;
-  int32 weeklyIncreaseAlarmUsers = 14;
+  int64 alarmUsers = 13;
+  int64 weeklyIncreaseAlarmUsers = 14;
   double weeklyIncreaseAlarmUsersRate = 15;
-  optional int32 totalUnits = 16;
-  optional int32 weeklyIncreaseUnits = 17;
+  optional int64 totalUnits = 16;
+  optional int64 weeklyIncreaseUnits = 17;
   optional double weeklyIncreaseUnitsRate = 18;
   int32 code = 255;
   string msg = 256;
@@ -65,11 +65,11 @@ message DashboardGetDataTrendResp {
 message TrendPoint {
   int32 week = 1;     // 1=Mon ... 7=Sun
   int32 hour = 2;        // 0–23
-  int32 count = 3;
+  int64 count = 3;
 }
 message conversationDuration {
   int32 minutes = 1;
-  int32 count = 2;
+  int64 count = 2;
 }
 
 message DashboardListUnitsReq {}
@@ -82,9 +82,9 @@ message DashboardUnit {
   string type = 1;
   string name = 2;
   string property = 3;
-  int32 userCount = 4;
+  int64 userCount = 4;
   double averageConversationMinutes = 5;
-  int32 riskUserCount = 6;
+  int64 riskUserCount = 6;
   int64 updateTime = 7;
 }
 
@@ -100,11 +100,11 @@ message DashboardGetPsychTrendResp {
 message RiskDistribution {
   int32 level = 1; // 0=正常 1=低危 2=中危 3=高危
   int32 gender = 2; // 0=all 1=male 2=female
-  int32 count = 3;
+  int64 count = 3;
 }
 message Keyword {
   string keyword = 1;
-  int32 count = 2;
+  int64 count = 2;
 }
 
 
