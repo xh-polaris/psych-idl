@@ -6,7 +6,6 @@ option go_package = "core_api";
 
 import "basic/pagination.proto";
 import "google/protobuf/struct.proto";
-import "profile/common.proto";
 import "google/protobuf/any.proto";
 import "basic/http.proto";
 // 所有的core_api的resp需要统一增加code:255和msg:256
@@ -18,7 +17,7 @@ message UserGetInfoReq {
   string userId = 1[(http.query) = "userId"];
 }
 message UserGetInfoResp {
-  profile.User user = 1;
+  core_api.User user = 1;
   int32 code = 255;
   string msg = 256;
 }
@@ -145,7 +144,7 @@ message AlarmRecord {
   string emotion = 2;  // 情绪状态
   repeated string keywords = 3;  // 关键词列表
   string status = 4;  // 处理状态
-  profile.User user = 5;  // 用户信息
+  core_api.User user = 5;  // 用户信息
   int32  totalConversationRounds = 6;  // 总对话轮数
   int64  lastConversationTime = 7;  // 上次对话时间（分钟时间戳）
 }
@@ -178,7 +177,7 @@ message DashboardListClassesResp {
 }
 
 message RiskUser {
-  profile.User user = 1;
+  core_api.User user = 1;
   int32 level = 2;
   int32  totalConversationRounds = 3;  // 总对话轮数
   int64  lastConversationTime = 4;  // 上次对话时间（分钟时间戳）
