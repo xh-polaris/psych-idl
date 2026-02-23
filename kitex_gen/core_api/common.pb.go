@@ -4,7 +4,6 @@ package core_api
 
 import (
 	"github.com/xh-polaris/psych-idl/kitex_gen/basic"
-	"github.com/xh-polaris/psych-idl/kitex_gen/profile"
 	"google.golang.org/protobuf/types/known/anypb"
 
 	"github.com/cloudwego/prutal"
@@ -29,9 +28,9 @@ func (x *UserGetInfoReq) GetUserId() string {
 }
 
 type UserGetInfoResp struct {
-	User *profile.User `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
-	Code int32         `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg  string        `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+	User *User  `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	Code int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg  string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *UserGetInfoResp) Reset() { *x = UserGetInfoResp{} }
@@ -40,7 +39,7 @@ func (x *UserGetInfoResp) Marshal(in []byte) ([]byte, error) { return prutal.Mar
 
 func (x *UserGetInfoResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *UserGetInfoResp) GetUser() *profile.User {
+func (x *UserGetInfoResp) GetUser() *User {
 	if x != nil {
 		return x.User
 	}
@@ -817,13 +816,13 @@ func (x *DashboardListAlarmRecordsResp) GetMsg() string {
 }
 
 type AlarmRecord struct {
-	Id                      string        `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`                                            // 唯一Id
-	Emotion                 string        `protobuf:"bytes,2,opt,name=emotion" json:"emotion,omitempty"`                                  // 情绪状态
-	Keywords                []string      `protobuf:"bytes,3,rep,name=keywords" json:"keywords,omitempty"`                                // 关键词列表
-	Status                  string        `protobuf:"bytes,4,opt,name=status" json:"status,omitempty"`                                    // 处理状态
-	User                    *profile.User `protobuf:"bytes,5,opt,name=user" json:"user,omitempty"`                                        // 用户信息
-	TotalConversationRounds int32         `protobuf:"varint,6,opt,name=totalConversationRounds" json:"totalConversationRounds,omitempty"` // 总对话轮数
-	LastConversationTime    int64         `protobuf:"varint,7,opt,name=lastConversationTime" json:"lastConversationTime,omitempty"`       // 上次对话时间（分钟时间戳）
+	Id                      string   `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`                                            // 唯一Id
+	Emotion                 string   `protobuf:"bytes,2,opt,name=emotion" json:"emotion,omitempty"`                                  // 情绪状态
+	Keywords                []string `protobuf:"bytes,3,rep,name=keywords" json:"keywords,omitempty"`                                // 关键词列表
+	Status                  string   `protobuf:"bytes,4,opt,name=status" json:"status,omitempty"`                                    // 处理状态
+	User                    *User    `protobuf:"bytes,5,opt,name=user" json:"user,omitempty"`                                        // 用户信息
+	TotalConversationRounds int32    `protobuf:"varint,6,opt,name=totalConversationRounds" json:"totalConversationRounds,omitempty"` // 总对话轮数
+	LastConversationTime    int64    `protobuf:"varint,7,opt,name=lastConversationTime" json:"lastConversationTime,omitempty"`       // 上次对话时间（分钟时间戳）
 }
 
 func (x *AlarmRecord) Reset() { *x = AlarmRecord{} }
@@ -860,7 +859,7 @@ func (x *AlarmRecord) GetStatus() string {
 	return ""
 }
 
-func (x *AlarmRecord) GetUser() *profile.User {
+func (x *AlarmRecord) GetUser() *User {
 	if x != nil {
 		return x.User
 	}
@@ -1027,11 +1026,11 @@ func (x *DashboardListClassesResp) GetMsg() string {
 }
 
 type RiskUser struct {
-	User                    *profile.User `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
-	Level                   int32         `protobuf:"varint,2,opt,name=level" json:"level,omitempty"`
-	TotalConversationRounds int32         `protobuf:"varint,3,opt,name=totalConversationRounds" json:"totalConversationRounds,omitempty"` // 总对话轮数
-	LastConversationTime    int64         `protobuf:"varint,4,opt,name=lastConversationTime" json:"lastConversationTime,omitempty"`       // 上次对话时间（分钟时间戳）
-	Keywords                []string      `protobuf:"bytes,5,rep,name=keywords" json:"keywords,omitempty"`
+	User                    *User    `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	Level                   int32    `protobuf:"varint,2,opt,name=level" json:"level,omitempty"`
+	TotalConversationRounds int32    `protobuf:"varint,3,opt,name=totalConversationRounds" json:"totalConversationRounds,omitempty"` // 总对话轮数
+	LastConversationTime    int64    `protobuf:"varint,4,opt,name=lastConversationTime" json:"lastConversationTime,omitempty"`       // 上次对话时间（分钟时间戳）
+	Keywords                []string `protobuf:"bytes,5,rep,name=keywords" json:"keywords,omitempty"`
 }
 
 func (x *RiskUser) Reset() { *x = RiskUser{} }
@@ -1040,7 +1039,7 @@ func (x *RiskUser) Marshal(in []byte) ([]byte, error) { return prutal.MarshalApp
 
 func (x *RiskUser) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *RiskUser) GetUser() *profile.User {
+func (x *RiskUser) GetUser() *User {
 	if x != nil {
 		return x.User
 	}
