@@ -516,7 +516,7 @@ func (x *DashboardGetPsychTrendReq) GetUnitId() string {
 type DashboardGetPsychTrendResp struct {
 	EmotionRatio *EmotionRatio       `protobuf:"bytes,1,opt,name=emotionRatio" json:"emotionRatio,omitempty"` // 情绪分布
 	Risks        []*RiskDistribution `protobuf:"bytes,2,rep,name=risks" json:"risks,omitempty"`               // 分性别的风险等级统计
-	Keywords     []*Keyword          `protobuf:"bytes,3,rep,name=keywords" json:"keywords,omitempty"`         // 关键词 用于词云
+	Keywords     *Keywords           `protobuf:"bytes,3,opt,name=keywords" json:"keywords,omitempty"`         // 关键词 用于词云
 	Code         int32               `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
 	Msg          string              `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
@@ -543,7 +543,7 @@ func (x *DashboardGetPsychTrendResp) GetRisks() []*RiskDistribution {
 	return nil
 }
 
-func (x *DashboardGetPsychTrendResp) GetKeywords() []*Keyword {
+func (x *DashboardGetPsychTrendResp) GetKeywords() *Keywords {
 	if x != nil {
 		return x.Keywords
 	}
@@ -597,36 +597,34 @@ func (x *RiskDistribution) GetCount() int64 {
 	return 0
 }
 
-type Keyword struct {
-	Keyword string `protobuf:"bytes,1,opt,name=keyword" json:"keyword,omitempty"`
-	Count   int64  `protobuf:"varint,2,opt,name=count" json:"count,omitempty"`
+type Keywords struct {
+	KeywordMap map[string]int32 `protobuf:"bytes,1,rep,name=keywordMap" json:"keywordMap,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value"`
+	KeyTotal   int32            `protobuf:"varint,2,opt,name=keyTotal" json:"keyTotal,omitempty"`
 }
 
-func (x *Keyword) Reset() { *x = Keyword{} }
+func (x *Keywords) Reset() { *x = Keywords{} }
 
-func (x *Keyword) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+func (x *Keywords) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
 
-func (x *Keyword) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+func (x *Keywords) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *Keyword) GetKeyword() string {
+func (x *Keywords) GetKeywordMap() map[string]int32 {
 	if x != nil {
-		return x.Keyword
+		return x.KeywordMap
 	}
-	return ""
+	return nil
 }
 
-func (x *Keyword) GetCount() int64 {
+func (x *Keywords) GetKeyTotal() int32 {
 	if x != nil {
-		return x.Count
+		return x.KeyTotal
 	}
 	return 0
 }
 
 type EmotionRatio struct {
-	Danger   float64 `protobuf:"fixed64,1,opt,name=danger" json:"danger,omitempty"`     // 危险情绪占比
-	Negative float64 `protobuf:"fixed64,2,opt,name=negative" json:"negative,omitempty"` // 负面情绪占比
-	Neutral  float64 `protobuf:"fixed64,3,opt,name=neutral" json:"neutral,omitempty"`   // 中性情绪占比
-	Positive float64 `protobuf:"fixed64,4,opt,name=positive" json:"positive,omitempty"` // 正向情绪占比
+	Ratio map[string]float64 `protobuf:"bytes,1,rep,name=ratio" json:"ratio,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"fixed64,2,opt,name=value"`
+	Total int64              `protobuf:"varint,2,opt,name=total" json:"total,omitempty"`
 }
 
 func (x *EmotionRatio) Reset() { *x = EmotionRatio{} }
@@ -635,30 +633,16 @@ func (x *EmotionRatio) Marshal(in []byte) ([]byte, error) { return prutal.Marsha
 
 func (x *EmotionRatio) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *EmotionRatio) GetDanger() float64 {
+func (x *EmotionRatio) GetRatio() map[string]float64 {
 	if x != nil {
-		return x.Danger
+		return x.Ratio
 	}
-	return 0
+	return nil
 }
 
-func (x *EmotionRatio) GetNegative() float64 {
+func (x *EmotionRatio) GetTotal() int64 {
 	if x != nil {
-		return x.Negative
-	}
-	return 0
-}
-
-func (x *EmotionRatio) GetNeutral() float64 {
-	if x != nil {
-		return x.Neutral
-	}
-	return 0
-}
-
-func (x *EmotionRatio) GetPositive() float64 {
-	if x != nil {
-		return x.Positive
+		return x.Total
 	}
 	return 0
 }
@@ -1326,9 +1310,9 @@ func (x *UserConvTrend) GetTrendPoints() []*TrendPoint {
 }
 
 type ConvDetail struct {
-	Time     int64      `protobuf:"varint,1,opt,name=time" json:"time,omitempty"`        // 对话时间
-	Digest   string     `protobuf:"bytes,2,opt,name=digest" json:"digest,omitempty"`     // 摘要
-	Keywords []*Keyword `protobuf:"bytes,3,rep,name=keywords" json:"keywords,omitempty"` // 关键词（词云）
+	Time     int64     `protobuf:"varint,1,opt,name=time" json:"time,omitempty"`        // 对话时间
+	Digest   string    `protobuf:"bytes,2,opt,name=digest" json:"digest,omitempty"`     // 摘要
+	Keywords *Keywords `protobuf:"bytes,3,opt,name=keywords" json:"keywords,omitempty"` // 关键词（词云）
 }
 
 func (x *ConvDetail) Reset() { *x = ConvDetail{} }
@@ -1351,7 +1335,7 @@ func (x *ConvDetail) GetDigest() string {
 	return ""
 }
 
-func (x *ConvDetail) GetKeywords() []*Keyword {
+func (x *ConvDetail) GetKeywords() *Keywords {
 	if x != nil {
 		return x.Keywords
 	}
