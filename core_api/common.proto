@@ -97,7 +97,7 @@ message DashboardGetPsychTrendReq {
 message DashboardGetPsychTrendResp {
   EmotionRatio emotionRatio = 1; // 情绪分布
   repeated RiskDistribution risks = 2; // 分性别的风险等级统计
-  repeated Keyword keywords = 3; // 关键词 用于词云
+  Keywords keywords = 3; // 关键词 用于词云
   int32 code = 255;
   string msg = 256;
 }
@@ -106,15 +106,13 @@ message RiskDistribution {
   int32 gender = 2; // 0=all 1=male 2=female
   int64 count = 3;
 }
-message Keyword {
-  string keyword = 1;
-  int64 count = 2;
+message Keywords {
+  map<string, int32> keywordMap = 1;
+  int32 keyTotal = 2;
 }
 message EmotionRatio {
-  double danger = 1;      // 危险情绪占比
-  double negative = 2;    // 负面情绪占比
-  double neutral = 3;     // 中性情绪占比
-  double positive = 4;    // 正向情绪占比
+  map<string, double> ratio = 1;
+  int64 total = 2;
 }
 
 
@@ -231,7 +229,7 @@ message UserConvTrend {
 message ConvDetail {
   int64 time = 1; // 对话时间
   string digest = 2; // 摘要
-  repeated Keyword keywords = 3; // 关键词（词云）
+  Keywords keywords = 3; // 关键词（词云）
 }
 
 
