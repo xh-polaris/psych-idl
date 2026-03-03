@@ -61,6 +61,7 @@ func (x *UserGetInfoResp) GetMsg() string {
 }
 
 // 数据看板
+// 指标总览
 type DashboardGetDataOverviewReq struct {
 	UnitId *string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 }
@@ -251,6 +252,7 @@ func (x *DashboardGetDataOverviewResp) GetMsg() string {
 	return ""
 }
 
+// 学生使用趋势
 type DashboardGetDataTrendReq struct {
 	UnitId *string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 }
@@ -271,9 +273,9 @@ func (x *DashboardGetDataTrendReq) GetUnitId() string {
 }
 
 type DashboardGetDataTrendResp struct {
-	ActivePoints          []*TrendPoint           `protobuf:"bytes,1,rep,name=activePoints" json:"activePoints,omitempty"`
-	ConversationPoints    []*TrendPoint           `protobuf:"bytes,2,rep,name=conversationPoints" json:"conversationPoints,omitempty"`
-	ConversationDurations []*ConversationDuration `protobuf:"bytes,3,rep,name=conversationDurations" json:"conversationDurations,omitempty"`
+	ActivePoints          []*TrendPoint           `protobuf:"bytes,1,rep,name=activePoints" json:"activePoints,omitempty"`                   // 近一周学生活跃趋势
+	ConversationPoints    []*TrendPoint           `protobuf:"bytes,2,rep,name=conversationPoints" json:"conversationPoints,omitempty"`       // 近一周对话频率趋势
+	ConversationDurations []*ConversationDuration `protobuf:"bytes,3,rep,name=conversationDurations" json:"conversationDurations,omitempty"` // 对话时间分布
 	Code                  int32                   `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
 	Msg                   string                  `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
@@ -379,6 +381,7 @@ func (x *ConversationDuration) GetCount() int64 {
 	return 0
 }
 
+// 管理端-列出单位
 type DashboardListUnitsReq struct {
 }
 
@@ -490,8 +493,9 @@ func (x *DashboardUnit) GetUpdateTime() int64 {
 	return 0
 }
 
+// 情绪与心理健康趋势
 type DashboardGetPsychTrendReq struct {
-	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	UnitId *string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 }
 
 func (x *DashboardGetPsychTrendReq) Reset() { *x = DashboardGetPsychTrendReq{} }
@@ -503,17 +507,18 @@ func (x *DashboardGetPsychTrendReq) Marshal(in []byte) ([]byte, error) {
 func (x *DashboardGetPsychTrendReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
 func (x *DashboardGetPsychTrendReq) GetUnitId() string {
-	if x != nil {
-		return x.UnitId
+	if x != nil && x.UnitId != nil {
+		return *x.UnitId
 	}
 	return ""
 }
 
 type DashboardGetPsychTrendResp struct {
-	Risks    []*RiskDistribution `protobuf:"bytes,1,rep,name=risks" json:"risks,omitempty"`
-	Keywords []*Keyword          `protobuf:"bytes,2,rep,name=keywords" json:"keywords,omitempty"`
-	Code     int32               `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg      string              `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+	EmotionRatio *EmotionRatio       `protobuf:"bytes,1,opt,name=emotionRatio" json:"emotionRatio,omitempty"` // 情绪分布
+	Risks        []*RiskDistribution `protobuf:"bytes,2,rep,name=risks" json:"risks,omitempty"`               // 分性别的风险等级统计
+	Keywords     []*Keyword          `protobuf:"bytes,3,rep,name=keywords" json:"keywords,omitempty"`         // 关键词 用于词云
+	Code         int32               `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg          string              `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *DashboardGetPsychTrendResp) Reset() { *x = DashboardGetPsychTrendResp{} }
@@ -523,6 +528,13 @@ func (x *DashboardGetPsychTrendResp) Marshal(in []byte) ([]byte, error) {
 }
 
 func (x *DashboardGetPsychTrendResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *DashboardGetPsychTrendResp) GetEmotionRatio() *EmotionRatio {
+	if x != nil {
+		return x.EmotionRatio
+	}
+	return nil
+}
 
 func (x *DashboardGetPsychTrendResp) GetRisks() []*RiskDistribution {
 	if x != nil {
@@ -606,6 +618,47 @@ func (x *Keyword) GetKeyword() string {
 func (x *Keyword) GetCount() int64 {
 	if x != nil {
 		return x.Count
+	}
+	return 0
+}
+
+type EmotionRatio struct {
+	Danger   float64 `protobuf:"fixed64,1,opt,name=danger" json:"danger,omitempty"`     // 危险情绪占比
+	Negative float64 `protobuf:"fixed64,2,opt,name=negative" json:"negative,omitempty"` // 负面情绪占比
+	Neutral  float64 `protobuf:"fixed64,3,opt,name=neutral" json:"neutral,omitempty"`   // 中性情绪占比
+	Positive float64 `protobuf:"fixed64,4,opt,name=positive" json:"positive,omitempty"` // 正向情绪占比
+}
+
+func (x *EmotionRatio) Reset() { *x = EmotionRatio{} }
+
+func (x *EmotionRatio) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *EmotionRatio) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *EmotionRatio) GetDanger() float64 {
+	if x != nil {
+		return x.Danger
+	}
+	return 0
+}
+
+func (x *EmotionRatio) GetNegative() float64 {
+	if x != nil {
+		return x.Negative
+	}
+	return 0
+}
+
+func (x *EmotionRatio) GetNeutral() float64 {
+	if x != nil {
+		return x.Neutral
+	}
+	return 0
+}
+
+func (x *EmotionRatio) GetPositive() float64 {
+	if x != nil {
+		return x.Positive
 	}
 	return 0
 }
@@ -822,7 +875,7 @@ type AlarmRecord struct {
 	Status                  string   `protobuf:"bytes,4,opt,name=status" json:"status,omitempty"`                                    // 处理状态
 	User                    *User    `protobuf:"bytes,5,opt,name=user" json:"user,omitempty"`                                        // 用户信息
 	TotalConversationRounds int32    `protobuf:"varint,6,opt,name=totalConversationRounds" json:"totalConversationRounds,omitempty"` // 总对话轮数
-	LastConversationTime    int64    `protobuf:"varint,7,opt,name=lastConversationTime" json:"lastConversationTime,omitempty"`       // 上次对话时间（分钟时间戳）
+	LastConversationTime    int64    `protobuf:"varint,7,opt,name=lastConversationTime" json:"lastConversationTime,omitempty"`       // 上次对话时间（时间戳）
 }
 
 func (x *AlarmRecord) Reset() { *x = AlarmRecord{} }
@@ -1166,6 +1219,143 @@ func (x *DashboardListUsersResp) GetMsg() string {
 		return x.Msg
 	}
 	return ""
+}
+
+// 对话记录
+type DashboardUserConvRecordsReq struct {
+	UserId            string                   `protobuf:"bytes,1,opt,name=userId" json:"userId,omitempty"`
+	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,2,opt,name=paginationOptions" json:"paginationOptions,omitempty"`
+}
+
+func (x *DashboardUserConvRecordsReq) Reset() { *x = DashboardUserConvRecordsReq{} }
+
+func (x *DashboardUserConvRecordsReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *DashboardUserConvRecordsReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *DashboardUserConvRecordsReq) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *DashboardUserConvRecordsReq) GetPaginationOptions() *basic.PaginationOptions {
+	if x != nil {
+		return x.PaginationOptions
+	}
+	return nil
+}
+
+type DashboardUserConvRecordsResp struct {
+	User          *User             `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	UserConvTrend *UserConvTrend    `protobuf:"bytes,2,opt,name=userConvTrend" json:"userConvTrend,omitempty"`
+	ConvDetail    *ConvDetail       `protobuf:"bytes,3,opt,name=convDetail" json:"convDetail,omitempty"`
+	Pagination    *basic.Pagination `protobuf:"bytes,4,opt,name=pagination" json:"pagination,omitempty"`
+	Code          int32             `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg           string            `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *DashboardUserConvRecordsResp) Reset() { *x = DashboardUserConvRecordsResp{} }
+
+func (x *DashboardUserConvRecordsResp) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *DashboardUserConvRecordsResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *DashboardUserConvRecordsResp) GetUser() *User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+func (x *DashboardUserConvRecordsResp) GetUserConvTrend() *UserConvTrend {
+	if x != nil {
+		return x.UserConvTrend
+	}
+	return nil
+}
+
+func (x *DashboardUserConvRecordsResp) GetConvDetail() *ConvDetail {
+	if x != nil {
+		return x.ConvDetail
+	}
+	return nil
+}
+
+func (x *DashboardUserConvRecordsResp) GetPagination() *basic.Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+func (x *DashboardUserConvRecordsResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *DashboardUserConvRecordsResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+type UserConvTrend struct {
+	TrendPoints []*TrendPoint `protobuf:"bytes,1,rep,name=trendPoints" json:"trendPoints,omitempty"`
+}
+
+func (x *UserConvTrend) Reset() { *x = UserConvTrend{} }
+
+func (x *UserConvTrend) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UserConvTrend) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UserConvTrend) GetTrendPoints() []*TrendPoint {
+	if x != nil {
+		return x.TrendPoints
+	}
+	return nil
+}
+
+type ConvDetail struct {
+	Time     int64      `protobuf:"varint,1,opt,name=time" json:"time,omitempty"`        // 对话时间
+	Digest   string     `protobuf:"bytes,2,opt,name=digest" json:"digest,omitempty"`     // 摘要
+	Keywords []*Keyword `protobuf:"bytes,3,rep,name=keywords" json:"keywords,omitempty"` // 关键词（词云）
+}
+
+func (x *ConvDetail) Reset() { *x = ConvDetail{} }
+
+func (x *ConvDetail) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ConvDetail) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ConvDetail) GetTime() int64 {
+	if x != nil {
+		return x.Time
+	}
+	return 0
+}
+
+func (x *ConvDetail) GetDigest() string {
+	if x != nil {
+		return x.Digest
+	}
+	return ""
+}
+
+func (x *ConvDetail) GetKeywords() []*Keyword {
+	if x != nil {
+		return x.Keywords
+	}
+	return nil
 }
 
 // 原profile相关

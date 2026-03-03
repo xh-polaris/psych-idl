@@ -35,6 +35,7 @@ type Client interface {
 	DashboardListAlarmRecords(ctx context.Context, Req *core_api.DashboardListAlarmRecordsReq, callOptions ...callopt.Option) (r *core_api.DashboardListAlarmRecordsResp, err error)
 	DashboardListClasses(ctx context.Context, Req *core_api.DashboardListClassesReq, callOptions ...callopt.Option) (r *core_api.DashboardListClassesResp, err error)
 	DashboardListUsers(ctx context.Context, Req *core_api.DashboardListUsersReq, callOptions ...callopt.Option) (r *core_api.DashboardListUsersResp, err error)
+	DashboardUserConvRecords(ctx context.Context, Req *core_api.DashboardUserConvRecordsReq, callOptions ...callopt.Option) (r *core_api.DashboardUserConvRecordsResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -179,4 +180,9 @@ func (p *kCoreApiClient) DashboardListClasses(ctx context.Context, Req *core_api
 func (p *kCoreApiClient) DashboardListUsers(ctx context.Context, Req *core_api.DashboardListUsersReq, callOptions ...callopt.Option) (r *core_api.DashboardListUsersResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.DashboardListUsers(ctx, Req)
+}
+
+func (p *kCoreApiClient) DashboardUserConvRecords(ctx context.Context, Req *core_api.DashboardUserConvRecordsReq, callOptions ...callopt.Option) (r *core_api.DashboardUserConvRecordsResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DashboardUserConvRecords(ctx, Req)
 }

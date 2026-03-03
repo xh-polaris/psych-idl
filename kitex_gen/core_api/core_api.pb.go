@@ -31,4 +31,5 @@ type CoreApi interface {
 	DashboardListAlarmRecords(ctx context.Context, req *DashboardListAlarmRecordsReq) (res *DashboardListAlarmRecordsResp, err error)
 	DashboardListClasses(ctx context.Context, req *DashboardListClassesReq) (res *DashboardListClassesResp, err error)
 	DashboardListUsers(ctx context.Context, req *DashboardListUsersReq) (res *DashboardListUsersResp, err error)
+	DashboardUserConvRecords(ctx context.Context, req *DashboardUserConvRecordsReq) (res *DashboardUserConvRecordsResp, err error)
 }

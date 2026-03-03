@@ -177,6 +177,13 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
+	"DashboardUserConvRecords": kitex.NewMethodInfo(
+		dashboardUserConvRecordsHandler,
+		newDashboardUserConvRecordsArgs,
+		newDashboardUserConvRecordsResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
 }
 
 var (
@@ -2796,6 +2803,117 @@ func (p *DashboardListUsersResult) GetResult() interface{} {
 	return p.Success
 }
 
+func dashboardUserConvRecordsHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.DashboardUserConvRecordsReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.CoreApi).DashboardUserConvRecords(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *DashboardUserConvRecordsArgs:
+		success, err := handler.(core_api.CoreApi).DashboardUserConvRecords(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*DashboardUserConvRecordsResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newDashboardUserConvRecordsArgs() interface{} {
+	return &DashboardUserConvRecordsArgs{}
+}
+
+func newDashboardUserConvRecordsResult() interface{} {
+	return &DashboardUserConvRecordsResult{}
+}
+
+type DashboardUserConvRecordsArgs struct {
+	Req *core_api.DashboardUserConvRecordsReq
+}
+
+func (p *DashboardUserConvRecordsArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *DashboardUserConvRecordsArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.DashboardUserConvRecordsReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var DashboardUserConvRecordsArgs_Req_DEFAULT *core_api.DashboardUserConvRecordsReq
+
+func (p *DashboardUserConvRecordsArgs) GetReq() *core_api.DashboardUserConvRecordsReq {
+	if !p.IsSetReq() {
+		return DashboardUserConvRecordsArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *DashboardUserConvRecordsArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *DashboardUserConvRecordsArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type DashboardUserConvRecordsResult struct {
+	Success *core_api.DashboardUserConvRecordsResp
+}
+
+var DashboardUserConvRecordsResult_Success_DEFAULT *core_api.DashboardUserConvRecordsResp
+
+func (p *DashboardUserConvRecordsResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *DashboardUserConvRecordsResult) Unmarshal(in []byte) error {
+	msg := new(core_api.DashboardUserConvRecordsResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *DashboardUserConvRecordsResult) GetSuccess() *core_api.DashboardUserConvRecordsResp {
+	if !p.IsSetSuccess() {
+		return DashboardUserConvRecordsResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *DashboardUserConvRecordsResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.DashboardUserConvRecordsResp)
+}
+
+func (p *DashboardUserConvRecordsResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *DashboardUserConvRecordsResult) GetResult() interface{} {
+	return p.Success
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -3031,6 +3149,16 @@ func (p *kClient) DashboardListUsers(ctx context.Context, Req *core_api.Dashboar
 	_args.Req = Req
 	var _result DashboardListUsersResult
 	if err = p.c.Call(ctx, "DashboardListUsers", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) DashboardUserConvRecords(ctx context.Context, Req *core_api.DashboardUserConvRecordsReq) (r *core_api.DashboardUserConvRecordsResp, err error) {
+	var _args DashboardUserConvRecordsArgs
+	_args.Req = Req
+	var _result DashboardUserConvRecordsResult
+	if err = p.c.Call(ctx, "DashboardUserConvRecords", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
