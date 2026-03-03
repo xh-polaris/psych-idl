@@ -14,7 +14,7 @@ import "basic/http.proto";
 
 // 获取信息
 message UserGetInfoReq {
-  string userId = 1[(http.query) = "userId"];
+  string userId = 1;
 }
 message UserGetInfoResp {
   core_api.User user = 1;
@@ -25,8 +25,9 @@ message UserGetInfoResp {
 /* dashboard */
 
 // 数据看板
+// 指标总览
 message DashboardGetDataOverviewReq {
-  optional string unitId = 1[(http.query) = "unitId"];
+  optional string unitId = 1;
 }
 message DashboardGetDataOverviewResp {
   int64 totalUsers = 1;
@@ -51,13 +52,14 @@ message DashboardGetDataOverviewResp {
   string msg = 256;
 }
 
+// 学生使用趋势
 message DashboardGetDataTrendReq {
-  optional string unitId = 1[(http.query) = "unitId"];
+  optional string unitId = 1;
 }
 message DashboardGetDataTrendResp {
-  repeated TrendPoint activePoints = 1;
-  repeated TrendPoint conversationPoints = 2;
-  repeated conversationDuration conversationDurations = 3;
+  repeated TrendPoint activePoints = 1; // 近一周学生活跃趋势
+  repeated TrendPoint conversationPoints = 2; // 近一周对话频率趋势
+  repeated conversationDuration conversationDurations = 3; // 对话时间分布
   int32 code = 255;
   string msg = 256;
 }
@@ -71,6 +73,7 @@ message conversationDuration {
   int64 count = 2;
 }
 
+// 管理端-列出单位
 message DashboardListUnitsReq {}
 message DashboardListUnitsResp {
   repeated DashboardUnit units = 1;
@@ -87,12 +90,14 @@ message DashboardUnit {
   int64 updateTime = 7;
 }
 
+// 情绪与心理健康趋势
 message DashboardGetPsychTrendReq {
-  string unitId = 1[(http.query) = "unitId"];
+  optional string unitId = 1;
 }
 message DashboardGetPsychTrendResp {
-  repeated RiskDistribution risks = 1;
-  repeated Keyword keywords = 2;
+  EmotionRatio emotionRatio = 1; // 情绪分布
+  repeated RiskDistribution risks = 2; // 分性别的风险等级统计
+  repeated Keyword keywords = 3; // 关键词 用于词云
   int32 code = 255;
   string msg = 256;
 }
@@ -105,12 +110,18 @@ message Keyword {
   string keyword = 1;
   int64 count = 2;
 }
+message EmotionRatio {
+  double danger = 1;      // 危险情绪占比
+  double negative = 2;    // 负面情绪占比
+  double neutral = 3;     // 中性情绪占比
+  double positive = 4;    // 正向情绪占比
+}
 
 
 
 // 预警管理
 message DashboardGetAlarmOverviewReq {
-  string unitId = 1[(http.query) = "unitId"];
+  string unitId = 1;
 }
 message DashboardGetAlarmOverviewResp {
   int32 total = 1;      // 当前高风险用户总数
@@ -126,10 +137,10 @@ message DashboardGetAlarmOverviewResp {
 }
 
 message DashboardListAlarmRecordsReq {
-  string unitId = 1[(http.query) = "unitId"];
-  optional string emotion = 2[(http.query) = "emotion"];
-  optional string status = 3[(http.query) = "status"];
-  optional string keyword = 4[(http.query) = "keyword"];
+  string unitId = 1;
+  optional string emotion = 2;
+  optional string status = 3;
+  optional string keyword = 4;
   basic.PaginationOptions paginationOptions = 5;
 }
 message DashboardListAlarmRecordsResp {
@@ -146,7 +157,7 @@ message AlarmRecord {
   string status = 4;  // 处理状态
   core_api.User user = 5;  // 用户信息
   int32  totalConversationRounds = 6;  // 总对话轮数
-  int64  lastConversationTime = 7;  // 上次对话时间（分钟时间戳）
+  int64  lastConversationTime = 7;  // 上次对话时间（时间戳）
 }
 
 
@@ -166,9 +177,9 @@ message GradeInfo {
 }
 
 message DashboardListClassesReq {
-  string unitId = 1[(http.query) = "unitId"];
-  optional int32 grade = 2[(http.query) = "grade"];
-  optional int32 class = 3[(http.query) = "class"];
+  string unitId = 1;
+  optional int32 grade = 2;
+  optional int32 class = 3;
 }
 message DashboardListClassesResp {
   repeated GradeInfo grades = 1;
@@ -185,10 +196,10 @@ message RiskUser {
 }
 
 message DashboardListUsersReq{
-  string unitId = 1[(http.query) = "unitId"];
-  optional int32 level = 2[(http.query) = "level"];
-  optional string gender = 3[(http.query) = "gender"];
-  optional string keyword = 4[(http.query) = "keyword"];
+  string unitId = 1;
+  optional int32 level = 2;
+  optional string gender = 3;
+  optional string keyword = 4;
   basic.PaginationOptions paginationOptions = 5;
 }
 message DashboardListUsersResp {
@@ -196,6 +207,31 @@ message DashboardListUsersResp {
   basic.Pagination pagination = 2;
   int32 code = 255;
   string msg = 256;
+}
+
+
+
+// 对话记录
+message DashboardUserConvRecordsReq {
+  string userId = 1;
+  basic.PaginationOptions paginationOptions = 2;
+}
+message DashboardUserConvRecordsResp {
+  core_api.User user = 1;
+  UserConvTrend userConvTrend = 2;
+  ConvDetail convDetail = 3;
+  basic.Pagination pagination = 4;
+  int32 code = 255;
+  string msg = 256;
+}
+
+message UserConvTrend {
+  repeated TrendPoint trendPoints = 1;
+}
+message ConvDetail {
+  int64 time = 1; // 对话时间
+  string digest = 2; // 摘要
+  repeated Keyword keywords = 3; // 关键词（词云）
 }
 
 
