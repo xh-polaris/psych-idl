@@ -1424,6 +1424,8 @@ type DashboardGetReportResp struct {
 	Emotion   string   `protobuf:"bytes,4,opt,name=emotion" json:"emotion,omitempty"`        // 情绪状态（由模型自由生成）
 	Body      string   `protobuf:"bytes,5,opt,name=body" json:"body,omitempty"`              // 详细分析内容
 	NeedAlarm bool     `protobuf:"varint,6,opt,name=need_alarm" json:"need_alarm,omitempty"` // 是否需要告警
+	Code      int32    `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg       string   `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *DashboardGetReportResp) Reset() { *x = DashboardGetReportResp{} }
@@ -1474,6 +1476,20 @@ func (x *DashboardGetReportResp) GetNeedAlarm() bool {
 		return x.NeedAlarm
 	}
 	return false
+}
+
+func (x *DashboardGetReportResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *DashboardGetReportResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
 }
 
 // 原profile相关
