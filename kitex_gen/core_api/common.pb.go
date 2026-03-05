@@ -852,6 +852,60 @@ func (x *DashboardListAlarmRecordsResp) GetMsg() string {
 	return ""
 }
 
+type DashboardUpdateAlarmReq struct {
+	Id    string       `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	Alarm *AlarmRecord `protobuf:"bytes,2,opt,name=alarm" json:"alarm,omitempty"`
+}
+
+func (x *DashboardUpdateAlarmReq) Reset() { *x = DashboardUpdateAlarmReq{} }
+
+func (x *DashboardUpdateAlarmReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *DashboardUpdateAlarmReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *DashboardUpdateAlarmReq) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *DashboardUpdateAlarmReq) GetAlarm() *AlarmRecord {
+	if x != nil {
+		return x.Alarm
+	}
+	return nil
+}
+
+type DashboardUpdateAlarmResp struct {
+	Code int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg  string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *DashboardUpdateAlarmResp) Reset() { *x = DashboardUpdateAlarmResp{} }
+
+func (x *DashboardUpdateAlarmResp) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *DashboardUpdateAlarmResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *DashboardUpdateAlarmResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *DashboardUpdateAlarmResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
 type AlarmRecord struct {
 	Id                      string   `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`                                            // 唯一Id
 	Emotion                 string   `protobuf:"bytes,2,opt,name=emotion" json:"emotion,omitempty"`                                  // 情绪状态
@@ -1205,7 +1259,8 @@ func (x *DashboardListUsersResp) GetMsg() string {
 	return ""
 }
 
-// 对话记录
+/*对话记录*/
+// 获取用户对话记录列表
 type DashboardUserConvRecordsReq struct {
 	UserId            string                   `protobuf:"bytes,1,opt,name=userId" json:"userId,omitempty"`
 	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,2,opt,name=paginationOptions" json:"paginationOptions,omitempty"`
@@ -1342,6 +1397,85 @@ func (x *ConvDetail) GetKeywords() *Keywords {
 	return nil
 }
 
+// 查看报表详情
+type DashboardGetReportReq struct {
+	ConversationId string `protobuf:"bytes,1,opt,name=ConversationId" json:"ConversationId,omitempty"`
+}
+
+func (x *DashboardGetReportReq) Reset() { *x = DashboardGetReportReq{} }
+
+func (x *DashboardGetReportReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *DashboardGetReportReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *DashboardGetReportReq) GetConversationId() string {
+	if x != nil {
+		return x.ConversationId
+	}
+	return ""
+}
+
+type DashboardGetReportResp struct {
+	Title     string   `protobuf:"bytes,1,opt,name=title" json:"title,omitempty"`            // 对话标题
+	Keywords  []string `protobuf:"bytes,2,rep,name=keywords" json:"keywords,omitempty"`      // 关键词列表
+	Digest    string   `protobuf:"bytes,3,opt,name=digest" json:"digest,omitempty"`          // 对话摘要
+	Emotion   string   `protobuf:"bytes,4,opt,name=emotion" json:"emotion,omitempty"`        // 情绪状态（由模型自由生成）
+	Body      string   `protobuf:"bytes,5,opt,name=body" json:"body,omitempty"`              // 详细分析内容
+	NeedAlarm bool     `protobuf:"varint,6,opt,name=need_alarm" json:"need_alarm,omitempty"` // 是否需要告警
+}
+
+func (x *DashboardGetReportResp) Reset() { *x = DashboardGetReportResp{} }
+
+func (x *DashboardGetReportResp) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *DashboardGetReportResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *DashboardGetReportResp) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *DashboardGetReportResp) GetKeywords() []string {
+	if x != nil {
+		return x.Keywords
+	}
+	return nil
+}
+
+func (x *DashboardGetReportResp) GetDigest() string {
+	if x != nil {
+		return x.Digest
+	}
+	return ""
+}
+
+func (x *DashboardGetReportResp) GetEmotion() string {
+	if x != nil {
+		return x.Emotion
+	}
+	return ""
+}
+
+func (x *DashboardGetReportResp) GetBody() string {
+	if x != nil {
+		return x.Body
+	}
+	return ""
+}
+
+func (x *DashboardGetReportResp) GetNeedAlarm() bool {
+	if x != nil {
+		return x.NeedAlarm
+	}
+	return false
+}
+
 // 原profile相关
 /* User */
 type User struct {
@@ -1357,10 +1491,11 @@ type User struct {
 	EnrollYear int32                 `protobuf:"varint,10,opt,name=enrollYear" json:"enrollYear,omitempty"`
 	Grade      int32                 `protobuf:"varint,11,opt,name=grade" json:"grade,omitempty"`
 	Class      int32                 `protobuf:"varint,12,opt,name=class" json:"class,omitempty"`
-	Options    map[string]*anypb.Any `protobuf:"bytes,13,rep,name=options" json:"options,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	CreateTime int64                 `protobuf:"varint,14,opt,name=createTime" json:"createTime,omitempty"`
-	UpdateTime int64                 `protobuf:"varint,15,opt,name=updateTime" json:"updateTime,omitempty"`
-	DeleteTime int64                 `protobuf:"varint,16,opt,name=deleteTime" json:"deleteTime,omitempty"`
+	Remark     *Remark               `protobuf:"bytes,13,opt,name=remark" json:"remark,omitempty"`
+	Options    map[string]*anypb.Any `protobuf:"bytes,14,rep,name=options" json:"options,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	CreateTime int64                 `protobuf:"varint,15,opt,name=createTime" json:"createTime,omitempty"`
+	UpdateTime int64                 `protobuf:"varint,16,opt,name=updateTime" json:"updateTime,omitempty"`
+	DeleteTime int64                 `protobuf:"varint,17,opt,name=deleteTime" json:"deleteTime,omitempty"`
 }
 
 func (x *User) Reset() { *x = User{} }
@@ -1453,6 +1588,13 @@ func (x *User) GetClass() int32 {
 	return 0
 }
 
+func (x *User) GetRemark() *Remark {
+	if x != nil {
+		return x.Remark
+	}
+	return nil
+}
+
 func (x *User) GetOptions() map[string]*anypb.Any {
 	if x != nil {
 		return x.Options
@@ -1479,6 +1621,31 @@ func (x *User) GetDeleteTime() int64 {
 		return x.DeleteTime
 	}
 	return 0
+}
+
+type Remark struct {
+	Time    int64  `protobuf:"varint,1,opt,name=time" json:"time,omitempty"`
+	Content string `protobuf:"bytes,2,opt,name=content" json:"content,omitempty"`
+}
+
+func (x *Remark) Reset() { *x = Remark{} }
+
+func (x *Remark) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *Remark) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *Remark) GetTime() int64 {
+	if x != nil {
+		return x.Time
+	}
+	return 0
+}
+
+func (x *Remark) GetContent() string {
+	if x != nil {
+		return x.Content
+	}
+	return ""
 }
 
 // 注册相关
