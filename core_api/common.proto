@@ -148,6 +148,15 @@ message DashboardListAlarmRecordsResp {
   string msg = 256;
 }
 
+message DashboardUpdateAlarmReq {
+  string id = 1;
+  AlarmRecord alarm = 2;
+}
+message DashboardUpdateAlarmResp {
+  int32 code = 255;
+  string msg = 256;
+}
+
 message AlarmRecord {
   string id = 1;  // 唯一Id
   string emotion = 2;  // 情绪状态
@@ -208,8 +217,8 @@ message DashboardListUsersResp {
 }
 
 
-
-// 对话记录
+/*对话记录*/
+// 获取用户对话记录列表
 message DashboardUserConvRecordsReq {
   string userId = 1;
   basic.PaginationOptions paginationOptions = 2;
@@ -232,6 +241,27 @@ message ConvDetail {
   Keywords keywords = 3; // 关键词（词云）
 }
 
+// 查看报表详情
+message DashboardGetReportReq {
+  string ConversationId = 1;
+}
+message DashboardGetReportResp {
+  string title = 1;           // 对话标题
+  repeated string keywords = 2; // 关键词列表
+  string digest = 3;          // 对话摘要
+  string emotion = 4;         // 情绪状态（由模型自由生成）
+  string body = 5;            // 详细分析内容
+  bool need_alarm = 6;        // 是否需要告警
+}
+
+// 获取单位下用户的对话记录列表
+//message DashboardUnitConvRecordsReq {
+//  optional string unitId = 1;
+//}
+//message DashboardUnitConvRecordsResp {
+//
+//}
+
 
 
 // 原profile相关
@@ -249,11 +279,17 @@ message User {
   int32 enrollYear = 10;
   int32 grade = 11;
   int32 class = 12;
-  map<string, google.protobuf.Any> options = 13;
-  int64 createTime = 14;
-  int64 updateTime = 15;
-  int64 deleteTime = 16;
+  Remark remark = 13;
+  map<string, google.protobuf.Any> options = 14;
+  int64 createTime = 15;
+  int64 updateTime = 16;
+  int64 deleteTime = 17;
 }
+message Remark {
+  int64 time = 1;
+  string content = 2;
+}
+
 
 // 注册相关
 message UserSignUpReq {
