@@ -252,6 +252,8 @@ message DashboardGetReportResp {
   string emotion = 4;         // 情绪状态（由模型自由生成）
   string body = 5;            // 详细分析内容
   bool need_alarm = 6;        // 是否需要告警
+  int32 code = 255;
+  string msg = 256;
 }
 
 // 获取单位下用户的对话记录列表
