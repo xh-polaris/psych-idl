@@ -12,13 +12,6 @@ import "basic/http.proto";
 /*用户端*/
 // 对话相关
 
-// 对话中发送消息
-message CompletionsReq {
-  string conversationId = 1;
-  Message message = 2; // 一次发送一条消息
-}
-// Resp返回sse流
-
 // 新建对话
 message CreateConversationReq {}
 message CreateConversationResp {

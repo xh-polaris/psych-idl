@@ -118,7 +118,4 @@ service Completion {
   rpc GetConversation (GetConversationReq) returns (GetConversationResp) {
     option (http.post) = "/conversation/get";
   }
-  rpc Completions(CompletionsReq) returns (stream SSEEvent){
-    option(http.post) = "/completions";
-  }
 }
