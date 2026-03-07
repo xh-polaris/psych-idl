@@ -149,8 +149,7 @@ message DashboardListAlarmRecordsResp {
 }
 
 message DashboardUpdateAlarmReq {
-  string id = 1;
-  AlarmRecord alarm = 2;
+  AlarmRecord alarm = 1;
 }
 message DashboardUpdateAlarmResp {
   int32 code = 255;
@@ -257,12 +256,13 @@ message DashboardGetReportResp {
 }
 
 // 获取单位下用户的对话记录列表
-//message DashboardUnitConvRecordsReq {
-//  optional string unitId = 1;
-//}
-//message DashboardUnitConvRecordsResp {
-//
-//}
+message DashboardUnitConvRecordsReq {
+  optional string unitId = 1;
+}
+message DashboardUnitConvRecordsResp {
+  int32 code = 255;
+  string msg = 256;
+}
 
 
 

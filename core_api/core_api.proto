@@ -84,6 +84,9 @@ service CoreApi {
   rpc DashboardListAlarmRecords(DashboardListAlarmRecordsReq) returns (DashboardListAlarmRecordsResp) {
     option (http.post) = "/dashboard/alarm_records";
   }
+  rpc DashboardUpdateAlarm(DashboardUpdateAlarmReq) returns (DashboardUpdateAlarmResp) {
+    option (http.post) = "/dashboard/update_alarm";
+  }
   // 用户管理
   rpc DashboardListClasses(DashboardListClassesReq) returns (DashboardListClassesResp) {
     option (http.post) = "/dashboard/classes";
@@ -93,6 +96,12 @@ service CoreApi {
   }
   // 对话记录
   rpc DashboardUserConvRecords(DashboardUserConvRecordsReq) returns (DashboardUserConvRecordsResp) {
-    option (http.post) = "/dashboard/conversation_records";
+    option (http.post) = "/dashboard/user_conversation_records";
+  }
+  rpc DashboardUnitConvRecords(DashboardUnitConvRecordsReq) returns (DashboardUnitConvRecordsResp) {
+    option (http.post) = "/dashboard/unit_conversation_records";
+  }
+  rpc DashboardGetReport(DashboardGetReportReq) returns (DashboardGetReportResp) {
+    option (http.post) = "/dashboard/get_report";
   }
 }
