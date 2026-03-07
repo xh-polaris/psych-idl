@@ -33,9 +33,12 @@ type Client interface {
 	DashboardGetPsychTrend(ctx context.Context, Req *core_api.DashboardGetPsychTrendReq, callOptions ...callopt.Option) (r *core_api.DashboardGetPsychTrendResp, err error)
 	DashboardGetAlarmOverview(ctx context.Context, Req *core_api.DashboardGetAlarmOverviewReq, callOptions ...callopt.Option) (r *core_api.DashboardGetAlarmOverviewResp, err error)
 	DashboardListAlarmRecords(ctx context.Context, Req *core_api.DashboardListAlarmRecordsReq, callOptions ...callopt.Option) (r *core_api.DashboardListAlarmRecordsResp, err error)
+	DashboardUpdateAlarm(ctx context.Context, Req *core_api.DashboardUpdateAlarmReq, callOptions ...callopt.Option) (r *core_api.DashboardUpdateAlarmResp, err error)
 	DashboardListClasses(ctx context.Context, Req *core_api.DashboardListClassesReq, callOptions ...callopt.Option) (r *core_api.DashboardListClassesResp, err error)
 	DashboardListUsers(ctx context.Context, Req *core_api.DashboardListUsersReq, callOptions ...callopt.Option) (r *core_api.DashboardListUsersResp, err error)
 	DashboardUserConvRecords(ctx context.Context, Req *core_api.DashboardUserConvRecordsReq, callOptions ...callopt.Option) (r *core_api.DashboardUserConvRecordsResp, err error)
+	DashboardUnitConvRecords(ctx context.Context, Req *core_api.DashboardUnitConvRecordsReq, callOptions ...callopt.Option) (r *core_api.DashboardUnitConvRecordsResp, err error)
+	DashboardGetReport(ctx context.Context, Req *core_api.DashboardGetReportReq, callOptions ...callopt.Option) (r *core_api.DashboardGetReportResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -172,6 +175,11 @@ func (p *kCoreApiClient) DashboardListAlarmRecords(ctx context.Context, Req *cor
 	return p.kClient.DashboardListAlarmRecords(ctx, Req)
 }
 
+func (p *kCoreApiClient) DashboardUpdateAlarm(ctx context.Context, Req *core_api.DashboardUpdateAlarmReq, callOptions ...callopt.Option) (r *core_api.DashboardUpdateAlarmResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DashboardUpdateAlarm(ctx, Req)
+}
+
 func (p *kCoreApiClient) DashboardListClasses(ctx context.Context, Req *core_api.DashboardListClassesReq, callOptions ...callopt.Option) (r *core_api.DashboardListClassesResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.DashboardListClasses(ctx, Req)
@@ -185,4 +193,14 @@ func (p *kCoreApiClient) DashboardListUsers(ctx context.Context, Req *core_api.D
 func (p *kCoreApiClient) DashboardUserConvRecords(ctx context.Context, Req *core_api.DashboardUserConvRecordsReq, callOptions ...callopt.Option) (r *core_api.DashboardUserConvRecordsResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.DashboardUserConvRecords(ctx, Req)
+}
+
+func (p *kCoreApiClient) DashboardUnitConvRecords(ctx context.Context, Req *core_api.DashboardUnitConvRecordsReq, callOptions ...callopt.Option) (r *core_api.DashboardUnitConvRecordsResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DashboardUnitConvRecords(ctx, Req)
+}
+
+func (p *kCoreApiClient) DashboardGetReport(ctx context.Context, Req *core_api.DashboardGetReportReq, callOptions ...callopt.Option) (r *core_api.DashboardGetReportResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DashboardGetReport(ctx, Req)
 }

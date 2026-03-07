@@ -853,8 +853,7 @@ func (x *DashboardListAlarmRecordsResp) GetMsg() string {
 }
 
 type DashboardUpdateAlarmReq struct {
-	Id    string       `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	Alarm *AlarmRecord `protobuf:"bytes,2,opt,name=alarm" json:"alarm,omitempty"`
+	Alarm *AlarmRecord `protobuf:"bytes,1,opt,name=alarm" json:"alarm,omitempty"`
 }
 
 func (x *DashboardUpdateAlarmReq) Reset() { *x = DashboardUpdateAlarmReq{} }
@@ -864,13 +863,6 @@ func (x *DashboardUpdateAlarmReq) Marshal(in []byte) ([]byte, error) {
 }
 
 func (x *DashboardUpdateAlarmReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *DashboardUpdateAlarmReq) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
 
 func (x *DashboardUpdateAlarmReq) GetAlarm() *AlarmRecord {
 	if x != nil {
@@ -1486,6 +1478,53 @@ func (x *DashboardGetReportResp) GetCode() int32 {
 }
 
 func (x *DashboardGetReportResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+// 获取单位下用户的对话记录列表
+type DashboardUnitConvRecordsReq struct {
+	UnitId *string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+}
+
+func (x *DashboardUnitConvRecordsReq) Reset() { *x = DashboardUnitConvRecordsReq{} }
+
+func (x *DashboardUnitConvRecordsReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *DashboardUnitConvRecordsReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *DashboardUnitConvRecordsReq) GetUnitId() string {
+	if x != nil && x.UnitId != nil {
+		return *x.UnitId
+	}
+	return ""
+}
+
+type DashboardUnitConvRecordsResp struct {
+	Code int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg  string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *DashboardUnitConvRecordsResp) Reset() { *x = DashboardUnitConvRecordsResp{} }
+
+func (x *DashboardUnitConvRecordsResp) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *DashboardUnitConvRecordsResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *DashboardUnitConvRecordsResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *DashboardUnitConvRecordsResp) GetMsg() string {
 	if x != nil {
 		return x.Msg
 	}

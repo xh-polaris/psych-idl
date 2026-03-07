@@ -29,7 +29,10 @@ type CoreApi interface {
 	DashboardGetPsychTrend(ctx context.Context, req *DashboardGetPsychTrendReq) (res *DashboardGetPsychTrendResp, err error)
 	DashboardGetAlarmOverview(ctx context.Context, req *DashboardGetAlarmOverviewReq) (res *DashboardGetAlarmOverviewResp, err error)
 	DashboardListAlarmRecords(ctx context.Context, req *DashboardListAlarmRecordsReq) (res *DashboardListAlarmRecordsResp, err error)
+	DashboardUpdateAlarm(ctx context.Context, req *DashboardUpdateAlarmReq) (res *DashboardUpdateAlarmResp, err error)
 	DashboardListClasses(ctx context.Context, req *DashboardListClassesReq) (res *DashboardListClassesResp, err error)
 	DashboardListUsers(ctx context.Context, req *DashboardListUsersReq) (res *DashboardListUsersResp, err error)
 	DashboardUserConvRecords(ctx context.Context, req *DashboardUserConvRecordsReq) (res *DashboardUserConvRecordsResp, err error)
+	DashboardUnitConvRecords(ctx context.Context, req *DashboardUnitConvRecordsReq) (res *DashboardUnitConvRecordsResp, err error)
+	DashboardGetReport(ctx context.Context, req *DashboardGetReportReq) (res *DashboardGetReportResp, err error)
 }
