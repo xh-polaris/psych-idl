@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package core_api;
+
+option go_package = "core_api";
+
+import "basic/pagination.proto";
+import "google/protobuf/struct.proto";
+import "basic/http.proto";
+
+
+/*用户端*/
+// 对话相关
+
+// 对话中发送消息
+message CompletionsReq {
+  string conversationId = 1;
+  Message message = 2; // 一次发送一条消息
+}
+// Resp返回sse流
+
+// 新建对话
+message CreateConversationReq {}
+message CreateConversationResp {
+  string conversationId = 1;
+  int32 code = 255;
+  string msg = 256;
+}
+
+// 对话列表
+message ListConversationsReq {
+  basic.PaginationOptions paginationOptions = 1;
+}
+message ListConversationsResp {
+  repeated Conversation conversationList = 1;
+  basic.Pagination pagination = 2;
+  int32 code = 255;
+  string msg = 256;
+}
+
+// 获得对话下的历史消息
+message GetConversationReq {
+  basic.PaginationOptions paginationOptions = 1;
+  string conversationId = 2;
+}
+message GetConversationResp {
+  basic.Pagination pagination = 1;
+  repeated Message messageList = 2;
+  int32 code = 255;
+  string msg = 256;
+}
+
+
+
+message Conversation {
+  string conversationId = 1;
+  string brief = 2;
+  int64 createTime = 3;
+  int64 updateTime = 4;
+}
+
+message Message {
+  string content = 1;
+  string role = 2;
+  int32 index = 3;
+}

@@ -10,6 +10,13 @@ import "google/protobuf/any.proto";
 import "basic/http.proto";
 // 所有的core_api的resp需要统一增加code:255和msg:256
 
+// SSEEvent
+message SSEEvent {
+  string eventData = 1; // 事件数据
+  int32 eventId = 2; // 事件id
+  int32 eventType = 3; // 事件类型
+}
+
 /* core_api */
 
 // 获取信息
