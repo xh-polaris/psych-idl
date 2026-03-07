@@ -9,6 +9,40 @@ import (
 	"github.com/cloudwego/prutal"
 )
 
+// SSEEvent
+type SSEEvent struct {
+	EventData string `protobuf:"bytes,1,opt,name=eventData" json:"eventData,omitempty"`  // 事件数据
+	EventId   int32  `protobuf:"varint,2,opt,name=eventId" json:"eventId,omitempty"`     // 事件id
+	EventType int32  `protobuf:"varint,3,opt,name=eventType" json:"eventType,omitempty"` // 事件类型
+}
+
+func (x *SSEEvent) Reset() { *x = SSEEvent{} }
+
+func (x *SSEEvent) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *SSEEvent) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *SSEEvent) GetEventData() string {
+	if x != nil {
+		return x.EventData
+	}
+	return ""
+}
+
+func (x *SSEEvent) GetEventId() int32 {
+	if x != nil {
+		return x.EventId
+	}
+	return 0
+}
+
+func (x *SSEEvent) GetEventType() int32 {
+	if x != nil {
+		return x.EventType
+	}
+	return 0
+}
+
 // 获取信息
 type UserGetInfoReq struct {
 	UserId string `protobuf:"bytes,1,opt,name=userId" json:"userId,omitempty"`

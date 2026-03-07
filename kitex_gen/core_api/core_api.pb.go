@@ -36,3 +36,9 @@ type CoreApi interface {
 	DashboardUnitConvRecords(ctx context.Context, req *DashboardUnitConvRecordsReq) (res *DashboardUnitConvRecordsResp, err error)
 	DashboardGetReport(ctx context.Context, req *DashboardGetReportReq) (res *DashboardGetReportResp, err error)
 }
+
+type Completion interface {
+	CreateConversation(ctx context.Context, req *CreateConversationReq) (res *CreateConversationResp, err error)
+	ListConversations(ctx context.Context, req *ListConversationsReq) (res *ListConversationsResp, err error)
+	GetConversation(ctx context.Context, req *GetConversationReq) (res *GetConversationResp, err error)
+}
