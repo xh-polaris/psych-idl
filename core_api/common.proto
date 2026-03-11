@@ -322,7 +322,7 @@ message UserSignInReq {
   int32 authType = 1;
   string authId = 2;
   string verifyCode = 3;
-  string role = 4; // 学生/教师等 但单位管理员另用其他接口
+  string unitId = 4;
 }
 message UserSignInResp {
   string unitId = 1;
