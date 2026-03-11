@@ -1854,11 +1854,10 @@ func (x *UserSignUpResp) GetMsg() string {
 }
 
 type UserSignInReq struct {
-	UnitId     string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	AuthType   int32  `protobuf:"varint,2,opt,name=authType" json:"authType,omitempty"`
-	AuthId     string `protobuf:"bytes,3,opt,name=authId" json:"authId,omitempty"`
-	VerifyCode string `protobuf:"bytes,4,opt,name=verifyCode" json:"verifyCode,omitempty"`
-	Role       string `protobuf:"bytes,5,opt,name=role" json:"role,omitempty"` // 学生/教师等 但单位管理员另用其他接口
+	AuthType   int32  `protobuf:"varint,1,opt,name=authType" json:"authType,omitempty"`
+	AuthId     string `protobuf:"bytes,2,opt,name=authId" json:"authId,omitempty"`
+	VerifyCode string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
+	Role       string `protobuf:"bytes,4,opt,name=role" json:"role,omitempty"` // 学生/教师等 但单位管理员另用其他接口
 }
 
 func (x *UserSignInReq) Reset() { *x = UserSignInReq{} }
@@ -1866,13 +1865,6 @@ func (x *UserSignInReq) Reset() { *x = UserSignInReq{} }
 func (x *UserSignInReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
 
 func (x *UserSignInReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *UserSignInReq) GetUnitId() string {
-	if x != nil {
-		return x.UnitId
-	}
-	return ""
-}
 
 func (x *UserSignInReq) GetAuthType() int32 {
 	if x != nil {
@@ -2183,6 +2175,7 @@ type UnitSignInReq struct {
 	AuthType   int32  `protobuf:"varint,1,opt,name=authType" json:"authType,omitempty"`
 	AuthId     string `protobuf:"bytes,2,opt,name=authId" json:"authId,omitempty"`
 	VerifyCode string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
+	UnitId     string `protobuf:"bytes,4,opt,name=unitId" json:"unitId,omitempty"` // 后续改成unitName，用synapse的Query Unit获得unitId
 }
 
 func (x *UnitSignInReq) Reset() { *x = UnitSignInReq{} }
@@ -2208,6 +2201,13 @@ func (x *UnitSignInReq) GetAuthId() string {
 func (x *UnitSignInReq) GetVerifyCode() string {
 	if x != nil {
 		return x.VerifyCode
+	}
+	return ""
+}
+
+func (x *UnitSignInReq) GetUnitId() string {
+	if x != nil {
+		return x.UnitId
 	}
 	return ""
 }
