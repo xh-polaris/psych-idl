@@ -1520,7 +1520,8 @@ func (x *DashboardGetReportResp) GetMsg() string {
 
 // 获取单位下用户的对话记录列表
 type DashboardUnitConvRecordsReq struct {
-	UnitId *string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	UnitId            *string                  `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,2,opt,name=paginationOptions" json:"paginationOptions,omitempty"`
 }
 
 func (x *DashboardUnitConvRecordsReq) Reset() { *x = DashboardUnitConvRecordsReq{} }
@@ -1538,9 +1539,17 @@ func (x *DashboardUnitConvRecordsReq) GetUnitId() string {
 	return ""
 }
 
+func (x *DashboardUnitConvRecordsReq) GetPaginationOptions() *basic.PaginationOptions {
+	if x != nil {
+		return x.PaginationOptions
+	}
+	return nil
+}
+
 type DashboardUnitConvRecordsResp struct {
-	Code int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg  string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+	ConversationList []*ConvOverview `protobuf:"bytes,1,rep,name=conversationList" json:"conversationList,omitempty"`
+	Code             int32           `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg              string          `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *DashboardUnitConvRecordsResp) Reset() { *x = DashboardUnitConvRecordsResp{} }
@@ -1550,6 +1559,13 @@ func (x *DashboardUnitConvRecordsResp) Marshal(in []byte) ([]byte, error) {
 }
 
 func (x *DashboardUnitConvRecordsResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *DashboardUnitConvRecordsResp) GetConversationList() []*ConvOverview {
+	if x != nil {
+		return x.ConversationList
+	}
+	return nil
+}
 
 func (x *DashboardUnitConvRecordsResp) GetCode() int32 {
 	if x != nil {
@@ -1563,6 +1579,47 @@ func (x *DashboardUnitConvRecordsResp) GetMsg() string {
 		return x.Msg
 	}
 	return ""
+}
+
+type ConvOverview struct {
+	User      *User    `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	Keywords  []string `protobuf:"bytes,2,rep,name=keywords" json:"keywords,omitempty"`
+	Time      int64    `protobuf:"varint,3,opt,name=time" json:"time,omitempty"`
+	NeedAlarm bool     `protobuf:"varint,4,opt,name=needAlarm" json:"needAlarm,omitempty"`
+}
+
+func (x *ConvOverview) Reset() { *x = ConvOverview{} }
+
+func (x *ConvOverview) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ConvOverview) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ConvOverview) GetUser() *User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+func (x *ConvOverview) GetKeywords() []string {
+	if x != nil {
+		return x.Keywords
+	}
+	return nil
+}
+
+func (x *ConvOverview) GetTime() int64 {
+	if x != nil {
+		return x.Time
+	}
+	return 0
+}
+
+func (x *ConvOverview) GetNeedAlarm() bool {
+	if x != nil {
+		return x.NeedAlarm
+	}
+	return false
 }
 
 // 原profile相关
@@ -1585,6 +1642,7 @@ type User struct {
 	CreateTime int64                 `protobuf:"varint,15,opt,name=createTime" json:"createTime,omitempty"`
 	UpdateTime int64                 `protobuf:"varint,16,opt,name=updateTime" json:"updateTime,omitempty"`
 	DeleteTime int64                 `protobuf:"varint,17,opt,name=deleteTime" json:"deleteTime,omitempty"`
+	Role       int32                 `protobuf:"varint,18,opt,name=role" json:"role,omitempty"`
 }
 
 func (x *User) Reset() { *x = User{} }
@@ -1712,6 +1770,13 @@ func (x *User) GetDeleteTime() int64 {
 	return 0
 }
 
+func (x *User) GetRole() int32 {
+	if x != nil {
+		return x.Role
+	}
+	return 0
+}
+
 type Remark struct {
 	Time    int64  `protobuf:"varint,1,opt,name=time" json:"time,omitempty"`
 	Content string `protobuf:"bytes,2,opt,name=content" json:"content,omitempty"`
@@ -1793,6 +1858,7 @@ type UserSignInReq struct {
 	AuthType   int32  `protobuf:"varint,2,opt,name=authType" json:"authType,omitempty"`
 	AuthId     string `protobuf:"bytes,3,opt,name=authId" json:"authId,omitempty"`
 	VerifyCode string `protobuf:"bytes,4,opt,name=verifyCode" json:"verifyCode,omitempty"`
+	Role       string `protobuf:"bytes,5,opt,name=role" json:"role,omitempty"` // 学生/教师等 但单位管理员另用其他接口
 }
 
 func (x *UserSignInReq) Reset() { *x = UserSignInReq{} }
@@ -1825,6 +1891,13 @@ func (x *UserSignInReq) GetAuthId() string {
 func (x *UserSignInReq) GetVerifyCode() string {
 	if x != nil {
 		return x.VerifyCode
+	}
+	return ""
+}
+
+func (x *UserSignInReq) GetRole() string {
+	if x != nil {
+		return x.Role
 	}
 	return ""
 }
@@ -2141,6 +2214,7 @@ func (x *UnitSignInReq) GetVerifyCode() string {
 
 type UnitSignInResp struct {
 	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	Token  string `protobuf:"bytes,2,opt,name=token" json:"token,omitempty"`
 	Code   int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
 	Msg    string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
@@ -2154,6 +2228,13 @@ func (x *UnitSignInResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in
 func (x *UnitSignInResp) GetUnitId() string {
 	if x != nil {
 		return x.UnitId
+	}
+	return ""
+}
+
+func (x *UnitSignInResp) GetToken() string {
+	if x != nil {
+		return x.Token
 	}
 	return ""
 }
