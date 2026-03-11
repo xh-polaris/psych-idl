@@ -1857,7 +1857,7 @@ type UserSignInReq struct {
 	AuthType   int32  `protobuf:"varint,1,opt,name=authType" json:"authType,omitempty"`
 	AuthId     string `protobuf:"bytes,2,opt,name=authId" json:"authId,omitempty"`
 	VerifyCode string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
-	Role       string `protobuf:"bytes,4,opt,name=role" json:"role,omitempty"` // 学生/教师等 但单位管理员另用其他接口
+	UnitId     string `protobuf:"bytes,4,opt,name=unitId" json:"unitId,omitempty"`
 }
 
 func (x *UserSignInReq) Reset() { *x = UserSignInReq{} }
@@ -1887,9 +1887,9 @@ func (x *UserSignInReq) GetVerifyCode() string {
 	return ""
 }
 
-func (x *UserSignInReq) GetRole() string {
+func (x *UserSignInReq) GetUnitId() string {
 	if x != nil {
-		return x.Role
+		return x.UnitId
 	}
 	return ""
 }
