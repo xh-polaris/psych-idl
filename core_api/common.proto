@@ -319,11 +319,10 @@ message UserSignUpResp {
 }
 
 message UserSignInReq {
-  string unitId = 1;
-  int32 authType = 2;
-  string authId = 3;
-  string verifyCode = 4;
-  string role = 5; // 学生/教师等 但单位管理员另用其他接口
+  int32 authType = 1;
+  string authId = 2;
+  string verifyCode = 3;
+  string role = 4; // 学生/教师等 但单位管理员另用其他接口
 }
 message UserSignInResp {
   string unitId = 1;
@@ -378,6 +377,7 @@ message UnitSignInReq {
   int32 authType = 1;
   string authId = 2;
   string verifyCode = 3;
+  string unitId = 4; // 后续改成unitName，用synapse的Query Unit获得unitId
 }
 message UnitSignInResp {
   string unitId = 1;
