@@ -265,13 +265,20 @@ message DashboardGetReportResp {
 // 获取单位下用户的对话记录列表
 message DashboardUnitConvRecordsReq {
   optional string unitId = 1;
+  basic.PaginationOptions paginationOptions = 2;
 }
 message DashboardUnitConvRecordsResp {
+  repeated ConvOverview conversationList = 1;
   int32 code = 255;
   string msg = 256;
 }
 
-
+message ConvOverview {
+  User user = 1;
+  repeated string keywords = 2;
+  int64 time = 3;
+  bool needAlarm = 4;
+}
 
 // 原profile相关
 /* User */
@@ -293,6 +300,7 @@ message User {
   int64 createTime = 15;
   int64 updateTime = 16;
   int64 deleteTime = 17;
+  int32 role = 18;
 }
 message Remark {
   int64 time = 1;
@@ -315,6 +323,7 @@ message UserSignInReq {
   int32 authType = 2;
   string authId = 3;
   string verifyCode = 4;
+  string role = 5; // 学生/教师等 但单位管理员另用其他接口
 }
 message UserSignInResp {
   string unitId = 1;
@@ -372,6 +381,7 @@ message UnitSignInReq {
 }
 message UnitSignInResp {
   string unitId = 1;
+  string token = 2;
   int32 code = 255;
   string msg = 256;
 }
