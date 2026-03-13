@@ -186,57 +186,6 @@ func (x *Remark) GetContent() string {
 	return ""
 }
 
-// 注册相关
-type UserSignUpReq struct {
-	User *UserVO `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
-}
-
-func (x *UserSignUpReq) Reset() { *x = UserSignUpReq{} }
-
-func (x *UserSignUpReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
-
-func (x *UserSignUpReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *UserSignUpReq) GetUser() *UserVO {
-	if x != nil {
-		return x.User
-	}
-	return nil
-}
-
-type UserSignUpResp struct {
-	User *UserVO `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
-	Code int32   `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg  string  `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
-}
-
-func (x *UserSignUpResp) Reset() { *x = UserSignUpResp{} }
-
-func (x *UserSignUpResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
-
-func (x *UserSignUpResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *UserSignUpResp) GetUser() *UserVO {
-	if x != nil {
-		return x.User
-	}
-	return nil
-}
-
-func (x *UserSignUpResp) GetCode() int32 {
-	if x != nil {
-		return x.Code
-	}
-	return 0
-}
-
-func (x *UserSignUpResp) GetMsg() string {
-	if x != nil {
-		return x.Msg
-	}
-	return ""
-}
-
 type UserSignInReq struct {
 	AuthType   int32  `protobuf:"varint,1,opt,name=authType" json:"authType,omitempty"`
 	AuthId     string `protobuf:"bytes,2,opt,name=authId" json:"authId,omitempty"`

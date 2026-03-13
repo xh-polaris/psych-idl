@@ -101,57 +101,6 @@ func (x *UnitVO) GetDeleteTime() int64 {
 	return 0
 }
 
-// 注册相关
-type UnitSignUpReq struct {
-	Unit *UnitVO `protobuf:"bytes,1,opt,name=unit" json:"unit,omitempty"`
-}
-
-func (x *UnitSignUpReq) Reset() { *x = UnitSignUpReq{} }
-
-func (x *UnitSignUpReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
-
-func (x *UnitSignUpReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *UnitSignUpReq) GetUnit() *UnitVO {
-	if x != nil {
-		return x.Unit
-	}
-	return nil
-}
-
-type UnitSignUpResp struct {
-	Unit *UnitVO `protobuf:"bytes,1,opt,name=unit" json:"unit,omitempty"`
-	Code int32   `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg  string  `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
-}
-
-func (x *UnitSignUpResp) Reset() { *x = UnitSignUpResp{} }
-
-func (x *UnitSignUpResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
-
-func (x *UnitSignUpResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *UnitSignUpResp) GetUnit() *UnitVO {
-	if x != nil {
-		return x.Unit
-	}
-	return nil
-}
-
-func (x *UnitSignUpResp) GetCode() int32 {
-	if x != nil {
-		return x.Code
-	}
-	return 0
-}
-
-func (x *UnitSignUpResp) GetMsg() string {
-	if x != nil {
-		return x.Msg
-	}
-	return ""
-}
-
 // 登录相关
 type UnitSignInReq struct {
 	AuthType   int32  `protobuf:"varint,1,opt,name=authType" json:"authType,omitempty"`

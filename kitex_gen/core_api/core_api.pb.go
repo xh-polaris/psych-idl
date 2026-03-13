@@ -8,7 +8,6 @@ import (
 )
 
 type User interface {
-	UserSignUp(ctx context.Context, req *UserSignUpReq) (res *UserSignUpResp, err error)
 	UserSignIn(ctx context.Context, req *UserSignInReq) (res *UserSignInResp, err error)
 	UserGetInfo(ctx context.Context, req *UserGetInfoReq) (res *UserGetInfoResp, err error)
 	UserUpdateInfo(ctx context.Context, req *UserUpdateInfoReq) (res *basic.Response, err error)
@@ -16,7 +15,6 @@ type User interface {
 }
 
 type Unit interface {
-	UnitSignUp(ctx context.Context, req *UnitSignUpReq) (res *UnitSignUpResp, err error)
 	UnitSignIn(ctx context.Context, req *UnitSignInReq) (res *UnitSignInResp, err error)
 	UnitGetInfo(ctx context.Context, req *UnitGetInfoReq) (res *UnitGetInfoResp, err error)
 	UnitUpdateInfo(ctx context.Context, req *UnitUpdateInfoReq) (res *basic.Response, err error)

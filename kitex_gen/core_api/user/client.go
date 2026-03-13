@@ -12,7 +12,6 @@ import (
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
-	UserSignUp(ctx context.Context, Req *core_api.UserSignUpReq, callOptions ...callopt.Option) (r *core_api.UserSignUpResp, err error)
 	UserSignIn(ctx context.Context, Req *core_api.UserSignInReq, callOptions ...callopt.Option) (r *core_api.UserSignInResp, err error)
 	UserGetInfo(ctx context.Context, Req *core_api.UserGetInfoReq, callOptions ...callopt.Option) (r *core_api.UserGetInfoResp, err error)
 	UserUpdateInfo(ctx context.Context, Req *core_api.UserUpdateInfoReq, callOptions ...callopt.Option) (r *basic.Response, err error)
@@ -46,11 +45,6 @@ func MustNewClient(destService string, opts ...client.Option) Client {
 
 type kUserClient struct {
 	*kClient
-}
-
-func (p *kUserClient) UserSignUp(ctx context.Context, Req *core_api.UserSignUpReq, callOptions ...callopt.Option) (r *core_api.UserSignUpResp, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.UserSignUp(ctx, Req)
 }
 
 func (p *kUserClient) UserSignIn(ctx context.Context, Req *core_api.UserSignInReq, callOptions ...callopt.Option) (r *core_api.UserSignInResp, err error) {

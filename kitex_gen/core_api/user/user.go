@@ -16,13 +16,6 @@ import (
 var errInvalidMessageType = errors.New("invalid message type for service method handler")
 
 var serviceMethods = map[string]kitex.MethodInfo{
-	"UserSignUp": kitex.NewMethodInfo(
-		userSignUpHandler,
-		newUserSignUpArgs,
-		newUserSignUpResult,
-		false,
-		kitex.WithStreamingMode(kitex.StreamingUnary),
-	),
 	"UserSignIn": kitex.NewMethodInfo(
 		userSignInHandler,
 		newUserSignInArgs,
@@ -115,117 +108,6 @@ func newServiceInfo(hasStreaming bool, keepStreamingMethods bool, keepNonStreami
 		Extra:           extra,
 	}
 	return svcInfo
-}
-
-func userSignUpHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	switch s := arg.(type) {
-	case *streaming.Args:
-		st := s.Stream
-		req := new(core_api.UserSignUpReq)
-		if err := st.RecvMsg(req); err != nil {
-			return err
-		}
-		resp, err := handler.(core_api.User).UserSignUp(ctx, req)
-		if err != nil {
-			return err
-		}
-		return st.SendMsg(resp)
-	case *UserSignUpArgs:
-		success, err := handler.(core_api.User).UserSignUp(ctx, s.Req)
-		if err != nil {
-			return err
-		}
-		realResult := result.(*UserSignUpResult)
-		realResult.Success = success
-		return nil
-	default:
-		return errInvalidMessageType
-	}
-}
-func newUserSignUpArgs() interface{} {
-	return &UserSignUpArgs{}
-}
-
-func newUserSignUpResult() interface{} {
-	return &UserSignUpResult{}
-}
-
-type UserSignUpArgs struct {
-	Req *core_api.UserSignUpReq
-}
-
-func (p *UserSignUpArgs) Marshal(out []byte) ([]byte, error) {
-	if !p.IsSetReq() {
-		return out, nil
-	}
-	return proto.Marshal(p.Req)
-}
-
-func (p *UserSignUpArgs) Unmarshal(in []byte) error {
-	msg := new(core_api.UserSignUpReq)
-	if err := proto.Unmarshal(in, msg); err != nil {
-		return err
-	}
-	p.Req = msg
-	return nil
-}
-
-var UserSignUpArgs_Req_DEFAULT *core_api.UserSignUpReq
-
-func (p *UserSignUpArgs) GetReq() *core_api.UserSignUpReq {
-	if !p.IsSetReq() {
-		return UserSignUpArgs_Req_DEFAULT
-	}
-	return p.Req
-}
-
-func (p *UserSignUpArgs) IsSetReq() bool {
-	return p.Req != nil
-}
-
-func (p *UserSignUpArgs) GetFirstArgument() interface{} {
-	return p.Req
-}
-
-type UserSignUpResult struct {
-	Success *core_api.UserSignUpResp
-}
-
-var UserSignUpResult_Success_DEFAULT *core_api.UserSignUpResp
-
-func (p *UserSignUpResult) Marshal(out []byte) ([]byte, error) {
-	if !p.IsSetSuccess() {
-		return out, nil
-	}
-	return proto.Marshal(p.Success)
-}
-
-func (p *UserSignUpResult) Unmarshal(in []byte) error {
-	msg := new(core_api.UserSignUpResp)
-	if err := proto.Unmarshal(in, msg); err != nil {
-		return err
-	}
-	p.Success = msg
-	return nil
-}
-
-func (p *UserSignUpResult) GetSuccess() *core_api.UserSignUpResp {
-	if !p.IsSetSuccess() {
-		return UserSignUpResult_Success_DEFAULT
-	}
-	return p.Success
-}
-
-func (p *UserSignUpResult) SetSuccess(x interface{}) {
-	p.Success = x.(*core_api.UserSignUpResp)
-}
-
-func (p *UserSignUpResult) IsSetSuccess() bool {
-	return p.Success != nil
-}
-
-func (p *UserSignUpResult) GetResult() interface{} {
-	return p.Success
 }
 
 func userSignInHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
@@ -680,16 +562,6 @@ func newServiceClient(c client.Client) *kClient {
 	return &kClient{
 		c: c,
 	}
-}
-
-func (p *kClient) UserSignUp(ctx context.Context, Req *core_api.UserSignUpReq) (r *core_api.UserSignUpResp, err error) {
-	var _args UserSignUpArgs
-	_args.Req = Req
-	var _result UserSignUpResult
-	if err = p.c.Call(ctx, "UserSignUp", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
 }
 
 func (p *kClient) UserSignIn(ctx context.Context, Req *core_api.UserSignInReq) (r *core_api.UserSignInResp, err error) {
