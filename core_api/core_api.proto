@@ -8,7 +8,7 @@ import "core_api/user.proto";
 import "core_api/unit.proto";
 import "core_api/config.proto";
 import "core_api/dashboard.proto";
-import "core_api/completion.proto";
+import "core_api/conversation.proto";
 import "basic/http.proto";
 import "basic/re.proto";
 
@@ -111,7 +111,7 @@ service Dashboard {
   }
 }
 
-service Completion {
+service Conversation {
   rpc CreateConversation (CreateConversationReq) returns (CreateConversationResp) {
     option (http.post) = "/conversation/create";
   }

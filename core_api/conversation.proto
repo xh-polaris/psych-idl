@@ -25,7 +25,7 @@ message ListConversationsReq {
   basic.PaginationOptions paginationOptions = 1;
 }
 message ListConversationsResp {
-  repeated Conversation conversationList = 1;
+  repeated ConversationVO conversationList = 1;
   basic.Pagination pagination = 2;
   int32 code = 255;
   string msg = 256;
@@ -44,8 +44,7 @@ message GetConversationResp {
 }
 
 
-
-message Conversation {
+message ConversationVO {
   string conversationId = 1;
   string brief = 2;
   int64 createTime = 3;
