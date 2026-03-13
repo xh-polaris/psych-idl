@@ -28,17 +28,11 @@ service User {
 }
 
 service Unit {
-  rpc UnitSignIn(UnitSignInReq) returns (UnitSignInResp){
-    option (http.post) = "/unit/sign_in";
-  }
   rpc UnitGetInfo(UnitGetInfoReq) returns (UnitGetInfoResp){
     option (http.get) = "/unit/get_info";
   }
   rpc UnitUpdateInfo(UnitUpdateInfoReq) returns (basic.Response){
     option (http.post) = "/unit/update_info";
-  }
-  rpc UnitUpdatePassword(UnitUpdatePasswordReq) returns (basic.Response){
-    option (http.post) = "/unit/update_password";
   }
   rpc UnitLinkUser(UnitLinkUserReq) returns (basic.Response){
     option (http.post) = "/unit/link_user";
