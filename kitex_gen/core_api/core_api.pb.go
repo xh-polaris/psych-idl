@@ -15,10 +15,8 @@ type User interface {
 }
 
 type Unit interface {
-	UnitSignIn(ctx context.Context, req *UnitSignInReq) (res *UnitSignInResp, err error)
 	UnitGetInfo(ctx context.Context, req *UnitGetInfoReq) (res *UnitGetInfoResp, err error)
 	UnitUpdateInfo(ctx context.Context, req *UnitUpdateInfoReq) (res *basic.Response, err error)
-	UnitUpdatePassword(ctx context.Context, req *UnitUpdatePasswordReq) (res *basic.Response, err error)
 	UnitLinkUser(ctx context.Context, req *UnitLinkUserReq) (res *basic.Response, err error)
 	UnitCreateAndLinkUser(ctx context.Context, req *UnitCreateAndLinkUserReq) (res *UnitCreateAndLinkUserResp, err error)
 }

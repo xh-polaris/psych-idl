@@ -12,10 +12,8 @@ import (
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
-	UnitSignIn(ctx context.Context, Req *core_api.UnitSignInReq, callOptions ...callopt.Option) (r *core_api.UnitSignInResp, err error)
 	UnitGetInfo(ctx context.Context, Req *core_api.UnitGetInfoReq, callOptions ...callopt.Option) (r *core_api.UnitGetInfoResp, err error)
 	UnitUpdateInfo(ctx context.Context, Req *core_api.UnitUpdateInfoReq, callOptions ...callopt.Option) (r *basic.Response, err error)
-	UnitUpdatePassword(ctx context.Context, Req *core_api.UnitUpdatePasswordReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	UnitLinkUser(ctx context.Context, Req *core_api.UnitLinkUserReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	UnitCreateAndLinkUser(ctx context.Context, Req *core_api.UnitCreateAndLinkUserReq, callOptions ...callopt.Option) (r *core_api.UnitCreateAndLinkUserResp, err error)
 }
@@ -49,11 +47,6 @@ type kUnitClient struct {
 	*kClient
 }
 
-func (p *kUnitClient) UnitSignIn(ctx context.Context, Req *core_api.UnitSignInReq, callOptions ...callopt.Option) (r *core_api.UnitSignInResp, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.UnitSignIn(ctx, Req)
-}
-
 func (p *kUnitClient) UnitGetInfo(ctx context.Context, Req *core_api.UnitGetInfoReq, callOptions ...callopt.Option) (r *core_api.UnitGetInfoResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.UnitGetInfo(ctx, Req)
@@ -62,11 +55,6 @@ func (p *kUnitClient) UnitGetInfo(ctx context.Context, Req *core_api.UnitGetInfo
 func (p *kUnitClient) UnitUpdateInfo(ctx context.Context, Req *core_api.UnitUpdateInfoReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.UnitUpdateInfo(ctx, Req)
-}
-
-func (p *kUnitClient) UnitUpdatePassword(ctx context.Context, Req *core_api.UnitUpdatePasswordReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.UnitUpdatePassword(ctx, Req)
 }
 
 func (p *kUnitClient) UnitLinkUser(ctx context.Context, Req *core_api.UnitLinkUserReq, callOptions ...callopt.Option) (r *basic.Response, err error) {

@@ -16,13 +16,6 @@ import (
 var errInvalidMessageType = errors.New("invalid message type for service method handler")
 
 var serviceMethods = map[string]kitex.MethodInfo{
-	"UnitSignIn": kitex.NewMethodInfo(
-		unitSignInHandler,
-		newUnitSignInArgs,
-		newUnitSignInResult,
-		false,
-		kitex.WithStreamingMode(kitex.StreamingUnary),
-	),
 	"UnitGetInfo": kitex.NewMethodInfo(
 		unitGetInfoHandler,
 		newUnitGetInfoArgs,
@@ -34,13 +27,6 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		unitUpdateInfoHandler,
 		newUnitUpdateInfoArgs,
 		newUnitUpdateInfoResult,
-		false,
-		kitex.WithStreamingMode(kitex.StreamingUnary),
-	),
-	"UnitUpdatePassword": kitex.NewMethodInfo(
-		unitUpdatePasswordHandler,
-		newUnitUpdatePasswordArgs,
-		newUnitUpdatePasswordResult,
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
@@ -122,117 +108,6 @@ func newServiceInfo(hasStreaming bool, keepStreamingMethods bool, keepNonStreami
 		Extra:           extra,
 	}
 	return svcInfo
-}
-
-func unitSignInHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	switch s := arg.(type) {
-	case *streaming.Args:
-		st := s.Stream
-		req := new(core_api.UnitSignInReq)
-		if err := st.RecvMsg(req); err != nil {
-			return err
-		}
-		resp, err := handler.(core_api.Unit).UnitSignIn(ctx, req)
-		if err != nil {
-			return err
-		}
-		return st.SendMsg(resp)
-	case *UnitSignInArgs:
-		success, err := handler.(core_api.Unit).UnitSignIn(ctx, s.Req)
-		if err != nil {
-			return err
-		}
-		realResult := result.(*UnitSignInResult)
-		realResult.Success = success
-		return nil
-	default:
-		return errInvalidMessageType
-	}
-}
-func newUnitSignInArgs() interface{} {
-	return &UnitSignInArgs{}
-}
-
-func newUnitSignInResult() interface{} {
-	return &UnitSignInResult{}
-}
-
-type UnitSignInArgs struct {
-	Req *core_api.UnitSignInReq
-}
-
-func (p *UnitSignInArgs) Marshal(out []byte) ([]byte, error) {
-	if !p.IsSetReq() {
-		return out, nil
-	}
-	return proto.Marshal(p.Req)
-}
-
-func (p *UnitSignInArgs) Unmarshal(in []byte) error {
-	msg := new(core_api.UnitSignInReq)
-	if err := proto.Unmarshal(in, msg); err != nil {
-		return err
-	}
-	p.Req = msg
-	return nil
-}
-
-var UnitSignInArgs_Req_DEFAULT *core_api.UnitSignInReq
-
-func (p *UnitSignInArgs) GetReq() *core_api.UnitSignInReq {
-	if !p.IsSetReq() {
-		return UnitSignInArgs_Req_DEFAULT
-	}
-	return p.Req
-}
-
-func (p *UnitSignInArgs) IsSetReq() bool {
-	return p.Req != nil
-}
-
-func (p *UnitSignInArgs) GetFirstArgument() interface{} {
-	return p.Req
-}
-
-type UnitSignInResult struct {
-	Success *core_api.UnitSignInResp
-}
-
-var UnitSignInResult_Success_DEFAULT *core_api.UnitSignInResp
-
-func (p *UnitSignInResult) Marshal(out []byte) ([]byte, error) {
-	if !p.IsSetSuccess() {
-		return out, nil
-	}
-	return proto.Marshal(p.Success)
-}
-
-func (p *UnitSignInResult) Unmarshal(in []byte) error {
-	msg := new(core_api.UnitSignInResp)
-	if err := proto.Unmarshal(in, msg); err != nil {
-		return err
-	}
-	p.Success = msg
-	return nil
-}
-
-func (p *UnitSignInResult) GetSuccess() *core_api.UnitSignInResp {
-	if !p.IsSetSuccess() {
-		return UnitSignInResult_Success_DEFAULT
-	}
-	return p.Success
-}
-
-func (p *UnitSignInResult) SetSuccess(x interface{}) {
-	p.Success = x.(*core_api.UnitSignInResp)
-}
-
-func (p *UnitSignInResult) IsSetSuccess() bool {
-	return p.Success != nil
-}
-
-func (p *UnitSignInResult) GetResult() interface{} {
-	return p.Success
 }
 
 func unitGetInfoHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
@@ -454,117 +329,6 @@ func (p *UnitUpdateInfoResult) IsSetSuccess() bool {
 }
 
 func (p *UnitUpdateInfoResult) GetResult() interface{} {
-	return p.Success
-}
-
-func unitUpdatePasswordHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	switch s := arg.(type) {
-	case *streaming.Args:
-		st := s.Stream
-		req := new(core_api.UnitUpdatePasswordReq)
-		if err := st.RecvMsg(req); err != nil {
-			return err
-		}
-		resp, err := handler.(core_api.Unit).UnitUpdatePassword(ctx, req)
-		if err != nil {
-			return err
-		}
-		return st.SendMsg(resp)
-	case *UnitUpdatePasswordArgs:
-		success, err := handler.(core_api.Unit).UnitUpdatePassword(ctx, s.Req)
-		if err != nil {
-			return err
-		}
-		realResult := result.(*UnitUpdatePasswordResult)
-		realResult.Success = success
-		return nil
-	default:
-		return errInvalidMessageType
-	}
-}
-func newUnitUpdatePasswordArgs() interface{} {
-	return &UnitUpdatePasswordArgs{}
-}
-
-func newUnitUpdatePasswordResult() interface{} {
-	return &UnitUpdatePasswordResult{}
-}
-
-type UnitUpdatePasswordArgs struct {
-	Req *core_api.UnitUpdatePasswordReq
-}
-
-func (p *UnitUpdatePasswordArgs) Marshal(out []byte) ([]byte, error) {
-	if !p.IsSetReq() {
-		return out, nil
-	}
-	return proto.Marshal(p.Req)
-}
-
-func (p *UnitUpdatePasswordArgs) Unmarshal(in []byte) error {
-	msg := new(core_api.UnitUpdatePasswordReq)
-	if err := proto.Unmarshal(in, msg); err != nil {
-		return err
-	}
-	p.Req = msg
-	return nil
-}
-
-var UnitUpdatePasswordArgs_Req_DEFAULT *core_api.UnitUpdatePasswordReq
-
-func (p *UnitUpdatePasswordArgs) GetReq() *core_api.UnitUpdatePasswordReq {
-	if !p.IsSetReq() {
-		return UnitUpdatePasswordArgs_Req_DEFAULT
-	}
-	return p.Req
-}
-
-func (p *UnitUpdatePasswordArgs) IsSetReq() bool {
-	return p.Req != nil
-}
-
-func (p *UnitUpdatePasswordArgs) GetFirstArgument() interface{} {
-	return p.Req
-}
-
-type UnitUpdatePasswordResult struct {
-	Success *basic.Response
-}
-
-var UnitUpdatePasswordResult_Success_DEFAULT *basic.Response
-
-func (p *UnitUpdatePasswordResult) Marshal(out []byte) ([]byte, error) {
-	if !p.IsSetSuccess() {
-		return out, nil
-	}
-	return proto.Marshal(p.Success)
-}
-
-func (p *UnitUpdatePasswordResult) Unmarshal(in []byte) error {
-	msg := new(basic.Response)
-	if err := proto.Unmarshal(in, msg); err != nil {
-		return err
-	}
-	p.Success = msg
-	return nil
-}
-
-func (p *UnitUpdatePasswordResult) GetSuccess() *basic.Response {
-	if !p.IsSetSuccess() {
-		return UnitUpdatePasswordResult_Success_DEFAULT
-	}
-	return p.Success
-}
-
-func (p *UnitUpdatePasswordResult) SetSuccess(x interface{}) {
-	p.Success = x.(*basic.Response)
-}
-
-func (p *UnitUpdatePasswordResult) IsSetSuccess() bool {
-	return p.Success != nil
-}
-
-func (p *UnitUpdatePasswordResult) GetResult() interface{} {
 	return p.Success
 }
 
@@ -800,16 +564,6 @@ func newServiceClient(c client.Client) *kClient {
 	}
 }
 
-func (p *kClient) UnitSignIn(ctx context.Context, Req *core_api.UnitSignInReq) (r *core_api.UnitSignInResp, err error) {
-	var _args UnitSignInArgs
-	_args.Req = Req
-	var _result UnitSignInResult
-	if err = p.c.Call(ctx, "UnitSignIn", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
 func (p *kClient) UnitGetInfo(ctx context.Context, Req *core_api.UnitGetInfoReq) (r *core_api.UnitGetInfoResp, err error) {
 	var _args UnitGetInfoArgs
 	_args.Req = Req
@@ -825,16 +579,6 @@ func (p *kClient) UnitUpdateInfo(ctx context.Context, Req *core_api.UnitUpdateIn
 	_args.Req = Req
 	var _result UnitUpdateInfoResult
 	if err = p.c.Call(ctx, "UnitUpdateInfo", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
-func (p *kClient) UnitUpdatePassword(ctx context.Context, Req *core_api.UnitUpdatePasswordReq) (r *basic.Response, err error) {
-	var _args UnitUpdatePasswordArgs
-	_args.Req = Req
-	var _result UnitUpdatePasswordResult
-	if err = p.c.Call(ctx, "UnitUpdatePassword", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

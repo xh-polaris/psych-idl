@@ -6,8 +6,6 @@ import "github.com/cloudwego/prutal"
 
 type UnitVO struct {
 	Id         string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	Phone      string `protobuf:"bytes,2,opt,name=phone" json:"phone,omitempty"`
-	Password   string `protobuf:"bytes,3,opt,name=password" json:"password,omitempty"`
 	Name       string `protobuf:"bytes,4,opt,name=name" json:"name,omitempty"`
 	Address    string `protobuf:"bytes,5,opt,name=address" json:"address,omitempty"`
 	Contact    string `protobuf:"bytes,6,opt,name=contact" json:"contact,omitempty"`
@@ -27,20 +25,6 @@ func (x *UnitVO) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 func (x *UnitVO) GetId() string {
 	if x != nil {
 		return x.Id
-	}
-	return ""
-}
-
-func (x *UnitVO) GetPhone() string {
-	if x != nil {
-		return x.Phone
-	}
-	return ""
-}
-
-func (x *UnitVO) GetPassword() string {
-	if x != nil {
-		return x.Password
 	}
 	return ""
 }
@@ -99,89 +83,6 @@ func (x *UnitVO) GetDeleteTime() int64 {
 		return x.DeleteTime
 	}
 	return 0
-}
-
-// 登录相关
-type UnitSignInReq struct {
-	AuthType   int32  `protobuf:"varint,1,opt,name=authType" json:"authType,omitempty"`
-	AuthId     string `protobuf:"bytes,2,opt,name=authId" json:"authId,omitempty"`
-	VerifyCode string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
-	UnitId     string `protobuf:"bytes,4,opt,name=unitId" json:"unitId,omitempty"` // 后续改成unitName，用synapse的Query Unit获得unitId
-}
-
-func (x *UnitSignInReq) Reset() { *x = UnitSignInReq{} }
-
-func (x *UnitSignInReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
-
-func (x *UnitSignInReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *UnitSignInReq) GetAuthType() int32 {
-	if x != nil {
-		return x.AuthType
-	}
-	return 0
-}
-
-func (x *UnitSignInReq) GetAuthId() string {
-	if x != nil {
-		return x.AuthId
-	}
-	return ""
-}
-
-func (x *UnitSignInReq) GetVerifyCode() string {
-	if x != nil {
-		return x.VerifyCode
-	}
-	return ""
-}
-
-func (x *UnitSignInReq) GetUnitId() string {
-	if x != nil {
-		return x.UnitId
-	}
-	return ""
-}
-
-type UnitSignInResp struct {
-	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	Token  string `protobuf:"bytes,2,opt,name=token" json:"token,omitempty"`
-	Code   int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg    string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
-}
-
-func (x *UnitSignInResp) Reset() { *x = UnitSignInResp{} }
-
-func (x *UnitSignInResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
-
-func (x *UnitSignInResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *UnitSignInResp) GetUnitId() string {
-	if x != nil {
-		return x.UnitId
-	}
-	return ""
-}
-
-func (x *UnitSignInResp) GetToken() string {
-	if x != nil {
-		return x.Token
-	}
-	return ""
-}
-
-func (x *UnitSignInResp) GetCode() int32 {
-	if x != nil {
-		return x.Code
-	}
-	return 0
-}
-
-func (x *UnitSignInResp) GetMsg() string {
-	if x != nil {
-		return x.Msg
-	}
-	return ""
 }
 
 // 获取信息
@@ -251,50 +152,6 @@ func (x *UnitUpdateInfoReq) GetUnit() *UnitVO {
 		return x.Unit
 	}
 	return nil
-}
-
-// 更新密码
-type UnitUpdatePasswordReq struct {
-	Id          string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	AuthType    int32  `protobuf:"varint,2,opt,name=authType" json:"authType,omitempty"`
-	VerifyCode  string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
-	NewPassword string `protobuf:"bytes,4,opt,name=newPassword" json:"newPassword,omitempty"`
-}
-
-func (x *UnitUpdatePasswordReq) Reset() { *x = UnitUpdatePasswordReq{} }
-
-func (x *UnitUpdatePasswordReq) Marshal(in []byte) ([]byte, error) {
-	return prutal.MarshalAppend(in, x)
-}
-
-func (x *UnitUpdatePasswordReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *UnitUpdatePasswordReq) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *UnitUpdatePasswordReq) GetAuthType() int32 {
-	if x != nil {
-		return x.AuthType
-	}
-	return 0
-}
-
-func (x *UnitUpdatePasswordReq) GetVerifyCode() string {
-	if x != nil {
-		return x.VerifyCode
-	}
-	return ""
-}
-
-func (x *UnitUpdatePasswordReq) GetNewPassword() string {
-	if x != nil {
-		return x.NewPassword
-	}
-	return ""
 }
 
 // 关联用户
