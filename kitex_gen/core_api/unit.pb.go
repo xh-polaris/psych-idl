@@ -10,7 +10,7 @@ type UnitVO struct {
 	Address    string `protobuf:"bytes,5,opt,name=address" json:"address,omitempty"`
 	Contact    string `protobuf:"bytes,6,opt,name=contact" json:"contact,omitempty"`
 	Level      int32  `protobuf:"varint,7,opt,name=level" json:"level,omitempty"`
-	Status     string `protobuf:"bytes,8,opt,name=status" json:"status,omitempty"`
+	Status     int32  `protobuf:"varint,8,opt,name=status" json:"status,omitempty"`
 	CreateTime int64  `protobuf:"varint,9,opt,name=createTime" json:"createTime,omitempty"`
 	UpdateTime int64  `protobuf:"varint,10,opt,name=updateTime" json:"updateTime,omitempty"`
 	DeleteTime int64  `protobuf:"varint,11,opt,name=deleteTime" json:"deleteTime,omitempty"`
@@ -57,11 +57,11 @@ func (x *UnitVO) GetLevel() int32 {
 	return 0
 }
 
-func (x *UnitVO) GetStatus() string {
+func (x *UnitVO) GetStatus() int32 {
 	if x != nil {
 		return x.Status
 	}
-	return ""
+	return 0
 }
 
 func (x *UnitVO) GetCreateTime() int64 {

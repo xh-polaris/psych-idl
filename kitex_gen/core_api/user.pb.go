@@ -10,14 +10,14 @@ import (
 
 type UserVO struct {
 	Id         string                `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	CodeType   string                `protobuf:"bytes,2,opt,name=codeType" json:"codeType,omitempty"`
+	CodeType   int32                 `protobuf:"varint,2,opt,name=codeType" json:"codeType,omitempty"`
 	Code       string                `protobuf:"bytes,3,opt,name=code" json:"code,omitempty"`
 	Password   string                `protobuf:"bytes,4,opt,name=password" json:"password,omitempty"`
 	UnitId     string                `protobuf:"bytes,5,opt,name=unitId" json:"unitId,omitempty"`
 	Name       string                `protobuf:"bytes,6,opt,name=name" json:"name,omitempty"`
 	Birth      int64                 `protobuf:"varint,7,opt,name=birth" json:"birth,omitempty"`
-	Gender     string                `protobuf:"bytes,8,opt,name=gender" json:"gender,omitempty"`
-	Status     string                `protobuf:"bytes,9,opt,name=status" json:"status,omitempty"`
+	Gender     int32                 `protobuf:"varint,8,opt,name=gender" json:"gender,omitempty"`
+	Status     int32                 `protobuf:"varint,9,opt,name=status" json:"status,omitempty"`
 	EnrollYear int32                 `protobuf:"varint,10,opt,name=enrollYear" json:"enrollYear,omitempty"`
 	Grade      int32                 `protobuf:"varint,11,opt,name=grade" json:"grade,omitempty"`
 	Class      int32                 `protobuf:"varint,12,opt,name=class" json:"class,omitempty"`
@@ -42,11 +42,11 @@ func (x *UserVO) GetId() string {
 	return ""
 }
 
-func (x *UserVO) GetCodeType() string {
+func (x *UserVO) GetCodeType() int32 {
 	if x != nil {
 		return x.CodeType
 	}
-	return ""
+	return 0
 }
 
 func (x *UserVO) GetCode() string {
@@ -84,18 +84,18 @@ func (x *UserVO) GetBirth() int64 {
 	return 0
 }
 
-func (x *UserVO) GetGender() string {
+func (x *UserVO) GetGender() int32 {
 	if x != nil {
 		return x.Gender
 	}
-	return ""
+	return 0
 }
 
-func (x *UserVO) GetStatus() string {
+func (x *UserVO) GetStatus() int32 {
 	if x != nil {
 		return x.Status
 	}
-	return ""
+	return 0
 }
 
 func (x *UserVO) GetEnrollYear() int32 {
@@ -230,7 +230,7 @@ func (x *UserSignInReq) GetUnitId() string {
 type UserSignInResp struct {
 	UnitId    string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 	UserId    string `protobuf:"bytes,2,opt,name=userId" json:"userId,omitempty"`
-	CodeType  string `protobuf:"bytes,3,opt,name=codeType" json:"codeType,omitempty"`
+	CodeType  int32  `protobuf:"varint,3,opt,name=codeType" json:"codeType,omitempty"`
 	CodeValue string `protobuf:"bytes,4,opt,name=codeValue" json:"codeValue,omitempty"`
 	Token     string `protobuf:"bytes,5,opt,name=token" json:"token,omitempty"`
 	Code      int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
@@ -257,11 +257,11 @@ func (x *UserSignInResp) GetUserId() string {
 	return ""
 }
 
-func (x *UserSignInResp) GetCodeType() string {
+func (x *UserSignInResp) GetCodeType() int32 {
 	if x != nil {
 		return x.CodeType
 	}
-	return ""
+	return 0
 }
 
 func (x *UserSignInResp) GetCodeValue() string {
