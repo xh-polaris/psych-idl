@@ -74,7 +74,7 @@ func (x *ListConversationsReq) GetPaginationOptions() *basic.PaginationOptions {
 }
 
 type ListConversationsResp struct {
-	ConversationList []*Conversation   `protobuf:"bytes,1,rep,name=conversationList" json:"conversationList,omitempty"`
+	ConversationList []*ConversationVO `protobuf:"bytes,1,rep,name=conversationList" json:"conversationList,omitempty"`
 	Pagination       *basic.Pagination `protobuf:"bytes,2,opt,name=pagination" json:"pagination,omitempty"`
 	Code             int32             `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
 	Msg              string            `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
@@ -88,7 +88,7 @@ func (x *ListConversationsResp) Marshal(in []byte) ([]byte, error) {
 
 func (x *ListConversationsResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *ListConversationsResp) GetConversationList() []*Conversation {
+func (x *ListConversationsResp) GetConversationList() []*ConversationVO {
 	if x != nil {
 		return x.ConversationList
 	}
@@ -183,41 +183,41 @@ func (x *GetConversationResp) GetMsg() string {
 	return ""
 }
 
-type Conversation struct {
+type ConversationVO struct {
 	ConversationId string `protobuf:"bytes,1,opt,name=conversationId" json:"conversationId,omitempty"`
 	Brief          string `protobuf:"bytes,2,opt,name=brief" json:"brief,omitempty"`
 	CreateTime     int64  `protobuf:"varint,3,opt,name=createTime" json:"createTime,omitempty"`
 	UpdateTime     int64  `protobuf:"varint,4,opt,name=updateTime" json:"updateTime,omitempty"`
 }
 
-func (x *Conversation) Reset() { *x = Conversation{} }
+func (x *ConversationVO) Reset() { *x = ConversationVO{} }
 
-func (x *Conversation) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+func (x *ConversationVO) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
 
-func (x *Conversation) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+func (x *ConversationVO) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *Conversation) GetConversationId() string {
+func (x *ConversationVO) GetConversationId() string {
 	if x != nil {
 		return x.ConversationId
 	}
 	return ""
 }
 
-func (x *Conversation) GetBrief() string {
+func (x *ConversationVO) GetBrief() string {
 	if x != nil {
 		return x.Brief
 	}
 	return ""
 }
 
-func (x *Conversation) GetCreateTime() int64 {
+func (x *ConversationVO) GetCreateTime() int64 {
 	if x != nil {
 		return x.CreateTime
 	}
 	return 0
 }
 
-func (x *Conversation) GetUpdateTime() int64 {
+func (x *ConversationVO) GetUpdateTime() int64 {
 	if x != nil {
 		return x.UpdateTime
 	}

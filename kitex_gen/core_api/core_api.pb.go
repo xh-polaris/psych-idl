@@ -46,7 +46,7 @@ type Dashboard interface {
 	DashboardGetReport(ctx context.Context, req *DashboardGetReportReq) (res *DashboardGetReportResp, err error)
 }
 
-type ConversationVO interface {
+type Conversation interface {
 	CreateConversation(ctx context.Context, req *CreateConversationReq) (res *CreateConversationResp, err error)
 	ListConversations(ctx context.Context, req *ListConversationsReq) (res *ListConversationsResp, err error)
 	GetConversation(ctx context.Context, req *GetConversationReq) (res *GetConversationResp, err error)
