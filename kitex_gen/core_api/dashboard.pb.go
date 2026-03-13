@@ -571,8 +571,8 @@ func (x *Keywords) GetKeyTotal() int32 {
 }
 
 type EmotionRatio struct {
-	Ratio map[string]int32 `protobuf:"bytes,1,rep,name=ratio" json:"ratio,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value"`
-	Total int32            `protobuf:"varint,2,opt,name=total" json:"total,omitempty"`
+	Ratio map[int32]int32 `protobuf:"bytes,1,rep,name=ratio" json:"ratio,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"varint,2,opt,name=value"`
+	Total int32           `protobuf:"varint,2,opt,name=total" json:"total,omitempty"`
 }
 
 func (x *EmotionRatio) Reset() { *x = EmotionRatio{} }
@@ -581,7 +581,7 @@ func (x *EmotionRatio) Marshal(in []byte) ([]byte, error) { return prutal.Marsha
 
 func (x *EmotionRatio) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *EmotionRatio) GetRatio() map[string]int32 {
+func (x *EmotionRatio) GetRatio() map[int32]int32 {
 	if x != nil {
 		return x.Ratio
 	}
@@ -708,8 +708,8 @@ func (x *DashboardGetAlarmOverviewResp) GetMsg() string {
 
 type DashboardListAlarmRecordsReq struct {
 	UnitId            string                   `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	Emotion           *string                  `protobuf:"bytes,2,opt,name=emotion" json:"emotion,omitempty"`
-	Status            *string                  `protobuf:"bytes,3,opt,name=status" json:"status,omitempty"`
+	Emotion           *int32                   `protobuf:"varint,2,opt,name=emotion" json:"emotion,omitempty"`
+	Status            *int32                   `protobuf:"varint,3,opt,name=status" json:"status,omitempty"`
 	Keyword           *string                  `protobuf:"bytes,4,opt,name=keyword" json:"keyword,omitempty"`
 	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,5,opt,name=paginationOptions" json:"paginationOptions,omitempty"`
 }
@@ -729,18 +729,18 @@ func (x *DashboardListAlarmRecordsReq) GetUnitId() string {
 	return ""
 }
 
-func (x *DashboardListAlarmRecordsReq) GetEmotion() string {
+func (x *DashboardListAlarmRecordsReq) GetEmotion() int32 {
 	if x != nil && x.Emotion != nil {
 		return *x.Emotion
 	}
-	return ""
+	return 0
 }
 
-func (x *DashboardListAlarmRecordsReq) GetStatus() string {
+func (x *DashboardListAlarmRecordsReq) GetStatus() int32 {
 	if x != nil && x.Status != nil {
 		return *x.Status
 	}
-	return ""
+	return 0
 }
 
 func (x *DashboardListAlarmRecordsReq) GetKeyword() string {
@@ -848,9 +848,9 @@ func (x *DashboardUpdateAlarmResp) GetMsg() string {
 
 type AlarmRecord struct {
 	Id                      string   `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`                                            // 唯一Id
-	Emotion                 string   `protobuf:"bytes,2,opt,name=emotion" json:"emotion,omitempty"`                                  // 情绪状态
+	Emotion                 int32    `protobuf:"varint,2,opt,name=emotion" json:"emotion,omitempty"`                                 // 情绪状态
 	Keywords                []string `protobuf:"bytes,3,rep,name=keywords" json:"keywords,omitempty"`                                // 关键词列表
-	Status                  string   `protobuf:"bytes,4,opt,name=status" json:"status,omitempty"`                                    // 处理状态
+	Status                  int32    `protobuf:"varint,4,opt,name=status" json:"status,omitempty"`                                   // 处理状态
 	User                    *UserVO  `protobuf:"bytes,5,opt,name=user" json:"user,omitempty"`                                        // 用户信息
 	TotalConversationRounds int32    `protobuf:"varint,6,opt,name=totalConversationRounds" json:"totalConversationRounds,omitempty"` // 总对话轮数
 	LastConversationTime    int64    `protobuf:"varint,7,opt,name=lastConversationTime" json:"lastConversationTime,omitempty"`       // 上次对话时间（时间戳）
@@ -869,11 +869,11 @@ func (x *AlarmRecord) GetId() string {
 	return ""
 }
 
-func (x *AlarmRecord) GetEmotion() string {
+func (x *AlarmRecord) GetEmotion() int32 {
 	if x != nil {
 		return x.Emotion
 	}
-	return ""
+	return 0
 }
 
 func (x *AlarmRecord) GetKeywords() []string {
@@ -883,11 +883,11 @@ func (x *AlarmRecord) GetKeywords() []string {
 	return nil
 }
 
-func (x *AlarmRecord) GetStatus() string {
+func (x *AlarmRecord) GetStatus() int32 {
 	if x != nil {
 		return x.Status
 	}
-	return ""
+	return 0
 }
 
 func (x *AlarmRecord) GetUser() *UserVO {
@@ -1361,7 +1361,7 @@ type DashboardGetReportResp struct {
 	Title     string   `protobuf:"bytes,1,opt,name=title" json:"title,omitempty"`            // 对话标题
 	Keywords  []string `protobuf:"bytes,2,rep,name=keywords" json:"keywords,omitempty"`      // 关键词列表
 	Digest    string   `protobuf:"bytes,3,opt,name=digest" json:"digest,omitempty"`          // 对话摘要
-	Emotion   string   `protobuf:"bytes,4,opt,name=emotion" json:"emotion,omitempty"`        // 情绪状态（由模型自由生成）
+	Emotion   int32    `protobuf:"varint,4,opt,name=emotion" json:"emotion,omitempty"`       // 情绪状态（由模型自由生成）
 	Body      string   `protobuf:"bytes,5,opt,name=body" json:"body,omitempty"`              // 详细分析内容
 	NeedAlarm bool     `protobuf:"varint,6,opt,name=need_alarm" json:"need_alarm,omitempty"` // 是否需要告警
 	Code      int32    `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
@@ -1397,11 +1397,11 @@ func (x *DashboardGetReportResp) GetDigest() string {
 	return ""
 }
 
-func (x *DashboardGetReportResp) GetEmotion() string {
+func (x *DashboardGetReportResp) GetEmotion() int32 {
 	if x != nil {
 		return x.Emotion
 	}
-	return ""
+	return 0
 }
 
 func (x *DashboardGetReportResp) GetBody() string {
