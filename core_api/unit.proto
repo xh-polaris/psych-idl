@@ -10,7 +10,7 @@ import "google/protobuf/any.proto";
 import "basic/http.proto";
 import "core_api/user.proto";
 
-message Unit {
+message UnitVO {
   string id = 1;
   string phone = 2;
   string password = 3;
@@ -26,10 +26,10 @@ message Unit {
 
 // 注册相关
 message UnitSignUpReq {
-  Unit unit = 1;
+  UnitVO unit = 1;
 }
 message UnitSignUpResp {
-  Unit unit = 1;
+  UnitVO unit = 1;
   int32 code = 255;
   string msg = 256;
 }
@@ -53,14 +53,14 @@ message UnitGetInfoReq {
   string unitId = 1[(http.query) = "unitId"];
 }
 message UnitGetInfoResp {
-  Unit unit = 1;
+  UnitVO unit = 1;
   int32 code = 255;
   string msg = 256;
 }
 
 // 更新信息
 message UnitUpdateInfoReq {
-  Unit unit = 1;
+  UnitVO unit = 1;
 }
 
 // 更新密码
@@ -81,7 +81,7 @@ message UnitLinkUserReq {
 message UnitCreateAndLinkUserReq {
   string unitId = 1;
   string codeType = 2;
-  repeated core_api.User users = 3;
+  repeated core_api.UserVO users = 3;
 }
 message UnitCreateAndLinkUserResp {
   int32 allCount = 1;

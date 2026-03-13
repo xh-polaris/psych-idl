@@ -12,9 +12,7 @@ import "core_api/completion.proto";
 import "basic/http.proto";
 import "basic/re.proto";
 
-service CoreApi {
-  // 原profile接口
-  /* User */
+service User {
   rpc UserSignUp(UserSignUpReq) returns (UserSignUpResp){
     option (http.post) = "/user/sign_up";
   }
@@ -30,8 +28,9 @@ service CoreApi {
   rpc UserUpdatePassword(UserUpdatePasswordReq) returns (basic.Response){
     option (http.post) = "/user/update_password";
   }
+}
 
-  /* Unit */
+service Unit {
   // 账号相关
   rpc UnitSignUp(UnitSignUpReq) returns (UnitSignUpResp){
     option (http.post) = "/unit/sign_up";
@@ -55,8 +54,9 @@ service CoreApi {
   rpc UnitCreateAndLinkUser(UnitCreateAndLinkUserReq) returns (UnitCreateAndLinkUserResp){
     option (http.post) = "/unit/create_and_link_user";
   }
+}
 
-  /* Config */
+service Config {
   rpc ConfigCreate(ConfigCreateOrUpdateReq) returns (basic.Response){
     option (http.post) = "/config/create";
   }
@@ -66,8 +66,9 @@ service CoreApi {
   rpc ConfigGetByUnitID (ConfigGetByUnitIdReq) returns (ConfigGetByUnitIdResp){
     option (http.get) = "/config/get_by_unit_id";
   }
+}
 
-  /* 管理后台 */
+service Dashboard {
   // 数据看板
   rpc DashboardGetDataOverview(DashboardGetDataOverviewReq) returns (DashboardGetDataOverviewResp) {
     option (http.post) = "/dashboard/overview";
@@ -110,7 +111,6 @@ service CoreApi {
   }
 }
 
-/* 用户端对话 */
 service Completion {
   rpc CreateConversation (CreateConversationReq) returns (CreateConversationResp) {
     option (http.post) = "/conversation/create";

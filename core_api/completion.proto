@@ -9,7 +9,7 @@ import "google/protobuf/struct.proto";
 import "basic/http.proto";
 
 
-/*用户端*/
+/* 用户端 */
 // 对话相关
 
 // 新建对话

@@ -147,7 +147,7 @@ message AlarmRecord {
   string emotion = 2;  // 情绪状态
   repeated string keywords = 3;  // 关键词列表
   string status = 4;  // 处理状态
-  core_api.User user = 5;  // 用户信息
+  core_api.UserVO user = 5;  // 用户信息
   int32  totalConversationRounds = 6;  // 总对话轮数
   int64  lastConversationTime = 7;  // 上次对话时间（时间戳）
 }
@@ -180,7 +180,7 @@ message DashboardListClassesResp {
 }
 
 message RiskUser {
-  core_api.User user = 1;
+  core_api.UserVO user = 1;
   int32 level = 2;
   int32  totalConversationRounds = 3;  // 总对话轮数
   int64  lastConversationTime = 4;  // 上次对话时间（分钟时间戳）
@@ -209,7 +209,7 @@ message DashboardUserConvRecordsReq {
   basic.PaginationOptions paginationOptions = 2;
 }
 message DashboardUserConvRecordsResp {
-  core_api.User user = 1;
+  core_api.UserVO user = 1;
   UserConvTrend userConvTrend = 2;
   repeated ConvDetail convDetail = 3;
   basic.Pagination pagination = 4;
@@ -253,7 +253,7 @@ message DashboardUnitConvRecordsResp {
 }
 
 message ConvOverview {
-  User user = 1;
+  UserVO user = 1;
   repeated string keywords = 2;
   int64 time = 3;
   bool needAlarm = 4;

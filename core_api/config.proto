@@ -31,7 +31,7 @@ message ReportApp {
   string appId = 4;
 }
 
-message Config {
+message ConfigVO {
   string unitId = 1;
   string type = 2; // chain | end2end
   ChatApp chat = 3;
@@ -43,7 +43,7 @@ message Config {
 }
 
 message ConfigCreateOrUpdateReq {
-  Config config = 1;
+  ConfigVO config = 1;
   bool admin = 2;
 }
 
@@ -52,7 +52,7 @@ message ConfigGetByUnitIdReq {
   bool admin = 2[(http.query) = "admin"];
 }
 message ConfigGetByUnitIdResp {
-  Config config = 1;
+  ConfigVO config = 1;
   int32 code = 255;
   string msg = 256;
 }
