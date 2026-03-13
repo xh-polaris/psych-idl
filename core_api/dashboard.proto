@@ -97,7 +97,7 @@ message Keywords {
   int32 keyTotal = 2;
 }
 message EmotionRatio {
-  map<string, int32> ratio = 1;
+  map<int32, int32> ratio = 1;
   int32 total = 2;
 }
 
@@ -122,8 +122,8 @@ message DashboardGetAlarmOverviewResp {
 
 message DashboardListAlarmRecordsReq {
   string unitId = 1;
-  optional string emotion = 2;
-  optional string status = 3;
+  optional int32 emotion = 2;
+  optional int32 status = 3;
   optional string keyword = 4;
   basic.PaginationOptions paginationOptions = 5;
 }
@@ -144,9 +144,9 @@ message DashboardUpdateAlarmResp {
 
 message AlarmRecord {
   string id = 1;  // 唯一Id
-  string emotion = 2;  // 情绪状态
+  int32 emotion = 2;  // 情绪状态
   repeated string keywords = 3;  // 关键词列表
-  string status = 4;  // 处理状态
+  int32 status = 4;  // 处理状态
   core_api.UserVO user = 5;  // 用户信息
   int32  totalConversationRounds = 6;  // 总对话轮数
   int64  lastConversationTime = 7;  // 上次对话时间（时间戳）
@@ -234,7 +234,7 @@ message DashboardGetReportResp {
   string title = 1;           // 对话标题
   repeated string keywords = 2; // 关键词列表
   string digest = 3;          // 对话摘要
-  string emotion = 4;         // 情绪状态（由模型自由生成）
+  int32 emotion = 4;         // 情绪状态（由模型自由生成）
   string body = 5;            // 详细分析内容
   bool need_alarm = 6;        // 是否需要告警
   int32 code = 255;
