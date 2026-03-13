@@ -137,11 +137,11 @@ func (x *ReportApp) GetAppId() string {
 
 type ConfigVO struct {
 	UnitId     string     `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	Type       string     `protobuf:"bytes,2,opt,name=type" json:"type,omitempty"` // chain | end2end
+	Type       int32      `protobuf:"varint,2,opt,name=type" json:"type,omitempty"` // chain | end2end
 	Chat       *ChatApp   `protobuf:"bytes,3,opt,name=chat" json:"chat,omitempty"`
 	Tts        *TTSApp    `protobuf:"bytes,4,opt,name=tts" json:"tts,omitempty"`
 	Report     *ReportApp `protobuf:"bytes,5,opt,name=report" json:"report,omitempty"`
-	Status     string     `protobuf:"bytes,6,opt,name=status" json:"status,omitempty"` // active | deleted
+	Status     int32      `protobuf:"varint,6,opt,name=status" json:"status,omitempty"` // active | deleted
 	CreateTime int64      `protobuf:"varint,7,opt,name=createTime" json:"createTime,omitempty"`
 	UpdateTime int64      `protobuf:"varint,8,opt,name=updateTime" json:"updateTime,omitempty"`
 }
@@ -159,11 +159,11 @@ func (x *ConfigVO) GetUnitId() string {
 	return ""
 }
 
-func (x *ConfigVO) GetType() string {
+func (x *ConfigVO) GetType() int32 {
 	if x != nil {
 		return x.Type
 	}
-	return ""
+	return 0
 }
 
 func (x *ConfigVO) GetChat() *ChatApp {
@@ -187,11 +187,11 @@ func (x *ConfigVO) GetReport() *ReportApp {
 	return nil
 }
 
-func (x *ConfigVO) GetStatus() string {
+func (x *ConfigVO) GetStatus() int32 {
 	if x != nil {
 		return x.Status
 	}
-	return ""
+	return 0
 }
 
 func (x *ConfigVO) GetCreateTime() int64 {
