@@ -4,7 +4,10 @@ package core_api;
 
 option go_package = "core_api";
 
-import "core_api/common.proto";
+import "core_api/user.proto";
+import "core_api/unit.proto";
+import "core_api/config.proto";
+import "core_api/dashboard.proto";
 import "core_api/completion.proto";
 import "basic/http.proto";
 import "basic/re.proto";

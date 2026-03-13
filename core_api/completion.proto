@@ -57,3 +57,10 @@ message Message {
   string role = 2;
   int32 index = 3;
 }
+
+// SSEEvent
+message SSEEvent {
+  string eventData = 1; // 事件数据
+  int32 eventId = 2; // 事件id
+  int32 eventType = 3; // 事件类型
+}

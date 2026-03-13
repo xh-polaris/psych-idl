@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package core_api;
+
+option go_package = "core_api";
+
+import "basic/pagination.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/any.proto";
+import "basic/http.proto";
+
+message ChatApp {
+  string name = 1;
+  string description = 2;
+  string provider = 3;
+  string appId = 4;
+};
+
+message TTSApp {
+  string name = 1;
+  string description = 2;
+  string provider = 3;
+  string appId = 4;
+  string speaker = 5;
+};
+
+message ReportApp {
+  string name = 1;
+  string description = 2;
+  string provider = 3;
+  string appId = 4;
+}
+
+message Config {
+  string unitId = 1;
+  string type = 2; // chain | end2end
+  ChatApp chat = 3;
+  TTSApp tts = 4;
+  ReportApp report = 5;
+  string status = 6; // active | deleted
+  int64 createTime = 7;
+  int64 updateTime = 8;
+}
+
+message ConfigCreateOrUpdateReq {
+  Config config = 1;
+  bool admin = 2;
+}
+
+message ConfigGetByUnitIdReq {
+  string unitId = 1[(http.query) = "unitId"];
+  bool admin = 2[(http.query) = "admin"];
+}
+message ConfigGetByUnitIdResp {
+  Config config = 1;
+  int32 code = 255;
+  string msg = 256;
+}
