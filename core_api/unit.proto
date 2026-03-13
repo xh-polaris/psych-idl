@@ -24,16 +24,6 @@ message UnitVO {
   int64 deleteTime = 11;
 }
 
-// 注册相关
-message UnitSignUpReq {
-  UnitVO unit = 1;
-}
-message UnitSignUpResp {
-  UnitVO unit = 1;
-  int32 code = 255;
-  string msg = 256;
-}
-
 // 登录相关
 message UnitSignInReq {
   int32 authType = 1;

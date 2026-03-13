@@ -35,16 +35,6 @@ message Remark {
 }
 
 
-// 注册相关
-message UserSignUpReq {
-  UserVO user = 1;
-}
-message UserSignUpResp {
-  UserVO user = 1;
-  int32 code = 255;
-  string msg = 256;
-}
-
 message UserSignInReq {
   int32 authType = 1;
   string authId = 2;

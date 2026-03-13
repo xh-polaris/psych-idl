@@ -13,9 +13,6 @@ import "basic/http.proto";
 import "basic/re.proto";
 
 service User {
-  rpc UserSignUp(UserSignUpReq) returns (UserSignUpResp){
-    option (http.post) = "/user/sign_up";
-  }
   rpc UserSignIn(UserSignInReq) returns (UserSignInResp){
     option (http.post) = "/user/sign_in";
   }
@@ -31,10 +28,6 @@ service User {
 }
 
 service Unit {
-  // 账号相关
-  rpc UnitSignUp(UnitSignUpReq) returns (UnitSignUpResp){
-    option (http.post) = "/unit/sign_up";
-  }
   rpc UnitSignIn(UnitSignInReq) returns (UnitSignInResp){
     option (http.post) = "/unit/sign_in";
   }
@@ -47,7 +40,6 @@ service Unit {
   rpc UnitUpdatePassword(UnitUpdatePasswordReq) returns (basic.Response){
     option (http.post) = "/unit/update_password";
   }
-  // 操作相关
   rpc UnitLinkUser(UnitLinkUserReq) returns (basic.Response){
     option (http.post) = "/unit/link_user";
   }
