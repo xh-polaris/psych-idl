@@ -135,7 +135,7 @@ func (x *ReportApp) GetAppId() string {
 	return ""
 }
 
-type Config struct {
+type ConfigVO struct {
 	UnitId     string     `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 	Type       string     `protobuf:"bytes,2,opt,name=type" json:"type,omitempty"` // chain | end2end
 	Chat       *ChatApp   `protobuf:"bytes,3,opt,name=chat" json:"chat,omitempty"`
@@ -146,62 +146,62 @@ type Config struct {
 	UpdateTime int64      `protobuf:"varint,8,opt,name=updateTime" json:"updateTime,omitempty"`
 }
 
-func (x *Config) Reset() { *x = Config{} }
+func (x *ConfigVO) Reset() { *x = ConfigVO{} }
 
-func (x *Config) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+func (x *ConfigVO) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
 
-func (x *Config) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+func (x *ConfigVO) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *Config) GetUnitId() string {
+func (x *ConfigVO) GetUnitId() string {
 	if x != nil {
 		return x.UnitId
 	}
 	return ""
 }
 
-func (x *Config) GetType() string {
+func (x *ConfigVO) GetType() string {
 	if x != nil {
 		return x.Type
 	}
 	return ""
 }
 
-func (x *Config) GetChat() *ChatApp {
+func (x *ConfigVO) GetChat() *ChatApp {
 	if x != nil {
 		return x.Chat
 	}
 	return nil
 }
 
-func (x *Config) GetTts() *TTSApp {
+func (x *ConfigVO) GetTts() *TTSApp {
 	if x != nil {
 		return x.Tts
 	}
 	return nil
 }
 
-func (x *Config) GetReport() *ReportApp {
+func (x *ConfigVO) GetReport() *ReportApp {
 	if x != nil {
 		return x.Report
 	}
 	return nil
 }
 
-func (x *Config) GetStatus() string {
+func (x *ConfigVO) GetStatus() string {
 	if x != nil {
 		return x.Status
 	}
 	return ""
 }
 
-func (x *Config) GetCreateTime() int64 {
+func (x *ConfigVO) GetCreateTime() int64 {
 	if x != nil {
 		return x.CreateTime
 	}
 	return 0
 }
 
-func (x *Config) GetUpdateTime() int64 {
+func (x *ConfigVO) GetUpdateTime() int64 {
 	if x != nil {
 		return x.UpdateTime
 	}
@@ -209,8 +209,8 @@ func (x *Config) GetUpdateTime() int64 {
 }
 
 type ConfigCreateOrUpdateReq struct {
-	Config *Config `protobuf:"bytes,1,opt,name=config" json:"config,omitempty"`
-	Admin  bool    `protobuf:"varint,2,opt,name=admin" json:"admin,omitempty"`
+	Config *ConfigVO `protobuf:"bytes,1,opt,name=config" json:"config,omitempty"`
+	Admin  bool      `protobuf:"varint,2,opt,name=admin" json:"admin,omitempty"`
 }
 
 func (x *ConfigCreateOrUpdateReq) Reset() { *x = ConfigCreateOrUpdateReq{} }
@@ -221,7 +221,7 @@ func (x *ConfigCreateOrUpdateReq) Marshal(in []byte) ([]byte, error) {
 
 func (x *ConfigCreateOrUpdateReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *ConfigCreateOrUpdateReq) GetConfig() *Config {
+func (x *ConfigCreateOrUpdateReq) GetConfig() *ConfigVO {
 	if x != nil {
 		return x.Config
 	}
@@ -261,9 +261,9 @@ func (x *ConfigGetByUnitIdReq) GetAdmin() bool {
 }
 
 type ConfigGetByUnitIdResp struct {
-	Config *Config `protobuf:"bytes,1,opt,name=config" json:"config,omitempty"`
-	Code   int32   `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg    string  `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+	Config *ConfigVO `protobuf:"bytes,1,opt,name=config" json:"config,omitempty"`
+	Code   int32     `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg    string    `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *ConfigGetByUnitIdResp) Reset() { *x = ConfigGetByUnitIdResp{} }
@@ -274,7 +274,7 @@ func (x *ConfigGetByUnitIdResp) Marshal(in []byte) ([]byte, error) {
 
 func (x *ConfigGetByUnitIdResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *ConfigGetByUnitIdResp) GetConfig() *Config {
+func (x *ConfigGetByUnitIdResp) GetConfig() *ConfigVO {
 	if x != nil {
 		return x.Config
 	}

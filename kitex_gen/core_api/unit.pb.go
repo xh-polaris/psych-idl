@@ -4,7 +4,7 @@ package core_api
 
 import "github.com/cloudwego/prutal"
 
-type Unit struct {
+type UnitVO struct {
 	Id         string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
 	Phone      string `protobuf:"bytes,2,opt,name=phone" json:"phone,omitempty"`
 	Password   string `protobuf:"bytes,3,opt,name=password" json:"password,omitempty"`
@@ -18,83 +18,83 @@ type Unit struct {
 	DeleteTime int64  `protobuf:"varint,11,opt,name=deleteTime" json:"deleteTime,omitempty"`
 }
 
-func (x *Unit) Reset() { *x = Unit{} }
+func (x *UnitVO) Reset() { *x = UnitVO{} }
 
-func (x *Unit) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+func (x *UnitVO) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
 
-func (x *Unit) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+func (x *UnitVO) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *Unit) GetId() string {
+func (x *UnitVO) GetId() string {
 	if x != nil {
 		return x.Id
 	}
 	return ""
 }
 
-func (x *Unit) GetPhone() string {
+func (x *UnitVO) GetPhone() string {
 	if x != nil {
 		return x.Phone
 	}
 	return ""
 }
 
-func (x *Unit) GetPassword() string {
+func (x *UnitVO) GetPassword() string {
 	if x != nil {
 		return x.Password
 	}
 	return ""
 }
 
-func (x *Unit) GetName() string {
+func (x *UnitVO) GetName() string {
 	if x != nil {
 		return x.Name
 	}
 	return ""
 }
 
-func (x *Unit) GetAddress() string {
+func (x *UnitVO) GetAddress() string {
 	if x != nil {
 		return x.Address
 	}
 	return ""
 }
 
-func (x *Unit) GetContact() string {
+func (x *UnitVO) GetContact() string {
 	if x != nil {
 		return x.Contact
 	}
 	return ""
 }
 
-func (x *Unit) GetLevel() int32 {
+func (x *UnitVO) GetLevel() int32 {
 	if x != nil {
 		return x.Level
 	}
 	return 0
 }
 
-func (x *Unit) GetStatus() string {
+func (x *UnitVO) GetStatus() string {
 	if x != nil {
 		return x.Status
 	}
 	return ""
 }
 
-func (x *Unit) GetCreateTime() int64 {
+func (x *UnitVO) GetCreateTime() int64 {
 	if x != nil {
 		return x.CreateTime
 	}
 	return 0
 }
 
-func (x *Unit) GetUpdateTime() int64 {
+func (x *UnitVO) GetUpdateTime() int64 {
 	if x != nil {
 		return x.UpdateTime
 	}
 	return 0
 }
 
-func (x *Unit) GetDeleteTime() int64 {
+func (x *UnitVO) GetDeleteTime() int64 {
 	if x != nil {
 		return x.DeleteTime
 	}
@@ -103,7 +103,7 @@ func (x *Unit) GetDeleteTime() int64 {
 
 // 注册相关
 type UnitSignUpReq struct {
-	Unit *Unit `protobuf:"bytes,1,opt,name=unit" json:"unit,omitempty"`
+	Unit *UnitVO `protobuf:"bytes,1,opt,name=unit" json:"unit,omitempty"`
 }
 
 func (x *UnitSignUpReq) Reset() { *x = UnitSignUpReq{} }
@@ -112,7 +112,7 @@ func (x *UnitSignUpReq) Marshal(in []byte) ([]byte, error) { return prutal.Marsh
 
 func (x *UnitSignUpReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *UnitSignUpReq) GetUnit() *Unit {
+func (x *UnitSignUpReq) GetUnit() *UnitVO {
 	if x != nil {
 		return x.Unit
 	}
@@ -120,9 +120,9 @@ func (x *UnitSignUpReq) GetUnit() *Unit {
 }
 
 type UnitSignUpResp struct {
-	Unit *Unit  `protobuf:"bytes,1,opt,name=unit" json:"unit,omitempty"`
-	Code int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg  string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+	Unit *UnitVO `protobuf:"bytes,1,opt,name=unit" json:"unit,omitempty"`
+	Code int32   `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg  string  `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *UnitSignUpResp) Reset() { *x = UnitSignUpResp{} }
@@ -131,7 +131,7 @@ func (x *UnitSignUpResp) Marshal(in []byte) ([]byte, error) { return prutal.Mars
 
 func (x *UnitSignUpResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *UnitSignUpResp) GetUnit() *Unit {
+func (x *UnitSignUpResp) GetUnit() *UnitVO {
 	if x != nil {
 		return x.Unit
 	}
@@ -254,9 +254,9 @@ func (x *UnitGetInfoReq) GetUnitId() string {
 }
 
 type UnitGetInfoResp struct {
-	Unit *Unit  `protobuf:"bytes,1,opt,name=unit" json:"unit,omitempty"`
-	Code int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg  string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+	Unit *UnitVO `protobuf:"bytes,1,opt,name=unit" json:"unit,omitempty"`
+	Code int32   `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg  string  `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *UnitGetInfoResp) Reset() { *x = UnitGetInfoResp{} }
@@ -265,7 +265,7 @@ func (x *UnitGetInfoResp) Marshal(in []byte) ([]byte, error) { return prutal.Mar
 
 func (x *UnitGetInfoResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *UnitGetInfoResp) GetUnit() *Unit {
+func (x *UnitGetInfoResp) GetUnit() *UnitVO {
 	if x != nil {
 		return x.Unit
 	}
@@ -288,7 +288,7 @@ func (x *UnitGetInfoResp) GetMsg() string {
 
 // 更新信息
 type UnitUpdateInfoReq struct {
-	Unit *Unit `protobuf:"bytes,1,opt,name=unit" json:"unit,omitempty"`
+	Unit *UnitVO `protobuf:"bytes,1,opt,name=unit" json:"unit,omitempty"`
 }
 
 func (x *UnitUpdateInfoReq) Reset() { *x = UnitUpdateInfoReq{} }
@@ -297,7 +297,7 @@ func (x *UnitUpdateInfoReq) Marshal(in []byte) ([]byte, error) { return prutal.M
 
 func (x *UnitUpdateInfoReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *UnitUpdateInfoReq) GetUnit() *Unit {
+func (x *UnitUpdateInfoReq) GetUnit() *UnitVO {
 	if x != nil {
 		return x.Unit
 	}
@@ -376,9 +376,9 @@ func (x *UnitLinkUserReq) GetUserId() string {
 
 // 创建并关联用户
 type UnitCreateAndLinkUserReq struct {
-	UnitId   string  `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	CodeType string  `protobuf:"bytes,2,opt,name=codeType" json:"codeType,omitempty"`
-	Users    []*User `protobuf:"bytes,3,rep,name=users" json:"users,omitempty"`
+	UnitId   string    `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	CodeType string    `protobuf:"bytes,2,opt,name=codeType" json:"codeType,omitempty"`
+	Users    []*UserVO `protobuf:"bytes,3,rep,name=users" json:"users,omitempty"`
 }
 
 func (x *UnitCreateAndLinkUserReq) Reset() { *x = UnitCreateAndLinkUserReq{} }
@@ -403,7 +403,7 @@ func (x *UnitCreateAndLinkUserReq) GetCodeType() string {
 	return ""
 }
 
-func (x *UnitCreateAndLinkUserReq) GetUsers() []*User {
+func (x *UnitCreateAndLinkUserReq) GetUsers() []*UserVO {
 	if x != nil {
 		return x.Users
 	}

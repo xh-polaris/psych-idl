@@ -851,7 +851,7 @@ type AlarmRecord struct {
 	Emotion                 string   `protobuf:"bytes,2,opt,name=emotion" json:"emotion,omitempty"`                                  // 情绪状态
 	Keywords                []string `protobuf:"bytes,3,rep,name=keywords" json:"keywords,omitempty"`                                // 关键词列表
 	Status                  string   `protobuf:"bytes,4,opt,name=status" json:"status,omitempty"`                                    // 处理状态
-	User                    *User    `protobuf:"bytes,5,opt,name=user" json:"user,omitempty"`                                        // 用户信息
+	User                    *UserVO  `protobuf:"bytes,5,opt,name=user" json:"user,omitempty"`                                        // 用户信息
 	TotalConversationRounds int32    `protobuf:"varint,6,opt,name=totalConversationRounds" json:"totalConversationRounds,omitempty"` // 总对话轮数
 	LastConversationTime    int64    `protobuf:"varint,7,opt,name=lastConversationTime" json:"lastConversationTime,omitempty"`       // 上次对话时间（时间戳）
 }
@@ -890,7 +890,7 @@ func (x *AlarmRecord) GetStatus() string {
 	return ""
 }
 
-func (x *AlarmRecord) GetUser() *User {
+func (x *AlarmRecord) GetUser() *UserVO {
 	if x != nil {
 		return x.User
 	}
@@ -1057,7 +1057,7 @@ func (x *DashboardListClassesResp) GetMsg() string {
 }
 
 type RiskUser struct {
-	User                    *User    `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	User                    *UserVO  `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
 	Level                   int32    `protobuf:"varint,2,opt,name=level" json:"level,omitempty"`
 	TotalConversationRounds int32    `protobuf:"varint,3,opt,name=totalConversationRounds" json:"totalConversationRounds,omitempty"` // 总对话轮数
 	LastConversationTime    int64    `protobuf:"varint,4,opt,name=lastConversationTime" json:"lastConversationTime,omitempty"`       // 上次对话时间（分钟时间戳）
@@ -1070,7 +1070,7 @@ func (x *RiskUser) Marshal(in []byte) ([]byte, error) { return prutal.MarshalApp
 
 func (x *RiskUser) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *RiskUser) GetUser() *User {
+func (x *RiskUser) GetUser() *UserVO {
 	if x != nil {
 		return x.User
 	}
@@ -1229,7 +1229,7 @@ func (x *DashboardUserConvRecordsReq) GetPaginationOptions() *basic.PaginationOp
 }
 
 type DashboardUserConvRecordsResp struct {
-	User          *User             `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	User          *UserVO           `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
 	UserConvTrend *UserConvTrend    `protobuf:"bytes,2,opt,name=userConvTrend" json:"userConvTrend,omitempty"`
 	ConvDetail    []*ConvDetail     `protobuf:"bytes,3,rep,name=convDetail" json:"convDetail,omitempty"`
 	Pagination    *basic.Pagination `protobuf:"bytes,4,opt,name=pagination" json:"pagination,omitempty"`
@@ -1245,7 +1245,7 @@ func (x *DashboardUserConvRecordsResp) Marshal(in []byte) ([]byte, error) {
 
 func (x *DashboardUserConvRecordsResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *DashboardUserConvRecordsResp) GetUser() *User {
+func (x *DashboardUserConvRecordsResp) GetUser() *UserVO {
 	if x != nil {
 		return x.User
 	}
@@ -1496,7 +1496,7 @@ func (x *DashboardUnitConvRecordsResp) GetMsg() string {
 }
 
 type ConvOverview struct {
-	User      *User    `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	User      *UserVO  `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
 	Keywords  []string `protobuf:"bytes,2,rep,name=keywords" json:"keywords,omitempty"`
 	Time      int64    `protobuf:"varint,3,opt,name=time" json:"time,omitempty"`
 	NeedAlarm bool     `protobuf:"varint,4,opt,name=needAlarm" json:"needAlarm,omitempty"`
@@ -1508,7 +1508,7 @@ func (x *ConvOverview) Marshal(in []byte) ([]byte, error) { return prutal.Marsha
 
 func (x *ConvOverview) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *ConvOverview) GetUser() *User {
+func (x *ConvOverview) GetUser() *UserVO {
 	if x != nil {
 		return x.User
 	}

@@ -8,7 +8,7 @@ import (
 	"github.com/cloudwego/prutal"
 )
 
-type User struct {
+type UserVO struct {
 	Id         string                `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
 	CodeType   string                `protobuf:"bytes,2,opt,name=codeType" json:"codeType,omitempty"`
 	Code       string                `protobuf:"bytes,3,opt,name=code" json:"code,omitempty"`
@@ -29,132 +29,132 @@ type User struct {
 	Role       int32                 `protobuf:"varint,18,opt,name=role" json:"role,omitempty"`
 }
 
-func (x *User) Reset() { *x = User{} }
+func (x *UserVO) Reset() { *x = UserVO{} }
 
-func (x *User) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+func (x *UserVO) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
 
-func (x *User) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+func (x *UserVO) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *User) GetId() string {
+func (x *UserVO) GetId() string {
 	if x != nil {
 		return x.Id
 	}
 	return ""
 }
 
-func (x *User) GetCodeType() string {
+func (x *UserVO) GetCodeType() string {
 	if x != nil {
 		return x.CodeType
 	}
 	return ""
 }
 
-func (x *User) GetCode() string {
+func (x *UserVO) GetCode() string {
 	if x != nil {
 		return x.Code
 	}
 	return ""
 }
 
-func (x *User) GetPassword() string {
+func (x *UserVO) GetPassword() string {
 	if x != nil {
 		return x.Password
 	}
 	return ""
 }
 
-func (x *User) GetUnitId() string {
+func (x *UserVO) GetUnitId() string {
 	if x != nil {
 		return x.UnitId
 	}
 	return ""
 }
 
-func (x *User) GetName() string {
+func (x *UserVO) GetName() string {
 	if x != nil {
 		return x.Name
 	}
 	return ""
 }
 
-func (x *User) GetBirth() int64 {
+func (x *UserVO) GetBirth() int64 {
 	if x != nil {
 		return x.Birth
 	}
 	return 0
 }
 
-func (x *User) GetGender() string {
+func (x *UserVO) GetGender() string {
 	if x != nil {
 		return x.Gender
 	}
 	return ""
 }
 
-func (x *User) GetStatus() string {
+func (x *UserVO) GetStatus() string {
 	if x != nil {
 		return x.Status
 	}
 	return ""
 }
 
-func (x *User) GetEnrollYear() int32 {
+func (x *UserVO) GetEnrollYear() int32 {
 	if x != nil {
 		return x.EnrollYear
 	}
 	return 0
 }
 
-func (x *User) GetGrade() int32 {
+func (x *UserVO) GetGrade() int32 {
 	if x != nil {
 		return x.Grade
 	}
 	return 0
 }
 
-func (x *User) GetClass() int32 {
+func (x *UserVO) GetClass() int32 {
 	if x != nil {
 		return x.Class
 	}
 	return 0
 }
 
-func (x *User) GetRemark() *Remark {
+func (x *UserVO) GetRemark() *Remark {
 	if x != nil {
 		return x.Remark
 	}
 	return nil
 }
 
-func (x *User) GetOptions() map[string]*anypb.Any {
+func (x *UserVO) GetOptions() map[string]*anypb.Any {
 	if x != nil {
 		return x.Options
 	}
 	return nil
 }
 
-func (x *User) GetCreateTime() int64 {
+func (x *UserVO) GetCreateTime() int64 {
 	if x != nil {
 		return x.CreateTime
 	}
 	return 0
 }
 
-func (x *User) GetUpdateTime() int64 {
+func (x *UserVO) GetUpdateTime() int64 {
 	if x != nil {
 		return x.UpdateTime
 	}
 	return 0
 }
 
-func (x *User) GetDeleteTime() int64 {
+func (x *UserVO) GetDeleteTime() int64 {
 	if x != nil {
 		return x.DeleteTime
 	}
 	return 0
 }
 
-func (x *User) GetRole() int32 {
+func (x *UserVO) GetRole() int32 {
 	if x != nil {
 		return x.Role
 	}
@@ -188,7 +188,7 @@ func (x *Remark) GetContent() string {
 
 // 注册相关
 type UserSignUpReq struct {
-	User *User `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	User *UserVO `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
 }
 
 func (x *UserSignUpReq) Reset() { *x = UserSignUpReq{} }
@@ -197,7 +197,7 @@ func (x *UserSignUpReq) Marshal(in []byte) ([]byte, error) { return prutal.Marsh
 
 func (x *UserSignUpReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *UserSignUpReq) GetUser() *User {
+func (x *UserSignUpReq) GetUser() *UserVO {
 	if x != nil {
 		return x.User
 	}
@@ -205,9 +205,9 @@ func (x *UserSignUpReq) GetUser() *User {
 }
 
 type UserSignUpResp struct {
-	User *User  `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
-	Code int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg  string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+	User *UserVO `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	Code int32   `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg  string  `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *UserSignUpResp) Reset() { *x = UserSignUpResp{} }
@@ -216,7 +216,7 @@ func (x *UserSignUpResp) Marshal(in []byte) ([]byte, error) { return prutal.Mars
 
 func (x *UserSignUpResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *UserSignUpResp) GetUser() *User {
+func (x *UserSignUpResp) GetUser() *UserVO {
 	if x != nil {
 		return x.User
 	}
@@ -345,7 +345,7 @@ func (x *UserSignInResp) GetMsg() string {
 
 // 更新信息
 type UserUpdateInfoReq struct {
-	User *User `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	User *UserVO `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
 }
 
 func (x *UserUpdateInfoReq) Reset() { *x = UserUpdateInfoReq{} }
@@ -354,7 +354,7 @@ func (x *UserUpdateInfoReq) Marshal(in []byte) ([]byte, error) { return prutal.M
 
 func (x *UserUpdateInfoReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *UserUpdateInfoReq) GetUser() *User {
+func (x *UserUpdateInfoReq) GetUser() *UserVO {
 	if x != nil {
 		return x.User
 	}
@@ -424,9 +424,9 @@ func (x *UserGetInfoReq) GetUserId() string {
 }
 
 type UserGetInfoResp struct {
-	User *User  `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
-	Code int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg  string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+	User *UserVO `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	Code int32   `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg  string  `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *UserGetInfoResp) Reset() { *x = UserGetInfoResp{} }
@@ -435,7 +435,7 @@ func (x *UserGetInfoResp) Marshal(in []byte) ([]byte, error) { return prutal.Mar
 
 func (x *UserGetInfoResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *UserGetInfoResp) GetUser() *User {
+func (x *UserGetInfoResp) GetUser() *UserVO {
 	if x != nil {
 		return x.User
 	}
