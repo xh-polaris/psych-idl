@@ -183,7 +183,7 @@ func (x *UnitLinkUserReq) GetUserId() string {
 // 创建并关联用户
 type UnitCreateAndLinkUserReq struct {
 	UnitId   string    `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	CodeType string    `protobuf:"bytes,2,opt,name=codeType" json:"codeType,omitempty"`
+	CodeType int32     `protobuf:"varint,2,opt,name=codeType" json:"codeType,omitempty"`
 	Users    []*UserVO `protobuf:"bytes,3,rep,name=users" json:"users,omitempty"`
 }
 
@@ -202,11 +202,11 @@ func (x *UnitCreateAndLinkUserReq) GetUnitId() string {
 	return ""
 }
 
-func (x *UnitCreateAndLinkUserReq) GetCodeType() string {
+func (x *UnitCreateAndLinkUserReq) GetCodeType() int32 {
 	if x != nil {
 		return x.CodeType
 	}
-	return ""
+	return 0
 }
 
 func (x *UnitCreateAndLinkUserReq) GetUsers() []*UserVO {
