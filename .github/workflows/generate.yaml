@@ -38,25 +38,51 @@ jobs:
           go-version: "1.22"
 
       # 安装代码生成工具
-      - name: Install Protobuf Compiler
+      - name: Install Tools
         run: |
-          go install github.com/zeromicro/go-zero/tools/goctl@latest
+          go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
           go install github.com/cloudwego/kitex/tool/cmd/kitex@latest
+          go install github.com/zeromicro/go-zero/tools/goctl@latest
           goctl env check --install --verbose --force
 
       # 指定生成代码的目录为 psych-idl, 然后生成代码
-      - name: Update
+      - name: Generate Code and Swagger
         run: |
+          # 1. 确保在 main 分支根目录下创建 docs 目录
+          mkdir -p docs
+          
+          # 2. 生成 Swagger JSON
+          # -I ./idl : 指向 idl 分支检出的目录，用于寻找业务 proto
+          # -I ./idl/third_party : 用于寻找 openapiv2 注解
+          protoc -I ./idl \
+                 -I ./idl/third_party \
+                 --openapiv2_out ./docs \
+                 --openapiv2_opt logtostderr=true,json_names_for_fields=true \
+                 idl/core_api/core_api.proto
+          
+          # 3. 重命名生成的文件
+          if [ -f "docs/core_api.swagger.json" ]; then
+              mv docs/core_api.swagger.json docs/swagger.json
+          fi
+          
+          # 4. 生成 Kitex 代码
           rm -rf kitex_gen
-          export IDL_DIR=./idl
-          chmod 755 /home/runner/go/bin/protoc
-          sh build.sh
+          kitex -module github.com/xh-polaris/psych-idl idl/core_api/core_api.proto
 
       # 提交生成后的代码到main分支
       - name: Commit And Push
         run: |
           git config --global user.email "bot@xhpolaris.com"
           git config --global user.name "${{ github.actor }}"
-          git add kitex_gen
-          git commit -m "${{ github.event.head_commit.message }}"
+          
+          # 关键点：不仅 add kitex_gen，还要 add docs
+          git add kitex_gen docs/swagger.json
+          
+          # 检查是否有内容变更，避免空提交报错
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          
+          git commit -m "Auto-gen code & swagger: ${{ github.event.head_commit.message }}"
           git push origin main
