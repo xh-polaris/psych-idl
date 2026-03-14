@@ -226,7 +226,7 @@ func (x *ConversationVO) GetUpdateTime() int64 {
 
 type Message struct {
 	Content string `protobuf:"bytes,1,opt,name=content" json:"content,omitempty"`
-	Role    string `protobuf:"bytes,2,opt,name=role" json:"role,omitempty"`
+	Role    int32  `protobuf:"varint,2,opt,name=role" json:"role,omitempty"`
 	Index   int32  `protobuf:"varint,3,opt,name=index" json:"index,omitempty"`
 }
 
@@ -243,11 +243,11 @@ func (x *Message) GetContent() string {
 	return ""
 }
 
-func (x *Message) GetRole() string {
+func (x *Message) GetRole() int32 {
 	if x != nil {
 		return x.Role
 	}
-	return ""
+	return 0
 }
 
 func (x *Message) GetIndex() int32 {
