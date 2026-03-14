@@ -73,10 +73,11 @@ jobs:
               mv docs/core_api.swagger.json docs/swagger.json
           fi
           
-          # 4. 生成 Kitex 代码 (同样需要包含 /usr/include)
+          # 4. 生成 Kitex 代码 (同样需要包含 /usr/include 和 third_party)
           rm -rf kitex_gen
           kitex -module github.com/xh-polaris/psych-idl \
                 -I ./idl \
+                -I ./idl/third_party \
                 -I /usr/include \
                 idl/core_api/core_api.proto
 
