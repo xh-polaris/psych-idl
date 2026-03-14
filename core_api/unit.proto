@@ -46,7 +46,7 @@ message UnitLinkUserReq {
 // 创建并关联用户
 message UnitCreateAndLinkUserReq {
   string unitId = 1;
-  string codeType = 2;
+  int32 codeType = 2;
   repeated core_api.UserVO users = 3;
 }
 message UnitCreateAndLinkUserResp {
