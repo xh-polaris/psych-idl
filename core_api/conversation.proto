@@ -53,7 +53,7 @@ message ConversationVO {
 
 message Message {
   string content = 1;
-  string role = 2;
+  int32 role = 2;
   int32 index = 3;
 }
 
