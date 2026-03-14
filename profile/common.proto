@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package profile;
 
-option go_package = "profile";
+option go_package = "./profile";
 
 import "basic/re.proto";
 import "basic/pagination.proto";

@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package core_api;
 
-option go_package = "core_api";
+option go_package = "./core_api";
 
 import "core_api/user.proto";
 import "core_api/unit.proto";
