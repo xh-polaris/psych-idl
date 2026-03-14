@@ -40,22 +40,30 @@ jobs:
       # 安装代码生成工具
       - name: Install Tools
         run: |
+          # 1. 安装系统级 protoc 和开发库 (包含 google/protobuf/*.proto 标准库)
+          sudo apt-get update
+          sudo apt-get install -y protobuf-compiler libprotobuf-dev
+          
+          # 2. 安装插件
           go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
           go install github.com/cloudwego/kitex/tool/cmd/kitex@latest
           go install github.com/zeromicro/go-zero/tools/goctl@latest
+          # 这一步是为了确保 goctl 相关的环境，但我们优先使用系统安装的 protoc
           goctl env check --install --verbose --force
 
       # 指定生成代码的目录为 psych-idl, 然后生成代码
       - name: Generate Code and Swagger
         run: |
-          # 1. 确保在 main 分支根目录下创建 docs 目录
+          # 1. 创建输出目录
           mkdir -p docs
           
           # 2. 生成 Swagger JSON
-          # -I ./idl : 指向 idl 分支检出的目录，用于寻找业务 proto
-          # -I ./idl/third_party : 用于寻找 openapiv2 注解
+          # -I ./idl : 业务 proto 根目录
+          # -I ./idl/third_party : openapiv2 注解目录
+          # -I /usr/include : 关键！系统标准的 google/protobuf/ 目录
           protoc -I ./idl \
                  -I ./idl/third_party \
+                 -I /usr/include \
                  --openapiv2_out ./docs \
                  --openapiv2_opt logtostderr=true,json_names_for_fields=true \
                  idl/core_api/core_api.proto
@@ -65,9 +73,12 @@ jobs:
               mv docs/core_api.swagger.json docs/swagger.json
           fi
           
-          # 4. 生成 Kitex 代码
+          # 4. 生成 Kitex 代码 (同样需要包含 /usr/include)
           rm -rf kitex_gen
-          kitex -module github.com/xh-polaris/psych-idl idl/core_api/core_api.proto
+          kitex -module github.com/xh-polaris/psych-idl \
+                -I ./idl \
+                -I /usr/include \
+                idl/core_api/core_api.proto
 
       # 提交生成后的代码到main分支
       - name: Commit And Push
