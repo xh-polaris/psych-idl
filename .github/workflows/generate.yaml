@@ -1,11 +1,5 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
 name: Generate Golang Code By Kitex
 
-# 向idl分支push时会触发这个workflow
 on:
   push:
     branches: [ "idl" ]
@@ -17,84 +11,90 @@ jobs:
       contents: write
       id-token: write
     steps:
-      # 检出当前仓库的 main 分支(生成代码存放的分支)
+      # 1. 检出 main 分支 (代码存放处，包含 build.sh)
       - name: Checkout main branch
         uses: actions/checkout@v3
         with:
-          ref: main  # 检出 main 分支到默认目录（当前工作区）
-          path: .    # 覆盖默认路径，确保后续操作在 main 分支目录
+          ref: main
+          path: .
 
-      # 将当前仓库的idl分支(也就是接口定义分支)加入到action runner的工作目录
+      # 2. 检出 idl 分支 (接口定义处)
       - name: Checkout IDL branch
         uses: actions/checkout@v3
         with:
           ref: idl
           path: ./idl
 
-      # 配置 Go 环境
+      # 3. 配置 Go 环境
       - name: Setup Golang
         uses: actions/setup-go@v4
         with:
           go-version: "1.22"
 
-      # 安装代码生成工具
+      # 4. 安装必备工具
       - name: Install Tools
         run: |
-          # 1. 安装系统级 protoc 和开发库 (包含 google/protobuf/*.proto 标准库)
+          # 【修复点 1】：使用 ubuntu 自带的包管理器安装完整版 protoc，它自带所有标准库！
           sudo apt-get update
-          sudo apt-get install -y protobuf-compiler libprotobuf-dev
+          sudo apt-get install -y protobuf-compiler
           
-          # 2. 安装插件
-          go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
+          # 安装 Go 插件
           go install github.com/cloudwego/kitex/tool/cmd/kitex@latest
-          go install github.com/zeromicro/go-zero/tools/goctl@latest
-          # 这一步是为了确保 goctl 相关的环境，但我们优先使用系统安装的 protoc
-          goctl env check --install --verbose --force
+          go install github.com/google/gnostic/cmd/protoc-gen-openapi@latest
+          
+          # 将 Go 的 bin 目录加到环境变量中，让系统能找到 protoc-gen-openapi 等插件
+          echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
 
-      # 指定生成代码的目录为 psych-idl, 然后生成代码
-      - name: Generate Code and Swagger
+      # 5. 执行生成任务
+      - name: Update and Generate
         run: |
-          # 1. 创建输出目录
-          mkdir -p docs
-          
-          # 2. 生成 Swagger JSON
-          # -I ./idl : 业务 proto 根目录
-          # -I ./idl/third_party : openapiv2 注解目录
-          # -I /usr/include : 关键！系统标准的 google/protobuf/ 目录
-          protoc -I ./idl \
-                 -I ./idl/third_party \
-                 -I /usr/include \
-                 --openapiv2_out ./docs \
-                 --openapiv2_opt logtostderr=true,json_names_for_fields=true \
-                 idl/core_api/core_api.proto
-          
-          # 3. 重命名生成的文件
-          if [ -f "docs/core_api.swagger.json" ]; then
-              mv docs/core_api.swagger.json docs/swagger.json
-          fi
-          
-          # 4. 生成 Kitex 代码 (同样需要包含 /usr/include 和 third_party)
+          # 1. 清理旧产物
           rm -rf kitex_gen
-          kitex -module github.com/xh-polaris/psych-idl \
-                -I ./idl \
-                -I ./idl/third_party \
-                -I /usr/include \
-                idl/core_api/core_api.proto
+          rm -rf doc
+          mkdir -p doc
+          
+          # 2. 补全官方 Google API 依赖 (处理 HTTP 路由所需的外部依赖)
+          mkdir -p ./idl/google/api
+          curl -sSL https://raw.githubusercontent.com/googleapis/googleapis/master/google/api/annotations.proto -o ./idl/google/api/annotations.proto
+          curl -sSL https://raw.githubusercontent.com/googleapis/googleapis/master/google/api/http.proto -o ./idl/google/api/http.proto
+          
+          # 3. 生成 OpenAPI (Swagger) 文档
+          ALL_PROTO_FILES=$(find ./idl -name "*.proto" -not -path "./idl/google/*")
+          echo "正在生成 OpenAPI 文档..."
+          # 【修复点 2】：直接使用系统级 protoc，不需要再指明冗长的绝对路径和赋权了
+          protoc --proto_path=./idl \
+              --openapi_out=version=3.0.0,naming=json:./doc \
+              $ALL_PROTO_FILES
+          
+          # 4. 修正 go_package 路径 (解决 Kitex Panic)
+          MODULE_PATH="github.com/xh-polaris/psych-idl/kitex_gen"
+          echo "正在修正路径映射以适配 Kitex..."
+          for file in $(find ./idl -name "*.proto"); do
+            REL_DIR=$(dirname "$file" | sed 's|./idl/||; s|./idl||')
+            if [ -z "$REL_DIR" ] || [ "$REL_DIR" = "." ]; then
+              FINAL_PACKAGE="$MODULE_PATH"
+            else
+              FINAL_PACKAGE="$MODULE_PATH/$REL_DIR"
+            fi
+            sed -i "s|option go_package = \"[^\"]*\";|option go_package = \"$FINAL_PACKAGE\";|g" "$file"
+          done
+          
+          # 5. 执行 Kitex 构建
+          export IDL_DIR=./idl
+          chmod +x build.sh
+          sh build.sh
 
-      # 提交生成后的代码到main分支
+      # 6. 提交到 main 分支
       - name: Commit And Push
         run: |
           git config --global user.email "bot@xhpolaris.com"
           git config --global user.name "${{ github.actor }}"
           
-          # 关键点：不仅 add kitex_gen，还要 add docs
-          git add kitex_gen docs/swagger.json
+          git add kitex_gen doc
           
-          # 检查是否有内容变更，避免空提交报错
           if git diff --staged --quiet; then
-            echo "No changes to commit"
-            exit 0
+            echo "没有检测到任何变更，跳过提交。"
+          else
+            git commit -m "${{ github.event.head_commit.message }}"
+            git push origin main
           fi
-          
-          git commit -m "Auto-gen code & swagger: ${{ github.event.head_commit.message }}"
-          git push origin main

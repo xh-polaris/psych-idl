@@ -4,140 +4,178 @@ package core_api;
 
 option go_package = "./core_api";
 
+import "google/api/annotations.proto";
 import "core_api/user.proto";
 import "core_api/unit.proto";
 import "core_api/config.proto";
 import "core_api/dashboard.proto";
 import "core_api/conversation.proto";
-import "basic/http.proto";
 import "basic/re.proto";
 
-import "protoc-gen-openapiv2/options/annotations.proto";
-
-option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
-  info: {
-    title: "Psych Core API";
-    version: "1.0";
-    description: "心理健康核心系统业务接口文档，支持单位管理、用户鉴权、数据看板及 AI 对话配置";
-    contact: {
-      name: "Polaris Team";
-    };
-  };
-  schemes: HTTP;
-  consumes: "application/json";
-  produces: "application/json";
-};
-
 service User {
-  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_tag) = {
-    description: "用户账户、登录及个人信息管理"
-  };
-
   rpc UserSignIn(UserSignInReq) returns (UserSignInResp){
-    option (http.post) = "/user/sign_in";
-    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      summary: "用户登录";
-      description: "支持账号密码或验证码登录，返回 JWT Token";
+    option (google.api.http) = {
+      post: "/user/sign_in"
+      body: "*"
     };
   }
-
   rpc UserGetInfo(UserGetInfoReq) returns (UserGetInfoResp){
-    option (http.get) = "/user/get_info";
-    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      summary: "获取个人信息";
+    option (google.api.http) = {
+      get: "/user/get_info"
     };
   }
-
   rpc UserUpdateInfo(UserUpdateInfoReq) returns (basic.Response){
-    option (http.post) = "/user/update_info";
-    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      summary: "完善/修改个人资料";
+    option (google.api.http) = {
+      post: "/user/update_info"
+      body: "*"
     };
   }
-
   rpc UserUpdatePassword(UserUpdatePasswordReq) returns (basic.Response){
-    option (http.post) = "/user/update_password";
+    option (google.api.http) = {
+      post: "/user/update_password"
+      body: "*"
+    };
   }
 }
 
 service Unit {
-  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_tag) = {
-    description: "单位（学校/机构）基础信息管理"
-  };
-
   rpc UnitGetInfo(UnitGetInfoReq) returns (UnitGetInfoResp){
-    option (http.get) = "/unit/get_info";
+    option (google.api.http) = {
+      get: "/unit/get_info"
+    };
   }
-
   rpc UnitUpdateInfo(UnitUpdateInfoReq) returns (basic.Response){
-    option (http.post) = "/unit/update_info";
+    option (google.api.http) = {
+      post: "/unit/update_info"
+      body: "*"
+    };
   }
-
   rpc UnitLinkUser(UnitLinkUserReq) returns (basic.Response){
-    option (http.post) = "/unit/link_user";
-    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      summary: "关联已有用户到单位";
+    option (google.api.http) = {
+      post: "/unit/link_user"
+      body: "*"
+    };
+  }
+  rpc UnitCreateAndLinkUser(UnitCreateAndLinkUserReq) returns (UnitCreateAndLinkUserResp){
+    option (google.api.http) = {
+      post: "/unit/create_and_link_user"
+      body: "*"
     };
   }
 }
 
 service Config {
-  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_tag) = {
-    description: "业务参数配置（AI模型、TTS、报告模板）"
-  };
-
   rpc ConfigCreate(ConfigCreateOrUpdateReq) returns (basic.Response){
-    option (http.post) = "/config/create";
-    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      summary: "创建单位业务配置";
+    option (google.api.http) = {
+      post: "/config/create"
+      body: "*"
     };
   }
-
+  rpc ConfigUpdateInfo(ConfigCreateOrUpdateReq) returns (basic.Response){
+    option (google.api.http) = {
+      post: "/config/update_info"
+      body: "*"
+    };
+  }
   rpc ConfigGetByUnitID (ConfigGetByUnitIdReq) returns (ConfigGetByUnitIdResp){
-    option (http.get) = "/config/get_by_unit_id";
+    option (google.api.http) = {
+      get: "/config/get_by_unit_id"
+    };
   }
 }
 
 service Dashboard {
-  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_tag) = {
-    description: "管理后台看板：数据统计与预警管理"
-  };
-
   rpc DashboardGetDataOverview(DashboardGetDataOverviewReq) returns (DashboardGetDataOverviewResp) {
-    option (http.post) = "/dashboard/overview";
-    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      summary: "数据总览";
-      tags: "数据看板";
+    option (google.api.http) = {
+      post: "/dashboard/overview"
+      body: "*"
     };
   }
-
+  rpc DashboardGetDataTrend(DashboardGetDataTrendReq) returns (DashboardGetDataTrendResp) {
+    option (google.api.http) = {
+      post: "/dashboard/trend"
+      body: "*"
+    };
+  }
+  rpc DashboardListUnits(DashboardListUnitsReq) returns (DashboardListUnitsResp) {
+    option (google.api.http) = {
+      post: "/dashboard/units"
+      body: "*"
+    };
+  }
+  rpc DashboardGetPsychTrend(DashboardGetPsychTrendReq) returns (DashboardGetPsychTrendResp) {
+    option (google.api.http) = {
+      post: "/dashboard/psych_trend"
+      body: "*"
+    };
+  }
   rpc DashboardGetAlarmOverview(DashboardGetAlarmOverviewReq) returns (DashboardGetAlarmOverviewResp) {
-    option (http.post) = "/dashboard/alarm_overview";
-    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      summary: "预警情况统计";
-      tags: "预警管理";
+    option (google.api.http) = {
+      post: "/dashboard/alarm_overview"
+      body: "*"
     };
   }
-
+  rpc DashboardListAlarmRecords(DashboardListAlarmRecordsReq) returns (DashboardListAlarmRecordsResp) {
+    option (google.api.http) = {
+      post: "/dashboard/alarm_records"
+      body: "*"
+    };
+  }
+  rpc DashboardUpdateAlarm(DashboardUpdateAlarmReq) returns (DashboardUpdateAlarmResp) {
+    option (google.api.http) = {
+      post: "/dashboard/update_alarm"
+      body: "*"
+    };
+  }
+  rpc DashboardListClasses(DashboardListClassesReq) returns (DashboardListClassesResp) {
+    option (google.api.http) = {
+      post: "/dashboard/classes"
+      body: "*"
+    };
+  }
   rpc DashboardListUsers(DashboardListUsersReq) returns (DashboardListUsersResp) {
-    option (http.post) = "/dashboard/users";
-    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      summary: "用户列表管理";
-      tags: "用户管理";
+    option (google.api.http) = {
+      post: "/dashboard/users"
+      body: "*"
+    };
+  }
+  rpc DashboardUserConvRecords(DashboardUserConvRecordsReq) returns (DashboardUserConvRecordsResp) {
+    option (google.api.http) = {
+      post: "/dashboard/user_conversation_records"
+      body: "*"
+    };
+  }
+  rpc DashboardUnitConvRecords(DashboardUnitConvRecordsReq) returns (DashboardUnitConvRecordsResp) {
+    option (google.api.http) = {
+      post: "/dashboard/unit_conversation_records"
+      body: "*"
+    };
+  }
+  rpc DashboardGetReport(DashboardGetReportReq) returns (DashboardGetReportResp) {
+    option (google.api.http) = {
+      post: "/dashboard/get_report"
+      body: "*"
     };
   }
 }
 
 service Conversation {
-  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_tag) = {
-    description: "C端用户对话交互"
-  };
-
   rpc CreateConversation (CreateConversationReq) returns (CreateConversationResp) {
-    option (http.post) = "/conversation/create";
+    option (google.api.http) = {
+      post: "/conversation/create"
+      body: "*"
+    };
   }
-
   rpc ListConversations (ListConversationsReq) returns (ListConversationsResp) {
-    option (http.post) = "/conversation/list";
+    option (google.api.http) = {
+      post: "/conversation/list"
+      body: "*"
+    };
+  }
+  rpc GetConversation (GetConversationReq) returns (GetConversationResp) {
+    option (google.api.http) = {
+      post: "/conversation/get"
+      body: "*"
+    };
   }
 }

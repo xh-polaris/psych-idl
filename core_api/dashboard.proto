@@ -11,6 +11,7 @@ import "basic/http.proto";
 import "core_api/user.proto";
 
 // 数据看板
+
 // 指标总览
 message DashboardGetDataOverviewReq {
   optional string unitId = 1;
@@ -25,8 +26,10 @@ message DashboardGetDataOverviewResp {
   int32 totalConversations = 7;
   int32 weeklyIncreaseConversations = 8;
   double weeklyIncreaseConversationsRate = 9;
-  double averageTimePerConversation = 10; // minutes
-  double weeklyIncreaseAverageTimePerConversation = 11; // minutes
+  // minutes
+  double averageTimePerConversation = 10;
+  // minutes
+  double weeklyIncreaseAverageTimePerConversation = 11;
   double weeklyIncreaseAverageTimePerConversationRate = 12;
   int32 alarmUsers = 13;
   int32 weeklyIncreaseAlarmUsers = 14;
@@ -43,15 +46,20 @@ message DashboardGetDataTrendReq {
   optional string unitId = 1;
 }
 message DashboardGetDataTrendResp {
-  repeated TrendPoint activePoints = 1; // 近一周学生活跃趋势
-  repeated TrendPoint conversationPoints = 2; // 近一周对话频率趋势
-  repeated conversationDuration conversationDurations = 3; // 对话时间分布
+  // 近一周学生活跃趋势
+  repeated TrendPoint activePoints = 1;
+  // 近一周对话频率趋势
+  repeated TrendPoint conversationPoints = 2;
+  // 对话时间分布
+  repeated conversationDuration conversationDurations = 3;
   int32 code = 255;
   string msg = 256;
 }
 message TrendPoint {
-  int32 week = 1;     // 1=Mon ... 7=Sun
-  int32 hour = 2;        // 0–23
+  // 1=Mon ... 7=Sun
+  int32 week = 1;
+  // 0–23
+  int32 hour = 2;
   int32 count = 3;
 }
 message conversationDuration {
@@ -81,15 +89,20 @@ message DashboardGetPsychTrendReq {
   optional string unitId = 1;
 }
 message DashboardGetPsychTrendResp {
-  EmotionRatio emotionRatio = 1; // 情绪分布
-  repeated RiskDistribution risks = 2; // 分性别的风险等级统计
-  Keywords keywords = 3; // 关键词 用于词云
+  // 情绪分布
+  EmotionRatio emotionRatio = 1;
+  // 分性别的风险等级统计
+  repeated RiskDistribution risks = 2;
+  // 关键词 用于词云
+  Keywords keywords = 3;
   int32 code = 255;
   string msg = 256;
 }
 message RiskDistribution {
-  int32 level = 1; // 0=正常 1=低危 2=中危 3=高危
-  int32 gender = 2; // 0=all 1=male 2=female
+  // 1-4: High | Medium | Low | Normal
+  int32 level = 1;
+  // 0=all 1=male 2=female
+  int32 gender = 2;
   int32 count = 3;
 }
 message Keywords {
@@ -108,14 +121,22 @@ message DashboardGetAlarmOverviewReq {
   string unitId = 1;
 }
 message DashboardGetAlarmOverviewResp {
-  int32 total = 1;      // 当前高风险用户总数
-  int32 processed = 2;  // 当前已处理数
-  int32 pending = 3;    // 当前待处理数
-  int32 track = 4;      // 当前需追踪数
-  double totalChange = 5;      // 对比上周总数变化百分比
-  double processedChange = 6;  // 对比上周已处理变化百分比
-  double pendingChange = 7;    // 对比上周待处理变化百分比
-  double trackChange = 8;      // 对比上周需追踪变化百分比
+  // 当前高风险用户总数
+  int32 total = 1;
+  // 当前已处理数
+  int32 processed = 2;
+  // 当前待处理数
+  int32 pending = 3;
+  // 当前需追踪数
+  int32 track = 4;
+  // 对比上周总数变化百分比
+  double totalChange = 5;
+  // 对比上周已处理变化百分比
+  double processedChange = 6;
+  // 对比上周待处理变化百分比
+  double pendingChange = 7;
+  // 对比上周需追踪变化百分比
+  double trackChange = 8;
   int32 code = 255;
   string msg = 256;
 }
@@ -143,13 +164,20 @@ message DashboardUpdateAlarmResp {
 }
 
 message AlarmRecord {
-  string id = 1;  // 唯一Id
-  int32 emotion = 2;  // 情绪状态
-  repeated string keywords = 3;  // 关键词列表
-  int32 status = 4;  // 处理状态
-  core_api.UserVO user = 5;  // 用户信息
-  int32  totalConversationRounds = 6;  // 总对话轮数
-  int64  lastConversationTime = 7;  // 上次对话时间（时间戳）
+  // 唯一Id
+  string id = 1;
+  // 情绪状态
+  int32 emotion = 2;
+  // 关键词列表
+  repeated string keywords = 3;
+  // 处理状态
+  int32 status = 4;
+  // 用户信息
+  core_api.UserVO user = 5;
+  // 总对话轮数
+  int32  totalConversationRounds = 6;
+  // 上次对话时间（时间戳）
+  int64  lastConversationTime = 7;
 }
 
 
@@ -181,16 +209,21 @@ message DashboardListClassesResp {
 
 message RiskUser {
   core_api.UserVO user = 1;
+  // 1-4: High | Medium | Low | Normal
   int32 level = 2;
-  int32  totalConversationRounds = 3;  // 总对话轮数
-  int64  lastConversationTime = 4;  // 上次对话时间（分钟时间戳）
+  // 总对话轮数
+  int32  totalConversationRounds = 3;
+  // 上次对话时间（分钟时间戳）
+  int64  lastConversationTime = 4;
   repeated string keywords = 5;
 }
 
 message DashboardListUsersReq{
   string unitId = 1;
+  // 1-4: High | Medium | Low | Normal
   optional int32 level = 2;
-  optional string gender = 3;
+  // 0=all 1=male 2=female
+  optional int32 gender = 3;
   optional string keyword = 4;
   basic.PaginationOptions paginationOptions = 5;
 }

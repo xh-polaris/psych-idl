@@ -53,13 +53,18 @@ message ConversationVO {
 
 message Message {
   string content = 1;
+  // 角色, system/assistant/user/tool, 依次为1,2,3,4
   int32 role = 2;
+  // 消息索引
   int32 index = 3;
 }
 
 // SSEEvent
 message SSEEvent {
-  string eventData = 1; // 事件数据
-  int32 eventId = 2; // 事件id
-  int32 eventType = 3; // 事件类型
+  // 事件数据
+  string eventData = 1;
+  // 事件id
+  int32 eventId = 2;
+  // 事件类型
+  int32 eventType = 3;
 }

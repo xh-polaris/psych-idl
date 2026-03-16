@@ -11,13 +11,16 @@ import "basic/http.proto";
 
 message UserVO {
   string id = 1;
+  // 1-2: Phone | StudentID
   int32 codeType = 2;
   string code = 3;
   string password = 4;
   string unitId = 5;
   string name = 6;
   int64 birth = 7;
+  // 1-3: Male | Female | Other
   int32 gender = 8;
+  // 1-2: Active | Deleted
   int32 status = 9;
   int32 enrollYear = 10;
   int32 grade = 11;
@@ -27,6 +30,7 @@ message UserVO {
   int64 createTime = 15;
   int64 updateTime = 16;
   int64 deleteTime = 17;
+  // 1-5: Student | Teacher | ClassTeacher | UnitAdmin | SuperAdmin
   int32 role = 18;
 }
 message Remark {
@@ -36,6 +40,7 @@ message Remark {
 
 
 message UserSignInReq {
+  // 1-2: Password | VerifyCode
   int32 authType = 1;
   string authId = 2;
   string verifyCode = 3;
@@ -59,6 +64,7 @@ message UserUpdateInfoReq {
 // 更新密码
 message UserUpdatePasswordReq {
   string id = 1;
+  // 1-2: Password | VerifyCode
   int32 authType = 2;
   string verifyCode = 3;
   string newPassword = 4;
