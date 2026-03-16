@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package user;
 
-option go_package = "user";
+option go_package = "./user";
 
 import "user/common.proto";
 import "basic/re.proto";

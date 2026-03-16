@@ -2,109 +2,180 @@ syntax = "proto3";
 
 package core_api;
 
-option go_package = "core_api";
+option go_package = "./core_api";
 
+import "google/api/annotations.proto";
 import "core_api/user.proto";
 import "core_api/unit.proto";
 import "core_api/config.proto";
 import "core_api/dashboard.proto";
 import "core_api/conversation.proto";
-import "basic/http.proto";
 import "basic/re.proto";
 
 service User {
   rpc UserSignIn(UserSignInReq) returns (UserSignInResp){
-    option (http.post) = "/user/sign_in";
+    option (google.api.http) = {
+      post: "/user/sign_in"
+      body: "*"
+    };
   }
   rpc UserGetInfo(UserGetInfoReq) returns (UserGetInfoResp){
-    option (http.get) = "/user/get_info";
+    option (google.api.http) = {
+      get: "/user/get_info"
+    };
   }
   rpc UserUpdateInfo(UserUpdateInfoReq) returns (basic.Response){
-    option (http.post) = "/user/update_info";
+    option (google.api.http) = {
+      post: "/user/update_info"
+      body: "*"
+    };
   }
   rpc UserUpdatePassword(UserUpdatePasswordReq) returns (basic.Response){
-    option (http.post) = "/user/update_password";
+    option (google.api.http) = {
+      post: "/user/update_password"
+      body: "*"
+    };
   }
 }
 
 service Unit {
   rpc UnitGetInfo(UnitGetInfoReq) returns (UnitGetInfoResp){
-    option (http.get) = "/unit/get_info";
+    option (google.api.http) = {
+      get: "/unit/get_info"
+    };
   }
   rpc UnitUpdateInfo(UnitUpdateInfoReq) returns (basic.Response){
-    option (http.post) = "/unit/update_info";
+    option (google.api.http) = {
+      post: "/unit/update_info"
+      body: "*"
+    };
   }
   rpc UnitLinkUser(UnitLinkUserReq) returns (basic.Response){
-    option (http.post) = "/unit/link_user";
+    option (google.api.http) = {
+      post: "/unit/link_user"
+      body: "*"
+    };
   }
   rpc UnitCreateAndLinkUser(UnitCreateAndLinkUserReq) returns (UnitCreateAndLinkUserResp){
-    option (http.post) = "/unit/create_and_link_user";
+    option (google.api.http) = {
+      post: "/unit/create_and_link_user"
+      body: "*"
+    };
   }
 }
 
 service Config {
   rpc ConfigCreate(ConfigCreateOrUpdateReq) returns (basic.Response){
-    option (http.post) = "/config/create";
+    option (google.api.http) = {
+      post: "/config/create"
+      body: "*"
+    };
   }
   rpc ConfigUpdateInfo(ConfigCreateOrUpdateReq) returns (basic.Response){
-    option (http.post) = "/config/update_info";
+    option (google.api.http) = {
+      post: "/config/update_info"
+      body: "*"
+    };
   }
   rpc ConfigGetByUnitID (ConfigGetByUnitIdReq) returns (ConfigGetByUnitIdResp){
-    option (http.get) = "/config/get_by_unit_id";
+    option (google.api.http) = {
+      get: "/config/get_by_unit_id"
+    };
   }
 }
 
 service Dashboard {
-  // 数据看板
   rpc DashboardGetDataOverview(DashboardGetDataOverviewReq) returns (DashboardGetDataOverviewResp) {
-    option (http.post) = "/dashboard/overview";
+    option (google.api.http) = {
+      post: "/dashboard/overview"
+      body: "*"
+    };
   }
   rpc DashboardGetDataTrend(DashboardGetDataTrendReq) returns (DashboardGetDataTrendResp) {
-    option (http.post) = "/dashboard/trend";
+    option (google.api.http) = {
+      post: "/dashboard/trend"
+      body: "*"
+    };
   }
   rpc DashboardListUnits(DashboardListUnitsReq) returns (DashboardListUnitsResp) {
-    option (http.post) = "/dashboard/units";
+    option (google.api.http) = {
+      post: "/dashboard/units"
+      body: "*"
+    };
   }
   rpc DashboardGetPsychTrend(DashboardGetPsychTrendReq) returns (DashboardGetPsychTrendResp) {
-    option (http.post) = "/dashboard/psych_trend";
+    option (google.api.http) = {
+      post: "/dashboard/psych_trend"
+      body: "*"
+    };
   }
-  // 预警管理
   rpc DashboardGetAlarmOverview(DashboardGetAlarmOverviewReq) returns (DashboardGetAlarmOverviewResp) {
-    option (http.post) = "/dashboard/alarm_overview";
+    option (google.api.http) = {
+      post: "/dashboard/alarm_overview"
+      body: "*"
+    };
   }
   rpc DashboardListAlarmRecords(DashboardListAlarmRecordsReq) returns (DashboardListAlarmRecordsResp) {
-    option (http.post) = "/dashboard/alarm_records";
+    option (google.api.http) = {
+      post: "/dashboard/alarm_records"
+      body: "*"
+    };
   }
   rpc DashboardUpdateAlarm(DashboardUpdateAlarmReq) returns (DashboardUpdateAlarmResp) {
-    option (http.post) = "/dashboard/update_alarm";
+    option (google.api.http) = {
+      post: "/dashboard/update_alarm"
+      body: "*"
+    };
   }
-  // 用户管理
   rpc DashboardListClasses(DashboardListClassesReq) returns (DashboardListClassesResp) {
-    option (http.post) = "/dashboard/classes";
+    option (google.api.http) = {
+      post: "/dashboard/classes"
+      body: "*"
+    };
   }
   rpc DashboardListUsers(DashboardListUsersReq) returns (DashboardListUsersResp) {
-    option (http.post) = "/dashboard/users";
+    option (google.api.http) = {
+      post: "/dashboard/users"
+      body: "*"
+    };
   }
-  // 对话记录
   rpc DashboardUserConvRecords(DashboardUserConvRecordsReq) returns (DashboardUserConvRecordsResp) {
-    option (http.post) = "/dashboard/user_conversation_records";
+    option (google.api.http) = {
+      post: "/dashboard/user_conversation_records"
+      body: "*"
+    };
   }
   rpc DashboardUnitConvRecords(DashboardUnitConvRecordsReq) returns (DashboardUnitConvRecordsResp) {
-    option (http.post) = "/dashboard/unit_conversation_records";
+    option (google.api.http) = {
+      post: "/dashboard/unit_conversation_records"
+      body: "*"
+    };
   }
   rpc DashboardGetReport(DashboardGetReportReq) returns (DashboardGetReportResp) {
-    option (http.post) = "/dashboard/get_report";
+    option (google.api.http) = {
+      post: "/dashboard/get_report"
+      body: "*"
+    };
   }
 }
 
 service Conversation {
   rpc CreateConversation (CreateConversationReq) returns (CreateConversationResp) {
-    option (http.post) = "/conversation/create";
+    option (google.api.http) = {
+      post: "/conversation/create"
+      body: "*"
+    };
   }
   rpc ListConversations (ListConversationsReq) returns (ListConversationsResp) {
-    option (http.post) = "/conversation/list";
+    option (google.api.http) = {
+      post: "/conversation/list"
+      body: "*"
+    };
   }
   rpc GetConversation (GetConversationReq) returns (GetConversationResp) {
-    option (http.post) = "/conversation/get";
+    option (google.api.http) = {
+      post: "/conversation/get"
+      body: "*"
+    };
   }
 }

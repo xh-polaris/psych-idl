@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package basic;
 
-option go_package = "basic";
+option go_package = "./basic";
 
 message Response {
   int32 code = 1;
