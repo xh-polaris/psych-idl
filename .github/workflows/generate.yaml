@@ -49,12 +49,30 @@ jobs:
         run: |
           rm -rf kitex_gen
           
-          find ./idl -name "*.proto" -exec sed -i 's|option go_package = "./|option go_package = "github.com/xh-polaris/psych-idl/kitex_gen/|g' {} +
-
-          # 补全官方 google/api 依赖
+          # 2. 下载依赖 (这些文件只在 CI 内存中存在)
           mkdir -p ./idl/google/api
           curl -sSL https://raw.githubusercontent.com/googleapis/googleapis/master/google/api/annotations.proto -o ./idl/google/api/annotations.proto
           curl -sSL https://raw.githubusercontent.com/googleapis/googleapis/master/google/api/http.proto -o ./idl/google/api/http.proto
+          
+          # 3. 核心修复：强制重写所有 proto 的 go_package 以适配 Kitex
+          # 把所有 go_package 路径临时改为：项目全路径/kitex_gen/原目录名
+          MODULE_PATH="github.com/xh-polaris/psych-idl/kitex_gen"
+          
+          for file in $(find ./idl -name "*.proto"); do
+            # 获取文件所在的相对路径，例如 idl/user -> user, idl/google/api -> google/api
+            REL_DIR=$(dirname "$file" | sed 's|./idl/||; s|./idl||')
+          
+            # 如果 REL_DIR 为空（说明在 idl 根目录），则直接指向根包
+            if [ -z "$REL_DIR" ] || [ "$REL_DIR" = "." ]; then
+              FINAL_PACKAGE="$MODULE_PATH"
+            else
+              FINAL_PACKAGE="$MODULE_PATH/$REL_DIR"
+            fi
+          
+            # 暴力替换该文件中的所有 go_package 定义
+            sed -i "s|option go_package = \".*\";|option go_package = \"$FINAL_PACKAGE\";|g" "$file"
+          done
+          
           export IDL_DIR=./idl
           chmod 755 /home/runner/go/bin/protoc
           sh build.sh
