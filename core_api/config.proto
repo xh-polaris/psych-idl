@@ -33,11 +33,13 @@ message ReportApp {
 
 message ConfigVO {
   string unitId = 1;
-  int32 type = 2; // chain | end2end
+  int32 type = 2;
+  // 1-2: Chain | End2End
   ChatApp chat = 3;
   TTSApp tts = 4;
   ReportApp report = 5;
-  int32 status = 6; // active | deleted
+  // 1-2: Active | Deleted
+  int32 status = 6;
   int64 createTime = 7;
   int64 updateTime = 8;
 }
