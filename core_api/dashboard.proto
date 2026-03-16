@@ -196,6 +196,7 @@ message GradeInfo {
   repeated ClassInfo classes = 2;
 }
 
+// 按班年级列出用户
 message DashboardListClassesReq {
   string unitId = 1;
   optional int32 grade = 2;
@@ -236,6 +237,7 @@ message DashboardListUsersResp {
 
 
 /*对话记录*/
+
 // 获取用户对话记录列表
 message DashboardUserConvRecordsReq {
   string userId = 1;
@@ -274,13 +276,14 @@ message DashboardGetReportResp {
   string msg = 256;
 }
 
-// 获取单位下用户的对话记录列表
+// 获取单位下对话记录列表
 message DashboardUnitConvRecordsReq {
   optional string unitId = 1;
   basic.PaginationOptions paginationOptions = 2;
 }
 message DashboardUnitConvRecordsResp {
   repeated ConvOverview conversationList = 1;
+  basic.Pagination pagination = 3;
   int32 code = 255;
   string msg = 256;
 }
