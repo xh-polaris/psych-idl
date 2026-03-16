@@ -272,8 +272,11 @@ func (x *DashboardGetDataTrendResp) GetMsg() string {
 }
 
 type TrendPoint struct {
-	Week  int32 `protobuf:"varint,1,opt,name=week" json:"week,omitempty"` // 1=Mon ... 7=Sun
-	Hour  int32 `protobuf:"varint,2,opt,name=hour" json:"hour,omitempty"` // 0–23
+	// 1=Mon ... 7=Sun
+	Week int32 `protobuf:"varint,1,opt,name=week" json:"week,omitempty"`
+
+	// 0–23
+	Hour  int32 `protobuf:"varint,2,opt,name=hour" json:"hour,omitempty"`
 	Count int32 `protobuf:"varint,3,opt,name=count" json:"count,omitempty"`
 }
 
