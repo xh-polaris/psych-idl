@@ -226,8 +226,12 @@ func (x *ConversationVO) GetUpdateTime() int64 {
 
 type Message struct {
 	Content string `protobuf:"bytes,1,opt,name=content" json:"content,omitempty"`
-	Role    int32  `protobuf:"varint,2,opt,name=role" json:"role,omitempty"`
-	Index   int32  `protobuf:"varint,3,opt,name=index" json:"index,omitempty"`
+
+	// 角色, system/assistant/user/tool, 依次为1,2,3,4
+	Role int32 `protobuf:"varint,2,opt,name=role" json:"role,omitempty"`
+
+	// 消息索引
+	Index int32 `protobuf:"varint,3,opt,name=index" json:"index,omitempty"`
 }
 
 func (x *Message) Reset() { *x = Message{} }
@@ -259,9 +263,14 @@ func (x *Message) GetIndex() int32 {
 
 // SSEEvent
 type SSEEvent struct {
-	EventData string `protobuf:"bytes,1,opt,name=eventData" json:"eventData,omitempty"`  // 事件数据
-	EventId   int32  `protobuf:"varint,2,opt,name=eventId" json:"eventId,omitempty"`     // 事件id
-	EventType int32  `protobuf:"varint,3,opt,name=eventType" json:"eventType,omitempty"` // 事件类型
+	// 事件数据
+	EventData string `protobuf:"bytes,1,opt,name=eventData" json:"eventData,omitempty"`
+
+	// 事件id
+	EventId int32 `protobuf:"varint,2,opt,name=eventId" json:"eventId,omitempty"`
+
+	// 事件类型
+	EventType int32 `protobuf:"varint,3,opt,name=eventType" json:"eventType,omitempty"`
 }
 
 func (x *SSEEvent) Reset() { *x = SSEEvent{} }

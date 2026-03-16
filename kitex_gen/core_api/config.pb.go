@@ -136,14 +136,18 @@ func (x *ReportApp) GetAppId() string {
 }
 
 type ConfigVO struct {
-	UnitId     string     `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	Type       int32      `protobuf:"varint,2,opt,name=type" json:"type,omitempty"` // chain | end2end
-	Chat       *ChatApp   `protobuf:"bytes,3,opt,name=chat" json:"chat,omitempty"`
-	Tts        *TTSApp    `protobuf:"bytes,4,opt,name=tts" json:"tts,omitempty"`
-	Report     *ReportApp `protobuf:"bytes,5,opt,name=report" json:"report,omitempty"`
-	Status     int32      `protobuf:"varint,6,opt,name=status" json:"status,omitempty"` // active | deleted
-	CreateTime int64      `protobuf:"varint,7,opt,name=createTime" json:"createTime,omitempty"`
-	UpdateTime int64      `protobuf:"varint,8,opt,name=updateTime" json:"updateTime,omitempty"`
+	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	Type   int32  `protobuf:"varint,2,opt,name=type" json:"type,omitempty"`
+
+	// 1-2: Chain | End2End
+	Chat   *ChatApp   `protobuf:"bytes,3,opt,name=chat" json:"chat,omitempty"`
+	Tts    *TTSApp    `protobuf:"bytes,4,opt,name=tts" json:"tts,omitempty"`
+	Report *ReportApp `protobuf:"bytes,5,opt,name=report" json:"report,omitempty"`
+
+	// 1-2: Active | Deleted
+	Status     int32 `protobuf:"varint,6,opt,name=status" json:"status,omitempty"`
+	CreateTime int64 `protobuf:"varint,7,opt,name=createTime" json:"createTime,omitempty"`
+	UpdateTime int64 `protobuf:"varint,8,opt,name=updateTime" json:"updateTime,omitempty"`
 }
 
 func (x *ConfigVO) Reset() { *x = ConfigVO{} }

@@ -8,7 +8,6 @@ import (
 	"github.com/cloudwego/prutal"
 )
 
-// 数据看板
 // 指标总览
 type DashboardGetDataOverviewReq struct {
 	UnitId *string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
@@ -30,17 +29,21 @@ func (x *DashboardGetDataOverviewReq) GetUnitId() string {
 }
 
 type DashboardGetDataOverviewResp struct {
-	TotalUsers                                   int32    `protobuf:"varint,1,opt,name=totalUsers" json:"totalUsers,omitempty"`
-	WeeklyIncreaseUsers                          int32    `protobuf:"varint,2,opt,name=weeklyIncreaseUsers" json:"weeklyIncreaseUsers,omitempty"`
-	WeeklyIncreaseUsersRate                      float64  `protobuf:"fixed64,3,opt,name=weeklyIncreaseUsersRate" json:"weeklyIncreaseUsersRate,omitempty"`
-	ActiveUsers                                  *int32   `protobuf:"varint,4,opt,name=activeUsers" json:"activeUsers,omitempty"`
-	WeeklyIncreaseActiveUsers                    *int32   `protobuf:"varint,5,opt,name=weeklyIncreaseActiveUsers" json:"weeklyIncreaseActiveUsers,omitempty"`
-	WeeklyIncreaseActiveUsersRate                *float64 `protobuf:"fixed64,6,opt,name=weeklyIncreaseActiveUsersRate" json:"weeklyIncreaseActiveUsersRate,omitempty"`
-	TotalConversations                           int32    `protobuf:"varint,7,opt,name=totalConversations" json:"totalConversations,omitempty"`
-	WeeklyIncreaseConversations                  int32    `protobuf:"varint,8,opt,name=weeklyIncreaseConversations" json:"weeklyIncreaseConversations,omitempty"`
-	WeeklyIncreaseConversationsRate              float64  `protobuf:"fixed64,9,opt,name=weeklyIncreaseConversationsRate" json:"weeklyIncreaseConversationsRate,omitempty"`
-	AverageTimePerConversation                   float64  `protobuf:"fixed64,10,opt,name=averageTimePerConversation" json:"averageTimePerConversation,omitempty"`                             // minutes
-	WeeklyIncreaseAverageTimePerConversation     float64  `protobuf:"fixed64,11,opt,name=weeklyIncreaseAverageTimePerConversation" json:"weeklyIncreaseAverageTimePerConversation,omitempty"` // minutes
+	TotalUsers                      int32    `protobuf:"varint,1,opt,name=totalUsers" json:"totalUsers,omitempty"`
+	WeeklyIncreaseUsers             int32    `protobuf:"varint,2,opt,name=weeklyIncreaseUsers" json:"weeklyIncreaseUsers,omitempty"`
+	WeeklyIncreaseUsersRate         float64  `protobuf:"fixed64,3,opt,name=weeklyIncreaseUsersRate" json:"weeklyIncreaseUsersRate,omitempty"`
+	ActiveUsers                     *int32   `protobuf:"varint,4,opt,name=activeUsers" json:"activeUsers,omitempty"`
+	WeeklyIncreaseActiveUsers       *int32   `protobuf:"varint,5,opt,name=weeklyIncreaseActiveUsers" json:"weeklyIncreaseActiveUsers,omitempty"`
+	WeeklyIncreaseActiveUsersRate   *float64 `protobuf:"fixed64,6,opt,name=weeklyIncreaseActiveUsersRate" json:"weeklyIncreaseActiveUsersRate,omitempty"`
+	TotalConversations              int32    `protobuf:"varint,7,opt,name=totalConversations" json:"totalConversations,omitempty"`
+	WeeklyIncreaseConversations     int32    `protobuf:"varint,8,opt,name=weeklyIncreaseConversations" json:"weeklyIncreaseConversations,omitempty"`
+	WeeklyIncreaseConversationsRate float64  `protobuf:"fixed64,9,opt,name=weeklyIncreaseConversationsRate" json:"weeklyIncreaseConversationsRate,omitempty"`
+
+	// minutes
+	AverageTimePerConversation float64 `protobuf:"fixed64,10,opt,name=averageTimePerConversation" json:"averageTimePerConversation,omitempty"`
+
+	// minutes
+	WeeklyIncreaseAverageTimePerConversation     float64  `protobuf:"fixed64,11,opt,name=weeklyIncreaseAverageTimePerConversation" json:"weeklyIncreaseAverageTimePerConversation,omitempty"`
 	WeeklyIncreaseAverageTimePerConversationRate float64  `protobuf:"fixed64,12,opt,name=weeklyIncreaseAverageTimePerConversationRate" json:"weeklyIncreaseAverageTimePerConversationRate,omitempty"`
 	AlarmUsers                                   int32    `protobuf:"varint,13,opt,name=alarmUsers" json:"alarmUsers,omitempty"`
 	WeeklyIncreaseAlarmUsers                     int32    `protobuf:"varint,14,opt,name=weeklyIncreaseAlarmUsers" json:"weeklyIncreaseAlarmUsers,omitempty"`
@@ -221,9 +224,14 @@ func (x *DashboardGetDataTrendReq) GetUnitId() string {
 }
 
 type DashboardGetDataTrendResp struct {
-	ActivePoints          []*TrendPoint           `protobuf:"bytes,1,rep,name=activePoints" json:"activePoints,omitempty"`                   // 近一周学生活跃趋势
-	ConversationPoints    []*TrendPoint           `protobuf:"bytes,2,rep,name=conversationPoints" json:"conversationPoints,omitempty"`       // 近一周对话频率趋势
-	ConversationDurations []*ConversationDuration `protobuf:"bytes,3,rep,name=conversationDurations" json:"conversationDurations,omitempty"` // 对话时间分布
+	// 近一周学生活跃趋势
+	ActivePoints []*TrendPoint `protobuf:"bytes,1,rep,name=activePoints" json:"activePoints,omitempty"`
+
+	// 近一周对话频率趋势
+	ConversationPoints []*TrendPoint `protobuf:"bytes,2,rep,name=conversationPoints" json:"conversationPoints,omitempty"`
+
+	// 对话时间分布
+	ConversationDurations []*ConversationDuration `protobuf:"bytes,3,rep,name=conversationDurations" json:"conversationDurations,omitempty"`
 	Code                  int32                   `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
 	Msg                   string                  `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
@@ -465,11 +473,16 @@ func (x *DashboardGetPsychTrendReq) GetUnitId() string {
 }
 
 type DashboardGetPsychTrendResp struct {
-	EmotionRatio *EmotionRatio       `protobuf:"bytes,1,opt,name=emotionRatio" json:"emotionRatio,omitempty"` // 情绪分布
-	Risks        []*RiskDistribution `protobuf:"bytes,2,rep,name=risks" json:"risks,omitempty"`               // 分性别的风险等级统计
-	Keywords     *Keywords           `protobuf:"bytes,3,opt,name=keywords" json:"keywords,omitempty"`         // 关键词 用于词云
-	Code         int32               `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg          string              `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+	// 情绪分布
+	EmotionRatio *EmotionRatio `protobuf:"bytes,1,opt,name=emotionRatio" json:"emotionRatio,omitempty"`
+
+	// 分性别的风险等级统计
+	Risks []*RiskDistribution `protobuf:"bytes,2,rep,name=risks" json:"risks,omitempty"`
+
+	// 关键词 用于词云
+	Keywords *Keywords `protobuf:"bytes,3,opt,name=keywords" json:"keywords,omitempty"`
+	Code     int32     `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg      string    `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *DashboardGetPsychTrendResp) Reset() { *x = DashboardGetPsychTrendResp{} }
@@ -516,8 +529,11 @@ func (x *DashboardGetPsychTrendResp) GetMsg() string {
 }
 
 type RiskDistribution struct {
-	Level  int32 `protobuf:"varint,1,opt,name=level" json:"level,omitempty"`   // 0=正常 1=低危 2=中危 3=高危
-	Gender int32 `protobuf:"varint,2,opt,name=gender" json:"gender,omitempty"` // 0=all 1=male 2=female
+	// 1-4: High | Medium | Low | Normal
+	Level int32 `protobuf:"varint,1,opt,name=level" json:"level,omitempty"`
+
+	// 0=all 1=male 2=female
+	Gender int32 `protobuf:"varint,2,opt,name=gender" json:"gender,omitempty"`
 	Count  int32 `protobuf:"varint,3,opt,name=count" json:"count,omitempty"`
 }
 
@@ -619,16 +635,31 @@ func (x *DashboardGetAlarmOverviewReq) GetUnitId() string {
 }
 
 type DashboardGetAlarmOverviewResp struct {
-	Total           int32   `protobuf:"varint,1,opt,name=total" json:"total,omitempty"`                      // 当前高风险用户总数
-	Processed       int32   `protobuf:"varint,2,opt,name=processed" json:"processed,omitempty"`              // 当前已处理数
-	Pending         int32   `protobuf:"varint,3,opt,name=pending" json:"pending,omitempty"`                  // 当前待处理数
-	Track           int32   `protobuf:"varint,4,opt,name=track" json:"track,omitempty"`                      // 当前需追踪数
-	TotalChange     float64 `protobuf:"fixed64,5,opt,name=totalChange" json:"totalChange,omitempty"`         // 对比上周总数变化百分比
-	ProcessedChange float64 `protobuf:"fixed64,6,opt,name=processedChange" json:"processedChange,omitempty"` // 对比上周已处理变化百分比
-	PendingChange   float64 `protobuf:"fixed64,7,opt,name=pendingChange" json:"pendingChange,omitempty"`     // 对比上周待处理变化百分比
-	TrackChange     float64 `protobuf:"fixed64,8,opt,name=trackChange" json:"trackChange,omitempty"`         // 对比上周需追踪变化百分比
-	Code            int32   `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg             string  `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+	// 当前高风险用户总数
+	Total int32 `protobuf:"varint,1,opt,name=total" json:"total,omitempty"`
+
+	// 当前已处理数
+	Processed int32 `protobuf:"varint,2,opt,name=processed" json:"processed,omitempty"`
+
+	// 当前待处理数
+	Pending int32 `protobuf:"varint,3,opt,name=pending" json:"pending,omitempty"`
+
+	// 当前需追踪数
+	Track int32 `protobuf:"varint,4,opt,name=track" json:"track,omitempty"`
+
+	// 对比上周总数变化百分比
+	TotalChange float64 `protobuf:"fixed64,5,opt,name=totalChange" json:"totalChange,omitempty"`
+
+	// 对比上周已处理变化百分比
+	ProcessedChange float64 `protobuf:"fixed64,6,opt,name=processedChange" json:"processedChange,omitempty"`
+
+	// 对比上周待处理变化百分比
+	PendingChange float64 `protobuf:"fixed64,7,opt,name=pendingChange" json:"pendingChange,omitempty"`
+
+	// 对比上周需追踪变化百分比
+	TrackChange float64 `protobuf:"fixed64,8,opt,name=trackChange" json:"trackChange,omitempty"`
+	Code        int32   `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg         string  `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *DashboardGetAlarmOverviewResp) Reset() { *x = DashboardGetAlarmOverviewResp{} }
@@ -850,13 +881,26 @@ func (x *DashboardUpdateAlarmResp) GetMsg() string {
 }
 
 type AlarmRecord struct {
-	Id                      string   `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`                                            // 唯一Id
-	Emotion                 int32    `protobuf:"varint,2,opt,name=emotion" json:"emotion,omitempty"`                                 // 情绪状态
-	Keywords                []string `protobuf:"bytes,3,rep,name=keywords" json:"keywords,omitempty"`                                // 关键词列表
-	Status                  int32    `protobuf:"varint,4,opt,name=status" json:"status,omitempty"`                                   // 处理状态
-	User                    *UserVO  `protobuf:"bytes,5,opt,name=user" json:"user,omitempty"`                                        // 用户信息
-	TotalConversationRounds int32    `protobuf:"varint,6,opt,name=totalConversationRounds" json:"totalConversationRounds,omitempty"` // 总对话轮数
-	LastConversationTime    int64    `protobuf:"varint,7,opt,name=lastConversationTime" json:"lastConversationTime,omitempty"`       // 上次对话时间（时间戳）
+	// 唯一Id
+	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+
+	// 情绪状态
+	Emotion int32 `protobuf:"varint,2,opt,name=emotion" json:"emotion,omitempty"`
+
+	// 关键词列表
+	Keywords []string `protobuf:"bytes,3,rep,name=keywords" json:"keywords,omitempty"`
+
+	// 处理状态
+	Status int32 `protobuf:"varint,4,opt,name=status" json:"status,omitempty"`
+
+	// 用户信息
+	User *UserVO `protobuf:"bytes,5,opt,name=user" json:"user,omitempty"`
+
+	// 总对话轮数
+	TotalConversationRounds int32 `protobuf:"varint,6,opt,name=totalConversationRounds" json:"totalConversationRounds,omitempty"`
+
+	// 上次对话时间（时间戳）
+	LastConversationTime int64 `protobuf:"varint,7,opt,name=lastConversationTime" json:"lastConversationTime,omitempty"`
 }
 
 func (x *AlarmRecord) Reset() { *x = AlarmRecord{} }
@@ -1060,11 +1104,17 @@ func (x *DashboardListClassesResp) GetMsg() string {
 }
 
 type RiskUser struct {
-	User                    *UserVO  `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
-	Level                   int32    `protobuf:"varint,2,opt,name=level" json:"level,omitempty"`
-	TotalConversationRounds int32    `protobuf:"varint,3,opt,name=totalConversationRounds" json:"totalConversationRounds,omitempty"` // 总对话轮数
-	LastConversationTime    int64    `protobuf:"varint,4,opt,name=lastConversationTime" json:"lastConversationTime,omitempty"`       // 上次对话时间（分钟时间戳）
-	Keywords                []string `protobuf:"bytes,5,rep,name=keywords" json:"keywords,omitempty"`
+	User *UserVO `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+
+	// 1-4: High | Medium | Low | Normal
+	Level int32 `protobuf:"varint,2,opt,name=level" json:"level,omitempty"`
+
+	// 总对话轮数
+	TotalConversationRounds int32 `protobuf:"varint,3,opt,name=totalConversationRounds" json:"totalConversationRounds,omitempty"`
+
+	// 上次对话时间（分钟时间戳）
+	LastConversationTime int64    `protobuf:"varint,4,opt,name=lastConversationTime" json:"lastConversationTime,omitempty"`
+	Keywords             []string `protobuf:"bytes,5,rep,name=keywords" json:"keywords,omitempty"`
 }
 
 func (x *RiskUser) Reset() { *x = RiskUser{} }
@@ -1109,9 +1159,13 @@ func (x *RiskUser) GetKeywords() []string {
 }
 
 type DashboardListUsersReq struct {
-	UnitId            string                   `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	Level             *int32                   `protobuf:"varint,2,opt,name=level" json:"level,omitempty"`
-	Gender            *string                  `protobuf:"bytes,3,opt,name=gender" json:"gender,omitempty"`
+	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+
+	// 1-4: High | Medium | Low | Normal
+	Level *int32 `protobuf:"varint,2,opt,name=level" json:"level,omitempty"`
+
+	// 0=all 1=male 2=female
+	Gender            *int32                   `protobuf:"varint,3,opt,name=gender" json:"gender,omitempty"`
 	Keyword           *string                  `protobuf:"bytes,4,opt,name=keyword" json:"keyword,omitempty"`
 	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,5,opt,name=paginationOptions" json:"paginationOptions,omitempty"`
 }
@@ -1138,11 +1192,11 @@ func (x *DashboardListUsersReq) GetLevel() int32 {
 	return 0
 }
 
-func (x *DashboardListUsersReq) GetGender() string {
+func (x *DashboardListUsersReq) GetGender() int32 {
 	if x != nil && x.Gender != nil {
 		return *x.Gender
 	}
-	return ""
+	return 0
 }
 
 func (x *DashboardListUsersReq) GetKeyword() string {

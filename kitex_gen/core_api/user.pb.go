@@ -9,14 +9,20 @@ import (
 )
 
 type UserVO struct {
-	Id         string                `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	CodeType   int32                 `protobuf:"varint,2,opt,name=codeType" json:"codeType,omitempty"`
-	Code       string                `protobuf:"bytes,3,opt,name=code" json:"code,omitempty"`
-	Password   string                `protobuf:"bytes,4,opt,name=password" json:"password,omitempty"`
-	UnitId     string                `protobuf:"bytes,5,opt,name=unitId" json:"unitId,omitempty"`
-	Name       string                `protobuf:"bytes,6,opt,name=name" json:"name,omitempty"`
-	Birth      int64                 `protobuf:"varint,7,opt,name=birth" json:"birth,omitempty"`
-	Gender     int32                 `protobuf:"varint,8,opt,name=gender" json:"gender,omitempty"`
+	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+
+	// 1-2: Phone | StudentID
+	CodeType int32  `protobuf:"varint,2,opt,name=codeType" json:"codeType,omitempty"`
+	Code     string `protobuf:"bytes,3,opt,name=code" json:"code,omitempty"`
+	Password string `protobuf:"bytes,4,opt,name=password" json:"password,omitempty"`
+	UnitId   string `protobuf:"bytes,5,opt,name=unitId" json:"unitId,omitempty"`
+	Name     string `protobuf:"bytes,6,opt,name=name" json:"name,omitempty"`
+	Birth    int64  `protobuf:"varint,7,opt,name=birth" json:"birth,omitempty"`
+
+	// 1-3: Male | Female | Other
+	Gender int32 `protobuf:"varint,8,opt,name=gender" json:"gender,omitempty"`
+
+	// 1-2: Active | Deleted
 	Status     int32                 `protobuf:"varint,9,opt,name=status" json:"status,omitempty"`
 	EnrollYear int32                 `protobuf:"varint,10,opt,name=enrollYear" json:"enrollYear,omitempty"`
 	Grade      int32                 `protobuf:"varint,11,opt,name=grade" json:"grade,omitempty"`
@@ -26,7 +32,9 @@ type UserVO struct {
 	CreateTime int64                 `protobuf:"varint,15,opt,name=createTime" json:"createTime,omitempty"`
 	UpdateTime int64                 `protobuf:"varint,16,opt,name=updateTime" json:"updateTime,omitempty"`
 	DeleteTime int64                 `protobuf:"varint,17,opt,name=deleteTime" json:"deleteTime,omitempty"`
-	Role       int32                 `protobuf:"varint,18,opt,name=role" json:"role,omitempty"`
+
+	// 1-5: Student | Teacher | ClassTeacher | UnitAdmin | SuperAdmin
+	Role int32 `protobuf:"varint,18,opt,name=role" json:"role,omitempty"`
 }
 
 func (x *UserVO) Reset() { *x = UserVO{} }
@@ -187,6 +195,7 @@ func (x *Remark) GetContent() string {
 }
 
 type UserSignInReq struct {
+	// 1-2: Password | VerifyCode
 	AuthType   int32  `protobuf:"varint,1,opt,name=authType" json:"authType,omitempty"`
 	AuthId     string `protobuf:"bytes,2,opt,name=authId" json:"authId,omitempty"`
 	VerifyCode string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
@@ -312,7 +321,9 @@ func (x *UserUpdateInfoReq) GetUser() *UserVO {
 
 // 更新密码
 type UserUpdatePasswordReq struct {
-	Id          string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+
+	// 1-2: Password | VerifyCode
 	AuthType    int32  `protobuf:"varint,2,opt,name=authType" json:"authType,omitempty"`
 	VerifyCode  string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
 	NewPassword string `protobuf:"bytes,4,opt,name=newPassword" json:"newPassword,omitempty"`

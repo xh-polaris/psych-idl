@@ -5,15 +5,17 @@ package core_api
 import "github.com/cloudwego/prutal"
 
 type UnitVO struct {
-	Id         string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	Name       string `protobuf:"bytes,4,opt,name=name" json:"name,omitempty"`
-	Address    string `protobuf:"bytes,5,opt,name=address" json:"address,omitempty"`
-	Contact    string `protobuf:"bytes,6,opt,name=contact" json:"contact,omitempty"`
-	Level      int32  `protobuf:"varint,7,opt,name=level" json:"level,omitempty"`
-	Status     int32  `protobuf:"varint,8,opt,name=status" json:"status,omitempty"`
-	CreateTime int64  `protobuf:"varint,9,opt,name=createTime" json:"createTime,omitempty"`
-	UpdateTime int64  `protobuf:"varint,10,opt,name=updateTime" json:"updateTime,omitempty"`
-	DeleteTime int64  `protobuf:"varint,11,opt,name=deleteTime" json:"deleteTime,omitempty"`
+	Id      string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	Name    string `protobuf:"bytes,4,opt,name=name" json:"name,omitempty"`
+	Address string `protobuf:"bytes,5,opt,name=address" json:"address,omitempty"`
+	Contact string `protobuf:"bytes,6,opt,name=contact" json:"contact,omitempty"`
+	Level   int32  `protobuf:"varint,7,opt,name=level" json:"level,omitempty"`
+
+	// 1-2: Active | Deleted
+	Status     int32 `protobuf:"varint,8,opt,name=status" json:"status,omitempty"`
+	CreateTime int64 `protobuf:"varint,9,opt,name=createTime" json:"createTime,omitempty"`
+	UpdateTime int64 `protobuf:"varint,10,opt,name=updateTime" json:"updateTime,omitempty"`
+	DeleteTime int64 `protobuf:"varint,11,opt,name=deleteTime" json:"deleteTime,omitempty"`
 }
 
 func (x *UnitVO) Reset() { *x = UnitVO{} }
