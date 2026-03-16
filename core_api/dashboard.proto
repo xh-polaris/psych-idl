@@ -50,8 +50,10 @@ message DashboardGetDataTrendResp {
   string msg = 256;
 }
 message TrendPoint {
-  int32 week = 1;     // 1=Mon ... 7=Sun
-  int32 hour = 2;        // 0–23
+  // 1=Mon ... 7=Sun
+  int32 week = 1;
+  // 0–23
+  int32 hour = 2;
   int32 count = 3;
 }
 message conversationDuration {

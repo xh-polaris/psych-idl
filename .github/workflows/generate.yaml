@@ -48,6 +48,13 @@ jobs:
       - name: Update
         run: |
           rm -rf kitex_gen
+          
+          find ./idl -name "*.proto" -exec sed -i 's|option go_package = "./|option go_package = "github.com/xh-polaris/psych-idl/kitex_gen/|g' {} +
+
+          # 补全官方 google/api 依赖
+          mkdir -p ./idl/google/api
+          curl -sSL https://raw.githubusercontent.com/googleapis/googleapis/master/google/api/annotations.proto -o ./idl/google/api/annotations.proto
+          curl -sSL https://raw.githubusercontent.com/googleapis/googleapis/master/google/api/http.proto -o ./idl/google/api/http.proto
           export IDL_DIR=./idl
           chmod 755 /home/runner/go/bin/protoc
           sh build.sh

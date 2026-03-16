@@ -1404,9 +1404,11 @@ components:
             properties:
                 week:
                     type: integer
+                    description: 1=Mon ... 7=Sun
                     format: int32
                 hour:
                     type: integer
+                    description: 0–23
                     format: int32
                 count:
                     type: integer
