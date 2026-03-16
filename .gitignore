@@ -27,3 +27,5 @@ go.work.sum
 google
 .idea/
 .DS_Store
+
+/third_party/

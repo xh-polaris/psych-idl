@@ -290,7 +290,7 @@ message DashboardUnitConvRecordsResp {
 
 message ConvOverview {
   UserVO user = 1;
-  repeated string keywords = 2;
+  string title = 2;
   int64 time = 3;
   bool needAlarm = 4;
 }
