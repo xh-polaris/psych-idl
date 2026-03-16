@@ -31,38 +31,42 @@ jobs:
         with:
           go-version: "1.22"
 
-      # 4. 安装必备工具 (恢复了 goctl 以自动安装 protoc)
+      # 4. 安装必备工具
       - name: Install Tools
         run: |
-          go install github.com/zeromicro/go-zero/tools/goctl@latest
+          # 【修复点 1】：使用 ubuntu 自带的包管理器安装完整版 protoc，它自带所有标准库！
+          sudo apt-get update
+          sudo apt-get install -y protobuf-compiler
+          
+          # 安装 Go 插件
           go install github.com/cloudwego/kitex/tool/cmd/kitex@latest
           go install github.com/google/gnostic/cmd/protoc-gen-openapi@latest
-          # 这一步非常重要，它会帮你把 protoc 安装到 /home/runner/go/bin 目录下
-          goctl env check --install --verbose --force
+          
+          # 将 Go 的 bin 目录加到环境变量中，让系统能找到 protoc-gen-openapi 等插件
           echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
 
       # 5. 执行生成任务
       - name: Update and Generate
         run: |
-          # 清理旧产物
+          # 1. 清理旧产物
           rm -rf kitex_gen
           rm -rf doc
           mkdir -p doc
           
-          # 补全官方 Google API 依赖
+          # 2. 补全官方 Google API 依赖 (处理 HTTP 路由所需的外部依赖)
           mkdir -p ./idl/google/api
           curl -sSL https://raw.githubusercontent.com/googleapis/googleapis/master/google/api/annotations.proto -o ./idl/google/api/annotations.proto
           curl -sSL https://raw.githubusercontent.com/googleapis/googleapis/master/google/api/http.proto -o ./idl/google/api/http.proto
           
-          # 第一步：生成 OpenAPI (Swagger) 文档
+          # 3. 生成 OpenAPI (Swagger) 文档
           ALL_PROTO_FILES=$(find ./idl -name "*.proto" -not -path "./idl/google/*")
           echo "正在生成 OpenAPI 文档..."
-          # 这里明确使用 goctl 安装的 protoc 路径，防止由于环境变量未生效导致找不到命令
-          /home/runner/go/bin/protoc --proto_path=./idl \
+          # 【修复点 2】：直接使用系统级 protoc，不需要再指明冗长的绝对路径和赋权了
+          protoc --proto_path=./idl \
               --openapi_out=version=3.0.0,naming=json:./doc \
               $ALL_PROTO_FILES
           
-          # 第二步：修正 go_package 路径 (解决 Kitex Panic)
+          # 4. 修正 go_package 路径 (解决 Kitex Panic)
           MODULE_PATH="github.com/xh-polaris/psych-idl/kitex_gen"
           echo "正在修正路径映射以适配 Kitex..."
           for file in $(find ./idl -name "*.proto"); do
@@ -75,9 +79,8 @@ jobs:
             sed -i "s|option go_package = \"[^\"]*\";|option go_package = \"$FINAL_PACKAGE\";|g" "$file"
           done
           
-          # 第三步：执行 Kitex 构建
+          # 5. 执行 Kitex 构建
           export IDL_DIR=./idl
-          chmod 755 /home/runner/go/bin/protoc
           chmod +x build.sh
           sh build.sh
 
@@ -92,6 +95,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "没有检测到任何变更，跳过提交。"
           else
-            git commit -m "Auto-gen code and swagger: ${{ github.event.head_commit.message }}"
+            git commit -m "${{ github.event.head_commit.message }}"
             git push origin main
           fi
