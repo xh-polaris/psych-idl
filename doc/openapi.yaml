@@ -736,10 +736,8 @@ components:
             properties:
                 user:
                     $ref: '#/components/schemas/UserVO'
-                keywords:
-                    type: array
-                    items:
-                        type: string
+                title:
+                    type: string
                 time:
                     type: string
                 needAlarm:
@@ -1019,6 +1017,7 @@ components:
                 class:
                     type: integer
                     format: int32
+            description: 按班年级列出用户
         DashboardListClassesResp:
             type: object
             properties:
@@ -1105,7 +1104,7 @@ components:
                     type: string
                 paginationOptions:
                     $ref: '#/components/schemas/PaginationOptions'
-            description: 获取单位下用户的对话记录列表
+            description: 获取单位下对话记录列表
         DashboardUnitConvRecordsResp:
             type: object
             properties:
@@ -1113,6 +1112,8 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/ConvOverview'
+                pagination:
+                    $ref: '#/components/schemas/Pagination'
                 code:
                     type: integer
                     format: int32
@@ -1413,30 +1414,13 @@ components:
             properties:
                 unitId:
                     type: string
-                authType:
-                    type: integer
-                    format: int32
+                codeType:
+                    type: string
                 users:
                     type: array
                     items:
-                        $ref: '#/components/schemas/UnitCreateAndLinkUserReq_u'
-            description: 批量创建并关联用户
-        UnitCreateAndLinkUserReq_u:
-            type: object
-            properties:
-                authId:
-                    type: string
-                verifyCode:
-                    type: string
-                name:
-                    type: string
-                gender:
-                    type: integer
-                    format: int32
-                form:
-                    type: object
-                    additionalProperties:
-                        $ref: '#/components/schemas/GoogleProtobufAny'
+                        $ref: '#/components/schemas/User'
+            description: 创建并关联用户
         UnitCreateAndLinkUserResp:
             type: object
             properties:
@@ -1461,13 +1445,13 @@ components:
                     type: string
                 userId:
                     type: string
-            description: 关联user账号
+            description: 关联用户
         UnitUpdateInfoReq:
             type: object
             properties:
                 unit:
                     $ref: '#/components/schemas/Unit'
-            description: 修改账号信息
+            description: 更新信息
         User:
             type: object
             properties:
@@ -1521,14 +1505,6 @@ components:
             properties:
                 user:
                     $ref: '#/components/schemas/User'
-                unitId:
-                    type: string
-                studentId:
-                    type: string
-                form:
-                    type: object
-                    additionalProperties:
-                        $ref: '#/components/schemas/GoogleProtobufAny'
         UserSignInReq:
             type: object
             properties:
@@ -1541,7 +1517,7 @@ components:
                     type: string
                 verifyCode:
                     type: string
-            description: user登录，兼具弱验证校验方式
+            description: 登录相关
         UserSignInResp:
             type: object
             properties:
@@ -1549,24 +1525,15 @@ components:
                     type: string
                 userId:
                     type: string
-                studentId:
+                code:
                     type: string
-                strong:
-                    type: boolean
+                codeType:
+                    type: string
         UserUpdateInfoReq:
             type: object
             properties:
                 user:
-                    allOf:
-                        - $ref: '#/components/schemas/User'
-                    description: 修改私有信息
-                unitId:
-                    type: string
-                    description: 修改关联信息
-                form:
-                    type: object
-                    additionalProperties:
-                        $ref: '#/components/schemas/GoogleProtobufAny'
+                    $ref: '#/components/schemas/User'
             description: 更新信息
         UserUpdatePasswordReq:
             type: object
@@ -1576,7 +1543,7 @@ components:
                 authType:
                     type: integer
                     format: int32
-                authValue:
+                verifyCode:
                     type: string
                 newPassword:
                     type: string

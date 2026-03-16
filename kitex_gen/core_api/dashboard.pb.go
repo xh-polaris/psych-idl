@@ -1033,6 +1033,7 @@ func (x *GradeInfo) GetClasses() []*ClassInfo {
 	return nil
 }
 
+// 按班年级列出用户
 type DashboardListClassesReq struct {
 	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 	Grade  *int32 `protobuf:"varint,2,opt,name=grade" json:"grade,omitempty"`
@@ -1256,7 +1257,6 @@ func (x *DashboardListUsersResp) GetMsg() string {
 	return ""
 }
 
-/*对话记录*/
 // 获取用户对话记录列表
 type DashboardUserConvRecordsReq struct {
 	UserId            string                   `protobuf:"bytes,1,opt,name=userId" json:"userId,omitempty"`
@@ -1489,7 +1489,7 @@ func (x *DashboardGetReportResp) GetMsg() string {
 	return ""
 }
 
-// 获取单位下用户的对话记录列表
+// 获取单位下对话记录列表
 type DashboardUnitConvRecordsReq struct {
 	UnitId            *string                  `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,2,opt,name=paginationOptions" json:"paginationOptions,omitempty"`
@@ -1518,9 +1518,10 @@ func (x *DashboardUnitConvRecordsReq) GetPaginationOptions() *basic.PaginationOp
 }
 
 type DashboardUnitConvRecordsResp struct {
-	ConversationList []*ConvOverview `protobuf:"bytes,1,rep,name=conversationList" json:"conversationList,omitempty"`
-	Code             int32           `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg              string          `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+	ConversationList []*ConvOverview   `protobuf:"bytes,1,rep,name=conversationList" json:"conversationList,omitempty"`
+	Pagination       *basic.Pagination `protobuf:"bytes,3,opt,name=pagination" json:"pagination,omitempty"`
+	Code             int32             `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg              string            `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *DashboardUnitConvRecordsResp) Reset() { *x = DashboardUnitConvRecordsResp{} }
@@ -1534,6 +1535,13 @@ func (x *DashboardUnitConvRecordsResp) Unmarshal(in []byte) error { return pruta
 func (x *DashboardUnitConvRecordsResp) GetConversationList() []*ConvOverview {
 	if x != nil {
 		return x.ConversationList
+	}
+	return nil
+}
+
+func (x *DashboardUnitConvRecordsResp) GetPagination() *basic.Pagination {
+	if x != nil {
+		return x.Pagination
 	}
 	return nil
 }
@@ -1553,10 +1561,10 @@ func (x *DashboardUnitConvRecordsResp) GetMsg() string {
 }
 
 type ConvOverview struct {
-	User      *UserVO  `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
-	Keywords  []string `protobuf:"bytes,2,rep,name=keywords" json:"keywords,omitempty"`
-	Time      int64    `protobuf:"varint,3,opt,name=time" json:"time,omitempty"`
-	NeedAlarm bool     `protobuf:"varint,4,opt,name=needAlarm" json:"needAlarm,omitempty"`
+	User      *UserVO `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	Title     string  `protobuf:"bytes,2,opt,name=title" json:"title,omitempty"`
+	Time      int64   `protobuf:"varint,3,opt,name=time" json:"time,omitempty"`
+	NeedAlarm bool    `protobuf:"varint,4,opt,name=needAlarm" json:"needAlarm,omitempty"`
 }
 
 func (x *ConvOverview) Reset() { *x = ConvOverview{} }
@@ -1572,11 +1580,11 @@ func (x *ConvOverview) GetUser() *UserVO {
 	return nil
 }
 
-func (x *ConvOverview) GetKeywords() []string {
+func (x *ConvOverview) GetTitle() string {
 	if x != nil {
-		return x.Keywords
+		return x.Title
 	}
-	return nil
+	return ""
 }
 
 func (x *ConvOverview) GetTime() int64 {
