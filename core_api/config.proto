@@ -58,3 +58,11 @@ message ConfigGetByUnitIdResp {
   int32 code = 255;
   string msg = 256;
 }
+
+message ConfigGetModelCharacterReq {
+  string unitId = 1;
+}
+message ConfigGetModelCharacterResp {
+  string modelView = 1;
+  string backgroundImage = 2;
+}

@@ -82,6 +82,11 @@ service Config {
       get: "/config/get_by_unit_id"
     };
   }
+  rpc ConfigGetModelCharacter (ConfigGetModelCharacterReq) returns (ConfigGetModelCharacterResp) {
+    option (google.api.http) = {
+      get: "/config/get_model_character"
+    };
+  }
 }
 
 service Dashboard {
