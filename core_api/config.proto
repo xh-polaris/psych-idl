@@ -33,8 +33,8 @@ message ReportApp {
 
 message ConfigVO {
   string unitId = 1;
-  int32 type = 2;
   // 1-2: Chain | End2End
+  int32 type = 2;
   ChatApp chat = 3;
   TTSApp tts = 4;
   ReportApp report = 5;
@@ -42,27 +42,19 @@ message ConfigVO {
   int32 status = 6;
   int64 createTime = 7;
   int64 updateTime = 8;
+  string modelView = 9;
+  string backgroundImage = 10;
 }
 
 message ConfigCreateOrUpdateReq {
   ConfigVO config = 1;
-  bool admin = 2;
 }
 
 message ConfigGetByUnitIdReq {
-  string unitId = 1[(http.query) = "unitId"];
-  bool admin = 2[(http.query) = "admin"];
+  string unitId = 1;
 }
 message ConfigGetByUnitIdResp {
   ConfigVO config = 1;
   int32 code = 255;
   string msg = 256;
-}
-
-message ConfigGetModelCharacterReq {
-  string unitId = 1;
-}
-message ConfigGetModelCharacterResp {
-  string modelView = 1;
-  string backgroundImage = 2;
 }
