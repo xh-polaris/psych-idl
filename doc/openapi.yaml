@@ -40,10 +40,6 @@ paths:
                   in: query
                   schema:
                     type: string
-                - name: admin
-                  in: query
-                  schema:
-                    type: boolean
             responses:
                 "200":
                     description: OK
@@ -51,29 +47,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ConfigGetByUnitIdResp'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /config/get_model_character:
-        get:
-            tags:
-                - Config
-            operationId: Config_ConfigGetModelCharacter
-            parameters:
-                - name: unitId
-                  in: query
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ConfigGetModelCharacterResp'
                 default:
                     description: Default error response
                     content:
@@ -745,13 +718,6 @@ components:
             properties:
                 config:
                     $ref: '#/components/schemas/Config'
-        ConfigGetModelCharacterResp:
-            type: object
-            properties:
-                modelView:
-                    type: string
-                backgroundImage:
-                    type: string
         ConvDetail:
             type: object
             properties:

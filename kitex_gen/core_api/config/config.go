@@ -37,13 +37,6 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
-	"ConfigGetModelCharacter": kitex.NewMethodInfo(
-		configGetModelCharacterHandler,
-		newConfigGetModelCharacterArgs,
-		newConfigGetModelCharacterResult,
-		false,
-		kitex.WithStreamingMode(kitex.StreamingUnary),
-	),
 }
 
 var (
@@ -443,117 +436,6 @@ func (p *ConfigGetByUnitIDResult) GetResult() interface{} {
 	return p.Success
 }
 
-func configGetModelCharacterHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	switch s := arg.(type) {
-	case *streaming.Args:
-		st := s.Stream
-		req := new(core_api.ConfigGetModelCharacterReq)
-		if err := st.RecvMsg(req); err != nil {
-			return err
-		}
-		resp, err := handler.(core_api.Config).ConfigGetModelCharacter(ctx, req)
-		if err != nil {
-			return err
-		}
-		return st.SendMsg(resp)
-	case *ConfigGetModelCharacterArgs:
-		success, err := handler.(core_api.Config).ConfigGetModelCharacter(ctx, s.Req)
-		if err != nil {
-			return err
-		}
-		realResult := result.(*ConfigGetModelCharacterResult)
-		realResult.Success = success
-		return nil
-	default:
-		return errInvalidMessageType
-	}
-}
-func newConfigGetModelCharacterArgs() interface{} {
-	return &ConfigGetModelCharacterArgs{}
-}
-
-func newConfigGetModelCharacterResult() interface{} {
-	return &ConfigGetModelCharacterResult{}
-}
-
-type ConfigGetModelCharacterArgs struct {
-	Req *core_api.ConfigGetModelCharacterReq
-}
-
-func (p *ConfigGetModelCharacterArgs) Marshal(out []byte) ([]byte, error) {
-	if !p.IsSetReq() {
-		return out, nil
-	}
-	return proto.Marshal(p.Req)
-}
-
-func (p *ConfigGetModelCharacterArgs) Unmarshal(in []byte) error {
-	msg := new(core_api.ConfigGetModelCharacterReq)
-	if err := proto.Unmarshal(in, msg); err != nil {
-		return err
-	}
-	p.Req = msg
-	return nil
-}
-
-var ConfigGetModelCharacterArgs_Req_DEFAULT *core_api.ConfigGetModelCharacterReq
-
-func (p *ConfigGetModelCharacterArgs) GetReq() *core_api.ConfigGetModelCharacterReq {
-	if !p.IsSetReq() {
-		return ConfigGetModelCharacterArgs_Req_DEFAULT
-	}
-	return p.Req
-}
-
-func (p *ConfigGetModelCharacterArgs) IsSetReq() bool {
-	return p.Req != nil
-}
-
-func (p *ConfigGetModelCharacterArgs) GetFirstArgument() interface{} {
-	return p.Req
-}
-
-type ConfigGetModelCharacterResult struct {
-	Success *core_api.ConfigGetModelCharacterResp
-}
-
-var ConfigGetModelCharacterResult_Success_DEFAULT *core_api.ConfigGetModelCharacterResp
-
-func (p *ConfigGetModelCharacterResult) Marshal(out []byte) ([]byte, error) {
-	if !p.IsSetSuccess() {
-		return out, nil
-	}
-	return proto.Marshal(p.Success)
-}
-
-func (p *ConfigGetModelCharacterResult) Unmarshal(in []byte) error {
-	msg := new(core_api.ConfigGetModelCharacterResp)
-	if err := proto.Unmarshal(in, msg); err != nil {
-		return err
-	}
-	p.Success = msg
-	return nil
-}
-
-func (p *ConfigGetModelCharacterResult) GetSuccess() *core_api.ConfigGetModelCharacterResp {
-	if !p.IsSetSuccess() {
-		return ConfigGetModelCharacterResult_Success_DEFAULT
-	}
-	return p.Success
-}
-
-func (p *ConfigGetModelCharacterResult) SetSuccess(x interface{}) {
-	p.Success = x.(*core_api.ConfigGetModelCharacterResp)
-}
-
-func (p *ConfigGetModelCharacterResult) IsSetSuccess() bool {
-	return p.Success != nil
-}
-
-func (p *ConfigGetModelCharacterResult) GetResult() interface{} {
-	return p.Success
-}
-
 type kClient struct {
 	c client.Client
 }
@@ -589,16 +471,6 @@ func (p *kClient) ConfigGetByUnitID(ctx context.Context, Req *core_api.ConfigGet
 	_args.Req = Req
 	var _result ConfigGetByUnitIDResult
 	if err = p.c.Call(ctx, "ConfigGetByUnitID", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
-func (p *kClient) ConfigGetModelCharacter(ctx context.Context, Req *core_api.ConfigGetModelCharacterReq) (r *core_api.ConfigGetModelCharacterResp, err error) {
-	var _args ConfigGetModelCharacterArgs
-	_args.Req = Req
-	var _result ConfigGetModelCharacterResult
-	if err = p.c.Call(ctx, "ConfigGetModelCharacter", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

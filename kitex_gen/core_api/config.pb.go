@@ -137,17 +137,19 @@ func (x *ReportApp) GetAppId() string {
 
 type ConfigVO struct {
 	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	Type   int32  `protobuf:"varint,2,opt,name=type" json:"type,omitempty"`
 
 	// 1-2: Chain | End2End
+	Type   int32      `protobuf:"varint,2,opt,name=type" json:"type,omitempty"`
 	Chat   *ChatApp   `protobuf:"bytes,3,opt,name=chat" json:"chat,omitempty"`
 	Tts    *TTSApp    `protobuf:"bytes,4,opt,name=tts" json:"tts,omitempty"`
 	Report *ReportApp `protobuf:"bytes,5,opt,name=report" json:"report,omitempty"`
 
 	// 1-2: Active | Deleted
-	Status     int32 `protobuf:"varint,6,opt,name=status" json:"status,omitempty"`
-	CreateTime int64 `protobuf:"varint,7,opt,name=createTime" json:"createTime,omitempty"`
-	UpdateTime int64 `protobuf:"varint,8,opt,name=updateTime" json:"updateTime,omitempty"`
+	Status          int32  `protobuf:"varint,6,opt,name=status" json:"status,omitempty"`
+	CreateTime      int64  `protobuf:"varint,7,opt,name=createTime" json:"createTime,omitempty"`
+	UpdateTime      int64  `protobuf:"varint,8,opt,name=updateTime" json:"updateTime,omitempty"`
+	ModelView       string `protobuf:"bytes,9,opt,name=modelView" json:"modelView,omitempty"`
+	BackgroundImage string `protobuf:"bytes,10,opt,name=backgroundImage" json:"backgroundImage,omitempty"`
 }
 
 func (x *ConfigVO) Reset() { *x = ConfigVO{} }
@@ -212,9 +214,22 @@ func (x *ConfigVO) GetUpdateTime() int64 {
 	return 0
 }
 
+func (x *ConfigVO) GetModelView() string {
+	if x != nil {
+		return x.ModelView
+	}
+	return ""
+}
+
+func (x *ConfigVO) GetBackgroundImage() string {
+	if x != nil {
+		return x.BackgroundImage
+	}
+	return ""
+}
+
 type ConfigCreateOrUpdateReq struct {
 	Config *ConfigVO `protobuf:"bytes,1,opt,name=config" json:"config,omitempty"`
-	Admin  bool      `protobuf:"varint,2,opt,name=admin" json:"admin,omitempty"`
 }
 
 func (x *ConfigCreateOrUpdateReq) Reset() { *x = ConfigCreateOrUpdateReq{} }
@@ -232,16 +247,8 @@ func (x *ConfigCreateOrUpdateReq) GetConfig() *ConfigVO {
 	return nil
 }
 
-func (x *ConfigCreateOrUpdateReq) GetAdmin() bool {
-	if x != nil {
-		return x.Admin
-	}
-	return false
-}
-
 type ConfigGetByUnitIdReq struct {
 	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	Admin  bool   `protobuf:"varint,2,opt,name=admin" json:"admin,omitempty"`
 }
 
 func (x *ConfigGetByUnitIdReq) Reset() { *x = ConfigGetByUnitIdReq{} }
@@ -255,13 +262,6 @@ func (x *ConfigGetByUnitIdReq) GetUnitId() string {
 		return x.UnitId
 	}
 	return ""
-}
-
-func (x *ConfigGetByUnitIdReq) GetAdmin() bool {
-	if x != nil {
-		return x.Admin
-	}
-	return false
 }
 
 type ConfigGetByUnitIdResp struct {
@@ -295,52 +295,6 @@ func (x *ConfigGetByUnitIdResp) GetCode() int32 {
 func (x *ConfigGetByUnitIdResp) GetMsg() string {
 	if x != nil {
 		return x.Msg
-	}
-	return ""
-}
-
-type ConfigGetModelCharacterReq struct {
-	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-}
-
-func (x *ConfigGetModelCharacterReq) Reset() { *x = ConfigGetModelCharacterReq{} }
-
-func (x *ConfigGetModelCharacterReq) Marshal(in []byte) ([]byte, error) {
-	return prutal.MarshalAppend(in, x)
-}
-
-func (x *ConfigGetModelCharacterReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *ConfigGetModelCharacterReq) GetUnitId() string {
-	if x != nil {
-		return x.UnitId
-	}
-	return ""
-}
-
-type ConfigGetModelCharacterResp struct {
-	ModelView       string `protobuf:"bytes,1,opt,name=modelView" json:"modelView,omitempty"`
-	BackgroundImage string `protobuf:"bytes,2,opt,name=backgroundImage" json:"backgroundImage,omitempty"`
-}
-
-func (x *ConfigGetModelCharacterResp) Reset() { *x = ConfigGetModelCharacterResp{} }
-
-func (x *ConfigGetModelCharacterResp) Marshal(in []byte) ([]byte, error) {
-	return prutal.MarshalAppend(in, x)
-}
-
-func (x *ConfigGetModelCharacterResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *ConfigGetModelCharacterResp) GetModelView() string {
-	if x != nil {
-		return x.ModelView
-	}
-	return ""
-}
-
-func (x *ConfigGetModelCharacterResp) GetBackgroundImage() string {
-	if x != nil {
-		return x.BackgroundImage
 	}
 	return ""
 }
