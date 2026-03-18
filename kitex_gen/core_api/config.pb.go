@@ -298,3 +298,49 @@ func (x *ConfigGetByUnitIdResp) GetMsg() string {
 	}
 	return ""
 }
+
+type ConfigGetModelCharacterReq struct {
+	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+}
+
+func (x *ConfigGetModelCharacterReq) Reset() { *x = ConfigGetModelCharacterReq{} }
+
+func (x *ConfigGetModelCharacterReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *ConfigGetModelCharacterReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ConfigGetModelCharacterReq) GetUnitId() string {
+	if x != nil {
+		return x.UnitId
+	}
+	return ""
+}
+
+type ConfigGetModelCharacterResp struct {
+	ModelView       string `protobuf:"bytes,1,opt,name=modelView" json:"modelView,omitempty"`
+	BackgroundImage string `protobuf:"bytes,2,opt,name=backgroundImage" json:"backgroundImage,omitempty"`
+}
+
+func (x *ConfigGetModelCharacterResp) Reset() { *x = ConfigGetModelCharacterResp{} }
+
+func (x *ConfigGetModelCharacterResp) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *ConfigGetModelCharacterResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ConfigGetModelCharacterResp) GetModelView() string {
+	if x != nil {
+		return x.ModelView
+	}
+	return ""
+}
+
+func (x *ConfigGetModelCharacterResp) GetBackgroundImage() string {
+	if x != nil {
+		return x.BackgroundImage
+	}
+	return ""
+}

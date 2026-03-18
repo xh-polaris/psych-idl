@@ -1561,10 +1561,11 @@ func (x *DashboardUnitConvRecordsResp) GetMsg() string {
 }
 
 type ConvOverview struct {
-	User      *UserVO `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
-	Title     string  `protobuf:"bytes,2,opt,name=title" json:"title,omitempty"`
-	Time      int64   `protobuf:"varint,3,opt,name=time" json:"time,omitempty"`
-	NeedAlarm bool    `protobuf:"varint,4,opt,name=needAlarm" json:"needAlarm,omitempty"`
+	ConvId    string  `protobuf:"bytes,1,opt,name=convId" json:"convId,omitempty"`
+	User      *UserVO `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
+	Title     string  `protobuf:"bytes,3,opt,name=title" json:"title,omitempty"`
+	Time      int64   `protobuf:"varint,4,opt,name=time" json:"time,omitempty"`
+	NeedAlarm bool    `protobuf:"varint,5,opt,name=needAlarm" json:"needAlarm,omitempty"`
 }
 
 func (x *ConvOverview) Reset() { *x = ConvOverview{} }
@@ -1572,6 +1573,13 @@ func (x *ConvOverview) Reset() { *x = ConvOverview{} }
 func (x *ConvOverview) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
 
 func (x *ConvOverview) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ConvOverview) GetConvId() string {
+	if x != nil {
+		return x.ConvId
+	}
+	return ""
+}
 
 func (x *ConvOverview) GetUser() *UserVO {
 	if x != nil {

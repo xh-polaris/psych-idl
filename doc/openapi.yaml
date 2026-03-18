@@ -57,6 +57,29 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
+    /config/get_model_character:
+        get:
+            tags:
+                - Config
+            operationId: Config_ConfigGetModelCharacter
+            parameters:
+                - name: unitId
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ConfigGetModelCharacterResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /config/update_info:
         post:
             tags:
@@ -722,6 +745,13 @@ components:
             properties:
                 config:
                     $ref: '#/components/schemas/Config'
+        ConfigGetModelCharacterResp:
+            type: object
+            properties:
+                modelView:
+                    type: string
+                backgroundImage:
+                    type: string
         ConvDetail:
             type: object
             properties:
@@ -734,6 +764,8 @@ components:
         ConvOverview:
             type: object
             properties:
+                convId:
+                    type: string
                 user:
                     $ref: '#/components/schemas/UserVO'
                 title:

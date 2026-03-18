@@ -25,6 +25,7 @@ type Config interface {
 	ConfigCreate(ctx context.Context, req *ConfigCreateOrUpdateReq) (res *basic.Response, err error)
 	ConfigUpdateInfo(ctx context.Context, req *ConfigCreateOrUpdateReq) (res *basic.Response, err error)
 	ConfigGetByUnitID(ctx context.Context, req *ConfigGetByUnitIdReq) (res *ConfigGetByUnitIdResp, err error)
+	ConfigGetModelCharacter(ctx context.Context, req *ConfigGetModelCharacterReq) (res *ConfigGetModelCharacterResp, err error)
 }
 
 type Dashboard interface {
