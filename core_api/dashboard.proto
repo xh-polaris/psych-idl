@@ -110,6 +110,7 @@ message Keywords {
   int32 keyTotal = 2;
 }
 message EmotionRatio {
+  // 1-4: Danger | Depress | Negative | Normal
   map<int32, int32> ratio = 1;
   int32 total = 2;
 }
@@ -170,7 +171,7 @@ message AlarmRecord {
   int32 emotion = 2;
   // 关键词列表
   repeated string keywords = 3;
-  // 处理状态
+  // 处理状态 1-2: Processed | Pending
   int32 status = 4;
   // 用户信息
   core_api.UserVO user = 5;
