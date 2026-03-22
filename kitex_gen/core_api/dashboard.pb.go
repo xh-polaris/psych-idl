@@ -1172,8 +1172,8 @@ func (x *RiskUser) GetKeywords() []string {
 
 type DashboardListUsersReq struct {
 	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	Grade  int32  `protobuf:"varint,2,opt,name=grade" json:"grade,omitempty"`
-	Class  int32  `protobuf:"varint,3,opt,name=class" json:"class,omitempty"`
+	Grade  *int32 `protobuf:"varint,2,opt,name=grade" json:"grade,omitempty"`
+	Class  *int32 `protobuf:"varint,3,opt,name=class" json:"class,omitempty"`
 
 	// 1-4: High | Medium | Low | Normal
 	Level *int32 `protobuf:"varint,4,opt,name=level" json:"level,omitempty"`
@@ -1200,15 +1200,15 @@ func (x *DashboardListUsersReq) GetUnitId() string {
 }
 
 func (x *DashboardListUsersReq) GetGrade() int32 {
-	if x != nil {
-		return x.Grade
+	if x != nil && x.Grade != nil {
+		return *x.Grade
 	}
 	return 0
 }
 
 func (x *DashboardListUsersReq) GetClass() int32 {
-	if x != nil {
-		return x.Class
+	if x != nil && x.Class != nil {
+		return *x.Class
 	}
 	return 0
 }
