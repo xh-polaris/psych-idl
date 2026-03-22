@@ -58,3 +58,19 @@ message ConfigGetByUnitIdResp {
   int32 code = 255;
   string msg = 256;
 }
+
+message ConfigUpdateModelAndBgImageReq {
+  string unitId = 1;
+  string modelView = 2;
+  string backgroundImage = 3;
+}
+
+message ConfigGetModelAndBgImageReq {
+  string unitId = 1;
+}
+message ConfigGetModelAndBgImageResp {
+  string modelView = 1;
+  string backgroundImage = 2;
+  int32 code = 255;
+  string msg = 256;
+}

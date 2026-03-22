@@ -77,9 +77,19 @@ service Config {
       body: "*"
     };
   }
-  rpc ConfigGetByUnitID (ConfigGetByUnitIdReq) returns (ConfigGetByUnitIdResp){
+  rpc ConfigGetByUnitID(ConfigGetByUnitIdReq) returns (ConfigGetByUnitIdResp){
     option (google.api.http) = {
       get: "/config/get_by_unit_id"
+    };
+  }
+  rpc ConfigUpdateModelAndBgImage(ConfigUpdateModelAndBgImageReq) returns (basic.Response){
+    option (google.api.http) = {
+      post: "/config/update_model_and_bg_image"
+    };
+  }
+  rpc ConfigGetModelAndBgImage(ConfigGetModelAndBgImageReq) returns (ConfigGetModelAndBgImageResp){
+    option (google.api.http) = {
+      get: "/config/get_model_and_bg_image"
     };
   }
 }
