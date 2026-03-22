@@ -1103,7 +1103,7 @@ components:
                 class:
                     type: integer
                     format: int32
-            description: 按班年级列出用户
+            description: 按班级+年级列出用户
         DashboardListClassesResp:
             type: object
             properties:

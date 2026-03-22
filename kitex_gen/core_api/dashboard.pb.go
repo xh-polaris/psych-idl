@@ -1056,7 +1056,7 @@ func (x *GradeInfo) GetClasses() []*ClassInfo {
 	return nil
 }
 
-// 按班年级列出用户
+// 按班级+年级列出用户
 type DashboardListClassesReq struct {
 	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 	Grade  *int32 `protobuf:"varint,2,opt,name=grade" json:"grade,omitempty"`
