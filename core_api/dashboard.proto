@@ -210,7 +210,7 @@ message GradeInfo {
   repeated ClassInfo classes = 2;
 }
 
-// 按班年级列出用户
+// 按班级+年级列出用户
 message DashboardListClassesReq {
   string unitId = 1;
   optional int32 grade = 2;
