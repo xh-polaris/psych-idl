@@ -1123,6 +1123,8 @@ components:
                     format: int32
                 updateTime:
                     type: string
+                id:
+                    type: string
         DashboardUnitConvRecordsReq:
             type: object
             properties:

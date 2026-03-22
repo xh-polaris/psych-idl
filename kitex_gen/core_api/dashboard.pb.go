@@ -405,6 +405,7 @@ type DashboardUnit struct {
 	AverageConversationMinutes float64 `protobuf:"fixed64,5,opt,name=averageConversationMinutes" json:"averageConversationMinutes,omitempty"`
 	RiskUserCount              int32   `protobuf:"varint,6,opt,name=riskUserCount" json:"riskUserCount,omitempty"`
 	UpdateTime                 int64   `protobuf:"varint,7,opt,name=updateTime" json:"updateTime,omitempty"`
+	Id                         string  `protobuf:"bytes,8,opt,name=id" json:"id,omitempty"`
 }
 
 func (x *DashboardUnit) Reset() { *x = DashboardUnit{} }
@@ -460,6 +461,13 @@ func (x *DashboardUnit) GetUpdateTime() int64 {
 		return x.UpdateTime
 	}
 	return 0
+}
+
+func (x *DashboardUnit) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
 }
 
 // 情绪与心理健康趋势
