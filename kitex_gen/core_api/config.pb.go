@@ -298,3 +298,100 @@ func (x *ConfigGetByUnitIdResp) GetMsg() string {
 	}
 	return ""
 }
+
+type ConfigUpdateModelAndBgImageReq struct {
+	UnitId          string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	ModelView       string `protobuf:"bytes,2,opt,name=modelView" json:"modelView,omitempty"`
+	BackgroundImage string `protobuf:"bytes,3,opt,name=backgroundImage" json:"backgroundImage,omitempty"`
+}
+
+func (x *ConfigUpdateModelAndBgImageReq) Reset() { *x = ConfigUpdateModelAndBgImageReq{} }
+
+func (x *ConfigUpdateModelAndBgImageReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *ConfigUpdateModelAndBgImageReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ConfigUpdateModelAndBgImageReq) GetUnitId() string {
+	if x != nil {
+		return x.UnitId
+	}
+	return ""
+}
+
+func (x *ConfigUpdateModelAndBgImageReq) GetModelView() string {
+	if x != nil {
+		return x.ModelView
+	}
+	return ""
+}
+
+func (x *ConfigUpdateModelAndBgImageReq) GetBackgroundImage() string {
+	if x != nil {
+		return x.BackgroundImage
+	}
+	return ""
+}
+
+type ConfigGetModelAndBgImageReq struct {
+	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+}
+
+func (x *ConfigGetModelAndBgImageReq) Reset() { *x = ConfigGetModelAndBgImageReq{} }
+
+func (x *ConfigGetModelAndBgImageReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *ConfigGetModelAndBgImageReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ConfigGetModelAndBgImageReq) GetUnitId() string {
+	if x != nil {
+		return x.UnitId
+	}
+	return ""
+}
+
+type ConfigGetModelAndBgImageResp struct {
+	ModelView       string `protobuf:"bytes,1,opt,name=modelView" json:"modelView,omitempty"`
+	BackgroundImage string `protobuf:"bytes,2,opt,name=backgroundImage" json:"backgroundImage,omitempty"`
+	Code            int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg             string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *ConfigGetModelAndBgImageResp) Reset() { *x = ConfigGetModelAndBgImageResp{} }
+
+func (x *ConfigGetModelAndBgImageResp) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *ConfigGetModelAndBgImageResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ConfigGetModelAndBgImageResp) GetModelView() string {
+	if x != nil {
+		return x.ModelView
+	}
+	return ""
+}
+
+func (x *ConfigGetModelAndBgImageResp) GetBackgroundImage() string {
+	if x != nil {
+		return x.BackgroundImage
+	}
+	return ""
+}
+
+func (x *ConfigGetModelAndBgImageResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *ConfigGetModelAndBgImageResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}

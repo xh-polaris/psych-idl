@@ -53,6 +53,29 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
+    /config/get_model_and_bg_image:
+        get:
+            tags:
+                - Config
+            operationId: Config_ConfigGetModelAndBgImage
+            parameters:
+                - name: unitId
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ConfigGetModelAndBgImageResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /config/update_info:
         post:
             tags:
@@ -64,6 +87,37 @@ paths:
                         schema:
                             $ref: '#/components/schemas/ConfigCreateOrUpdateReq'
                 required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Response'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /config/update_model_and_bg_image:
+        post:
+            tags:
+                - Config
+            operationId: Config_ConfigUpdateModelAndBgImage
+            parameters:
+                - name: unitId
+                  in: query
+                  schema:
+                    type: string
+                - name: modelView
+                  in: query
+                  schema:
+                    type: string
+                - name: backgroundImage
+                  in: query
+                  schema:
+                    type: string
             responses:
                 "200":
                     description: OK
@@ -718,6 +772,18 @@ components:
             properties:
                 config:
                     $ref: '#/components/schemas/Config'
+        ConfigGetModelAndBgImageResp:
+            type: object
+            properties:
+                modelView:
+                    type: string
+                backgroundImage:
+                    type: string
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
         ConvDetail:
             type: object
             properties:

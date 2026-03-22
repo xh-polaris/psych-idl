@@ -15,6 +15,8 @@ type Client interface {
 	ConfigCreate(ctx context.Context, Req *core_api.ConfigCreateOrUpdateReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	ConfigUpdateInfo(ctx context.Context, Req *core_api.ConfigCreateOrUpdateReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	ConfigGetByUnitID(ctx context.Context, Req *core_api.ConfigGetByUnitIdReq, callOptions ...callopt.Option) (r *core_api.ConfigGetByUnitIdResp, err error)
+	ConfigUpdateModelAndBgImage(ctx context.Context, Req *core_api.ConfigUpdateModelAndBgImageReq, callOptions ...callopt.Option) (r *basic.Response, err error)
+	ConfigGetModelAndBgImage(ctx context.Context, Req *core_api.ConfigGetModelAndBgImageReq, callOptions ...callopt.Option) (r *core_api.ConfigGetModelAndBgImageResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -59,4 +61,14 @@ func (p *kConfigClient) ConfigUpdateInfo(ctx context.Context, Req *core_api.Conf
 func (p *kConfigClient) ConfigGetByUnitID(ctx context.Context, Req *core_api.ConfigGetByUnitIdReq, callOptions ...callopt.Option) (r *core_api.ConfigGetByUnitIdResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.ConfigGetByUnitID(ctx, Req)
+}
+
+func (p *kConfigClient) ConfigUpdateModelAndBgImage(ctx context.Context, Req *core_api.ConfigUpdateModelAndBgImageReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ConfigUpdateModelAndBgImage(ctx, Req)
+}
+
+func (p *kConfigClient) ConfigGetModelAndBgImage(ctx context.Context, Req *core_api.ConfigGetModelAndBgImageReq, callOptions ...callopt.Option) (r *core_api.ConfigGetModelAndBgImageResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ConfigGetModelAndBgImage(ctx, Req)
 }
