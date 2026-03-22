@@ -646,7 +646,7 @@ components:
                     description: 关键词列表
                 status:
                     type: integer
-                    description: 处理状态
+                    description: '处理状态 1-2: Processed | Pending'
                     format: int32
                 user:
                     allOf:
@@ -1164,6 +1164,7 @@ components:
                     additionalProperties:
                         type: integer
                         format: int32
+                    description: '1-4: Danger | Depress | Negative | Normal'
                 total:
                     type: integer
                     format: int32

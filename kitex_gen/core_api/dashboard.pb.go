@@ -590,6 +590,7 @@ func (x *Keywords) GetKeyTotal() int32 {
 }
 
 type EmotionRatio struct {
+	// 1-4: Danger | Depress | Negative | Normal
 	Ratio map[int32]int32 `protobuf:"bytes,1,rep,name=ratio" json:"ratio,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"varint,2,opt,name=value"`
 	Total int32           `protobuf:"varint,2,opt,name=total" json:"total,omitempty"`
 }
@@ -890,7 +891,7 @@ type AlarmRecord struct {
 	// 关键词列表
 	Keywords []string `protobuf:"bytes,3,rep,name=keywords" json:"keywords,omitempty"`
 
-	// 处理状态
+	// 处理状态 1-2: Processed | Pending
 	Status int32 `protobuf:"varint,4,opt,name=status" json:"status,omitempty"`
 
 	// 用户信息
