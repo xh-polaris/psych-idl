@@ -154,7 +154,9 @@ message DashboardGetAlarmOverviewResp {
 
 message DashboardListAlarmRecordsReq {
   string unitId = 1;
+  // 1-4: Danger | Depress | Negative | Normal
   optional int32 emotion = 2;
+  // 处理状态 1-2: Processed | Pending
   optional int32 status = 3;
   optional string keyword = 4;
   basic.PaginationOptions paginationOptions = 5;
@@ -177,7 +179,7 @@ message DashboardUpdateAlarmResp {
 message AlarmRecord {
   // 唯一Id
   string id = 1;
-  // 情绪状态
+  // 情绪状态 1-4: Danger | Depress | Negative | Normal
   int32 emotion = 2;
   // 关键词列表
   repeated string keywords = 3;
@@ -269,9 +271,12 @@ message UserConvTrend {
   repeated TrendPoint trendPoints = 1;
 }
 message ConvDetail {
-  int64 time = 1; // 对话时间
-  string digest = 2; // 摘要
-  Keywords keywords = 3; // 关键词（词云）
+  // 对话时间
+  int64 time = 1;
+  // 摘要
+  string digest = 2;
+  // 关键词（词云）
+  Keywords keywords = 3;
 }
 
 // 查看报表详情
@@ -279,12 +284,18 @@ message DashboardGetReportReq {
   string ConversationId = 1;
 }
 message DashboardGetReportResp {
-  string title = 1;           // 对话标题
-  repeated string keywords = 2; // 关键词列表
-  string digest = 3;          // 对话摘要
-  int32 emotion = 4;         // 情绪状态（由模型自由生成）
-  string body = 5;            // 详细分析内容
-  bool need_alarm = 6;        // 是否需要告警
+  // 对话标题
+  string title = 1;
+  // 关键词列表
+  repeated string keywords = 2;
+  // 对话摘要
+  string digest = 3;
+  // 情绪状态（由模型自由生成） 1-4: Danger | Depress | Negative | Normal
+  int32 emotion = 4;
+  // 详细分析内容
+  string body = 5;
+  // 是否需要告警
+  bool need_alarm = 6;
   int32 code = 255;
   string msg = 256;
 }
