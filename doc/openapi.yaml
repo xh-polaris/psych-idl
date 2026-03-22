@@ -637,7 +637,7 @@ components:
                     description: 唯一Id
                 emotion:
                     type: integer
-                    description: 情绪状态
+                    description: '情绪状态 1-4: Danger | Depress | Negative | Normal'
                     format: int32
                 keywords:
                     type: array
@@ -723,10 +723,14 @@ components:
             properties:
                 time:
                     type: string
+                    description: 对话时间
                 digest:
                     type: string
+                    description: 摘要
                 keywords:
-                    $ref: '#/components/schemas/Keywords'
+                    allOf:
+                        - $ref: '#/components/schemas/Keywords'
+                    description: 关键词（词云）
         ConvOverview:
             type: object
             properties:
@@ -967,19 +971,25 @@ components:
             properties:
                 title:
                     type: string
+                    description: 对话标题
                 keywords:
                     type: array
                     items:
                         type: string
+                    description: 关键词列表
                 digest:
                     type: string
+                    description: 对话摘要
                 emotion:
                     type: integer
+                    description: '情绪状态（由模型自由生成） 1-4: Danger | Depress | Negative | Normal'
                     format: int32
                 body:
                     type: string
+                    description: 详细分析内容
                 needAlarm:
                     type: boolean
+                    description: 是否需要告警
                 code:
                     type: integer
                     format: int32
@@ -992,9 +1002,11 @@ components:
                     type: string
                 emotion:
                     type: integer
+                    description: '1-4: Danger | Depress | Negative | Normal'
                     format: int32
                 status:
                     type: integer
+                    description: '处理状态 1-2: Processed | Pending'
                     format: int32
                 keyword:
                     type: string
