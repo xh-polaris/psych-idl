@@ -92,6 +92,7 @@ message DashboardUnit {
   double averageConversationMinutes = 5;
   int32 riskUserCount = 6;
   int64 updateTime = 7;
+  string id = 8;
 }
 
 // 情绪与心理健康趋势
