@@ -232,8 +232,8 @@ message RiskUser {
 
 message DashboardListUsersReq{
   string unitId = 1;
-  int32 grade = 2;
-  int32 class = 3;
+  optional int32 grade = 2;
+  optional int32 class = 3;
   // 1-4: High | Medium | Low | Normal
   optional int32 level = 4;
   // 0=all 1=male 2=female
