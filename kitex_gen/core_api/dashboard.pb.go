@@ -316,8 +316,18 @@ func (x *TrendPoint) GetCount() int32 {
 }
 
 type ConversationDuration struct {
-	Minutes int32 `protobuf:"varint,1,opt,name=minutes" json:"minutes,omitempty"`
-	Count   int32 `protobuf:"varint,2,opt,name=count" json:"count,omitempty"`
+	// RangeKey 代表时间区间索引：
+	// 1: 0-5 min
+	// 2: 6-10 min
+	// 3: 11-20 min
+	// 4: 21-30 min
+	// 5: 31-60 min
+	// 6: 61-120 min
+	// 7: 120+ min
+	Key int32 `protobuf:"varint,1,opt,name=key" json:"key,omitempty"`
+
+	// Count 该区间内的会话总数
+	Count int32 `protobuf:"varint,2,opt,name=count" json:"count,omitempty"`
 }
 
 func (x *ConversationDuration) Reset() { *x = ConversationDuration{} }
@@ -326,9 +336,9 @@ func (x *ConversationDuration) Marshal(in []byte) ([]byte, error) { return pruta
 
 func (x *ConversationDuration) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *ConversationDuration) GetMinutes() int32 {
+func (x *ConversationDuration) GetKey() int32 {
 	if x != nil {
-		return x.Minutes
+		return x.Key
 	}
 	return 0
 }
@@ -1162,14 +1172,16 @@ func (x *RiskUser) GetKeywords() []string {
 
 type DashboardListUsersReq struct {
 	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+	Grade  int32  `protobuf:"varint,2,opt,name=grade" json:"grade,omitempty"`
+	Class  int32  `protobuf:"varint,3,opt,name=class" json:"class,omitempty"`
 
 	// 1-4: High | Medium | Low | Normal
-	Level *int32 `protobuf:"varint,2,opt,name=level" json:"level,omitempty"`
+	Level *int32 `protobuf:"varint,4,opt,name=level" json:"level,omitempty"`
 
 	// 0=all 1=male 2=female
-	Gender            *int32                   `protobuf:"varint,3,opt,name=gender" json:"gender,omitempty"`
-	Keyword           *string                  `protobuf:"bytes,4,opt,name=keyword" json:"keyword,omitempty"`
-	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,5,opt,name=paginationOptions" json:"paginationOptions,omitempty"`
+	Gender            *int32                   `protobuf:"varint,5,opt,name=gender" json:"gender,omitempty"`
+	Keyword           *string                  `protobuf:"bytes,6,opt,name=keyword" json:"keyword,omitempty"`
+	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,7,opt,name=paginationOptions" json:"paginationOptions,omitempty"`
 }
 
 func (x *DashboardListUsersReq) Reset() { *x = DashboardListUsersReq{} }
@@ -1185,6 +1197,20 @@ func (x *DashboardListUsersReq) GetUnitId() string {
 		return x.UnitId
 	}
 	return ""
+}
+
+func (x *DashboardListUsersReq) GetGrade() int32 {
+	if x != nil {
+		return x.Grade
+	}
+	return 0
+}
+
+func (x *DashboardListUsersReq) GetClass() int32 {
+	if x != nil {
+		return x.Class
+	}
+	return 0
 }
 
 func (x *DashboardListUsersReq) GetLevel() int32 {

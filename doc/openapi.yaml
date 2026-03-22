@@ -743,11 +743,21 @@ components:
         ConversationDuration:
             type: object
             properties:
-                minutes:
+                key:
                     type: integer
+                    description: |-
+                        RangeKey 代表时间区间索引：
+                         1: 0-5 min
+                         2: 6-10 min
+                         3: 11-20 min
+                         4: 21-30 min
+                         5: 31-60 min
+                         6: 61-120 min
+                         7: 120+ min
                     format: int32
                 count:
                     type: integer
+                    description: Count 该区间内的会话总数
                     format: int32
         ConversationVO:
             type: object
@@ -1049,6 +1059,12 @@ components:
             properties:
                 unitId:
                     type: string
+                grade:
+                    type: integer
+                    format: int32
+                class:
+                    type: integer
+                    format: int32
                 level:
                     type: integer
                     description: '1-4: High | Medium | Low | Normal'
