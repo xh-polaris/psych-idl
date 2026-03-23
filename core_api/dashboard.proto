@@ -52,6 +52,7 @@ message DashboardGetDataTrendResp {
   repeated TrendPoint conversationPoints = 2;
   // 对话时间分布
   repeated conversationDuration conversationDurations = 3;
+  convDistribution convDistribution = 4;
   int32 code = 255;
   string msg = 256;
 }
@@ -75,6 +76,11 @@ message conversationDuration {
 
   // Count 该区间内的会话总数
   int32 count = 2;
+}
+message convDistribution {
+  // key: grade; value: ratio
+  map<int32, int32> ratio = 1;
+  int32 total = 2;
 }
 
 // 管理端-列出单位
