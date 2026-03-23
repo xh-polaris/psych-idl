@@ -797,6 +797,18 @@ components:
                     allOf:
                         - $ref: '#/components/schemas/Keywords'
                     description: 关键词（词云）
+        ConvDistribution:
+            type: object
+            properties:
+                ratio:
+                    type: object
+                    additionalProperties:
+                        type: integer
+                        format: int32
+                    description: 'key: grade; value: ratio'
+                total:
+                    type: integer
+                    format: int32
         ConvOverview:
             type: object
             properties:
@@ -994,6 +1006,8 @@ components:
                     items:
                         $ref: '#/components/schemas/ConversationDuration'
                     description: 对话时间分布
+                convDistribution:
+                    $ref: '#/components/schemas/ConvDistribution'
                 code:
                     type: integer
                     format: int32

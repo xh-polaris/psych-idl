@@ -232,6 +232,7 @@ type DashboardGetDataTrendResp struct {
 
 	// 对话时间分布
 	ConversationDurations []*ConversationDuration `protobuf:"bytes,3,rep,name=conversationDurations" json:"conversationDurations,omitempty"`
+	ConvDistribution      *ConvDistribution       `protobuf:"bytes,4,opt,name=convDistribution" json:"convDistribution,omitempty"`
 	Code                  int32                   `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
 	Msg                   string                  `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
@@ -261,6 +262,13 @@ func (x *DashboardGetDataTrendResp) GetConversationPoints() []*TrendPoint {
 func (x *DashboardGetDataTrendResp) GetConversationDurations() []*ConversationDuration {
 	if x != nil {
 		return x.ConversationDurations
+	}
+	return nil
+}
+
+func (x *DashboardGetDataTrendResp) GetConvDistribution() *ConvDistribution {
+	if x != nil {
+		return x.ConvDistribution
 	}
 	return nil
 }
@@ -346,6 +354,32 @@ func (x *ConversationDuration) GetKey() int32 {
 func (x *ConversationDuration) GetCount() int32 {
 	if x != nil {
 		return x.Count
+	}
+	return 0
+}
+
+type ConvDistribution struct {
+	// key: grade; value: ratio
+	Ratio map[int32]int32 `protobuf:"bytes,1,rep,name=ratio" json:"ratio,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"varint,2,opt,name=value"`
+	Total int32           `protobuf:"varint,2,opt,name=total" json:"total,omitempty"`
+}
+
+func (x *ConvDistribution) Reset() { *x = ConvDistribution{} }
+
+func (x *ConvDistribution) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ConvDistribution) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ConvDistribution) GetRatio() map[int32]int32 {
+	if x != nil {
+		return x.Ratio
+	}
+	return nil
+}
+
+func (x *ConvDistribution) GetTotal() int32 {
+	if x != nil {
+		return x.Total
 	}
 	return 0
 }
