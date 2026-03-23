@@ -52,7 +52,7 @@ message DashboardGetDataTrendResp {
   repeated TrendPoint conversationPoints = 2;
   // 对话时间分布
   repeated conversationDuration conversationDurations = 3;
-  convDistribution convDistribution = 4;
+  optional convDistribution convDistribution = 4;
   int32 code = 255;
   string msg = 256;
 }
