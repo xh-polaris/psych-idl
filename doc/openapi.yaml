@@ -797,6 +797,9 @@ components:
                     allOf:
                         - $ref: '#/components/schemas/Keywords'
                     description: 关键词（词云）
+                conversationId:
+                    type: string
+                    description: 对话id
         ConvDistribution:
             type: object
             properties:
@@ -1062,7 +1065,7 @@ components:
                     description: 对话摘要
                 emotion:
                     type: integer
-                    description: '情绪状态（由模型自由生成） 1-4: Danger | Depress | Negative | Normal'
+                    description: '情绪状态 1-5: Danger | Depress |Anxiety | Negative | Normal'
                     format: int32
                 body:
                     type: string
@@ -1070,6 +1073,8 @@ components:
                 needAlarm:
                     type: boolean
                     description: 是否需要告警
+                reportId:
+                    type: string
                 code:
                     type: integer
                     format: int32

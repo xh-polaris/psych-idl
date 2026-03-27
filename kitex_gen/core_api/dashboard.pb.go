@@ -1443,6 +1443,9 @@ type ConvDetail struct {
 
 	// 关键词（词云）
 	Keywords *Keywords `protobuf:"bytes,3,opt,name=keywords" json:"keywords,omitempty"`
+
+	// 对话id
+	ConversationId string `protobuf:"bytes,4,opt,name=conversationId" json:"conversationId,omitempty"`
 }
 
 func (x *ConvDetail) Reset() { *x = ConvDetail{} }
@@ -1470,6 +1473,13 @@ func (x *ConvDetail) GetKeywords() *Keywords {
 		return x.Keywords
 	}
 	return nil
+}
+
+func (x *ConvDetail) GetConversationId() string {
+	if x != nil {
+		return x.ConversationId
+	}
+	return ""
 }
 
 // 查看报表详情
@@ -1502,7 +1512,7 @@ type DashboardGetReportResp struct {
 	// 对话摘要
 	Digest string `protobuf:"bytes,3,opt,name=digest" json:"digest,omitempty"`
 
-	// 情绪状态（由模型自由生成） 1-4: Danger | Depress | Negative | Normal
+	// 情绪状态 1-5: Danger | Depress |Anxiety | Negative | Normal
 	Emotion int32 `protobuf:"varint,4,opt,name=emotion" json:"emotion,omitempty"`
 
 	// 详细分析内容
@@ -1510,6 +1520,7 @@ type DashboardGetReportResp struct {
 
 	// 是否需要告警
 	NeedAlarm bool   `protobuf:"varint,6,opt,name=need_alarm" json:"need_alarm,omitempty"`
+	ReportId  string `protobuf:"bytes,7,opt,name=reportId" json:"reportId,omitempty"`
 	Code      int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
 	Msg       string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
@@ -1562,6 +1573,13 @@ func (x *DashboardGetReportResp) GetNeedAlarm() bool {
 		return x.NeedAlarm
 	}
 	return false
+}
+
+func (x *DashboardGetReportResp) GetReportId() string {
+	if x != nil {
+		return x.ReportId
+	}
+	return ""
 }
 
 func (x *DashboardGetReportResp) GetCode() int32 {
