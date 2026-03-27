@@ -284,6 +284,8 @@ message ConvDetail {
   string digest = 2;
   // 关键词（词云）
   Keywords keywords = 3;
+  // 对话id
+  string conversationId = 4;
 }
 
 // 查看报表详情
@@ -297,12 +299,13 @@ message DashboardGetReportResp {
   repeated string keywords = 2;
   // 对话摘要
   string digest = 3;
-  // 情绪状态（由模型自由生成） 1-4: Danger | Depress | Negative | Normal
+  // 情绪状态 1-5: Danger | Depress |Anxiety | Negative | Normal
   int32 emotion = 4;
   // 详细分析内容
   string body = 5;
   // 是否需要告警
   bool need_alarm = 6;
+  string reportId = 7;
   int32 code = 255;
   string msg = 256;
 }
