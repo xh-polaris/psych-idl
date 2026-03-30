@@ -896,6 +896,8 @@ components:
         DashboardCreateRemarkReq:
             type: object
             properties:
+                userId:
+                    type: string
                 remark:
                     type: string
         DashboardCreateRemarkResp:
