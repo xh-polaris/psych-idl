@@ -167,6 +167,12 @@ service Dashboard {
       body: "*"
     };
   }
+  rpc DashboardCreateRemark(DashboardCreateRemarkReq) returns (DashboardCreateRemarkResp) {
+    option (google.api.http) = {
+      post: "/dashboard/create_remark"
+      body: "*"
+    };
+  }
 }
 
 service Conversation {

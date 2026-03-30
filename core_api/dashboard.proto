@@ -329,3 +329,11 @@ message ConvOverview {
   int64 time = 4;
   bool needAlarm = 5;
 }
+
+message DashboardCreateRemarkReq {
+  string remark = 1;
+}
+message DashboardCreateRemarkResp {
+  int32 code = 255;
+  string msg = 256;
+}
