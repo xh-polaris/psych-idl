@@ -99,6 +99,13 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
+	"DashboardCreateRemark": kitex.NewMethodInfo(
+		dashboardCreateRemarkHandler,
+		newDashboardCreateRemarkArgs,
+		newDashboardCreateRemarkResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
 }
 
 var (
@@ -1497,6 +1504,117 @@ func (p *DashboardGetReportResult) GetResult() interface{} {
 	return p.Success
 }
 
+func dashboardCreateRemarkHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.DashboardCreateRemarkReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.Dashboard).DashboardCreateRemark(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *DashboardCreateRemarkArgs:
+		success, err := handler.(core_api.Dashboard).DashboardCreateRemark(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*DashboardCreateRemarkResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newDashboardCreateRemarkArgs() interface{} {
+	return &DashboardCreateRemarkArgs{}
+}
+
+func newDashboardCreateRemarkResult() interface{} {
+	return &DashboardCreateRemarkResult{}
+}
+
+type DashboardCreateRemarkArgs struct {
+	Req *core_api.DashboardCreateRemarkReq
+}
+
+func (p *DashboardCreateRemarkArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *DashboardCreateRemarkArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.DashboardCreateRemarkReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var DashboardCreateRemarkArgs_Req_DEFAULT *core_api.DashboardCreateRemarkReq
+
+func (p *DashboardCreateRemarkArgs) GetReq() *core_api.DashboardCreateRemarkReq {
+	if !p.IsSetReq() {
+		return DashboardCreateRemarkArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *DashboardCreateRemarkArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *DashboardCreateRemarkArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type DashboardCreateRemarkResult struct {
+	Success *core_api.DashboardCreateRemarkResp
+}
+
+var DashboardCreateRemarkResult_Success_DEFAULT *core_api.DashboardCreateRemarkResp
+
+func (p *DashboardCreateRemarkResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *DashboardCreateRemarkResult) Unmarshal(in []byte) error {
+	msg := new(core_api.DashboardCreateRemarkResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *DashboardCreateRemarkResult) GetSuccess() *core_api.DashboardCreateRemarkResp {
+	if !p.IsSetSuccess() {
+		return DashboardCreateRemarkResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *DashboardCreateRemarkResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.DashboardCreateRemarkResp)
+}
+
+func (p *DashboardCreateRemarkResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *DashboardCreateRemarkResult) GetResult() interface{} {
+	return p.Success
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -1622,6 +1740,16 @@ func (p *kClient) DashboardGetReport(ctx context.Context, Req *core_api.Dashboar
 	_args.Req = Req
 	var _result DashboardGetReportResult
 	if err = p.c.Call(ctx, "DashboardGetReport", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) DashboardCreateRemark(ctx context.Context, Req *core_api.DashboardCreateRemarkReq) (r *core_api.DashboardCreateRemarkResp, err error) {
+	var _args DashboardCreateRemarkArgs
+	_args.Req = Req
+	var _result DashboardCreateRemarkResult
+	if err = p.c.Call(ctx, "DashboardCreateRemark", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

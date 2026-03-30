@@ -1715,3 +1715,49 @@ func (x *ConvOverview) GetNeedAlarm() bool {
 	}
 	return false
 }
+
+type DashboardCreateRemarkReq struct {
+	Remark string `protobuf:"bytes,1,opt,name=remark" json:"remark,omitempty"`
+}
+
+func (x *DashboardCreateRemarkReq) Reset() { *x = DashboardCreateRemarkReq{} }
+
+func (x *DashboardCreateRemarkReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *DashboardCreateRemarkReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *DashboardCreateRemarkReq) GetRemark() string {
+	if x != nil {
+		return x.Remark
+	}
+	return ""
+}
+
+type DashboardCreateRemarkResp struct {
+	Code int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg  string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *DashboardCreateRemarkResp) Reset() { *x = DashboardCreateRemarkResp{} }
+
+func (x *DashboardCreateRemarkResp) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *DashboardCreateRemarkResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *DashboardCreateRemarkResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *DashboardCreateRemarkResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}

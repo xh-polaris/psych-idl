@@ -275,6 +275,30 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
+    /dashboard/create_remark:
+        post:
+            tags:
+                - Dashboard
+            operationId: Dashboard_DashboardCreateRemark
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/DashboardCreateRemarkReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DashboardCreateRemarkResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /dashboard/get_report:
         post:
             tags:
@@ -864,6 +888,19 @@ components:
             properties:
                 conversationId:
                     type: string
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
+        DashboardCreateRemarkReq:
+            type: object
+            properties:
+                remark:
+                    type: string
+        DashboardCreateRemarkResp:
+            type: object
+            properties:
                 code:
                     type: integer
                     format: int32

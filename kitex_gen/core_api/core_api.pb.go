@@ -42,6 +42,7 @@ type Dashboard interface {
 	DashboardUserConvRecords(ctx context.Context, req *DashboardUserConvRecordsReq) (res *DashboardUserConvRecordsResp, err error)
 	DashboardUnitConvRecords(ctx context.Context, req *DashboardUnitConvRecordsReq) (res *DashboardUnitConvRecordsResp, err error)
 	DashboardGetReport(ctx context.Context, req *DashboardGetReportReq) (res *DashboardGetReportResp, err error)
+	DashboardCreateRemark(ctx context.Context, req *DashboardCreateRemarkReq) (res *DashboardCreateRemarkResp, err error)
 }
 
 type Conversation interface {

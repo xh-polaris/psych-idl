@@ -23,6 +23,7 @@ type Client interface {
 	DashboardUserConvRecords(ctx context.Context, Req *core_api.DashboardUserConvRecordsReq, callOptions ...callopt.Option) (r *core_api.DashboardUserConvRecordsResp, err error)
 	DashboardUnitConvRecords(ctx context.Context, Req *core_api.DashboardUnitConvRecordsReq, callOptions ...callopt.Option) (r *core_api.DashboardUnitConvRecordsResp, err error)
 	DashboardGetReport(ctx context.Context, Req *core_api.DashboardGetReportReq, callOptions ...callopt.Option) (r *core_api.DashboardGetReportResp, err error)
+	DashboardCreateRemark(ctx context.Context, Req *core_api.DashboardCreateRemarkReq, callOptions ...callopt.Option) (r *core_api.DashboardCreateRemarkResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -112,4 +113,9 @@ func (p *kDashboardClient) DashboardUnitConvRecords(ctx context.Context, Req *co
 func (p *kDashboardClient) DashboardGetReport(ctx context.Context, Req *core_api.DashboardGetReportReq, callOptions ...callopt.Option) (r *core_api.DashboardGetReportResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.DashboardGetReport(ctx, Req)
+}
+
+func (p *kDashboardClient) DashboardCreateRemark(ctx context.Context, Req *core_api.DashboardCreateRemarkReq, callOptions ...callopt.Option) (r *core_api.DashboardCreateRemarkResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DashboardCreateRemark(ctx, Req)
 }
