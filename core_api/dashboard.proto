@@ -331,7 +331,9 @@ message ConvOverview {
 }
 
 message DashboardCreateRemarkReq {
-  string remark = 1;
+  string userId = 1;
+  string unitId = 2;
+  string remark = 3;
 }
 message DashboardCreateRemarkResp {
   int32 code = 255;
