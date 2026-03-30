@@ -898,6 +898,8 @@ components:
             properties:
                 userId:
                     type: string
+                unitId:
+                    type: string
                 remark:
                     type: string
         DashboardCreateRemarkResp:

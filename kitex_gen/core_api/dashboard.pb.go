@@ -1718,7 +1718,8 @@ func (x *ConvOverview) GetNeedAlarm() bool {
 
 type DashboardCreateRemarkReq struct {
 	UserId string `protobuf:"bytes,1,opt,name=userId" json:"userId,omitempty"`
-	Remark string `protobuf:"bytes,2,opt,name=remark" json:"remark,omitempty"`
+	UnitId string `protobuf:"bytes,2,opt,name=unitId" json:"unitId,omitempty"`
+	Remark string `protobuf:"bytes,3,opt,name=remark" json:"remark,omitempty"`
 }
 
 func (x *DashboardCreateRemarkReq) Reset() { *x = DashboardCreateRemarkReq{} }
@@ -1732,6 +1733,13 @@ func (x *DashboardCreateRemarkReq) Unmarshal(in []byte) error { return prutal.Un
 func (x *DashboardCreateRemarkReq) GetUserId() string {
 	if x != nil {
 		return x.UserId
+	}
+	return ""
+}
+
+func (x *DashboardCreateRemarkReq) GetUnitId() string {
+	if x != nil {
+		return x.UnitId
 	}
 	return ""
 }
