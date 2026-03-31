@@ -306,6 +306,8 @@ message DashboardGetReportResp {
   // 是否需要告警
   bool need_alarm = 6;
   string reportId = 7;
+  // 建议与反馈
+  string suggestions = 8;
   int32 code = 255;
   string msg = 256;
 }
