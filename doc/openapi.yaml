@@ -1116,6 +1116,9 @@ components:
                     description: 是否需要告警
                 reportId:
                     type: string
+                suggestions:
+                    type: string
+                    description: 建议与反馈
                 code:
                     type: integer
                     format: int32

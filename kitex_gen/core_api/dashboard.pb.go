@@ -1521,8 +1521,11 @@ type DashboardGetReportResp struct {
 	// 是否需要告警
 	NeedAlarm bool   `protobuf:"varint,6,opt,name=need_alarm" json:"need_alarm,omitempty"`
 	ReportId  string `protobuf:"bytes,7,opt,name=reportId" json:"reportId,omitempty"`
-	Code      int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg       string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+
+	// 建议与反馈
+	Suggestions string `protobuf:"bytes,8,opt,name=suggestions" json:"suggestions,omitempty"`
+	Code        int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg         string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *DashboardGetReportResp) Reset() { *x = DashboardGetReportResp{} }
@@ -1578,6 +1581,13 @@ func (x *DashboardGetReportResp) GetNeedAlarm() bool {
 func (x *DashboardGetReportResp) GetReportId() string {
 	if x != nil {
 		return x.ReportId
+	}
+	return ""
+}
+
+func (x *DashboardGetReportResp) GetSuggestions() string {
+	if x != nil {
+		return x.Suggestions
 	}
 	return ""
 }
