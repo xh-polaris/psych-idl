@@ -16,6 +16,7 @@ type Client interface {
 	UnitUpdateInfo(ctx context.Context, Req *core_api.UnitUpdateInfoReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	UnitLinkUser(ctx context.Context, Req *core_api.UnitLinkUserReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	UnitCreateAndLinkUser(ctx context.Context, Req *core_api.UnitCreateAndLinkUserReq, callOptions ...callopt.Option) (r *core_api.UnitCreateAndLinkUserResp, err error)
+	UnitGetByURI(ctx context.Context, Req *core_api.UnitGetByURIReq, callOptions ...callopt.Option) (r *core_api.UnitGetByURIResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -65,4 +66,9 @@ func (p *kUnitClient) UnitLinkUser(ctx context.Context, Req *core_api.UnitLinkUs
 func (p *kUnitClient) UnitCreateAndLinkUser(ctx context.Context, Req *core_api.UnitCreateAndLinkUserReq, callOptions ...callopt.Option) (r *core_api.UnitCreateAndLinkUserResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.UnitCreateAndLinkUser(ctx, Req)
+}
+
+func (p *kUnitClient) UnitGetByURI(ctx context.Context, Req *core_api.UnitGetByURIReq, callOptions ...callopt.Option) (r *core_api.UnitGetByURIResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.UnitGetByURI(ctx, Req)
 }

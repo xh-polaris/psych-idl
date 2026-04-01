@@ -268,3 +268,53 @@ func (x *UnitCreateAndLinkUserResp) GetMsg() string {
 	}
 	return ""
 }
+
+type UnitGetByURIReq struct {
+	Uri string `protobuf:"bytes,1,opt,name=uri" json:"uri,omitempty"`
+}
+
+func (x *UnitGetByURIReq) Reset() { *x = UnitGetByURIReq{} }
+
+func (x *UnitGetByURIReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UnitGetByURIReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitGetByURIReq) GetUri() string {
+	if x != nil {
+		return x.Uri
+	}
+	return ""
+}
+
+type UnitGetByURIResp struct {
+	Unit *UnitVO `protobuf:"bytes,1,opt,name=unit" json:"unit,omitempty"`
+	Code int32   `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg  string  `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *UnitGetByURIResp) Reset() { *x = UnitGetByURIResp{} }
+
+func (x *UnitGetByURIResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *UnitGetByURIResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UnitGetByURIResp) GetUnit() *UnitVO {
+	if x != nil {
+		return x.Unit
+	}
+	return nil
+}
+
+func (x *UnitGetByURIResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *UnitGetByURIResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}

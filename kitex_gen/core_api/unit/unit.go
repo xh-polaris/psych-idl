@@ -44,6 +44,13 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
+	"UnitGetByURI": kitex.NewMethodInfo(
+		unitGetByURIHandler,
+		newUnitGetByURIArgs,
+		newUnitGetByURIResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
 }
 
 var (
@@ -554,6 +561,117 @@ func (p *UnitCreateAndLinkUserResult) GetResult() interface{} {
 	return p.Success
 }
 
+func unitGetByURIHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.UnitGetByURIReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.Unit).UnitGetByURI(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *UnitGetByURIArgs:
+		success, err := handler.(core_api.Unit).UnitGetByURI(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*UnitGetByURIResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newUnitGetByURIArgs() interface{} {
+	return &UnitGetByURIArgs{}
+}
+
+func newUnitGetByURIResult() interface{} {
+	return &UnitGetByURIResult{}
+}
+
+type UnitGetByURIArgs struct {
+	Req *core_api.UnitGetByURIReq
+}
+
+func (p *UnitGetByURIArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *UnitGetByURIArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.UnitGetByURIReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var UnitGetByURIArgs_Req_DEFAULT *core_api.UnitGetByURIReq
+
+func (p *UnitGetByURIArgs) GetReq() *core_api.UnitGetByURIReq {
+	if !p.IsSetReq() {
+		return UnitGetByURIArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *UnitGetByURIArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *UnitGetByURIArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type UnitGetByURIResult struct {
+	Success *core_api.UnitGetByURIResp
+}
+
+var UnitGetByURIResult_Success_DEFAULT *core_api.UnitGetByURIResp
+
+func (p *UnitGetByURIResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *UnitGetByURIResult) Unmarshal(in []byte) error {
+	msg := new(core_api.UnitGetByURIResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *UnitGetByURIResult) GetSuccess() *core_api.UnitGetByURIResp {
+	if !p.IsSetSuccess() {
+		return UnitGetByURIResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *UnitGetByURIResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.UnitGetByURIResp)
+}
+
+func (p *UnitGetByURIResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *UnitGetByURIResult) GetResult() interface{} {
+	return p.Success
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -599,6 +717,16 @@ func (p *kClient) UnitCreateAndLinkUser(ctx context.Context, Req *core_api.UnitC
 	_args.Req = Req
 	var _result UnitCreateAndLinkUserResult
 	if err = p.c.Call(ctx, "UnitCreateAndLinkUser", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) UnitGetByURI(ctx context.Context, Req *core_api.UnitGetByURIReq) (r *core_api.UnitGetByURIResp, err error) {
+	var _args UnitGetByURIArgs
+	_args.Req = Req
+	var _result UnitGetByURIResult
+	if err = p.c.Call(ctx, "UnitGetByURI", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

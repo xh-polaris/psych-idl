@@ -19,6 +19,7 @@ type Unit interface {
 	UnitUpdateInfo(ctx context.Context, req *UnitUpdateInfoReq) (res *basic.Response, err error)
 	UnitLinkUser(ctx context.Context, req *UnitLinkUserReq) (res *basic.Response, err error)
 	UnitCreateAndLinkUser(ctx context.Context, req *UnitCreateAndLinkUserReq) (res *UnitCreateAndLinkUserResp, err error)
+	UnitGetByURI(ctx context.Context, req *UnitGetByURIReq) (res *UnitGetByURIResp, err error)
 }
 
 type Config interface {
