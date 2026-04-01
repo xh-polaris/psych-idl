@@ -62,6 +62,12 @@ service Unit {
       body: "*"
     };
   }
+  rpc UnitGetByURI(UnitGetByURIReq) returns (UnitGetByURIResp) {
+    option (google.api.http) = {
+      post: "/unit/get_by_uri"
+      body: "*"
+    };
+  }
 }
 
 service Config {

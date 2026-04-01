@@ -57,3 +57,12 @@ message UnitCreateAndLinkUserResp {
   int32 code = 255;
   string msg = 256;
 }
+
+message UnitGetByURIReq {
+  string uri = 1;
+}
+message UnitGetByURIResp {
+  UnitVO unit = 1;
+  int32 code = 255;
+  string msg = 256;
+}
