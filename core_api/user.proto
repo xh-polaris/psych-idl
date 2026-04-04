@@ -46,6 +46,21 @@ message UserSignInReq {
   string verifyCode = 3;
   string unitId = 4;
 }
+
+message StudentSignInReq {
+  int32 authType = 1;     // 1: Password, 2: VerifyCode
+  string code = 2;        // Student ID or Phone
+  string verifyCode = 3;
+  string unitId = 4;      // Required
+}
+
+message AdminSignInReq {
+  int32 authType = 1;
+  string account = 2;     // Phone or Staff ID
+  string verifyCode = 3;
+  string unitId = 4;      // Optional
+}
+
 message UserSignInResp {
   string unitId = 1;
   string userId = 2;
