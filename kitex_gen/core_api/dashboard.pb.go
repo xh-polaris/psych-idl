@@ -642,7 +642,7 @@ func (x *Keywords) GetKeyTotal() int32 {
 }
 
 type EmotionRatio struct {
-	// 1-4: Danger | Depress | Negative | Normal
+	// 0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal
 	Ratio map[int32]int32 `protobuf:"bytes,1,rep,name=ratio" json:"ratio,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"varint,2,opt,name=value"`
 	Total int32           `protobuf:"varint,2,opt,name=total" json:"total,omitempty"`
 }
@@ -796,7 +796,7 @@ func (x *DashboardGetAlarmOverviewResp) GetMsg() string {
 type DashboardListAlarmRecordsReq struct {
 	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 
-	// 1-4: Danger | Depress | Negative | Normal
+	// 0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal
 	Emotion *int32 `protobuf:"varint,2,opt,name=emotion" json:"emotion,omitempty"`
 
 	// 处理状态 1-2: Processed | Pending
@@ -941,7 +941,7 @@ type AlarmRecord struct {
 	// 唯一Id
 	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
 
-	// 情绪状态 1-4: Danger | Depress | Negative | Normal
+	// 情绪状态 0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal
 	Emotion int32 `protobuf:"varint,2,opt,name=emotion" json:"emotion,omitempty"`
 
 	// 关键词列表
@@ -1503,16 +1503,16 @@ func (x *DashboardGetReportReq) GetConversationId() string {
 }
 
 type DashboardGetReportResp struct {
-	// 对话标题
+	// 标题
 	Title string `protobuf:"bytes,1,opt,name=title" json:"title,omitempty"`
 
-	// 关键词列表
-	Keywords []string `protobuf:"bytes,2,rep,name=keywords" json:"keywords,omitempty"`
+	// 话题列表
+	Topics []string `protobuf:"bytes,2,rep,name=topics" json:"topics,omitempty"`
 
 	// 对话摘要
 	Digest string `protobuf:"bytes,3,opt,name=digest" json:"digest,omitempty"`
 
-	// 情绪状态 1-5: Danger | Depress |Anxiety | Negative | Normal
+	// 情绪状态 0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal
 	Emotion int32 `protobuf:"varint,4,opt,name=emotion" json:"emotion,omitempty"`
 
 	// 详细分析内容
@@ -1523,9 +1523,15 @@ type DashboardGetReportResp struct {
 	ReportId  string `protobuf:"bytes,7,opt,name=reportId" json:"reportId,omitempty"`
 
 	// 建议与反馈
-	Suggestions string `protobuf:"bytes,8,opt,name=suggestions" json:"suggestions,omitempty"`
-	Code        int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg         string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+	Suggestions []string `protobuf:"bytes,8,rep,name=suggestions" json:"suggestions,omitempty"`
+
+	// 关键词及权重(百分比)
+	KeywordPercent map[string]float64 `protobuf:"bytes,9,rep,name=keywordPercent" json:"keywordPercent,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"fixed64,2,opt,name=value"`
+
+	// 报表状态 1 Processing | 2 Success | -1 Deleted
+	ReportStatus int32  `protobuf:"varint,10,opt,name=reportStatus" json:"reportStatus,omitempty"`
+	Code         int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg          string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *DashboardGetReportResp) Reset() { *x = DashboardGetReportResp{} }
@@ -1543,9 +1549,9 @@ func (x *DashboardGetReportResp) GetTitle() string {
 	return ""
 }
 
-func (x *DashboardGetReportResp) GetKeywords() []string {
+func (x *DashboardGetReportResp) GetTopics() []string {
 	if x != nil {
-		return x.Keywords
+		return x.Topics
 	}
 	return nil
 }
@@ -1585,11 +1591,25 @@ func (x *DashboardGetReportResp) GetReportId() string {
 	return ""
 }
 
-func (x *DashboardGetReportResp) GetSuggestions() string {
+func (x *DashboardGetReportResp) GetSuggestions() []string {
 	if x != nil {
 		return x.Suggestions
 	}
-	return ""
+	return nil
+}
+
+func (x *DashboardGetReportResp) GetKeywordPercent() map[string]float64 {
+	if x != nil {
+		return x.KeywordPercent
+	}
+	return nil
+}
+
+func (x *DashboardGetReportResp) GetReportStatus() int32 {
+	if x != nil {
+		return x.ReportStatus
+	}
+	return 0
 }
 
 func (x *DashboardGetReportResp) GetCode() int32 {

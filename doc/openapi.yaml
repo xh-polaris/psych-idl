@@ -799,7 +799,7 @@ components:
                     description: 唯一Id
                 emotion:
                     type: integer
-                    description: '情绪状态 1-4: Danger | Depress | Negative | Normal'
+                    description: '情绪状态 0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal'
                     format: int32
                 keywords:
                     type: array
@@ -1179,18 +1179,18 @@ components:
             properties:
                 title:
                     type: string
-                    description: 对话标题
-                keywords:
+                    description: 标题
+                topics:
                     type: array
                     items:
                         type: string
-                    description: 关键词列表
+                    description: 话题列表
                 digest:
                     type: string
                     description: 对话摘要
                 emotion:
                     type: integer
-                    description: '情绪状态 1-5: Danger | Depress |Anxiety | Negative | Normal'
+                    description: '情绪状态 0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal'
                     format: int32
                 body:
                     type: string
@@ -1201,8 +1201,20 @@ components:
                 reportId:
                     type: string
                 suggestions:
-                    type: string
+                    type: array
+                    items:
+                        type: string
                     description: 建议与反馈
+                keywordPercent:
+                    type: object
+                    additionalProperties:
+                        type: number
+                        format: double
+                    description: 关键词及权重(百分比)
+                reportStatus:
+                    type: integer
+                    description: 报表状态 1 Processing | 2 Success | -1 Deleted
+                    format: int32
                 code:
                     type: integer
                     format: int32
@@ -1215,7 +1227,7 @@ components:
                     type: string
                 emotion:
                     type: integer
-                    description: '1-4: Danger | Depress | Negative | Normal'
+                    description: '0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal'
                     format: int32
                 status:
                     type: integer
@@ -1407,7 +1419,7 @@ components:
                     additionalProperties:
                         type: integer
                         format: int32
-                    description: '1-4: Danger | Depress | Negative | Normal'
+                    description: '0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal'
                 total:
                     type: integer
                     format: int32
