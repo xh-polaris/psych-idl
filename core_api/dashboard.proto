@@ -127,7 +127,7 @@ message Keywords {
   int32 keyTotal = 2;
 }
 message EmotionRatio {
-  // 1-4: Danger | Depress | Negative | Normal
+  // 0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal
   map<int32, int32> ratio = 1;
   int32 total = 2;
 }
@@ -161,7 +161,7 @@ message DashboardGetAlarmOverviewResp {
 
 message DashboardListAlarmRecordsReq {
   string unitId = 1;
-  // 1-4: Danger | Depress | Negative | Normal
+  // 0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal
   optional int32 emotion = 2;
   // 处理状态 1-2: Processed | Pending
   optional int32 status = 3;
@@ -186,7 +186,7 @@ message DashboardUpdateAlarmResp {
 message AlarmRecord {
   // 唯一Id
   string id = 1;
-  // 情绪状态 1-4: Danger | Depress | Negative | Normal
+  // 情绪状态 0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal
   int32 emotion = 2;
   // 关键词列表
   repeated string keywords = 3;
@@ -293,13 +293,13 @@ message DashboardGetReportReq {
   string ConversationId = 1;
 }
 message DashboardGetReportResp {
-  // 对话标题
+  // 标题
   string title = 1;
-  // 关键词列表
-  repeated string keywords = 2;
+  // 话题列表
+  repeated string topics = 2;
   // 对话摘要
   string digest = 3;
-  // 情绪状态 1-5: Danger | Depress |Anxiety | Negative | Normal
+  // 情绪状态 0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal
   int32 emotion = 4;
   // 详细分析内容
   string body = 5;
@@ -307,7 +307,11 @@ message DashboardGetReportResp {
   bool need_alarm = 6;
   string reportId = 7;
   // 建议与反馈
-  string suggestions = 8;
+  repeated string suggestions = 8;
+  // 关键词及权重(百分比)
+  map<string, double> keywordPercent = 9;
+  // 报表状态 1 Processing | 2 Success | -1 Deleted
+  int32 reportStatus = 10;
   int32 code = 255;
   string msg = 256;
 }
