@@ -56,11 +56,6 @@ service Unit {
       get: "/unit/get_info"
     };
   }
-  rpc UnitGetByURI(UnitGetByURIReq) returns (UnitGetByURIResp){
-    option (google.api.http) = {
-      get: "/unit/get_by_uri"
-    };
-  }
   rpc UnitUpdateInfo(UnitUpdateInfoReq) returns (basic.Response){
     option (google.api.http) = {
       post: "/unit/update_info"
