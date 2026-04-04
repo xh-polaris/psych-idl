@@ -9,6 +9,8 @@ import (
 
 type User interface {
 	UserSignIn(ctx context.Context, req *UserSignInReq) (res *UserSignInResp, err error)
+	StudentSignIn(ctx context.Context, req *StudentSignInReq) (res *UserSignInResp, err error)
+	AdminSignIn(ctx context.Context, req *AdminSignInReq) (res *UserSignInResp, err error)
 	UserGetInfo(ctx context.Context, req *UserGetInfoReq) (res *UserGetInfoResp, err error)
 	UserUpdateInfo(ctx context.Context, req *UserUpdateInfoReq) (res *basic.Response, err error)
 	UserUpdatePassword(ctx context.Context, req *UserUpdatePasswordReq) (res *basic.Response, err error)

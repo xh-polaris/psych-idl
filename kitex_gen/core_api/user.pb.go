@@ -236,6 +236,88 @@ func (x *UserSignInReq) GetUnitId() string {
 	return ""
 }
 
+type StudentSignInReq struct {
+	AuthType   int32  `protobuf:"varint,1,opt,name=authType" json:"authType,omitempty"` // 1: Password, 2: VerifyCode
+	Code       string `protobuf:"bytes,2,opt,name=code" json:"code,omitempty"`          // Student ID or Phone
+	VerifyCode string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
+	UnitId     string `protobuf:"bytes,4,opt,name=unitId" json:"unitId,omitempty"` // Required
+}
+
+func (x *StudentSignInReq) Reset() { *x = StudentSignInReq{} }
+
+func (x *StudentSignInReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *StudentSignInReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *StudentSignInReq) GetAuthType() int32 {
+	if x != nil {
+		return x.AuthType
+	}
+	return 0
+}
+
+func (x *StudentSignInReq) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+func (x *StudentSignInReq) GetVerifyCode() string {
+	if x != nil {
+		return x.VerifyCode
+	}
+	return ""
+}
+
+func (x *StudentSignInReq) GetUnitId() string {
+	if x != nil {
+		return x.UnitId
+	}
+	return ""
+}
+
+type AdminSignInReq struct {
+	AuthType   int32  `protobuf:"varint,1,opt,name=authType" json:"authType,omitempty"`
+	Account    string `protobuf:"bytes,2,opt,name=account" json:"account,omitempty"` // Phone or Staff ID
+	VerifyCode string `protobuf:"bytes,3,opt,name=verifyCode" json:"verifyCode,omitempty"`
+	UnitId     string `protobuf:"bytes,4,opt,name=unitId" json:"unitId,omitempty"` // Optional
+}
+
+func (x *AdminSignInReq) Reset() { *x = AdminSignInReq{} }
+
+func (x *AdminSignInReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *AdminSignInReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *AdminSignInReq) GetAuthType() int32 {
+	if x != nil {
+		return x.AuthType
+	}
+	return 0
+}
+
+func (x *AdminSignInReq) GetAccount() string {
+	if x != nil {
+		return x.Account
+	}
+	return ""
+}
+
+func (x *AdminSignInReq) GetVerifyCode() string {
+	if x != nil {
+		return x.VerifyCode
+	}
+	return ""
+}
+
+func (x *AdminSignInReq) GetUnitId() string {
+	if x != nil {
+		return x.UnitId
+	}
+	return ""
+}
+
 type UserSignInResp struct {
 	UnitId    string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 	UserId    string `protobuf:"bytes,2,opt,name=userId" json:"userId,omitempty"`

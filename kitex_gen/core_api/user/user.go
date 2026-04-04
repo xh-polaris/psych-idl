@@ -23,6 +23,20 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
+	"StudentSignIn": kitex.NewMethodInfo(
+		studentSignInHandler,
+		newStudentSignInArgs,
+		newStudentSignInResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"AdminSignIn": kitex.NewMethodInfo(
+		adminSignInHandler,
+		newAdminSignInArgs,
+		newAdminSignInResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
 	"UserGetInfo": kitex.NewMethodInfo(
 		userGetInfoHandler,
 		newUserGetInfoArgs,
@@ -218,6 +232,228 @@ func (p *UserSignInResult) IsSetSuccess() bool {
 }
 
 func (p *UserSignInResult) GetResult() interface{} {
+	return p.Success
+}
+
+func studentSignInHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.StudentSignInReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.User).StudentSignIn(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *StudentSignInArgs:
+		success, err := handler.(core_api.User).StudentSignIn(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*StudentSignInResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newStudentSignInArgs() interface{} {
+	return &StudentSignInArgs{}
+}
+
+func newStudentSignInResult() interface{} {
+	return &StudentSignInResult{}
+}
+
+type StudentSignInArgs struct {
+	Req *core_api.StudentSignInReq
+}
+
+func (p *StudentSignInArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *StudentSignInArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.StudentSignInReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var StudentSignInArgs_Req_DEFAULT *core_api.StudentSignInReq
+
+func (p *StudentSignInArgs) GetReq() *core_api.StudentSignInReq {
+	if !p.IsSetReq() {
+		return StudentSignInArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *StudentSignInArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *StudentSignInArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type StudentSignInResult struct {
+	Success *core_api.UserSignInResp
+}
+
+var StudentSignInResult_Success_DEFAULT *core_api.UserSignInResp
+
+func (p *StudentSignInResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *StudentSignInResult) Unmarshal(in []byte) error {
+	msg := new(core_api.UserSignInResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *StudentSignInResult) GetSuccess() *core_api.UserSignInResp {
+	if !p.IsSetSuccess() {
+		return StudentSignInResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *StudentSignInResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.UserSignInResp)
+}
+
+func (p *StudentSignInResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *StudentSignInResult) GetResult() interface{} {
+	return p.Success
+}
+
+func adminSignInHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.AdminSignInReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.User).AdminSignIn(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *AdminSignInArgs:
+		success, err := handler.(core_api.User).AdminSignIn(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*AdminSignInResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newAdminSignInArgs() interface{} {
+	return &AdminSignInArgs{}
+}
+
+func newAdminSignInResult() interface{} {
+	return &AdminSignInResult{}
+}
+
+type AdminSignInArgs struct {
+	Req *core_api.AdminSignInReq
+}
+
+func (p *AdminSignInArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *AdminSignInArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.AdminSignInReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var AdminSignInArgs_Req_DEFAULT *core_api.AdminSignInReq
+
+func (p *AdminSignInArgs) GetReq() *core_api.AdminSignInReq {
+	if !p.IsSetReq() {
+		return AdminSignInArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *AdminSignInArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *AdminSignInArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type AdminSignInResult struct {
+	Success *core_api.UserSignInResp
+}
+
+var AdminSignInResult_Success_DEFAULT *core_api.UserSignInResp
+
+func (p *AdminSignInResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *AdminSignInResult) Unmarshal(in []byte) error {
+	msg := new(core_api.UserSignInResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *AdminSignInResult) GetSuccess() *core_api.UserSignInResp {
+	if !p.IsSetSuccess() {
+		return AdminSignInResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *AdminSignInResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.UserSignInResp)
+}
+
+func (p *AdminSignInResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *AdminSignInResult) GetResult() interface{} {
 	return p.Success
 }
 
@@ -569,6 +805,26 @@ func (p *kClient) UserSignIn(ctx context.Context, Req *core_api.UserSignInReq) (
 	_args.Req = Req
 	var _result UserSignInResult
 	if err = p.c.Call(ctx, "UserSignIn", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) StudentSignIn(ctx context.Context, Req *core_api.StudentSignInReq) (r *core_api.UserSignInResp, err error) {
+	var _args StudentSignInArgs
+	_args.Req = Req
+	var _result StudentSignInResult
+	if err = p.c.Call(ctx, "StudentSignIn", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) AdminSignIn(ctx context.Context, Req *core_api.AdminSignInReq) (r *core_api.UserSignInResp, err error) {
+	var _args AdminSignInArgs
+	_args.Req = Req
+	var _result AdminSignInResult
+	if err = p.c.Call(ctx, "AdminSignIn", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
