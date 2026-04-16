@@ -25,7 +25,7 @@ message UnitVO {
 
 // 获取信息
 message UnitGetInfoReq {
-  string unitId = 1[(http.query) = "unitId"];
+  string unitId = 1;
 }
 message UnitGetInfoResp {
   UnitVO unit = 1;
@@ -38,26 +38,6 @@ message UnitUpdateInfoReq {
   UnitVO unit = 1;
 }
 
-// 关联用户
-message UnitLinkUserReq {
-  string unitId = 1;
-  string userId = 2;
-}
-
-// 创建并关联用户
-message UnitCreateAndLinkUserReq {
-  string unitId = 1;
-  int32 codeType = 2;
-  repeated core_api.UserVO users = 3;
-}
-message UnitCreateAndLinkUserResp {
-  int32 allCount = 1;
-  int32 successCount = 2;
-  int32 skipCount = 3;
-  int32 code = 255;
-  string msg = 256;
-}
-
 message UnitGetByURIReq {
   string uri = 1;
 }
@@ -65,4 +45,8 @@ message UnitGetByURIResp {
   UnitVO unit = 1;
   int32 code = 255;
   string msg = 256;
+}
+
+message CreateUnitReq {
+  UnitVO unit = 1;
 }
