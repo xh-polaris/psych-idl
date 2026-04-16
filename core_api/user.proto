@@ -40,25 +40,6 @@ message Remark {
 
 
 message UserSignInReq {
-  // 1-2: Password | VerifyCode
-  int32 authType = 1;
-  string authId = 2;
-  string verifyCode = 3;
-  string unitId = 4;
-}
-
-message StudentSignInReq {
-  // 认证类型 学生登录通常为"code-password"
-  string authType = 1;
-  // 身份凭证 学生登录通常为学号
-  string authId = 2;
-  // 密码/验证码 学生登陆通常为密码
-  string verify = 3;
-  // 单位id-必需 通常填入由uri获取到的unitId
-  string unitId = 4;
-}
-
-message AdminSignInReq {
   // 认证类型
   string authType = 1;
   // 身份凭证（手机号/邮箱/工号）
@@ -70,11 +51,9 @@ message AdminSignInReq {
 }
 
 message UserSignInResp {
-  optional string unitId = 1;
+  string unitId = 1;
   string userId = 2;
-  string codeType = 3;
-  string codeValue = 4;
-  string token = 5;
+  string token = 3;
   int32 code = 255;
   string msg = 256;
 }
@@ -87,9 +66,12 @@ message UserUpdateInfoReq {
 
 // 更新密码
 message UserUpdatePasswordReq {
-  string authType = 1;
-  string verify = 2;
-  string newPassword = 3;
+  string userId = 1;
+  string unitId = 2;
+  string authType = 3;
+  string authId = 4;
+  string verifyCode = 5;
+  string newPassword = 6;
 }
 
 // 获取信息

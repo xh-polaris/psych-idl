@@ -19,18 +19,6 @@ service User {
       body: "*"
     };
   }
-  rpc StudentSignIn(StudentSignInReq) returns (UserSignInResp) {
-    option (google.api.http) = {
-      post: "/user/student/sign_in"
-      body: "*"
-    };
-  }
-  rpc AdminSignIn(AdminSignInReq) returns (UserSignInResp) {
-    option (google.api.http) = {
-      post: "/user/admin/sign_in"
-      body: "*"
-    };
-  }
   rpc UserGetInfo(UserGetInfoReq) returns (UserGetInfoResp){
     option (google.api.http) = {
       get: "/user/get_info"
