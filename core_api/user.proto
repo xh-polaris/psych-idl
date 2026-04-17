@@ -14,24 +14,23 @@ message UserVO {
   // 1-2: Phone | StudentID
   int32 codeType = 2;
   string code = 3;
-  string password = 4;
-  string unitId = 5;
-  string name = 6;
-  int64 birth = 7;
+  string unitId = 4;
+  string name = 5;
+  int64 birth = 6;
   // 1-3: Male | Female | Other
-  int32 gender = 8;
+  int32 gender = 7;
   // 1-2: Active | Deleted
-  int32 status = 9;
-  int32 enrollYear = 10;
-  int32 grade = 11;
-  int32 class = 12;
-  Remark remark = 13;
-  map<string, google.protobuf.Any> options = 14;
-  int64 createTime = 15;
-  int64 updateTime = 16;
-  int64 deleteTime = 17;
+  int32 status = 8;
+  int32 enrollYear = 9;
+  int32 grade = 10;
+  int32 class = 11;
+  Remark remark = 12;
+  map<string, google.protobuf.Any> options = 13;
+  int64 createTime = 14;
+  int64 updateTime = 15;
+  int64 deleteTime = 16;
   // 1-5: Student | Teacher | ClassTeacher | UnitAdmin | SuperAdmin
-  int32 role = 18;
+  int32 role = 17;
 }
 message Remark {
   int64 time = 1;
@@ -84,7 +83,26 @@ message UserGetInfoResp {
   string msg = 256;
 }
 
+// 创建用户 email/phone/code至少传入一个
 message CreateUserReq {
-  // 无需UserVO中的全量参数，如remark参数可留空
-  UserVO user = 1;
+  string unitId = 1;
+  // 明文密码
+  string password = 2;
+  optional string email = 3;
+  optional string phone = 4;
+  optional string code = 5;
+  int32 codeType = 6;
+  string name = 7;
+  int64 birth = 8;
+  int32 gender = 9;
+  // 入学年份，用于计算年级
+  int32 enrollYear = 10;
+  // 年级 enrollYear非空时以enrollYear为准计算年级
+  int32 grade = 11;
+  int32 class = 12;
+  int32 role = 13;
+  int32 status = 14;
+  int64 createTime = 15;
+  int64 updateTime = 16;
+  int64 deleteTime = 17;
 }
