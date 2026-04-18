@@ -13,11 +13,11 @@ import (
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
 	UserSignIn(ctx context.Context, Req *core_api.UserSignInReq, callOptions ...callopt.Option) (r *core_api.UserSignInResp, err error)
-	StudentSignIn(ctx context.Context, Req *core_api.StudentSignInReq, callOptions ...callopt.Option) (r *core_api.UserSignInResp, err error)
-	AdminSignIn(ctx context.Context, Req *core_api.AdminSignInReq, callOptions ...callopt.Option) (r *core_api.UserSignInResp, err error)
 	UserGetInfo(ctx context.Context, Req *core_api.UserGetInfoReq, callOptions ...callopt.Option) (r *core_api.UserGetInfoResp, err error)
 	UserUpdateInfo(ctx context.Context, Req *core_api.UserUpdateInfoReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	UserUpdatePassword(ctx context.Context, Req *core_api.UserUpdatePasswordReq, callOptions ...callopt.Option) (r *basic.Response, err error)
+	CreateUser(ctx context.Context, Req *core_api.CreateUserReq, callOptions ...callopt.Option) (r *basic.Response, err error)
+	SendVerifyCode(ctx context.Context, Req *core_api.SendVerifyCodeReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -54,16 +54,6 @@ func (p *kUserClient) UserSignIn(ctx context.Context, Req *core_api.UserSignInRe
 	return p.kClient.UserSignIn(ctx, Req)
 }
 
-func (p *kUserClient) StudentSignIn(ctx context.Context, Req *core_api.StudentSignInReq, callOptions ...callopt.Option) (r *core_api.UserSignInResp, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.StudentSignIn(ctx, Req)
-}
-
-func (p *kUserClient) AdminSignIn(ctx context.Context, Req *core_api.AdminSignInReq, callOptions ...callopt.Option) (r *core_api.UserSignInResp, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.AdminSignIn(ctx, Req)
-}
-
 func (p *kUserClient) UserGetInfo(ctx context.Context, Req *core_api.UserGetInfoReq, callOptions ...callopt.Option) (r *core_api.UserGetInfoResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.UserGetInfo(ctx, Req)
@@ -77,4 +67,14 @@ func (p *kUserClient) UserUpdateInfo(ctx context.Context, Req *core_api.UserUpda
 func (p *kUserClient) UserUpdatePassword(ctx context.Context, Req *core_api.UserUpdatePasswordReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.UserUpdatePassword(ctx, Req)
+}
+
+func (p *kUserClient) CreateUser(ctx context.Context, Req *core_api.CreateUserReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.CreateUser(ctx, Req)
+}
+
+func (p *kUserClient) SendVerifyCode(ctx context.Context, Req *core_api.SendVerifyCodeReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.SendVerifyCode(ctx, Req)
 }

@@ -12,10 +12,11 @@ type UnitVO struct {
 	Level   int32  `protobuf:"varint,7,opt,name=level" json:"level,omitempty"`
 
 	// 1-2: Active | Deleted
-	Status     int32 `protobuf:"varint,8,opt,name=status" json:"status,omitempty"`
-	CreateTime int64 `protobuf:"varint,9,opt,name=createTime" json:"createTime,omitempty"`
-	UpdateTime int64 `protobuf:"varint,10,opt,name=updateTime" json:"updateTime,omitempty"`
-	DeleteTime int64 `protobuf:"varint,11,opt,name=deleteTime" json:"deleteTime,omitempty"`
+	Status     int32  `protobuf:"varint,8,opt,name=status" json:"status,omitempty"`
+	CreateTime int64  `protobuf:"varint,9,opt,name=createTime" json:"createTime,omitempty"`
+	UpdateTime int64  `protobuf:"varint,10,opt,name=updateTime" json:"updateTime,omitempty"`
+	DeleteTime int64  `protobuf:"varint,11,opt,name=deleteTime" json:"deleteTime,omitempty"`
+	Uri        string `protobuf:"bytes,12,opt,name=uri" json:"uri,omitempty"`
 }
 
 func (x *UnitVO) Reset() { *x = UnitVO{} }
@@ -87,6 +88,13 @@ func (x *UnitVO) GetDeleteTime() int64 {
 	return 0
 }
 
+func (x *UnitVO) GetUri() string {
+	if x != nil {
+		return x.Uri
+	}
+	return ""
+}
+
 // 获取信息
 type UnitGetInfoReq struct {
 	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
@@ -156,119 +164,6 @@ func (x *UnitUpdateInfoReq) GetUnit() *UnitVO {
 	return nil
 }
 
-// 关联用户
-type UnitLinkUserReq struct {
-	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	UserId string `protobuf:"bytes,2,opt,name=userId" json:"userId,omitempty"`
-}
-
-func (x *UnitLinkUserReq) Reset() { *x = UnitLinkUserReq{} }
-
-func (x *UnitLinkUserReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
-
-func (x *UnitLinkUserReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *UnitLinkUserReq) GetUnitId() string {
-	if x != nil {
-		return x.UnitId
-	}
-	return ""
-}
-
-func (x *UnitLinkUserReq) GetUserId() string {
-	if x != nil {
-		return x.UserId
-	}
-	return ""
-}
-
-// 创建并关联用户
-type UnitCreateAndLinkUserReq struct {
-	UnitId   string    `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	CodeType int32     `protobuf:"varint,2,opt,name=codeType" json:"codeType,omitempty"`
-	Users    []*UserVO `protobuf:"bytes,3,rep,name=users" json:"users,omitempty"`
-}
-
-func (x *UnitCreateAndLinkUserReq) Reset() { *x = UnitCreateAndLinkUserReq{} }
-
-func (x *UnitCreateAndLinkUserReq) Marshal(in []byte) ([]byte, error) {
-	return prutal.MarshalAppend(in, x)
-}
-
-func (x *UnitCreateAndLinkUserReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *UnitCreateAndLinkUserReq) GetUnitId() string {
-	if x != nil {
-		return x.UnitId
-	}
-	return ""
-}
-
-func (x *UnitCreateAndLinkUserReq) GetCodeType() int32 {
-	if x != nil {
-		return x.CodeType
-	}
-	return 0
-}
-
-func (x *UnitCreateAndLinkUserReq) GetUsers() []*UserVO {
-	if x != nil {
-		return x.Users
-	}
-	return nil
-}
-
-type UnitCreateAndLinkUserResp struct {
-	AllCount     int32  `protobuf:"varint,1,opt,name=allCount" json:"allCount,omitempty"`
-	SuccessCount int32  `protobuf:"varint,2,opt,name=successCount" json:"successCount,omitempty"`
-	SkipCount    int32  `protobuf:"varint,3,opt,name=skipCount" json:"skipCount,omitempty"`
-	Code         int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg          string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
-}
-
-func (x *UnitCreateAndLinkUserResp) Reset() { *x = UnitCreateAndLinkUserResp{} }
-
-func (x *UnitCreateAndLinkUserResp) Marshal(in []byte) ([]byte, error) {
-	return prutal.MarshalAppend(in, x)
-}
-
-func (x *UnitCreateAndLinkUserResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *UnitCreateAndLinkUserResp) GetAllCount() int32 {
-	if x != nil {
-		return x.AllCount
-	}
-	return 0
-}
-
-func (x *UnitCreateAndLinkUserResp) GetSuccessCount() int32 {
-	if x != nil {
-		return x.SuccessCount
-	}
-	return 0
-}
-
-func (x *UnitCreateAndLinkUserResp) GetSkipCount() int32 {
-	if x != nil {
-		return x.SkipCount
-	}
-	return 0
-}
-
-func (x *UnitCreateAndLinkUserResp) GetCode() int32 {
-	if x != nil {
-		return x.Code
-	}
-	return 0
-}
-
-func (x *UnitCreateAndLinkUserResp) GetMsg() string {
-	if x != nil {
-		return x.Msg
-	}
-	return ""
-}
-
 type UnitGetByURIReq struct {
 	Uri string `protobuf:"bytes,1,opt,name=uri" json:"uri,omitempty"`
 }
@@ -317,4 +212,21 @@ func (x *UnitGetByURIResp) GetMsg() string {
 		return x.Msg
 	}
 	return ""
+}
+
+type CreateUnitReq struct {
+	Unit *UnitVO `protobuf:"bytes,1,opt,name=unit" json:"unit,omitempty"`
+}
+
+func (x *CreateUnitReq) Reset() { *x = CreateUnitReq{} }
+
+func (x *CreateUnitReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *CreateUnitReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *CreateUnitReq) GetUnit() *UnitVO {
+	if x != nil {
+		return x.Unit
+	}
+	return nil
 }

@@ -9,19 +9,18 @@ import (
 
 type User interface {
 	UserSignIn(ctx context.Context, req *UserSignInReq) (res *UserSignInResp, err error)
-	StudentSignIn(ctx context.Context, req *StudentSignInReq) (res *UserSignInResp, err error)
-	AdminSignIn(ctx context.Context, req *AdminSignInReq) (res *UserSignInResp, err error)
 	UserGetInfo(ctx context.Context, req *UserGetInfoReq) (res *UserGetInfoResp, err error)
 	UserUpdateInfo(ctx context.Context, req *UserUpdateInfoReq) (res *basic.Response, err error)
 	UserUpdatePassword(ctx context.Context, req *UserUpdatePasswordReq) (res *basic.Response, err error)
+	CreateUser(ctx context.Context, req *CreateUserReq) (res *basic.Response, err error)
+	SendVerifyCode(ctx context.Context, req *SendVerifyCodeReq) (res *basic.Response, err error)
 }
 
 type Unit interface {
 	UnitGetInfo(ctx context.Context, req *UnitGetInfoReq) (res *UnitGetInfoResp, err error)
 	UnitUpdateInfo(ctx context.Context, req *UnitUpdateInfoReq) (res *basic.Response, err error)
-	UnitLinkUser(ctx context.Context, req *UnitLinkUserReq) (res *basic.Response, err error)
-	UnitCreateAndLinkUser(ctx context.Context, req *UnitCreateAndLinkUserReq) (res *UnitCreateAndLinkUserResp, err error)
 	UnitGetByURI(ctx context.Context, req *UnitGetByURIReq) (res *UnitGetByURIResp, err error)
+	CreateUnit(ctx context.Context, req *CreateUnitReq) (res *basic.Response, err error)
 }
 
 type Config interface {

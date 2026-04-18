@@ -30,24 +30,17 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
-	"UnitLinkUser": kitex.NewMethodInfo(
-		unitLinkUserHandler,
-		newUnitLinkUserArgs,
-		newUnitLinkUserResult,
-		false,
-		kitex.WithStreamingMode(kitex.StreamingUnary),
-	),
-	"UnitCreateAndLinkUser": kitex.NewMethodInfo(
-		unitCreateAndLinkUserHandler,
-		newUnitCreateAndLinkUserArgs,
-		newUnitCreateAndLinkUserResult,
-		false,
-		kitex.WithStreamingMode(kitex.StreamingUnary),
-	),
 	"UnitGetByURI": kitex.NewMethodInfo(
 		unitGetByURIHandler,
 		newUnitGetByURIArgs,
 		newUnitGetByURIResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"CreateUnit": kitex.NewMethodInfo(
+		createUnitHandler,
+		newCreateUnitArgs,
+		newCreateUnitResult,
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
@@ -339,228 +332,6 @@ func (p *UnitUpdateInfoResult) GetResult() interface{} {
 	return p.Success
 }
 
-func unitLinkUserHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	switch s := arg.(type) {
-	case *streaming.Args:
-		st := s.Stream
-		req := new(core_api.UnitLinkUserReq)
-		if err := st.RecvMsg(req); err != nil {
-			return err
-		}
-		resp, err := handler.(core_api.Unit).UnitLinkUser(ctx, req)
-		if err != nil {
-			return err
-		}
-		return st.SendMsg(resp)
-	case *UnitLinkUserArgs:
-		success, err := handler.(core_api.Unit).UnitLinkUser(ctx, s.Req)
-		if err != nil {
-			return err
-		}
-		realResult := result.(*UnitLinkUserResult)
-		realResult.Success = success
-		return nil
-	default:
-		return errInvalidMessageType
-	}
-}
-func newUnitLinkUserArgs() interface{} {
-	return &UnitLinkUserArgs{}
-}
-
-func newUnitLinkUserResult() interface{} {
-	return &UnitLinkUserResult{}
-}
-
-type UnitLinkUserArgs struct {
-	Req *core_api.UnitLinkUserReq
-}
-
-func (p *UnitLinkUserArgs) Marshal(out []byte) ([]byte, error) {
-	if !p.IsSetReq() {
-		return out, nil
-	}
-	return proto.Marshal(p.Req)
-}
-
-func (p *UnitLinkUserArgs) Unmarshal(in []byte) error {
-	msg := new(core_api.UnitLinkUserReq)
-	if err := proto.Unmarshal(in, msg); err != nil {
-		return err
-	}
-	p.Req = msg
-	return nil
-}
-
-var UnitLinkUserArgs_Req_DEFAULT *core_api.UnitLinkUserReq
-
-func (p *UnitLinkUserArgs) GetReq() *core_api.UnitLinkUserReq {
-	if !p.IsSetReq() {
-		return UnitLinkUserArgs_Req_DEFAULT
-	}
-	return p.Req
-}
-
-func (p *UnitLinkUserArgs) IsSetReq() bool {
-	return p.Req != nil
-}
-
-func (p *UnitLinkUserArgs) GetFirstArgument() interface{} {
-	return p.Req
-}
-
-type UnitLinkUserResult struct {
-	Success *basic.Response
-}
-
-var UnitLinkUserResult_Success_DEFAULT *basic.Response
-
-func (p *UnitLinkUserResult) Marshal(out []byte) ([]byte, error) {
-	if !p.IsSetSuccess() {
-		return out, nil
-	}
-	return proto.Marshal(p.Success)
-}
-
-func (p *UnitLinkUserResult) Unmarshal(in []byte) error {
-	msg := new(basic.Response)
-	if err := proto.Unmarshal(in, msg); err != nil {
-		return err
-	}
-	p.Success = msg
-	return nil
-}
-
-func (p *UnitLinkUserResult) GetSuccess() *basic.Response {
-	if !p.IsSetSuccess() {
-		return UnitLinkUserResult_Success_DEFAULT
-	}
-	return p.Success
-}
-
-func (p *UnitLinkUserResult) SetSuccess(x interface{}) {
-	p.Success = x.(*basic.Response)
-}
-
-func (p *UnitLinkUserResult) IsSetSuccess() bool {
-	return p.Success != nil
-}
-
-func (p *UnitLinkUserResult) GetResult() interface{} {
-	return p.Success
-}
-
-func unitCreateAndLinkUserHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	switch s := arg.(type) {
-	case *streaming.Args:
-		st := s.Stream
-		req := new(core_api.UnitCreateAndLinkUserReq)
-		if err := st.RecvMsg(req); err != nil {
-			return err
-		}
-		resp, err := handler.(core_api.Unit).UnitCreateAndLinkUser(ctx, req)
-		if err != nil {
-			return err
-		}
-		return st.SendMsg(resp)
-	case *UnitCreateAndLinkUserArgs:
-		success, err := handler.(core_api.Unit).UnitCreateAndLinkUser(ctx, s.Req)
-		if err != nil {
-			return err
-		}
-		realResult := result.(*UnitCreateAndLinkUserResult)
-		realResult.Success = success
-		return nil
-	default:
-		return errInvalidMessageType
-	}
-}
-func newUnitCreateAndLinkUserArgs() interface{} {
-	return &UnitCreateAndLinkUserArgs{}
-}
-
-func newUnitCreateAndLinkUserResult() interface{} {
-	return &UnitCreateAndLinkUserResult{}
-}
-
-type UnitCreateAndLinkUserArgs struct {
-	Req *core_api.UnitCreateAndLinkUserReq
-}
-
-func (p *UnitCreateAndLinkUserArgs) Marshal(out []byte) ([]byte, error) {
-	if !p.IsSetReq() {
-		return out, nil
-	}
-	return proto.Marshal(p.Req)
-}
-
-func (p *UnitCreateAndLinkUserArgs) Unmarshal(in []byte) error {
-	msg := new(core_api.UnitCreateAndLinkUserReq)
-	if err := proto.Unmarshal(in, msg); err != nil {
-		return err
-	}
-	p.Req = msg
-	return nil
-}
-
-var UnitCreateAndLinkUserArgs_Req_DEFAULT *core_api.UnitCreateAndLinkUserReq
-
-func (p *UnitCreateAndLinkUserArgs) GetReq() *core_api.UnitCreateAndLinkUserReq {
-	if !p.IsSetReq() {
-		return UnitCreateAndLinkUserArgs_Req_DEFAULT
-	}
-	return p.Req
-}
-
-func (p *UnitCreateAndLinkUserArgs) IsSetReq() bool {
-	return p.Req != nil
-}
-
-func (p *UnitCreateAndLinkUserArgs) GetFirstArgument() interface{} {
-	return p.Req
-}
-
-type UnitCreateAndLinkUserResult struct {
-	Success *core_api.UnitCreateAndLinkUserResp
-}
-
-var UnitCreateAndLinkUserResult_Success_DEFAULT *core_api.UnitCreateAndLinkUserResp
-
-func (p *UnitCreateAndLinkUserResult) Marshal(out []byte) ([]byte, error) {
-	if !p.IsSetSuccess() {
-		return out, nil
-	}
-	return proto.Marshal(p.Success)
-}
-
-func (p *UnitCreateAndLinkUserResult) Unmarshal(in []byte) error {
-	msg := new(core_api.UnitCreateAndLinkUserResp)
-	if err := proto.Unmarshal(in, msg); err != nil {
-		return err
-	}
-	p.Success = msg
-	return nil
-}
-
-func (p *UnitCreateAndLinkUserResult) GetSuccess() *core_api.UnitCreateAndLinkUserResp {
-	if !p.IsSetSuccess() {
-		return UnitCreateAndLinkUserResult_Success_DEFAULT
-	}
-	return p.Success
-}
-
-func (p *UnitCreateAndLinkUserResult) SetSuccess(x interface{}) {
-	p.Success = x.(*core_api.UnitCreateAndLinkUserResp)
-}
-
-func (p *UnitCreateAndLinkUserResult) IsSetSuccess() bool {
-	return p.Success != nil
-}
-
-func (p *UnitCreateAndLinkUserResult) GetResult() interface{} {
-	return p.Success
-}
-
 func unitGetByURIHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	switch s := arg.(type) {
 	case *streaming.Args:
@@ -672,6 +443,117 @@ func (p *UnitGetByURIResult) GetResult() interface{} {
 	return p.Success
 }
 
+func createUnitHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.CreateUnitReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.Unit).CreateUnit(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *CreateUnitArgs:
+		success, err := handler.(core_api.Unit).CreateUnit(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*CreateUnitResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newCreateUnitArgs() interface{} {
+	return &CreateUnitArgs{}
+}
+
+func newCreateUnitResult() interface{} {
+	return &CreateUnitResult{}
+}
+
+type CreateUnitArgs struct {
+	Req *core_api.CreateUnitReq
+}
+
+func (p *CreateUnitArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *CreateUnitArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.CreateUnitReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var CreateUnitArgs_Req_DEFAULT *core_api.CreateUnitReq
+
+func (p *CreateUnitArgs) GetReq() *core_api.CreateUnitReq {
+	if !p.IsSetReq() {
+		return CreateUnitArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *CreateUnitArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *CreateUnitArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type CreateUnitResult struct {
+	Success *basic.Response
+}
+
+var CreateUnitResult_Success_DEFAULT *basic.Response
+
+func (p *CreateUnitResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *CreateUnitResult) Unmarshal(in []byte) error {
+	msg := new(basic.Response)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *CreateUnitResult) GetSuccess() *basic.Response {
+	if !p.IsSetSuccess() {
+		return CreateUnitResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *CreateUnitResult) SetSuccess(x interface{}) {
+	p.Success = x.(*basic.Response)
+}
+
+func (p *CreateUnitResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *CreateUnitResult) GetResult() interface{} {
+	return p.Success
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -702,31 +584,21 @@ func (p *kClient) UnitUpdateInfo(ctx context.Context, Req *core_api.UnitUpdateIn
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) UnitLinkUser(ctx context.Context, Req *core_api.UnitLinkUserReq) (r *basic.Response, err error) {
-	var _args UnitLinkUserArgs
-	_args.Req = Req
-	var _result UnitLinkUserResult
-	if err = p.c.Call(ctx, "UnitLinkUser", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
-func (p *kClient) UnitCreateAndLinkUser(ctx context.Context, Req *core_api.UnitCreateAndLinkUserReq) (r *core_api.UnitCreateAndLinkUserResp, err error) {
-	var _args UnitCreateAndLinkUserArgs
-	_args.Req = Req
-	var _result UnitCreateAndLinkUserResult
-	if err = p.c.Call(ctx, "UnitCreateAndLinkUser", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
 func (p *kClient) UnitGetByURI(ctx context.Context, Req *core_api.UnitGetByURIReq) (r *core_api.UnitGetByURIResp, err error) {
 	var _args UnitGetByURIArgs
 	_args.Req = Req
 	var _result UnitGetByURIResult
 	if err = p.c.Call(ctx, "UnitGetByURI", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) CreateUnit(ctx context.Context, Req *core_api.CreateUnitReq) (r *basic.Response, err error) {
+	var _args CreateUnitArgs
+	_args.Req = Req
+	var _result CreateUnitResult
+	if err = p.c.Call(ctx, "CreateUnit", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
