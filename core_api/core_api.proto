@@ -48,6 +48,12 @@ service User {
       body: "*"
     };
   }
+  rpc SuperAdminSignIn(UserSignInReq) returns (UserSignInResp){
+    option (google.api.http) = {
+      post: "/user/super_admin_sign_in"
+      body: "*"
+    };
+  }
 }
 
 service Unit {
