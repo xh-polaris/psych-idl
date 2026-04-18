@@ -42,6 +42,12 @@ service User {
       body: "*"
     };
   }
+  rpc SendVerifyCode(SendVerifyCodeReq) returns (basic.Response){
+    option (google.api.http) = {
+      post: "/user/send_verify_code"
+      body: "*"
+    };
+  }
 }
 
 service Unit {

@@ -21,6 +21,7 @@ message UnitVO {
   int64 createTime = 9;
   int64 updateTime = 10;
   int64 deleteTime = 11;
+  string uri = 12;
 }
 
 // 获取信息

@@ -45,14 +45,16 @@ message UserSignInReq {
   string authId = 2;
   // 密码/验证码
   string verifyCode = 3;
-  // 单位id 单位管理传入对应id；超管该字段留空
-  optional string unitId = 4;
+  // 单位id 单位管理传入对应id；超管登录时该字段传空值
+  string unitId = 4;
 }
 
 message UserSignInResp {
   string unitId = 1;
   string userId = 2;
   string token = 3;
+  // 学生学号
+  string codeValue = 4;
   int32 code = 255;
   string msg = 256;
 }
@@ -105,4 +107,11 @@ message CreateUserReq {
   int64 createTime = 15;
   int64 updateTime = 16;
   int64 deleteTime = 17;
+}
+
+message SendVerifyCodeReq {
+  // 认证类型 "email" | "phone"
+  string authType = 1;
+  // 邮箱地址 | 手机号
+  string authId = 2;
 }
