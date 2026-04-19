@@ -58,6 +58,13 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
+	"SuperAdminSignIn": kitex.NewMethodInfo(
+		superAdminSignInHandler,
+		newSuperAdminSignInArgs,
+		newSuperAdminSignInResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
 }
 
 var (
@@ -790,6 +797,117 @@ func (p *SendVerifyCodeResult) GetResult() interface{} {
 	return p.Success
 }
 
+func superAdminSignInHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.UserSignInReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.User).SuperAdminSignIn(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *SuperAdminSignInArgs:
+		success, err := handler.(core_api.User).SuperAdminSignIn(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*SuperAdminSignInResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newSuperAdminSignInArgs() interface{} {
+	return &SuperAdminSignInArgs{}
+}
+
+func newSuperAdminSignInResult() interface{} {
+	return &SuperAdminSignInResult{}
+}
+
+type SuperAdminSignInArgs struct {
+	Req *core_api.UserSignInReq
+}
+
+func (p *SuperAdminSignInArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *SuperAdminSignInArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.UserSignInReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var SuperAdminSignInArgs_Req_DEFAULT *core_api.UserSignInReq
+
+func (p *SuperAdminSignInArgs) GetReq() *core_api.UserSignInReq {
+	if !p.IsSetReq() {
+		return SuperAdminSignInArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *SuperAdminSignInArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *SuperAdminSignInArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type SuperAdminSignInResult struct {
+	Success *core_api.UserSignInResp
+}
+
+var SuperAdminSignInResult_Success_DEFAULT *core_api.UserSignInResp
+
+func (p *SuperAdminSignInResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *SuperAdminSignInResult) Unmarshal(in []byte) error {
+	msg := new(core_api.UserSignInResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *SuperAdminSignInResult) GetSuccess() *core_api.UserSignInResp {
+	if !p.IsSetSuccess() {
+		return SuperAdminSignInResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *SuperAdminSignInResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.UserSignInResp)
+}
+
+func (p *SuperAdminSignInResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *SuperAdminSignInResult) GetResult() interface{} {
+	return p.Success
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -855,6 +973,16 @@ func (p *kClient) SendVerifyCode(ctx context.Context, Req *core_api.SendVerifyCo
 	_args.Req = Req
 	var _result SendVerifyCodeResult
 	if err = p.c.Call(ctx, "SendVerifyCode", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) SuperAdminSignIn(ctx context.Context, Req *core_api.UserSignInReq) (r *core_api.UserSignInResp, err error) {
+	var _args SuperAdminSignInArgs
+	_args.Req = Req
+	var _result SuperAdminSignInResult
+	if err = p.c.Call(ctx, "SuperAdminSignIn", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

@@ -14,6 +14,7 @@ type User interface {
 	UserUpdatePassword(ctx context.Context, req *UserUpdatePasswordReq) (res *basic.Response, err error)
 	CreateUser(ctx context.Context, req *CreateUserReq) (res *basic.Response, err error)
 	SendVerifyCode(ctx context.Context, req *SendVerifyCodeReq) (res *basic.Response, err error)
+	SuperAdminSignIn(ctx context.Context, req *UserSignInReq) (res *UserSignInResp, err error)
 }
 
 type Unit interface {

@@ -18,6 +18,7 @@ type Client interface {
 	UserUpdatePassword(ctx context.Context, Req *core_api.UserUpdatePasswordReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	CreateUser(ctx context.Context, Req *core_api.CreateUserReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	SendVerifyCode(ctx context.Context, Req *core_api.SendVerifyCodeReq, callOptions ...callopt.Option) (r *basic.Response, err error)
+	SuperAdminSignIn(ctx context.Context, Req *core_api.UserSignInReq, callOptions ...callopt.Option) (r *core_api.UserSignInResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -77,4 +78,9 @@ func (p *kUserClient) CreateUser(ctx context.Context, Req *core_api.CreateUserRe
 func (p *kUserClient) SendVerifyCode(ctx context.Context, Req *core_api.SendVerifyCodeReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.SendVerifyCode(ctx, Req)
+}
+
+func (p *kUserClient) SuperAdminSignIn(ctx context.Context, Req *core_api.UserSignInReq, callOptions ...callopt.Option) (r *core_api.UserSignInResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.SuperAdminSignIn(ctx, Req)
 }
