@@ -646,10 +646,10 @@ func (p *CreateUserArgs) GetFirstArgument() interface{} {
 }
 
 type CreateUserResult struct {
-	Success *basic.Response
+	Success *core_api.CreateUserResp
 }
 
-var CreateUserResult_Success_DEFAULT *basic.Response
+var CreateUserResult_Success_DEFAULT *core_api.CreateUserResp
 
 func (p *CreateUserResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -659,7 +659,7 @@ func (p *CreateUserResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *CreateUserResult) Unmarshal(in []byte) error {
-	msg := new(basic.Response)
+	msg := new(core_api.CreateUserResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -667,7 +667,7 @@ func (p *CreateUserResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *CreateUserResult) GetSuccess() *basic.Response {
+func (p *CreateUserResult) GetSuccess() *core_api.CreateUserResp {
 	if !p.IsSetSuccess() {
 		return CreateUserResult_Success_DEFAULT
 	}
@@ -675,7 +675,7 @@ func (p *CreateUserResult) GetSuccess() *basic.Response {
 }
 
 func (p *CreateUserResult) SetSuccess(x interface{}) {
-	p.Success = x.(*basic.Response)
+	p.Success = x.(*core_api.CreateUserResp)
 }
 
 func (p *CreateUserResult) IsSetSuccess() bool {
@@ -958,7 +958,7 @@ func (p *kClient) UserUpdatePassword(ctx context.Context, Req *core_api.UserUpda
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) CreateUser(ctx context.Context, Req *core_api.CreateUserReq) (r *basic.Response, err error) {
+func (p *kClient) CreateUser(ctx context.Context, Req *core_api.CreateUserReq) (r *core_api.CreateUserResp, err error) {
 	var _args CreateUserArgs
 	_args.Req = Req
 	var _result CreateUserResult

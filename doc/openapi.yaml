@@ -627,7 +627,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Response'
+                                $ref: '#/components/schemas/CreateUserResp'
                 default:
                     description: Default error response
                     content:
@@ -1018,6 +1018,16 @@ components:
                 deleteTime:
                     type: string
             description: 创建用户 email/phone/code至少传入一个
+        CreateUserResp:
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/UserVO'
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
         DashboardCreateRemarkReq:
             type: object
             properties:

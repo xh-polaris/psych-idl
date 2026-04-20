@@ -575,6 +575,39 @@ func (x *CreateUserReq) GetDeleteTime() int64 {
 	return 0
 }
 
+type CreateUserResp struct {
+	User *UserVO `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	Code int32   `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg  string  `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *CreateUserResp) Reset() { *x = CreateUserResp{} }
+
+func (x *CreateUserResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *CreateUserResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *CreateUserResp) GetUser() *UserVO {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+func (x *CreateUserResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *CreateUserResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
 type SendVerifyCodeReq struct {
 	// 认证类型 "email" | "phone"
 	AuthType string `protobuf:"bytes,1,opt,name=authType" json:"authType,omitempty"`

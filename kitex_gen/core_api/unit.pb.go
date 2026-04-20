@@ -230,3 +230,36 @@ func (x *CreateUnitReq) GetUnit() *UnitVO {
 	}
 	return nil
 }
+
+type CreateUnitResp struct {
+	Unit *UnitVO `protobuf:"bytes,1,opt,name=unit" json:"unit,omitempty"`
+	Code int32   `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg  string  `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *CreateUnitResp) Reset() { *x = CreateUnitResp{} }
+
+func (x *CreateUnitResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *CreateUnitResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *CreateUnitResp) GetUnit() *UnitVO {
+	if x != nil {
+		return x.Unit
+	}
+	return nil
+}
+
+func (x *CreateUnitResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *CreateUnitResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
