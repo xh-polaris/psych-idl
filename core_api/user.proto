@@ -108,6 +108,12 @@ message CreateUserReq {
   int64 updateTime = 16;
   int64 deleteTime = 17;
 }
+message CreateUserResp {
+  UserVO user = 1;
+  int32 code = 255;
+  string msg = 256;
+}
+
 
 message SendVerifyCodeReq {
   // 认证类型 "email" | "phone"
