@@ -8,6 +8,31 @@ import (
 	"github.com/cloudwego/prutal"
 )
 
+type TeacherClassBinding struct {
+	EnrollYear int32 `protobuf:"varint,1,opt,name=enrollYear" json:"enrollYear,omitempty"` // 入学年份，用于计算年级
+	ClassNo    int32 `protobuf:"varint,2,opt,name=classNo" json:"classNo,omitempty"`       // 班级号
+}
+
+func (x *TeacherClassBinding) Reset() { *x = TeacherClassBinding{} }
+
+func (x *TeacherClassBinding) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *TeacherClassBinding) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *TeacherClassBinding) GetEnrollYear() int32 {
+	if x != nil {
+		return x.EnrollYear
+	}
+	return 0
+}
+
+func (x *TeacherClassBinding) GetClassNo() int32 {
+	if x != nil {
+		return x.ClassNo
+	}
+	return 0
+}
+
 type UserVO struct {
 	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
 
@@ -34,6 +59,9 @@ type UserVO struct {
 
 	// 1-5: Student | Teacher | ClassTeacher | UnitAdmin | SuperAdmin
 	Role int32 `protobuf:"varint,17,opt,name=role" json:"role,omitempty"`
+
+	// 班主任/教师绑定的班级列表（仅班主任/教师角色有效）
+	BindClasses []*TeacherClassBinding `protobuf:"bytes,18,rep,name=bindClasses" json:"bindClasses,omitempty"`
 }
 
 func (x *UserVO) Reset() { *x = UserVO{} }
@@ -159,6 +187,13 @@ func (x *UserVO) GetRole() int32 {
 		return x.Role
 	}
 	return 0
+}
+
+func (x *UserVO) GetBindClasses() []*TeacherClassBinding {
+	if x != nil {
+		return x.BindClasses
+	}
+	return nil
 }
 
 type Remark struct {

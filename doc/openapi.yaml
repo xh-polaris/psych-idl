@@ -1682,6 +1682,15 @@ components:
                     type: string
                 speaker:
                     type: string
+        TeacherClassBinding:
+            type: object
+            properties:
+                enrollYear:
+                    type: integer
+                    format: int32
+                classNo:
+                    type: integer
+                    format: int32
         TrendPoint:
             type: object
             properties:
@@ -1921,6 +1930,11 @@ components:
                     type: integer
                     description: '1-5: Student | Teacher | ClassTeacher | UnitAdmin | SuperAdmin'
                     format: int32
+                bindClasses:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/TeacherClassBinding'
+                    description: 班主任/教师绑定的班级列表（仅班主任/教师角色有效）
 tags:
     - name: Config
     - name: Conversation
