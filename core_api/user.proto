@@ -9,6 +9,11 @@ import "google/protobuf/struct.proto";
 import "google/protobuf/any.proto";
 import "basic/http.proto";
 
+message TeacherClassBinding {
+  int32 enrollYear = 1;  // 入学年份，用于计算年级
+  int32 classNo = 2;     // 班级号
+}
+
 message UserVO {
   string id = 1;
   // 1-2: Phone | StudentID
@@ -31,6 +36,8 @@ message UserVO {
   int64 deleteTime = 16;
   // 1-5: Student | Teacher | ClassTeacher | UnitAdmin | SuperAdmin
   int32 role = 17;
+  // 班主任/教师绑定的班级列表（仅班主任/教师角色有效）
+  repeated TeacherClassBinding bindClasses = 18;
 }
 message Remark {
   int64 time = 1;
