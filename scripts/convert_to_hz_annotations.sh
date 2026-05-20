@@ -30,7 +30,7 @@ content = content.replace('import "google/api/annotations.proto";', 'import "bas
 # 替换 google.api.http 注解块
 def replace_http_annotation(match):
     annotation_body = match.group(1)
-    
+
     # 提取 HTTP 方法和路径
     methods = ['post', 'get', 'put', 'patch', 'delete', 'head', 'options', 'any']
     for method in methods:
@@ -39,7 +39,7 @@ def replace_http_annotation(match):
         if m:
             path = m.group(1)
             return f'    option (http.{method}) = "{path}";'
-    
+
     return match.group(0)
 
 # 匹配多行注解块（包括 body 参数）
