@@ -53,7 +53,7 @@ message DashboardGetDataTrendResp {
   // 对话时间分布
   repeated conversationDuration conversationDurations = 3;
   // 风险用户分布-按年级
-  optional riskDistribution riskDistribution = 4;
+  optional RiskDistributionByGrade riskDistribution = 4;
   int32 code = 255;
   string msg = 256;
 }
@@ -78,7 +78,7 @@ message conversationDuration {
   // Count 该区间内的会话总数
   int32 count = 2;
 }
-message riskDistribution {
+message RiskDistributionByGrade {
   // key: grade; value: ratio
   map<int32, int32> ratio = 1;
   int32 total = 2;
