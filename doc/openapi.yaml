@@ -705,30 +705,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /user/super_admin_sign_in:
-        post:
-            tags:
-                - User
-            operationId: User_SuperAdminSignIn
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UserSignInReq'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/UserSignInResp'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
     /user/update_info:
         post:
             tags:
@@ -809,17 +785,46 @@ components:
                 lastConversationTime:
                     type: string
                     description: 上次对话时间（时间戳）
-        ChatApp:
+        App:
             type: object
             properties:
+                id:
+                    type: string
                 name:
                     type: string
                 description:
                     type: string
+                lang:
+                    type: string
+                platform:
+                    type: string
                 provider:
+                    type: string
+                url:
                     type: string
                 appId:
                     type: string
+                accessKey:
+                    type: string
+                stream:
+                    type: boolean
+                level:
+                    type: integer
+                    format: int32
+                status:
+                    type: integer
+                    format: int32
+                createTime:
+                    type: string
+                updateTime:
+                    type: string
+                deleteTime:
+                    type: string
+        ChatApp:
+            type: object
+            properties:
+                app:
+                    $ref: '#/components/schemas/App'
         ClassInfo:
             type: object
             properties:
@@ -837,37 +842,21 @@ components:
                 teacherPhone:
                     type: string
             description: 用户管理
-        Config:
-            type: object
-            properties:
-                unitId:
-                    type: string
-                type:
-                    type: string
-                chat:
-                    $ref: '#/components/schemas/ChatApp'
-                tts:
-                    $ref: '#/components/schemas/TTSApp'
-                report:
-                    $ref: '#/components/schemas/ReportApp'
-                status:
-                    type: string
-                createTime:
-                    type: string
-                updateTime:
-                    type: string
         ConfigCreateOrUpdateReq:
             type: object
             properties:
                 config:
-                    $ref: '#/components/schemas/Config'
-                admin:
-                    type: boolean
+                    $ref: '#/components/schemas/ConfigVO'
         ConfigGetByUnitIdResp:
             type: object
             properties:
                 config:
-                    $ref: '#/components/schemas/Config'
+                    $ref: '#/components/schemas/ConfigVO'
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
         ConfigGetModelAndBgImageResp:
             type: object
             properties:
@@ -879,6 +868,33 @@ components:
                     type: integer
                     format: int32
                 msg:
+                    type: string
+        ConfigVO:
+            type: object
+            properties:
+                unitId:
+                    type: string
+                type:
+                    type: integer
+                    description: '1-2: Chain | End2End'
+                    format: int32
+                chat:
+                    $ref: '#/components/schemas/ChatApp'
+                tts:
+                    $ref: '#/components/schemas/TTSApp'
+                report:
+                    $ref: '#/components/schemas/ReportApp'
+                status:
+                    type: integer
+                    description: '1-2: Active | Deleted'
+                    format: int32
+                createTime:
+                    type: string
+                updateTime:
+                    type: string
+                modelView:
+                    type: string
+                backgroundImage:
                     type: string
         ConvDetail:
             type: object
@@ -896,18 +912,6 @@ components:
                 conversationId:
                     type: string
                     description: 对话id
-        ConvDistribution:
-            type: object
-            properties:
-                ratio:
-                    type: object
-                    additionalProperties:
-                        type: integer
-                        format: int32
-                    description: 'key: grade; value: ratio'
-                total:
-                    type: integer
-                    format: int32
         ConvOverview:
             type: object
             properties:
@@ -1185,8 +1189,10 @@ components:
                     items:
                         $ref: '#/components/schemas/ConversationDuration'
                     description: 对话时间分布
-                convDistribution:
-                    $ref: '#/components/schemas/ConvDistribution'
+                riskDistribution:
+                    allOf:
+                        - $ref: '#/components/schemas/RiskDistributionByGrade'
+                    description: 风险用户分布-按年级
                 code:
                     type: integer
                     format: int32
@@ -1594,14 +1600,8 @@ components:
         ReportApp:
             type: object
             properties:
-                name:
-                    type: string
-                description:
-                    type: string
-                provider:
-                    type: string
-                appId:
-                    type: string
+                app:
+                    $ref: '#/components/schemas/App'
         Response:
             type: object
             properties:
@@ -1622,6 +1622,18 @@ components:
                     description: 0=all 1=male 2=female
                     format: int32
                 count:
+                    type: integer
+                    format: int32
+        RiskDistributionByGrade:
+            type: object
+            properties:
+                ratio:
+                    type: object
+                    additionalProperties:
+                        type: integer
+                        format: int32
+                    description: 'key: grade; value: ratio'
+                total:
                     type: integer
                     format: int32
         RiskUser:
@@ -1705,33 +1717,6 @@ components:
                 count:
                     type: integer
                     format: int32
-        Unit:
-            type: object
-            properties:
-                id:
-                    type: string
-                phone:
-                    type: string
-                password:
-                    type: string
-                name:
-                    type: string
-                address:
-                    type: string
-                contact:
-                    type: string
-                level:
-                    type: integer
-                    format: int32
-                status:
-                    type: string
-                createTime:
-                    type: string
-                updateTime:
-                    type: string
-                deleteTime:
-                    type: string
-            description: Unit
         UnitGetByURIReq:
             type: object
             properties:
@@ -1751,12 +1736,17 @@ components:
             type: object
             properties:
                 unit:
-                    $ref: '#/components/schemas/Unit'
+                    $ref: '#/components/schemas/UnitVO'
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
         UnitUpdateInfoReq:
             type: object
             properties:
                 unit:
-                    $ref: '#/components/schemas/Unit'
+                    $ref: '#/components/schemas/UnitVO'
             description: 更新信息
         UnitVO:
             type: object
@@ -1784,47 +1774,10 @@ components:
                     type: string
                 uri:
                     type: string
-        User:
-            type: object
-            properties:
-                id:
+                scene:
                     type: string
-                codeType:
+                teacherImage:
                     type: string
-                code:
-                    type: string
-                password:
-                    type: string
-                unitId:
-                    type: string
-                name:
-                    type: string
-                birth:
-                    type: string
-                gender:
-                    type: string
-                status:
-                    type: string
-                enrollYear:
-                    type: integer
-                    format: int32
-                grade:
-                    type: integer
-                    format: int32
-                class:
-                    type: integer
-                    format: int32
-                options:
-                    type: object
-                    additionalProperties:
-                        $ref: '#/components/schemas/GoogleProtobufAny'
-                createTime:
-                    type: string
-                updateTime:
-                    type: string
-                deleteTime:
-                    type: string
-            description: User
         UserConvTrend:
             type: object
             properties:
@@ -1836,20 +1789,27 @@ components:
             type: object
             properties:
                 user:
-                    $ref: '#/components/schemas/User'
+                    $ref: '#/components/schemas/UserVO'
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
         UserSignInReq:
             type: object
             properties:
-                unitId:
-                    type: string
                 authType:
-                    type: integer
-                    format: int32
+                    type: string
+                    description: 认证类型
                 authId:
                     type: string
+                    description: 身份凭证（手机号/邮箱/工号）
                 verifyCode:
                     type: string
-            description: 登录相关
+                    description: 密码/验证码
+                unitId:
+                    type: string
+                    description: 单位id 单位管理传入对应id；超管登录时该字段传空值
         UserSignInResp:
             type: object
             properties:
@@ -1857,24 +1817,35 @@ components:
                     type: string
                 userId:
                     type: string
-                code:
+                token:
                     type: string
-                codeType:
+                codeValue:
+                    type: string
+                    description: 学生学号
+                code:
+                    type: integer
+                    format: int32
+                msg:
                     type: string
         UserUpdateInfoReq:
             type: object
             properties:
                 user:
-                    $ref: '#/components/schemas/User'
+                    allOf:
+                        - $ref: '#/components/schemas/UserVO'
+                    description: 新的psychUser相关信息，不包括userId、密码等基础账号信息
             description: 更新信息
         UserUpdatePasswordReq:
             type: object
             properties:
-                id:
+                userId:
+                    type: string
+                unitId:
                     type: string
                 authType:
-                    type: integer
-                    format: int32
+                    type: string
+                authId:
+                    type: string
                 verifyCode:
                     type: string
                 newPassword:
