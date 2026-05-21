@@ -22,6 +22,8 @@ message UnitVO {
   int64 updateTime = 10;
   int64 deleteTime = 11;
   string uri = 12;
+  string scene = 13;
+  string teacherImage = 14;
 }
 
 // 获取信息
