@@ -94,14 +94,9 @@ service Config {
       get: "/config/get_by_unit_id"
     };
   }
-  rpc ConfigUpdateModelAndBgImage(ConfigUpdateModelAndBgImageReq) returns (basic.Response){
+  rpc ConfigGetCharacter(ConfigGetCharacterReq) returns (ConfigGetCharacterResp){
     option (google.api.http) = {
-      post: "/config/update_model_and_bg_image"
-    };
-  }
-  rpc ConfigGetModelAndBgImage(ConfigGetModelAndBgImageReq) returns (ConfigGetModelAndBgImageResp){
-    option (google.api.http) = {
-      get: "/config/get_model_and_bg_image"
+      get: "/config/get_character"
     };
   }
 }

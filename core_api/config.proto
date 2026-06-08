@@ -9,6 +9,7 @@ import "google/protobuf/struct.proto";
 import "google/protobuf/any.proto";
 import "basic/http.proto";
 
+// 聊天应用配置
 message ChatApp {
   string name = 1;
   string description = 2;
@@ -16,6 +17,7 @@ message ChatApp {
   string appId = 4;
 };
 
+// TTS应用配置
 message TTSApp {
   string name = 1;
   string description = 2;
@@ -24,6 +26,7 @@ message TTSApp {
   string speaker = 5;
 };
 
+// 报表应用配置
 message ReportApp {
   string name = 1;
   string description = 2;
@@ -31,6 +34,19 @@ message ReportApp {
   string appId = 4;
 }
 
+// 心理老师虚拟形象
+message Character {
+  // 教师名称
+  string name = 1;
+  // 音色配置
+  string voice = 2;
+  // 形象图片url
+  string image = 3;
+  // 是否删除
+  int32 status = 4;
+}
+
+// 单位配置
 message ConfigVO {
   string unitId = 1;
   // 1-2: Chain | End2End
@@ -44,33 +60,42 @@ message ConfigVO {
   int64 updateTime = 8;
   string modelView = 9;
   string backgroundImage = 10;
+  // 心理老师形象列表
+  repeated Character characters = 11;
+  // 对话背景图列表
+  repeated string scene = 12;
+  // 接收告警的手机号
+  repeated string alertPhone = 13;
 }
 
+// 创建或更新配置请求
 message ConfigCreateOrUpdateReq {
   ConfigVO config = 1;
 }
 
+// 根据单位ID获取配置请求
 message ConfigGetByUnitIdReq {
   string unitId = 1;
 }
+// 根据单位ID获取配置响应
 message ConfigGetByUnitIdResp {
   ConfigVO config = 1;
   int32 code = 255;
   string msg = 256;
 }
 
-message ConfigUpdateModelAndBgImageReq {
+// 获取展示信息请求（无需鉴权）
+message ConfigGetCharacterReq {
   string unitId = 1;
-  string modelView = 2;
+}
+// 获取展示信息响应（只返回展示相关字段）
+message ConfigGetCharacterResp {
+  // 心理老师形象列表
+  repeated Character characters = 1;
+  // 对话背景图列表
+  repeated string scene = 2;
+  // 背景图
   string backgroundImage = 3;
-}
-
-message ConfigGetModelAndBgImageReq {
-  string unitId = 1;
-}
-message ConfigGetModelAndBgImageResp {
-  string modelView = 1;
-  string backgroundImage = 2;
   int32 code = 255;
   string msg = 256;
 }
