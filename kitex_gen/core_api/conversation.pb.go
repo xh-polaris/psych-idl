@@ -58,6 +58,8 @@ func (x *CreateConversationResp) GetMsg() string {
 // 对话列表
 type ListConversationsReq struct {
 	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,1,opt,name=paginationOptions" json:"paginationOptions,omitempty"`
+	StartDate         string                   `protobuf:"bytes,2,opt,name=startDate" json:"startDate,omitempty"`
+	EndDate           string                   `protobuf:"bytes,3,opt,name=endDate" json:"endDate,omitempty"`
 }
 
 func (x *ListConversationsReq) Reset() { *x = ListConversationsReq{} }
@@ -71,6 +73,20 @@ func (x *ListConversationsReq) GetPaginationOptions() *basic.PaginationOptions {
 		return x.PaginationOptions
 	}
 	return nil
+}
+
+func (x *ListConversationsReq) GetStartDate() string {
+	if x != nil {
+		return x.StartDate
+	}
+	return ""
+}
+
+func (x *ListConversationsReq) GetEndDate() string {
+	if x != nil {
+		return x.EndDate
+	}
+	return ""
 }
 
 type ListConversationsResp struct {
@@ -116,67 +132,67 @@ func (x *ListConversationsResp) GetMsg() string {
 	return ""
 }
 
-// 获得对话下的历史消息
-type GetConversationReq struct {
+// 获得单次对话下的历史消息
+type GetSingleConvReq struct {
 	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,1,opt,name=paginationOptions" json:"paginationOptions,omitempty"`
 	ConversationId    string                   `protobuf:"bytes,2,opt,name=conversationId" json:"conversationId,omitempty"`
 }
 
-func (x *GetConversationReq) Reset() { *x = GetConversationReq{} }
+func (x *GetSingleConvReq) Reset() { *x = GetSingleConvReq{} }
 
-func (x *GetConversationReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+func (x *GetSingleConvReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
 
-func (x *GetConversationReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+func (x *GetSingleConvReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *GetConversationReq) GetPaginationOptions() *basic.PaginationOptions {
+func (x *GetSingleConvReq) GetPaginationOptions() *basic.PaginationOptions {
 	if x != nil {
 		return x.PaginationOptions
 	}
 	return nil
 }
 
-func (x *GetConversationReq) GetConversationId() string {
+func (x *GetSingleConvReq) GetConversationId() string {
 	if x != nil {
 		return x.ConversationId
 	}
 	return ""
 }
 
-type GetConversationResp struct {
+type GetSingleConvResp struct {
 	Pagination  *basic.Pagination `protobuf:"bytes,1,opt,name=pagination" json:"pagination,omitempty"`
 	MessageList []*Message        `protobuf:"bytes,2,rep,name=messageList" json:"messageList,omitempty"`
 	Code        int32             `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
 	Msg         string            `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
-func (x *GetConversationResp) Reset() { *x = GetConversationResp{} }
+func (x *GetSingleConvResp) Reset() { *x = GetSingleConvResp{} }
 
-func (x *GetConversationResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+func (x *GetSingleConvResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
 
-func (x *GetConversationResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+func (x *GetSingleConvResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *GetConversationResp) GetPagination() *basic.Pagination {
+func (x *GetSingleConvResp) GetPagination() *basic.Pagination {
 	if x != nil {
 		return x.Pagination
 	}
 	return nil
 }
 
-func (x *GetConversationResp) GetMessageList() []*Message {
+func (x *GetSingleConvResp) GetMessageList() []*Message {
 	if x != nil {
 		return x.MessageList
 	}
 	return nil
 }
 
-func (x *GetConversationResp) GetCode() int32 {
+func (x *GetSingleConvResp) GetCode() int32 {
 	if x != nil {
 		return x.Code
 	}
 	return 0
 }
 
-func (x *GetConversationResp) GetMsg() string {
+func (x *GetSingleConvResp) GetMsg() string {
 	if x != nil {
 		return x.Msg
 	}
@@ -188,6 +204,7 @@ type ConversationVO struct {
 	Brief          string `protobuf:"bytes,2,opt,name=brief" json:"brief,omitempty"`
 	CreateTime     int64  `protobuf:"varint,3,opt,name=createTime" json:"createTime,omitempty"`
 	UpdateTime     int64  `protobuf:"varint,4,opt,name=updateTime" json:"updateTime,omitempty"`
+	Date           string `protobuf:"bytes,5,opt,name=date" json:"date,omitempty"`
 }
 
 func (x *ConversationVO) Reset() { *x = ConversationVO{} }
@@ -224,6 +241,13 @@ func (x *ConversationVO) GetUpdateTime() int64 {
 	return 0
 }
 
+func (x *ConversationVO) GetDate() string {
+	if x != nil {
+		return x.Date
+	}
+	return ""
+}
+
 type Message struct {
 	Content string `protobuf:"bytes,1,opt,name=content" json:"content,omitempty"`
 
@@ -257,6 +281,130 @@ func (x *Message) GetRole() int32 {
 func (x *Message) GetIndex() int32 {
 	if x != nil {
 		return x.Index
+	}
+	return 0
+}
+
+// 按天获取用户所有对话消息
+type GetConvByDateReq struct {
+	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,1,opt,name=paginationOptions" json:"paginationOptions,omitempty"`
+	Date              string                   `protobuf:"bytes,2,opt,name=date" json:"date,omitempty"`
+	UserId            string                   `protobuf:"bytes,3,opt,name=userId" json:"userId,omitempty"`
+}
+
+func (x *GetConvByDateReq) Reset() { *x = GetConvByDateReq{} }
+
+func (x *GetConvByDateReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *GetConvByDateReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *GetConvByDateReq) GetPaginationOptions() *basic.PaginationOptions {
+	if x != nil {
+		return x.PaginationOptions
+	}
+	return nil
+}
+
+func (x *GetConvByDateReq) GetDate() string {
+	if x != nil {
+		return x.Date
+	}
+	return ""
+}
+
+func (x *GetConvByDateReq) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+type GetConvByDateResp struct {
+	Pagination  *basic.Pagination    `protobuf:"bytes,1,opt,name=pagination" json:"pagination,omitempty"`
+	MessageList []*ConvByDateMessage `protobuf:"bytes,2,rep,name=messageList" json:"messageList,omitempty"`
+	Code        int32                `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg         string               `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *GetConvByDateResp) Reset() { *x = GetConvByDateResp{} }
+
+func (x *GetConvByDateResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *GetConvByDateResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *GetConvByDateResp) GetPagination() *basic.Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+func (x *GetConvByDateResp) GetMessageList() []*ConvByDateMessage {
+	if x != nil {
+		return x.MessageList
+	}
+	return nil
+}
+
+func (x *GetConvByDateResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *GetConvByDateResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+type ConvByDateMessage struct {
+	ConversationId string `protobuf:"bytes,1,opt,name=conversationId" json:"conversationId,omitempty"`
+	Content        string `protobuf:"bytes,2,opt,name=content" json:"content,omitempty"`
+	Role           int32  `protobuf:"varint,3,opt,name=role" json:"role,omitempty"`
+	Index          int32  `protobuf:"varint,4,opt,name=index" json:"index,omitempty"`
+	CreateTime     int64  `protobuf:"varint,5,opt,name=createTime" json:"createTime,omitempty"`
+}
+
+func (x *ConvByDateMessage) Reset() { *x = ConvByDateMessage{} }
+
+func (x *ConvByDateMessage) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ConvByDateMessage) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ConvByDateMessage) GetConversationId() string {
+	if x != nil {
+		return x.ConversationId
+	}
+	return ""
+}
+
+func (x *ConvByDateMessage) GetContent() string {
+	if x != nil {
+		return x.Content
+	}
+	return ""
+}
+
+func (x *ConvByDateMessage) GetRole() int32 {
+	if x != nil {
+		return x.Role
+	}
+	return 0
+}
+
+func (x *ConvByDateMessage) GetIndex() int32 {
+	if x != nil {
+		return x.Index
+	}
+	return 0
+}
+
+func (x *ConvByDateMessage) GetCreateTime() int64 {
+	if x != nil {
+		return x.CreateTime
 	}
 	return 0
 }

@@ -29,10 +29,17 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
-	"GetConversation": kitex.NewMethodInfo(
-		getConversationHandler,
-		newGetConversationArgs,
-		newGetConversationResult,
+	"GetSingleConv": kitex.NewMethodInfo(
+		getSingleConvHandler,
+		newGetSingleConvArgs,
+		newGetSingleConvResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"GetConvByDate": kitex.NewMethodInfo(
+		getConvByDateHandler,
+		newGetConvByDateArgs,
+		newGetConvByDateResult,
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
@@ -324,52 +331,52 @@ func (p *ListConversationsResult) GetResult() interface{} {
 	return p.Success
 }
 
-func getConversationHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+func getSingleConvHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(core_api.GetConversationReq)
+		req := new(core_api.GetSingleConvReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(core_api.Conversation).GetConversation(ctx, req)
+		resp, err := handler.(core_api.Conversation).GetSingleConv(ctx, req)
 		if err != nil {
 			return err
 		}
 		return st.SendMsg(resp)
-	case *GetConversationArgs:
-		success, err := handler.(core_api.Conversation).GetConversation(ctx, s.Req)
+	case *GetSingleConvArgs:
+		success, err := handler.(core_api.Conversation).GetSingleConv(ctx, s.Req)
 		if err != nil {
 			return err
 		}
-		realResult := result.(*GetConversationResult)
+		realResult := result.(*GetSingleConvResult)
 		realResult.Success = success
 		return nil
 	default:
 		return errInvalidMessageType
 	}
 }
-func newGetConversationArgs() interface{} {
-	return &GetConversationArgs{}
+func newGetSingleConvArgs() interface{} {
+	return &GetSingleConvArgs{}
 }
 
-func newGetConversationResult() interface{} {
-	return &GetConversationResult{}
+func newGetSingleConvResult() interface{} {
+	return &GetSingleConvResult{}
 }
 
-type GetConversationArgs struct {
-	Req *core_api.GetConversationReq
+type GetSingleConvArgs struct {
+	Req *core_api.GetSingleConvReq
 }
 
-func (p *GetConversationArgs) Marshal(out []byte) ([]byte, error) {
+func (p *GetSingleConvArgs) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetReq() {
 		return out, nil
 	}
 	return proto.Marshal(p.Req)
 }
 
-func (p *GetConversationArgs) Unmarshal(in []byte) error {
-	msg := new(core_api.GetConversationReq)
+func (p *GetSingleConvArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.GetSingleConvReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -377,38 +384,38 @@ func (p *GetConversationArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var GetConversationArgs_Req_DEFAULT *core_api.GetConversationReq
+var GetSingleConvArgs_Req_DEFAULT *core_api.GetSingleConvReq
 
-func (p *GetConversationArgs) GetReq() *core_api.GetConversationReq {
+func (p *GetSingleConvArgs) GetReq() *core_api.GetSingleConvReq {
 	if !p.IsSetReq() {
-		return GetConversationArgs_Req_DEFAULT
+		return GetSingleConvArgs_Req_DEFAULT
 	}
 	return p.Req
 }
 
-func (p *GetConversationArgs) IsSetReq() bool {
+func (p *GetSingleConvArgs) IsSetReq() bool {
 	return p.Req != nil
 }
 
-func (p *GetConversationArgs) GetFirstArgument() interface{} {
+func (p *GetSingleConvArgs) GetFirstArgument() interface{} {
 	return p.Req
 }
 
-type GetConversationResult struct {
-	Success *core_api.GetConversationResp
+type GetSingleConvResult struct {
+	Success *core_api.GetSingleConvResp
 }
 
-var GetConversationResult_Success_DEFAULT *core_api.GetConversationResp
+var GetSingleConvResult_Success_DEFAULT *core_api.GetSingleConvResp
 
-func (p *GetConversationResult) Marshal(out []byte) ([]byte, error) {
+func (p *GetSingleConvResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
 		return out, nil
 	}
 	return proto.Marshal(p.Success)
 }
 
-func (p *GetConversationResult) Unmarshal(in []byte) error {
-	msg := new(core_api.GetConversationResp)
+func (p *GetSingleConvResult) Unmarshal(in []byte) error {
+	msg := new(core_api.GetSingleConvResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -416,22 +423,133 @@ func (p *GetConversationResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *GetConversationResult) GetSuccess() *core_api.GetConversationResp {
+func (p *GetSingleConvResult) GetSuccess() *core_api.GetSingleConvResp {
 	if !p.IsSetSuccess() {
-		return GetConversationResult_Success_DEFAULT
+		return GetSingleConvResult_Success_DEFAULT
 	}
 	return p.Success
 }
 
-func (p *GetConversationResult) SetSuccess(x interface{}) {
-	p.Success = x.(*core_api.GetConversationResp)
+func (p *GetSingleConvResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.GetSingleConvResp)
 }
 
-func (p *GetConversationResult) IsSetSuccess() bool {
+func (p *GetSingleConvResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
-func (p *GetConversationResult) GetResult() interface{} {
+func (p *GetSingleConvResult) GetResult() interface{} {
+	return p.Success
+}
+
+func getConvByDateHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.GetConvByDateReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.Conversation).GetConvByDate(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *GetConvByDateArgs:
+		success, err := handler.(core_api.Conversation).GetConvByDate(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*GetConvByDateResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newGetConvByDateArgs() interface{} {
+	return &GetConvByDateArgs{}
+}
+
+func newGetConvByDateResult() interface{} {
+	return &GetConvByDateResult{}
+}
+
+type GetConvByDateArgs struct {
+	Req *core_api.GetConvByDateReq
+}
+
+func (p *GetConvByDateArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *GetConvByDateArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.GetConvByDateReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var GetConvByDateArgs_Req_DEFAULT *core_api.GetConvByDateReq
+
+func (p *GetConvByDateArgs) GetReq() *core_api.GetConvByDateReq {
+	if !p.IsSetReq() {
+		return GetConvByDateArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *GetConvByDateArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *GetConvByDateArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type GetConvByDateResult struct {
+	Success *core_api.GetConvByDateResp
+}
+
+var GetConvByDateResult_Success_DEFAULT *core_api.GetConvByDateResp
+
+func (p *GetConvByDateResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *GetConvByDateResult) Unmarshal(in []byte) error {
+	msg := new(core_api.GetConvByDateResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *GetConvByDateResult) GetSuccess() *core_api.GetConvByDateResp {
+	if !p.IsSetSuccess() {
+		return GetConvByDateResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *GetConvByDateResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.GetConvByDateResp)
+}
+
+func (p *GetConvByDateResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *GetConvByDateResult) GetResult() interface{} {
 	return p.Success
 }
 
@@ -465,11 +583,21 @@ func (p *kClient) ListConversations(ctx context.Context, Req *core_api.ListConve
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) GetConversation(ctx context.Context, Req *core_api.GetConversationReq) (r *core_api.GetConversationResp, err error) {
-	var _args GetConversationArgs
+func (p *kClient) GetSingleConv(ctx context.Context, Req *core_api.GetSingleConvReq) (r *core_api.GetSingleConvResp, err error) {
+	var _args GetSingleConvArgs
 	_args.Req = Req
-	var _result GetConversationResult
-	if err = p.c.Call(ctx, "GetConversation", &_args, &_result); err != nil {
+	var _result GetSingleConvResult
+	if err = p.c.Call(ctx, "GetSingleConv", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetConvByDate(ctx context.Context, Req *core_api.GetConvByDateReq) (r *core_api.GetConvByDateResp, err error) {
+	var _args GetConvByDateArgs
+	_args.Req = Req
+	var _result GetConvByDateResult
+	if err = p.c.Call(ctx, "GetConvByDate", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

@@ -37,17 +37,10 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
-	"ConfigUpdateModelAndBgImage": kitex.NewMethodInfo(
-		configUpdateModelAndBgImageHandler,
-		newConfigUpdateModelAndBgImageArgs,
-		newConfigUpdateModelAndBgImageResult,
-		false,
-		kitex.WithStreamingMode(kitex.StreamingUnary),
-	),
-	"ConfigGetModelAndBgImage": kitex.NewMethodInfo(
-		configGetModelAndBgImageHandler,
-		newConfigGetModelAndBgImageArgs,
-		newConfigGetModelAndBgImageResult,
+	"ConfigGetCharacter": kitex.NewMethodInfo(
+		configGetCharacterHandler,
+		newConfigGetCharacterArgs,
+		newConfigGetCharacterResult,
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
@@ -450,52 +443,52 @@ func (p *ConfigGetByUnitIDResult) GetResult() interface{} {
 	return p.Success
 }
 
-func configUpdateModelAndBgImageHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+func configGetCharacterHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(core_api.ConfigUpdateModelAndBgImageReq)
+		req := new(core_api.ConfigGetCharacterReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(core_api.Config).ConfigUpdateModelAndBgImage(ctx, req)
+		resp, err := handler.(core_api.Config).ConfigGetCharacter(ctx, req)
 		if err != nil {
 			return err
 		}
 		return st.SendMsg(resp)
-	case *ConfigUpdateModelAndBgImageArgs:
-		success, err := handler.(core_api.Config).ConfigUpdateModelAndBgImage(ctx, s.Req)
+	case *ConfigGetCharacterArgs:
+		success, err := handler.(core_api.Config).ConfigGetCharacter(ctx, s.Req)
 		if err != nil {
 			return err
 		}
-		realResult := result.(*ConfigUpdateModelAndBgImageResult)
+		realResult := result.(*ConfigGetCharacterResult)
 		realResult.Success = success
 		return nil
 	default:
 		return errInvalidMessageType
 	}
 }
-func newConfigUpdateModelAndBgImageArgs() interface{} {
-	return &ConfigUpdateModelAndBgImageArgs{}
+func newConfigGetCharacterArgs() interface{} {
+	return &ConfigGetCharacterArgs{}
 }
 
-func newConfigUpdateModelAndBgImageResult() interface{} {
-	return &ConfigUpdateModelAndBgImageResult{}
+func newConfigGetCharacterResult() interface{} {
+	return &ConfigGetCharacterResult{}
 }
 
-type ConfigUpdateModelAndBgImageArgs struct {
-	Req *core_api.ConfigUpdateModelAndBgImageReq
+type ConfigGetCharacterArgs struct {
+	Req *core_api.ConfigGetCharacterReq
 }
 
-func (p *ConfigUpdateModelAndBgImageArgs) Marshal(out []byte) ([]byte, error) {
+func (p *ConfigGetCharacterArgs) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetReq() {
 		return out, nil
 	}
 	return proto.Marshal(p.Req)
 }
 
-func (p *ConfigUpdateModelAndBgImageArgs) Unmarshal(in []byte) error {
-	msg := new(core_api.ConfigUpdateModelAndBgImageReq)
+func (p *ConfigGetCharacterArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.ConfigGetCharacterReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -503,38 +496,38 @@ func (p *ConfigUpdateModelAndBgImageArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var ConfigUpdateModelAndBgImageArgs_Req_DEFAULT *core_api.ConfigUpdateModelAndBgImageReq
+var ConfigGetCharacterArgs_Req_DEFAULT *core_api.ConfigGetCharacterReq
 
-func (p *ConfigUpdateModelAndBgImageArgs) GetReq() *core_api.ConfigUpdateModelAndBgImageReq {
+func (p *ConfigGetCharacterArgs) GetReq() *core_api.ConfigGetCharacterReq {
 	if !p.IsSetReq() {
-		return ConfigUpdateModelAndBgImageArgs_Req_DEFAULT
+		return ConfigGetCharacterArgs_Req_DEFAULT
 	}
 	return p.Req
 }
 
-func (p *ConfigUpdateModelAndBgImageArgs) IsSetReq() bool {
+func (p *ConfigGetCharacterArgs) IsSetReq() bool {
 	return p.Req != nil
 }
 
-func (p *ConfigUpdateModelAndBgImageArgs) GetFirstArgument() interface{} {
+func (p *ConfigGetCharacterArgs) GetFirstArgument() interface{} {
 	return p.Req
 }
 
-type ConfigUpdateModelAndBgImageResult struct {
-	Success *basic.Response
+type ConfigGetCharacterResult struct {
+	Success *core_api.ConfigGetCharacterResp
 }
 
-var ConfigUpdateModelAndBgImageResult_Success_DEFAULT *basic.Response
+var ConfigGetCharacterResult_Success_DEFAULT *core_api.ConfigGetCharacterResp
 
-func (p *ConfigUpdateModelAndBgImageResult) Marshal(out []byte) ([]byte, error) {
+func (p *ConfigGetCharacterResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
 		return out, nil
 	}
 	return proto.Marshal(p.Success)
 }
 
-func (p *ConfigUpdateModelAndBgImageResult) Unmarshal(in []byte) error {
-	msg := new(basic.Response)
+func (p *ConfigGetCharacterResult) Unmarshal(in []byte) error {
+	msg := new(core_api.ConfigGetCharacterResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -542,133 +535,22 @@ func (p *ConfigUpdateModelAndBgImageResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *ConfigUpdateModelAndBgImageResult) GetSuccess() *basic.Response {
+func (p *ConfigGetCharacterResult) GetSuccess() *core_api.ConfigGetCharacterResp {
 	if !p.IsSetSuccess() {
-		return ConfigUpdateModelAndBgImageResult_Success_DEFAULT
+		return ConfigGetCharacterResult_Success_DEFAULT
 	}
 	return p.Success
 }
 
-func (p *ConfigUpdateModelAndBgImageResult) SetSuccess(x interface{}) {
-	p.Success = x.(*basic.Response)
+func (p *ConfigGetCharacterResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.ConfigGetCharacterResp)
 }
 
-func (p *ConfigUpdateModelAndBgImageResult) IsSetSuccess() bool {
+func (p *ConfigGetCharacterResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
-func (p *ConfigUpdateModelAndBgImageResult) GetResult() interface{} {
-	return p.Success
-}
-
-func configGetModelAndBgImageHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	switch s := arg.(type) {
-	case *streaming.Args:
-		st := s.Stream
-		req := new(core_api.ConfigGetModelAndBgImageReq)
-		if err := st.RecvMsg(req); err != nil {
-			return err
-		}
-		resp, err := handler.(core_api.Config).ConfigGetModelAndBgImage(ctx, req)
-		if err != nil {
-			return err
-		}
-		return st.SendMsg(resp)
-	case *ConfigGetModelAndBgImageArgs:
-		success, err := handler.(core_api.Config).ConfigGetModelAndBgImage(ctx, s.Req)
-		if err != nil {
-			return err
-		}
-		realResult := result.(*ConfigGetModelAndBgImageResult)
-		realResult.Success = success
-		return nil
-	default:
-		return errInvalidMessageType
-	}
-}
-func newConfigGetModelAndBgImageArgs() interface{} {
-	return &ConfigGetModelAndBgImageArgs{}
-}
-
-func newConfigGetModelAndBgImageResult() interface{} {
-	return &ConfigGetModelAndBgImageResult{}
-}
-
-type ConfigGetModelAndBgImageArgs struct {
-	Req *core_api.ConfigGetModelAndBgImageReq
-}
-
-func (p *ConfigGetModelAndBgImageArgs) Marshal(out []byte) ([]byte, error) {
-	if !p.IsSetReq() {
-		return out, nil
-	}
-	return proto.Marshal(p.Req)
-}
-
-func (p *ConfigGetModelAndBgImageArgs) Unmarshal(in []byte) error {
-	msg := new(core_api.ConfigGetModelAndBgImageReq)
-	if err := proto.Unmarshal(in, msg); err != nil {
-		return err
-	}
-	p.Req = msg
-	return nil
-}
-
-var ConfigGetModelAndBgImageArgs_Req_DEFAULT *core_api.ConfigGetModelAndBgImageReq
-
-func (p *ConfigGetModelAndBgImageArgs) GetReq() *core_api.ConfigGetModelAndBgImageReq {
-	if !p.IsSetReq() {
-		return ConfigGetModelAndBgImageArgs_Req_DEFAULT
-	}
-	return p.Req
-}
-
-func (p *ConfigGetModelAndBgImageArgs) IsSetReq() bool {
-	return p.Req != nil
-}
-
-func (p *ConfigGetModelAndBgImageArgs) GetFirstArgument() interface{} {
-	return p.Req
-}
-
-type ConfigGetModelAndBgImageResult struct {
-	Success *core_api.ConfigGetModelAndBgImageResp
-}
-
-var ConfigGetModelAndBgImageResult_Success_DEFAULT *core_api.ConfigGetModelAndBgImageResp
-
-func (p *ConfigGetModelAndBgImageResult) Marshal(out []byte) ([]byte, error) {
-	if !p.IsSetSuccess() {
-		return out, nil
-	}
-	return proto.Marshal(p.Success)
-}
-
-func (p *ConfigGetModelAndBgImageResult) Unmarshal(in []byte) error {
-	msg := new(core_api.ConfigGetModelAndBgImageResp)
-	if err := proto.Unmarshal(in, msg); err != nil {
-		return err
-	}
-	p.Success = msg
-	return nil
-}
-
-func (p *ConfigGetModelAndBgImageResult) GetSuccess() *core_api.ConfigGetModelAndBgImageResp {
-	if !p.IsSetSuccess() {
-		return ConfigGetModelAndBgImageResult_Success_DEFAULT
-	}
-	return p.Success
-}
-
-func (p *ConfigGetModelAndBgImageResult) SetSuccess(x interface{}) {
-	p.Success = x.(*core_api.ConfigGetModelAndBgImageResp)
-}
-
-func (p *ConfigGetModelAndBgImageResult) IsSetSuccess() bool {
-	return p.Success != nil
-}
-
-func (p *ConfigGetModelAndBgImageResult) GetResult() interface{} {
+func (p *ConfigGetCharacterResult) GetResult() interface{} {
 	return p.Success
 }
 
@@ -712,21 +594,11 @@ func (p *kClient) ConfigGetByUnitID(ctx context.Context, Req *core_api.ConfigGet
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) ConfigUpdateModelAndBgImage(ctx context.Context, Req *core_api.ConfigUpdateModelAndBgImageReq) (r *basic.Response, err error) {
-	var _args ConfigUpdateModelAndBgImageArgs
+func (p *kClient) ConfigGetCharacter(ctx context.Context, Req *core_api.ConfigGetCharacterReq) (r *core_api.ConfigGetCharacterResp, err error) {
+	var _args ConfigGetCharacterArgs
 	_args.Req = Req
-	var _result ConfigUpdateModelAndBgImageResult
-	if err = p.c.Call(ctx, "ConfigUpdateModelAndBgImage", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
-func (p *kClient) ConfigGetModelAndBgImage(ctx context.Context, Req *core_api.ConfigGetModelAndBgImageReq) (r *core_api.ConfigGetModelAndBgImageResp, err error) {
-	var _args ConfigGetModelAndBgImageArgs
-	_args.Req = Req
-	var _result ConfigGetModelAndBgImageResult
-	if err = p.c.Call(ctx, "ConfigGetModelAndBgImage", &_args, &_result); err != nil {
+	var _result ConfigGetCharacterResult
+	if err = p.c.Call(ctx, "ConfigGetCharacter", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

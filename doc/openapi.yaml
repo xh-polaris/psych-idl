@@ -53,11 +53,11 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /config/get_model_and_bg_image:
+    /config/get_character:
         get:
             tags:
                 - Config
-            operationId: Config_ConfigGetModelAndBgImage
+            operationId: Config_ConfigGetCharacter
             parameters:
                 - name: unitId
                   in: query
@@ -69,7 +69,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ConfigGetModelAndBgImageResp'
+                                $ref: '#/components/schemas/ConfigGetCharacterResp'
                 default:
                     description: Default error response
                     content:
@@ -87,37 +87,6 @@ paths:
                         schema:
                             $ref: '#/components/schemas/ConfigCreateOrUpdateReq'
                 required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Response'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /config/update_model_and_bg_image:
-        post:
-            tags:
-                - Config
-            operationId: Config_ConfigUpdateModelAndBgImage
-            parameters:
-                - name: unitId
-                  in: query
-                  schema:
-                    type: string
-                - name: modelView
-                  in: query
-                  schema:
-                    type: string
-                - name: backgroundImage
-                  in: query
-                  schema:
-                    type: string
             responses:
                 "200":
                     description: OK
@@ -155,16 +124,16 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /conversation/get:
+    /conversation/get_by_date:
         post:
             tags:
                 - Conversation
-            operationId: Conversation_GetConversation
+            operationId: Conversation_GetConvByDate
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/GetConversationReq'
+                            $ref: '#/components/schemas/GetConvByDateReq'
                 required: true
             responses:
                 "200":
@@ -172,7 +141,31 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/GetConversationResp'
+                                $ref: '#/components/schemas/GetConvByDateResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /conversation/get_single:
+        post:
+            tags:
+                - Conversation
+            operationId: Conversation_GetSingleConv
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/GetSingleConvReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetSingleConvResp'
                 default:
                     description: Default error response
                     content:
@@ -785,46 +778,38 @@ components:
                 lastConversationTime:
                     type: string
                     description: 上次对话时间（时间戳）
-        App:
+        Character:
             type: object
             properties:
                 id:
                     type: string
+                    description: 角色ID
+                name:
+                    type: string
+                    description: 教师名称
+                voice:
+                    type: string
+                    description: 音色配置
+                image:
+                    type: string
+                    description: 形象图片url
+                status:
+                    type: integer
+                    description: 是否删除
+                    format: int32
+            description: 心理老师虚拟形象
+        ChatApp:
+            type: object
+            properties:
                 name:
                     type: string
                 description:
                     type: string
-                lang:
-                    type: string
-                platform:
-                    type: string
                 provider:
-                    type: string
-                url:
                     type: string
                 appId:
                     type: string
-                accessKey:
-                    type: string
-                stream:
-                    type: boolean
-                level:
-                    type: integer
-                    format: int32
-                status:
-                    type: integer
-                    format: int32
-                createTime:
-                    type: string
-                updateTime:
-                    type: string
-                deleteTime:
-                    type: string
-        ChatApp:
-            type: object
-            properties:
-                app:
-                    $ref: '#/components/schemas/App'
+            description: Config
         ClassInfo:
             type: object
             properties:
@@ -847,6 +832,7 @@ components:
             properties:
                 config:
                     $ref: '#/components/schemas/ConfigVO'
+            description: 创建或更新配置请求
         ConfigGetByUnitIdResp:
             type: object
             properties:
@@ -857,18 +843,26 @@ components:
                     format: int32
                 msg:
                     type: string
-        ConfigGetModelAndBgImageResp:
+            description: 根据单位ID获取配置响应
+        ConfigGetCharacterResp:
             type: object
             properties:
-                modelView:
-                    type: string
-                backgroundImage:
-                    type: string
+                characters:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Character'
+                    description: 心理老师形象列表
+                scene:
+                    type: array
+                    items:
+                        type: string
+                    description: 对话背景图列表
                 code:
                     type: integer
                     format: int32
                 msg:
                     type: string
+            description: 获取展示信息响应（只返回展示相关字段）
         ConfigVO:
             type: object
             properties:
@@ -895,6 +889,37 @@ components:
                 modelView:
                     type: string
                 backgroundImage:
+                    type: string
+                characters:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Character'
+                    description: 心理老师形象列表
+                scene:
+                    type: array
+                    items:
+                        type: string
+                    description: 对话背景图列表
+                alertPhone:
+                    type: array
+                    items:
+                        type: string
+                    description: 接收告警的手机号
+            description: 单位配置
+        ConvByDateMessage:
+            type: object
+            properties:
+                conversationId:
+                    type: string
+                content:
+                    type: string
+                role:
+                    type: integer
+                    format: int32
+                index:
+                    type: integer
+                    format: int32
+                createTime:
                     type: string
         ConvDetail:
             type: object
@@ -954,6 +979,8 @@ components:
                 createTime:
                     type: string
                 updateTime:
+                    type: string
+                date:
                     type: string
         CreateConversationReq:
             type: object
@@ -1272,6 +1299,18 @@ components:
                     type: integer
                     description: 报表状态 1 Processing | 2 Success | -1 Deleted
                     format: int32
+                characterId:
+                    type: string
+                    description: 心理老师角色ID
+                characterName:
+                    type: string
+                    description: 心理老师姓名
+                characterVoice:
+                    type: string
+                    description: 心理老师音色
+                characterImage:
+                    type: string
+                    description: 心理老师形象图片URL
                 code:
                     type: integer
                     format: int32
@@ -1480,15 +1519,39 @@ components:
                 total:
                     type: integer
                     format: int32
-        GetConversationReq:
+        GetConvByDateReq:
+            type: object
+            properties:
+                paginationOptions:
+                    $ref: '#/components/schemas/PaginationOptions'
+                date:
+                    type: string
+                userId:
+                    type: string
+            description: 按天获取用户所有对话消息
+        GetConvByDateResp:
+            type: object
+            properties:
+                pagination:
+                    $ref: '#/components/schemas/Pagination'
+                messageList:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ConvByDateMessage'
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
+        GetSingleConvReq:
             type: object
             properties:
                 paginationOptions:
                     $ref: '#/components/schemas/PaginationOptions'
                 conversationId:
                     type: string
-            description: 获得对话下的历史消息
-        GetConversationResp:
+            description: 获得单次对话下的历史消息
+        GetSingleConvResp:
             type: object
             properties:
                 pagination:
@@ -1536,6 +1599,10 @@ components:
             properties:
                 paginationOptions:
                     $ref: '#/components/schemas/PaginationOptions'
+                startDate:
+                    type: string
+                endDate:
+                    type: string
             description: 对话列表
         ListConversationsResp:
             type: object
@@ -1600,8 +1667,14 @@ components:
         ReportApp:
             type: object
             properties:
-                app:
-                    $ref: '#/components/schemas/App'
+                name:
+                    type: string
+                description:
+                    type: string
+                provider:
+                    type: string
+                appId:
+                    type: string
         Response:
             type: object
             properties:
@@ -1773,10 +1846,6 @@ components:
                 deleteTime:
                     type: string
                 uri:
-                    type: string
-                scene:
-                    type: string
-                teacherImage:
                     type: string
         UserConvTrend:
             type: object

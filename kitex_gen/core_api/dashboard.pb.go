@@ -1533,9 +1533,21 @@ type DashboardGetReportResp struct {
 	KeywordPercent map[string]float64 `protobuf:"bytes,9,rep,name=keywordPercent" json:"keywordPercent,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"fixed64,2,opt,name=value"`
 
 	// 报表状态 1 Processing | 2 Success | -1 Deleted
-	ReportStatus int32  `protobuf:"varint,10,opt,name=reportStatus" json:"reportStatus,omitempty"`
-	Code         int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg          string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+	ReportStatus int32 `protobuf:"varint,10,opt,name=reportStatus" json:"reportStatus,omitempty"`
+
+	// 心理老师角色ID
+	CharacterId string `protobuf:"bytes,11,opt,name=characterId" json:"characterId,omitempty"`
+
+	// 心理老师姓名
+	CharacterName string `protobuf:"bytes,12,opt,name=characterName" json:"characterName,omitempty"`
+
+	// 心理老师音色
+	CharacterVoice string `protobuf:"bytes,13,opt,name=characterVoice" json:"characterVoice,omitempty"`
+
+	// 心理老师形象图片URL
+	CharacterImage string `protobuf:"bytes,14,opt,name=characterImage" json:"characterImage,omitempty"`
+	Code           int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg            string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *DashboardGetReportResp) Reset() { *x = DashboardGetReportResp{} }
@@ -1614,6 +1626,34 @@ func (x *DashboardGetReportResp) GetReportStatus() int32 {
 		return x.ReportStatus
 	}
 	return 0
+}
+
+func (x *DashboardGetReportResp) GetCharacterId() string {
+	if x != nil {
+		return x.CharacterId
+	}
+	return ""
+}
+
+func (x *DashboardGetReportResp) GetCharacterName() string {
+	if x != nil {
+		return x.CharacterName
+	}
+	return ""
+}
+
+func (x *DashboardGetReportResp) GetCharacterVoice() string {
+	if x != nil {
+		return x.CharacterVoice
+	}
+	return ""
+}
+
+func (x *DashboardGetReportResp) GetCharacterImage() string {
+	if x != nil {
+		return x.CharacterImage
+	}
+	return ""
 }
 
 func (x *DashboardGetReportResp) GetCode() int32 {

@@ -15,8 +15,7 @@ type Client interface {
 	ConfigCreate(ctx context.Context, Req *core_api.ConfigCreateOrUpdateReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	ConfigUpdateInfo(ctx context.Context, Req *core_api.ConfigCreateOrUpdateReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	ConfigGetByUnitID(ctx context.Context, Req *core_api.ConfigGetByUnitIdReq, callOptions ...callopt.Option) (r *core_api.ConfigGetByUnitIdResp, err error)
-	ConfigUpdateModelAndBgImage(ctx context.Context, Req *core_api.ConfigUpdateModelAndBgImageReq, callOptions ...callopt.Option) (r *basic.Response, err error)
-	ConfigGetModelAndBgImage(ctx context.Context, Req *core_api.ConfigGetModelAndBgImageReq, callOptions ...callopt.Option) (r *core_api.ConfigGetModelAndBgImageResp, err error)
+	ConfigGetCharacter(ctx context.Context, Req *core_api.ConfigGetCharacterReq, callOptions ...callopt.Option) (r *core_api.ConfigGetCharacterResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -63,12 +62,7 @@ func (p *kConfigClient) ConfigGetByUnitID(ctx context.Context, Req *core_api.Con
 	return p.kClient.ConfigGetByUnitID(ctx, Req)
 }
 
-func (p *kConfigClient) ConfigUpdateModelAndBgImage(ctx context.Context, Req *core_api.ConfigUpdateModelAndBgImageReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
+func (p *kConfigClient) ConfigGetCharacter(ctx context.Context, Req *core_api.ConfigGetCharacterReq, callOptions ...callopt.Option) (r *core_api.ConfigGetCharacterResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.ConfigUpdateModelAndBgImage(ctx, Req)
-}
-
-func (p *kConfigClient) ConfigGetModelAndBgImage(ctx context.Context, Req *core_api.ConfigGetModelAndBgImageReq, callOptions ...callopt.Option) (r *core_api.ConfigGetModelAndBgImageResp, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.ConfigGetModelAndBgImage(ctx, Req)
+	return p.kClient.ConfigGetCharacter(ctx, Req)
 }

@@ -4,6 +4,7 @@ package core_api
 
 import "github.com/cloudwego/prutal"
 
+// 聊天应用配置
 type ChatApp struct {
 	Name        string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
 	Description string `protobuf:"bytes,2,opt,name=description" json:"description,omitempty"`
@@ -45,6 +46,7 @@ func (x *ChatApp) GetAppId() string {
 	return ""
 }
 
+// TTS应用配置
 type TTSApp struct {
 	Name        string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
 	Description string `protobuf:"bytes,2,opt,name=description" json:"description,omitempty"`
@@ -94,6 +96,7 @@ func (x *TTSApp) GetSpeaker() string {
 	return ""
 }
 
+// 报表应用配置
 type ReportApp struct {
 	Name        string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
 	Description string `protobuf:"bytes,2,opt,name=description" json:"description,omitempty"`
@@ -135,6 +138,66 @@ func (x *ReportApp) GetAppId() string {
 	return ""
 }
 
+// 心理老师虚拟形象
+type Character struct {
+	// 角色ID
+	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+
+	// 教师名称
+	Name string `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
+
+	// 音色配置
+	Voice string `protobuf:"bytes,3,opt,name=voice" json:"voice,omitempty"`
+
+	// 形象图片url
+	Image string `protobuf:"bytes,4,opt,name=image" json:"image,omitempty"`
+
+	// 是否删除
+	Status int32 `protobuf:"varint,5,opt,name=status" json:"status,omitempty"`
+}
+
+func (x *Character) Reset() { *x = Character{} }
+
+func (x *Character) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *Character) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *Character) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *Character) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Character) GetVoice() string {
+	if x != nil {
+		return x.Voice
+	}
+	return ""
+}
+
+func (x *Character) GetImage() string {
+	if x != nil {
+		return x.Image
+	}
+	return ""
+}
+
+func (x *Character) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+// 单位配置
 type ConfigVO struct {
 	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 
@@ -150,6 +213,15 @@ type ConfigVO struct {
 	UpdateTime      int64  `protobuf:"varint,8,opt,name=updateTime" json:"updateTime,omitempty"`
 	ModelView       string `protobuf:"bytes,9,opt,name=modelView" json:"modelView,omitempty"`
 	BackgroundImage string `protobuf:"bytes,10,opt,name=backgroundImage" json:"backgroundImage,omitempty"`
+
+	// 心理老师形象列表
+	Characters []*Character `protobuf:"bytes,11,rep,name=characters" json:"characters,omitempty"`
+
+	// 对话背景图列表
+	Scene []string `protobuf:"bytes,12,rep,name=scene" json:"scene,omitempty"`
+
+	// 接收告警的手机号
+	AlertPhone []string `protobuf:"bytes,13,rep,name=alertPhone" json:"alertPhone,omitempty"`
 }
 
 func (x *ConfigVO) Reset() { *x = ConfigVO{} }
@@ -228,6 +300,28 @@ func (x *ConfigVO) GetBackgroundImage() string {
 	return ""
 }
 
+func (x *ConfigVO) GetCharacters() []*Character {
+	if x != nil {
+		return x.Characters
+	}
+	return nil
+}
+
+func (x *ConfigVO) GetScene() []string {
+	if x != nil {
+		return x.Scene
+	}
+	return nil
+}
+
+func (x *ConfigVO) GetAlertPhone() []string {
+	if x != nil {
+		return x.AlertPhone
+	}
+	return nil
+}
+
+// 创建或更新配置请求
 type ConfigCreateOrUpdateReq struct {
 	Config *ConfigVO `protobuf:"bytes,1,opt,name=config" json:"config,omitempty"`
 }
@@ -247,6 +341,7 @@ func (x *ConfigCreateOrUpdateReq) GetConfig() *ConfigVO {
 	return nil
 }
 
+// 根据单位ID获取配置请求
 type ConfigGetByUnitIdReq struct {
 	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 }
@@ -264,6 +359,7 @@ func (x *ConfigGetByUnitIdReq) GetUnitId() string {
 	return ""
 }
 
+// 根据单位ID获取配置响应
 type ConfigGetByUnitIdResp struct {
 	Config *ConfigVO `protobuf:"bytes,1,opt,name=config" json:"config,omitempty"`
 	Code   int32     `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
@@ -299,97 +395,67 @@ func (x *ConfigGetByUnitIdResp) GetMsg() string {
 	return ""
 }
 
-type ConfigUpdateModelAndBgImageReq struct {
-	UnitId          string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
-	ModelView       string `protobuf:"bytes,2,opt,name=modelView" json:"modelView,omitempty"`
-	BackgroundImage string `protobuf:"bytes,3,opt,name=backgroundImage" json:"backgroundImage,omitempty"`
-}
-
-func (x *ConfigUpdateModelAndBgImageReq) Reset() { *x = ConfigUpdateModelAndBgImageReq{} }
-
-func (x *ConfigUpdateModelAndBgImageReq) Marshal(in []byte) ([]byte, error) {
-	return prutal.MarshalAppend(in, x)
-}
-
-func (x *ConfigUpdateModelAndBgImageReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *ConfigUpdateModelAndBgImageReq) GetUnitId() string {
-	if x != nil {
-		return x.UnitId
-	}
-	return ""
-}
-
-func (x *ConfigUpdateModelAndBgImageReq) GetModelView() string {
-	if x != nil {
-		return x.ModelView
-	}
-	return ""
-}
-
-func (x *ConfigUpdateModelAndBgImageReq) GetBackgroundImage() string {
-	if x != nil {
-		return x.BackgroundImage
-	}
-	return ""
-}
-
-type ConfigGetModelAndBgImageReq struct {
+// 获取展示信息请求（无需鉴权）
+type ConfigGetCharacterReq struct {
 	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 }
 
-func (x *ConfigGetModelAndBgImageReq) Reset() { *x = ConfigGetModelAndBgImageReq{} }
+func (x *ConfigGetCharacterReq) Reset() { *x = ConfigGetCharacterReq{} }
 
-func (x *ConfigGetModelAndBgImageReq) Marshal(in []byte) ([]byte, error) {
+func (x *ConfigGetCharacterReq) Marshal(in []byte) ([]byte, error) {
 	return prutal.MarshalAppend(in, x)
 }
 
-func (x *ConfigGetModelAndBgImageReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+func (x *ConfigGetCharacterReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *ConfigGetModelAndBgImageReq) GetUnitId() string {
+func (x *ConfigGetCharacterReq) GetUnitId() string {
 	if x != nil {
 		return x.UnitId
 	}
 	return ""
 }
 
-type ConfigGetModelAndBgImageResp struct {
-	ModelView       string `protobuf:"bytes,1,opt,name=modelView" json:"modelView,omitempty"`
-	BackgroundImage string `protobuf:"bytes,2,opt,name=backgroundImage" json:"backgroundImage,omitempty"`
-	Code            int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg             string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+// 获取展示信息响应（只返回展示相关字段）
+type ConfigGetCharacterResp struct {
+	// 心理老师形象列表
+	Characters []*Character `protobuf:"bytes,1,rep,name=characters" json:"characters,omitempty"`
+
+	// 对话背景图列表
+	Scene []string `protobuf:"bytes,2,rep,name=scene" json:"scene,omitempty"`
+	Code  int32    `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg   string   `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
-func (x *ConfigGetModelAndBgImageResp) Reset() { *x = ConfigGetModelAndBgImageResp{} }
+func (x *ConfigGetCharacterResp) Reset() { *x = ConfigGetCharacterResp{} }
 
-func (x *ConfigGetModelAndBgImageResp) Marshal(in []byte) ([]byte, error) {
+func (x *ConfigGetCharacterResp) Marshal(in []byte) ([]byte, error) {
 	return prutal.MarshalAppend(in, x)
 }
 
-func (x *ConfigGetModelAndBgImageResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+func (x *ConfigGetCharacterResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *ConfigGetModelAndBgImageResp) GetModelView() string {
+func (x *ConfigGetCharacterResp) GetCharacters() []*Character {
 	if x != nil {
-		return x.ModelView
+		return x.Characters
 	}
-	return ""
+	return nil
 }
 
-func (x *ConfigGetModelAndBgImageResp) GetBackgroundImage() string {
+func (x *ConfigGetCharacterResp) GetScene() []string {
 	if x != nil {
-		return x.BackgroundImage
+		return x.Scene
 	}
-	return ""
+	return nil
 }
 
-func (x *ConfigGetModelAndBgImageResp) GetCode() int32 {
+func (x *ConfigGetCharacterResp) GetCode() int32 {
 	if x != nil {
 		return x.Code
 	}
 	return 0
 }
 
-func (x *ConfigGetModelAndBgImageResp) GetMsg() string {
+func (x *ConfigGetCharacterResp) GetMsg() string {
 	if x != nil {
 		return x.Msg
 	}

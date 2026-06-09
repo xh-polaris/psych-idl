@@ -13,7 +13,8 @@ import (
 type Client interface {
 	CreateConversation(ctx context.Context, Req *core_api.CreateConversationReq, callOptions ...callopt.Option) (r *core_api.CreateConversationResp, err error)
 	ListConversations(ctx context.Context, Req *core_api.ListConversationsReq, callOptions ...callopt.Option) (r *core_api.ListConversationsResp, err error)
-	GetConversation(ctx context.Context, Req *core_api.GetConversationReq, callOptions ...callopt.Option) (r *core_api.GetConversationResp, err error)
+	GetSingleConv(ctx context.Context, Req *core_api.GetSingleConvReq, callOptions ...callopt.Option) (r *core_api.GetSingleConvResp, err error)
+	GetConvByDate(ctx context.Context, Req *core_api.GetConvByDateReq, callOptions ...callopt.Option) (r *core_api.GetConvByDateResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -55,7 +56,12 @@ func (p *kConversationClient) ListConversations(ctx context.Context, Req *core_a
 	return p.kClient.ListConversations(ctx, Req)
 }
 
-func (p *kConversationClient) GetConversation(ctx context.Context, Req *core_api.GetConversationReq, callOptions ...callopt.Option) (r *core_api.GetConversationResp, err error) {
+func (p *kConversationClient) GetSingleConv(ctx context.Context, Req *core_api.GetSingleConvReq, callOptions ...callopt.Option) (r *core_api.GetSingleConvResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.GetConversation(ctx, Req)
+	return p.kClient.GetSingleConv(ctx, Req)
+}
+
+func (p *kConversationClient) GetConvByDate(ctx context.Context, Req *core_api.GetConvByDateReq, callOptions ...callopt.Option) (r *core_api.GetConvByDateResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.GetConvByDate(ctx, Req)
 }

@@ -27,8 +27,7 @@ type Config interface {
 	ConfigCreate(ctx context.Context, req *ConfigCreateOrUpdateReq) (res *basic.Response, err error)
 	ConfigUpdateInfo(ctx context.Context, req *ConfigCreateOrUpdateReq) (res *basic.Response, err error)
 	ConfigGetByUnitID(ctx context.Context, req *ConfigGetByUnitIdReq) (res *ConfigGetByUnitIdResp, err error)
-	ConfigUpdateModelAndBgImage(ctx context.Context, req *ConfigUpdateModelAndBgImageReq) (res *basic.Response, err error)
-	ConfigGetModelAndBgImage(ctx context.Context, req *ConfigGetModelAndBgImageReq) (res *ConfigGetModelAndBgImageResp, err error)
+	ConfigGetCharacter(ctx context.Context, req *ConfigGetCharacterReq) (res *ConfigGetCharacterResp, err error)
 }
 
 type Dashboard interface {
@@ -50,5 +49,6 @@ type Dashboard interface {
 type Conversation interface {
 	CreateConversation(ctx context.Context, req *CreateConversationReq) (res *CreateConversationResp, err error)
 	ListConversations(ctx context.Context, req *ListConversationsReq) (res *ListConversationsResp, err error)
-	GetConversation(ctx context.Context, req *GetConversationReq) (res *GetConversationResp, err error)
+	GetSingleConv(ctx context.Context, req *GetSingleConvReq) (res *GetSingleConvResp, err error)
+	GetConvByDate(ctx context.Context, req *GetConvByDateReq) (res *GetConvByDateResp, err error)
 }
