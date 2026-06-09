@@ -195,9 +195,15 @@ service Conversation {
       body: "*"
     };
   }
-  rpc GetConversation (GetConversationReq) returns (GetConversationResp) {
+  rpc GetSingleConv (GetSingleConvReq) returns (GetSingleConvResp) {
     option (google.api.http) = {
-      post: "/conversation/get"
+      post: "/conversation/get_single"
+      body: "*"
+    };
+  }
+  rpc GetConvByDate (GetConvByDateReq) returns (GetConvByDateResp) {
+    option (google.api.http) = {
+      post: "/conversation/get_by_date"
       body: "*"
     };
   }

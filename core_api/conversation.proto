@@ -23,6 +23,8 @@ message CreateConversationResp {
 // 对话列表
 message ListConversationsReq {
   basic.PaginationOptions paginationOptions = 1;
+  string startDate = 2;
+  string endDate = 3;
 }
 message ListConversationsResp {
   repeated ConversationVO conversationList = 1;
@@ -31,12 +33,12 @@ message ListConversationsResp {
   string msg = 256;
 }
 
-// 获得对话下的历史消息
-message GetConversationReq {
+// 获得单次对话下的历史消息
+message GetSingleConvReq {
   basic.PaginationOptions paginationOptions = 1;
   string conversationId = 2;
 }
-message GetConversationResp {
+message GetSingleConvResp {
   basic.Pagination pagination = 1;
   repeated Message messageList = 2;
   int32 code = 255;
@@ -49,6 +51,7 @@ message ConversationVO {
   string brief = 2;
   int64 createTime = 3;
   int64 updateTime = 4;
+  int64 date = 5;
 }
 
 message Message {
@@ -57,6 +60,27 @@ message Message {
   int32 role = 2;
   // 消息索引
   int32 index = 3;
+}
+
+// 按天获取用户所有对话消息
+message GetConvByDateReq {
+  basic.PaginationOptions paginationOptions = 1;
+  string date = 2;
+  string userId = 3;
+}
+message GetConvByDateResp {
+  basic.Pagination pagination = 1;
+  repeated ConvByDateMessage messageList = 2;
+  int32 code = 255;
+  string msg = 256;
+}
+
+message ConvByDateMessage {
+  string conversationId = 1;
+  string content = 2;
+  int32 role = 3;
+  int32 index = 4;
+  int64 createTime = 5;
 }
 
 // SSEEvent

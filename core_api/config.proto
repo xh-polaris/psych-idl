@@ -94,8 +94,6 @@ message ConfigGetCharacterResp {
   repeated Character characters = 1;
   // 对话背景图列表
   repeated string scene = 2;
-  // 背景图
-  string backgroundImage = 3;
   int32 code = 255;
   string msg = 256;
 }
