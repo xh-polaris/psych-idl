@@ -51,7 +51,7 @@ message ConversationVO {
   string brief = 2;
   int64 createTime = 3;
   int64 updateTime = 4;
-  int64 date = 5;
+  string date = 5;
 }
 
 message Message {

@@ -36,14 +36,16 @@ message ReportApp {
 
 // 心理老师虚拟形象
 message Character {
+  // 角色ID
+  string id = 1;
   // 教师名称
-  string name = 1;
+  string name = 2;
   // 音色配置
-  string voice = 2;
+  string voice = 3;
   // 形象图片url
-  string image = 3;
+  string image = 4;
   // 是否删除
-  int32 status = 4;
+  int32 status = 5;
 }
 
 // 单位配置

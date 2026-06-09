@@ -313,6 +313,14 @@ message DashboardGetReportResp {
   map<string, double> keywordPercent = 9;
   // 报表状态 1 Processing | 2 Success | -1 Deleted
   int32 reportStatus = 10;
+  // 心理老师角色ID
+  string characterId = 11;
+  // 心理老师姓名
+  string characterName = 12;
+  // 心理老师音色
+  string characterVoice = 13;
+  // 心理老师形象图片URL
+  string characterImage = 14;
   int32 code = 255;
   string msg = 256;
 }
