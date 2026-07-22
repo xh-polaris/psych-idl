@@ -15,6 +15,8 @@ import "core_api/user.proto";
 // 指标总览
 message DashboardGetDataOverviewReq {
   optional string unitId = 1;
+  optional int64 startTime = 10;
+  optional int64 endTime = 11;
 }
 message DashboardGetDataOverviewResp {
   int32 totalUsers = 1;
@@ -44,6 +46,8 @@ message DashboardGetDataOverviewResp {
 // 学生使用趋势
 message DashboardGetDataTrendReq {
   optional string unitId = 1;
+  optional int64 startTime = 10;
+  optional int64 endTime = 11;
 }
 message DashboardGetDataTrendResp {
   // 近一周学生活跃趋势
@@ -105,6 +109,8 @@ message DashboardUnit {
 // 情绪与心理健康趋势
 message DashboardGetPsychTrendReq {
   optional string unitId = 1;
+  optional int64 startTime = 10;
+  optional int64 endTime = 11;
 }
 message DashboardGetPsychTrendResp {
   // 情绪分布
@@ -138,6 +144,8 @@ message EmotionRatio {
 // 预警管理
 message DashboardGetAlarmOverviewReq {
   string unitId = 1;
+  optional int64 startTime = 10;
+  optional int64 endTime = 11;
 }
 message DashboardGetAlarmOverviewResp {
   // 当前高风险用户总数
@@ -321,6 +329,10 @@ message DashboardGetReportResp {
   string characterVoice = 13;
   // 心理老师形象图片URL
   string characterImage = 14;
+  // 评估分析（JSON）
+  google.protobuf.Struct analysis = 15;
+  // 简易报告（JSON）
+  google.protobuf.Struct simpleReport = 16;
   int32 code = 255;
   string msg = 256;
 }
