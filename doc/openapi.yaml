@@ -809,7 +809,7 @@ components:
                     type: string
                 appId:
                     type: string
-            description: Config
+            description: 聊天应用配置
         ClassInfo:
             type: object
             properties:
@@ -827,23 +827,37 @@ components:
                 teacherPhone:
                     type: string
             description: 用户管理
+        Config:
+            type: object
+            properties:
+                unitId:
+                    type: string
+                type:
+                    type: string
+                chat:
+                    $ref: '#/components/schemas/ChatApp'
+                tts:
+                    $ref: '#/components/schemas/TTSApp'
+                report:
+                    $ref: '#/components/schemas/ReportApp'
+                status:
+                    type: string
+                createTime:
+                    type: string
+                updateTime:
+                    type: string
         ConfigCreateOrUpdateReq:
             type: object
             properties:
                 config:
-                    $ref: '#/components/schemas/ConfigVO'
-            description: 创建或更新配置请求
+                    $ref: '#/components/schemas/Config'
+                admin:
+                    type: boolean
         ConfigGetByUnitIdResp:
             type: object
             properties:
                 config:
-                    $ref: '#/components/schemas/ConfigVO'
-                code:
-                    type: integer
-                    format: int32
-                msg:
-                    type: string
-            description: 根据单位ID获取配置响应
+                    $ref: '#/components/schemas/Config'
         ConfigGetCharacterResp:
             type: object
             properties:
@@ -863,49 +877,6 @@ components:
                 msg:
                     type: string
             description: 获取展示信息响应（只返回展示相关字段）
-        ConfigVO:
-            type: object
-            properties:
-                unitId:
-                    type: string
-                type:
-                    type: integer
-                    description: '1-2: Chain | End2End'
-                    format: int32
-                chat:
-                    $ref: '#/components/schemas/ChatApp'
-                tts:
-                    $ref: '#/components/schemas/TTSApp'
-                report:
-                    $ref: '#/components/schemas/ReportApp'
-                status:
-                    type: integer
-                    description: '1-2: Active | Deleted'
-                    format: int32
-                createTime:
-                    type: string
-                updateTime:
-                    type: string
-                modelView:
-                    type: string
-                backgroundImage:
-                    type: string
-                characters:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/Character'
-                    description: 心理老师形象列表
-                scene:
-                    type: array
-                    items:
-                        type: string
-                    description: 对话背景图列表
-                alertPhone:
-                    type: array
-                    items:
-                        type: string
-                    description: 接收告警的手机号
-            description: 单位配置
         ConvByDateMessage:
             type: object
             properties:
@@ -1081,6 +1052,10 @@ components:
             properties:
                 unitId:
                     type: string
+                startTime:
+                    type: string
+                endTime:
+                    type: string
             description: 预警管理
         DashboardGetAlarmOverviewResp:
             type: object
@@ -1126,6 +1101,10 @@ components:
             type: object
             properties:
                 unitId:
+                    type: string
+                startTime:
+                    type: string
+                endTime:
                     type: string
             description: 指标总览
         DashboardGetDataOverviewResp:
@@ -1197,6 +1176,10 @@ components:
             properties:
                 unitId:
                     type: string
+                startTime:
+                    type: string
+                endTime:
+                    type: string
             description: 学生使用趋势
         DashboardGetDataTrendResp:
             type: object
@@ -1229,6 +1212,10 @@ components:
             type: object
             properties:
                 unitId:
+                    type: string
+                startTime:
+                    type: string
+                endTime:
                     type: string
             description: 情绪与心理健康趋势
         DashboardGetPsychTrendResp:
@@ -1311,6 +1298,12 @@ components:
                 characterImage:
                     type: string
                     description: 心理老师形象图片URL
+                analysis:
+                    type: object
+                    description: 评估分析（JSON）
+                simpleReport:
+                    type: object
+                    description: 简易报告（JSON）
                 code:
                     type: integer
                     format: int32
@@ -1675,6 +1668,7 @@ components:
                     type: string
                 appId:
                     type: string
+            description: 报表应用配置
         Response:
             type: object
             properties:
@@ -1767,6 +1761,7 @@ components:
                     type: string
                 speaker:
                     type: string
+            description: TTS应用配置
         TeacherClassBinding:
             type: object
             properties:
@@ -1790,6 +1785,33 @@ components:
                 count:
                     type: integer
                     format: int32
+        Unit:
+            type: object
+            properties:
+                id:
+                    type: string
+                phone:
+                    type: string
+                password:
+                    type: string
+                name:
+                    type: string
+                address:
+                    type: string
+                contact:
+                    type: string
+                level:
+                    type: integer
+                    format: int32
+                status:
+                    type: string
+                createTime:
+                    type: string
+                updateTime:
+                    type: string
+                deleteTime:
+                    type: string
+            description: Unit
         UnitGetByURIReq:
             type: object
             properties:
@@ -1809,17 +1831,12 @@ components:
             type: object
             properties:
                 unit:
-                    $ref: '#/components/schemas/UnitVO'
-                code:
-                    type: integer
-                    format: int32
-                msg:
-                    type: string
+                    $ref: '#/components/schemas/Unit'
         UnitUpdateInfoReq:
             type: object
             properties:
                 unit:
-                    $ref: '#/components/schemas/UnitVO'
+                    $ref: '#/components/schemas/Unit'
             description: 更新信息
         UnitVO:
             type: object
@@ -1847,6 +1864,47 @@ components:
                     type: string
                 uri:
                     type: string
+        User:
+            type: object
+            properties:
+                id:
+                    type: string
+                codeType:
+                    type: string
+                code:
+                    type: string
+                password:
+                    type: string
+                unitId:
+                    type: string
+                name:
+                    type: string
+                birth:
+                    type: string
+                gender:
+                    type: string
+                status:
+                    type: string
+                enrollYear:
+                    type: integer
+                    format: int32
+                grade:
+                    type: integer
+                    format: int32
+                class:
+                    type: integer
+                    format: int32
+                options:
+                    type: object
+                    additionalProperties:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+                createTime:
+                    type: string
+                updateTime:
+                    type: string
+                deleteTime:
+                    type: string
+            description: User
         UserConvTrend:
             type: object
             properties:
@@ -1858,27 +1916,20 @@ components:
             type: object
             properties:
                 user:
-                    $ref: '#/components/schemas/UserVO'
-                code:
-                    type: integer
-                    format: int32
-                msg:
-                    type: string
+                    $ref: '#/components/schemas/User'
         UserSignInReq:
             type: object
             properties:
-                authType:
-                    type: string
-                    description: 认证类型
-                authId:
-                    type: string
-                    description: 身份凭证（手机号/邮箱/工号）
-                verifyCode:
-                    type: string
-                    description: 密码/验证码
                 unitId:
                     type: string
-                    description: 单位id 单位管理传入对应id；超管登录时该字段传空值
+                authType:
+                    type: integer
+                    format: int32
+                authId:
+                    type: string
+                verifyCode:
+                    type: string
+            description: 登录相关
         UserSignInResp:
             type: object
             properties:
@@ -1886,35 +1937,24 @@ components:
                     type: string
                 userId:
                     type: string
-                token:
-                    type: string
-                codeValue:
-                    type: string
-                    description: 学生学号
                 code:
-                    type: integer
-                    format: int32
-                msg:
+                    type: string
+                codeType:
                     type: string
         UserUpdateInfoReq:
             type: object
             properties:
                 user:
-                    allOf:
-                        - $ref: '#/components/schemas/UserVO'
-                    description: 新的psychUser相关信息，不包括userId、密码等基础账号信息
+                    $ref: '#/components/schemas/User'
             description: 更新信息
         UserUpdatePasswordReq:
             type: object
             properties:
-                userId:
-                    type: string
-                unitId:
+                id:
                     type: string
                 authType:
-                    type: string
-                authId:
-                    type: string
+                    type: integer
+                    format: int32
                 verifyCode:
                     type: string
                 newPassword:
