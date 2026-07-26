@@ -14,36 +14,36 @@ import "basic/re.proto";
 
 service User {
   rpc UserSignIn(UserSignInReq) returns (UserSignInResp){
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/user/sign_in"
       body: "*"
     };
   }
   rpc UserGetInfo(UserGetInfoReq) returns (UserGetInfoResp){
-    option (google.api.http) = {
+            option (google.api.http) = {
       get: "/user/get_info"
     };
   }
   rpc UserUpdateInfo(UserUpdateInfoReq) returns (basic.Response){
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/user/update_info"
       body: "*"
     };
   }
   rpc UserUpdatePassword(UserUpdatePasswordReq) returns (basic.Response){
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/user/update_password"
       body: "*"
     };
   }
   rpc CreateUser(CreateUserReq) returns (CreateUserResp){
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/user/create"
       body: "*"
     };
   }
   rpc SendVerifyCode(SendVerifyCodeReq) returns (basic.Response){
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/user/send_verify_code"
       body: "*"
     };
@@ -52,24 +52,24 @@ service User {
 
 service Unit {
   rpc UnitGetInfo(UnitGetInfoReq) returns (UnitGetInfoResp){
-    option (google.api.http) = {
+            option (google.api.http) = {
       get: "/unit/get_info"
     };
   }
   rpc UnitUpdateInfo(UnitUpdateInfoReq) returns (basic.Response){
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/unit/update_info"
       body: "*"
     };
   }
   rpc UnitGetByURI(UnitGetByURIReq) returns (UnitGetByURIResp) {
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/unit/get_by_uri"
       body: "*"
     };
   }
   rpc CreateUnit(CreateUnitReq) returns (basic.Response) {
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/unit/create"
       body: "*"
     };
@@ -78,104 +78,109 @@ service Unit {
 
 service Config {
   rpc ConfigCreate(ConfigCreateOrUpdateReq) returns (basic.Response){
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/config/create"
       body: "*"
     };
   }
   rpc ConfigUpdateInfo(ConfigCreateOrUpdateReq) returns (basic.Response){
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/config/update_info"
       body: "*"
     };
   }
   rpc ConfigGetByUnitID(ConfigGetByUnitIdReq) returns (ConfigGetByUnitIdResp){
-    option (google.api.http) = {
+            option (google.api.http) = {
       get: "/config/get_by_unit_id"
     };
   }
   rpc ConfigGetCharacter(ConfigGetCharacterReq) returns (ConfigGetCharacterResp){
-    option (google.api.http) = {
+            option (google.api.http) = {
       get: "/config/get_character"
+    };
+  }
+  rpc ConfigListVoice(ConfigListVoiceReq) returns (ConfigListVoiceResp){
+            option (google.api.http) = {
+      get: "/config/list_voice"
     };
   }
 }
 
 service Dashboard {
   rpc DashboardGetDataOverview(DashboardGetDataOverviewReq) returns (DashboardGetDataOverviewResp) {
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/dashboard/overview"
       body: "*"
     };
   }
   rpc DashboardGetDataTrend(DashboardGetDataTrendReq) returns (DashboardGetDataTrendResp) {
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/dashboard/trend"
       body: "*"
     };
   }
   rpc DashboardListUnits(DashboardListUnitsReq) returns (DashboardListUnitsResp) {
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/dashboard/units"
       body: "*"
     };
   }
   rpc DashboardGetPsychTrend(DashboardGetPsychTrendReq) returns (DashboardGetPsychTrendResp) {
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/dashboard/psych_trend"
       body: "*"
     };
   }
   rpc DashboardGetAlarmOverview(DashboardGetAlarmOverviewReq) returns (DashboardGetAlarmOverviewResp) {
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/dashboard/alarm_overview"
       body: "*"
     };
   }
   rpc DashboardListAlarmRecords(DashboardListAlarmRecordsReq) returns (DashboardListAlarmRecordsResp) {
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/dashboard/alarm_records"
       body: "*"
     };
   }
   rpc DashboardUpdateAlarm(DashboardUpdateAlarmReq) returns (DashboardUpdateAlarmResp) {
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/dashboard/update_alarm"
       body: "*"
     };
   }
   rpc DashboardListClasses(DashboardListClassesReq) returns (DashboardListClassesResp) {
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/dashboard/classes"
       body: "*"
     };
   }
   rpc DashboardListUsers(DashboardListUsersReq) returns (DashboardListUsersResp) {
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/dashboard/users"
       body: "*"
     };
   }
   rpc DashboardUserConvRecords(DashboardUserConvRecordsReq) returns (DashboardUserConvRecordsResp) {
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/dashboard/user_conversation_records"
       body: "*"
     };
   }
   rpc DashboardUnitConvRecords(DashboardUnitConvRecordsReq) returns (DashboardUnitConvRecordsResp) {
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/dashboard/unit_conversation_records"
       body: "*"
     };
   }
   rpc DashboardGetReport(DashboardGetReportReq) returns (DashboardGetReportResp) {
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/dashboard/get_report"
       body: "*"
     };
   }
   rpc DashboardCreateRemark(DashboardCreateRemarkReq) returns (DashboardCreateRemarkResp) {
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/dashboard/create_remark"
       body: "*"
     };
@@ -184,25 +189,25 @@ service Dashboard {
 
 service Conversation {
   rpc CreateConversation (CreateConversationReq) returns (CreateConversationResp) {
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/conversation/create"
       body: "*"
     };
   }
   rpc ListConversations (ListConversationsReq) returns (ListConversationsResp) {
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/conversation/list"
       body: "*"
     };
   }
   rpc GetSingleConv (GetSingleConvReq) returns (GetSingleConvResp) {
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/conversation/get_single"
       body: "*"
     };
   }
   rpc GetConvByDate (GetConvByDateReq) returns (GetConvByDateResp) {
-    option (google.api.http) = {
+            option (google.api.http) = {
       post: "/conversation/get_by_date"
       body: "*"
     };

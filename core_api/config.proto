@@ -46,6 +46,12 @@ message Character {
   string image = 4;
   // 是否删除
   int32 status = 5;
+  // 背景人设
+  string identity = 6;
+  // 模型对话风格
+  string style = 7;
+  // 开场白
+  string greeting = 8;
 }
 
 // 单位配置
@@ -96,6 +102,35 @@ message ConfigGetCharacterResp {
   repeated Character characters = 1;
   // 对话背景图列表
   repeated string scene = 2;
+  int32 code = 255;
+  string msg = 256;
+}
+
+// 音色信息
+message VoiceItemVO {
+  string id = 1;
+  string voiceType = 2;
+  string name = 3;
+  string avatar = 4;
+  string gender = 5;
+  string age = 6;
+  string description = 7;
+  string trialUrl = 8;
+  string volcanoId = 9;
+  string resourceId = 10;
+  int64 createTime = 11;
+  int64 updateTime = 12;
+}
+
+// 获取音色列表请求
+message ConfigListVoiceReq {
+  basic.PaginationOptions paginationOptions = 1;
+}
+
+// 获取音色列表响应
+message ConfigListVoiceResp {
+  repeated VoiceItemVO voices = 1;
+  basic.Pagination pagination = 2;
   int32 code = 255;
   string msg = 256;
 }
