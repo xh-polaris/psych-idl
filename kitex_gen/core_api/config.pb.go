@@ -2,7 +2,11 @@
 
 package core_api
 
-import "github.com/cloudwego/prutal"
+import (
+	"github.com/xh-polaris/psych-idl/kitex_gen/basic"
+
+	"github.com/cloudwego/prutal"
+)
 
 // 聊天应用配置
 type ChatApp struct {
@@ -154,6 +158,15 @@ type Character struct {
 
 	// 是否删除
 	Status int32 `protobuf:"varint,5,opt,name=status" json:"status,omitempty"`
+
+	// 背景人设
+	Identity string `protobuf:"bytes,6,opt,name=identity" json:"identity,omitempty"`
+
+	// 模型对话风格
+	Style string `protobuf:"bytes,7,opt,name=style" json:"style,omitempty"`
+
+	// 开场白
+	Greeting string `protobuf:"bytes,8,opt,name=greeting" json:"greeting,omitempty"`
 }
 
 func (x *Character) Reset() { *x = Character{} }
@@ -195,6 +208,27 @@ func (x *Character) GetStatus() int32 {
 		return x.Status
 	}
 	return 0
+}
+
+func (x *Character) GetIdentity() string {
+	if x != nil {
+		return x.Identity
+	}
+	return ""
+}
+
+func (x *Character) GetStyle() string {
+	if x != nil {
+		return x.Style
+	}
+	return ""
+}
+
+func (x *Character) GetGreeting() string {
+	if x != nil {
+		return x.Greeting
+	}
+	return ""
 }
 
 // 单位配置
@@ -456,6 +490,172 @@ func (x *ConfigGetCharacterResp) GetCode() int32 {
 }
 
 func (x *ConfigGetCharacterResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+// 音色信息
+type VoiceItemVO struct {
+	Id          string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	VoiceType   string `protobuf:"bytes,2,opt,name=voiceType" json:"voiceType,omitempty"`
+	Name        string `protobuf:"bytes,3,opt,name=name" json:"name,omitempty"`
+	Avatar      string `protobuf:"bytes,4,opt,name=avatar" json:"avatar,omitempty"`
+	Gender      string `protobuf:"bytes,5,opt,name=gender" json:"gender,omitempty"`
+	Age         string `protobuf:"bytes,6,opt,name=age" json:"age,omitempty"`
+	Description string `protobuf:"bytes,7,opt,name=description" json:"description,omitempty"`
+	TrialUrl    string `protobuf:"bytes,8,opt,name=trialUrl" json:"trialUrl,omitempty"`
+	VolcanoId   string `protobuf:"bytes,9,opt,name=volcanoId" json:"volcanoId,omitempty"`
+	ResourceId  string `protobuf:"bytes,10,opt,name=resourceId" json:"resourceId,omitempty"`
+	CreateTime  int64  `protobuf:"varint,11,opt,name=createTime" json:"createTime,omitempty"`
+	UpdateTime  int64  `protobuf:"varint,12,opt,name=updateTime" json:"updateTime,omitempty"`
+}
+
+func (x *VoiceItemVO) Reset() { *x = VoiceItemVO{} }
+
+func (x *VoiceItemVO) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *VoiceItemVO) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *VoiceItemVO) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *VoiceItemVO) GetVoiceType() string {
+	if x != nil {
+		return x.VoiceType
+	}
+	return ""
+}
+
+func (x *VoiceItemVO) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *VoiceItemVO) GetAvatar() string {
+	if x != nil {
+		return x.Avatar
+	}
+	return ""
+}
+
+func (x *VoiceItemVO) GetGender() string {
+	if x != nil {
+		return x.Gender
+	}
+	return ""
+}
+
+func (x *VoiceItemVO) GetAge() string {
+	if x != nil {
+		return x.Age
+	}
+	return ""
+}
+
+func (x *VoiceItemVO) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *VoiceItemVO) GetTrialUrl() string {
+	if x != nil {
+		return x.TrialUrl
+	}
+	return ""
+}
+
+func (x *VoiceItemVO) GetVolcanoId() string {
+	if x != nil {
+		return x.VolcanoId
+	}
+	return ""
+}
+
+func (x *VoiceItemVO) GetResourceId() string {
+	if x != nil {
+		return x.ResourceId
+	}
+	return ""
+}
+
+func (x *VoiceItemVO) GetCreateTime() int64 {
+	if x != nil {
+		return x.CreateTime
+	}
+	return 0
+}
+
+func (x *VoiceItemVO) GetUpdateTime() int64 {
+	if x != nil {
+		return x.UpdateTime
+	}
+	return 0
+}
+
+// 获取音色列表请求
+type ConfigListVoiceReq struct {
+	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,1,opt,name=paginationOptions" json:"paginationOptions,omitempty"`
+}
+
+func (x *ConfigListVoiceReq) Reset() { *x = ConfigListVoiceReq{} }
+
+func (x *ConfigListVoiceReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ConfigListVoiceReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ConfigListVoiceReq) GetPaginationOptions() *basic.PaginationOptions {
+	if x != nil {
+		return x.PaginationOptions
+	}
+	return nil
+}
+
+// 获取音色列表响应
+type ConfigListVoiceResp struct {
+	Voices     []*VoiceItemVO    `protobuf:"bytes,1,rep,name=voices" json:"voices,omitempty"`
+	Pagination *basic.Pagination `protobuf:"bytes,2,opt,name=pagination" json:"pagination,omitempty"`
+	Code       int32             `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg        string            `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *ConfigListVoiceResp) Reset() { *x = ConfigListVoiceResp{} }
+
+func (x *ConfigListVoiceResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ConfigListVoiceResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ConfigListVoiceResp) GetVoices() []*VoiceItemVO {
+	if x != nil {
+		return x.Voices
+	}
+	return nil
+}
+
+func (x *ConfigListVoiceResp) GetPagination() *basic.Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+func (x *ConfigListVoiceResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *ConfigListVoiceResp) GetMsg() string {
 	if x != nil {
 		return x.Msg
 	}
