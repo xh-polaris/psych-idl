@@ -5,8 +5,6 @@ package core_api;
 option go_package = "./core_api";
 
 import "basic/pagination.proto";
-import "google/protobuf/struct.proto";
-import "google/protobuf/any.proto";
 import "basic/http.proto";
 import "core_api/user.proto";
 
@@ -301,21 +299,154 @@ message ConvDetail {
 message DashboardGetReportReq {
   string ConversationId = 1;
 }
+
+// 评估分析各维度消息
+// === Problem ===
+message ProblemItem {
+  string category = 1;
+  string subcategory = 2;
+}
+message AnalysisProblem {
+  ProblemItem primary = 1;
+  repeated ProblemItem secondary = 2;
+}
+// === Emotion ===
+message AnalysisEmotion {
+  repeated string type = 1;
+  string intensity = 2;
+}
+// === Support ===
+message AnalysisSupport {
+  bool family = 1;
+  bool teacher = 2;
+  bool friend = 3;
+  repeated string other = 4;
+  repeated string protectiveResources = 5;
+}
+// === Function ===
+message AnalysisFunction {
+  string learning = 1;
+  string sleep = 2;
+  string diet = 3;
+  string interpersonal = 4;
+  string dailyLife = 5;
+}
+// === Distress ===
+message AnalysisDistress {
+  string level = 1;
+  repeated string reason = 2;
+}
+// === Risk ===
+message RiskScore {
+  int32 currentIdeation = 1;
+  int32 history = 2;
+  int32 currentStress = 3;
+  int32 protectiveResources = 4;
+  int32 mentalHealthHistory = 5;
+  int32 total = 6;
+}
+message ProfileSection {
+  string summary = 1;
+  repeated string items = 2;
+}
+message RiskProfile {
+  ProfileSection currentRisk = 1;
+  ProfileSection stressors = 2;
+  ProfileSection riskFactors = 3;
+  ProfileSection protectiveFactors = 4;
+  ProfileSection informationGap = 5;
+  message CurrentSafety {
+    string summary = 1;
+    string status = 2;
+  }
+  CurrentSafety currentSafety = 6;
+}
+message AnalysisRisk {
+  string level = 1;
+  RiskScore score = 2;
+  RiskProfile profile = 3;
+  repeated string evidence = 4;
+  string action = 5;
+}
+// === Confidence ===
+message AnalysisConfidence {
+  string overall = 1;
+  string risk = 2;
+  string reason = 3;
+}
+// === Analysis ===
+message ReportAnalysis {
+  AnalysisProblem problem = 1;
+  AnalysisEmotion emotion = 2;
+  repeated string cognition = 3;
+  repeated string behavior = 4;
+  string duration = 5;
+  repeated string trigger = 6;
+  repeated string coping = 7;
+  AnalysisSupport support = 8;
+  string helpSeeking = 9;
+  AnalysisFunction function = 10;
+  AnalysisDistress distress = 11;
+  AnalysisRisk risk = 12;
+  AnalysisConfidence confidence = 13;
+  repeated string missingInfo = 14;
+}
+
+// 简易报告各板块消息
+message ReportEmotion {
+  string type = 1;
+  string intensity = 2;
+}
+message ReportRiskObs {
+  string level = 1;
+  string evidence = 2;
+}
+message ReportSeverity {
+  string level = 1;
+  string basis = 2;
+}
+message ReportSummary {
+  string mainProblem = 1;
+  string emotionState = 2;
+  string severity = 3;
+  string riskLevel = 4;
+  string focus = 5;
+}
+message SimpleReportMsg {
+  string mainProblem = 1;
+  ReportEmotion emotion = 2;
+  string thoughts = 3;
+  repeated string behaviors = 4;
+  repeated string needs = 5;
+  string duration = 6;
+  string functionImpact = 7;
+  string triggers = 8;
+  string coping = 9;
+  string support = 10;
+  string helpSeeking = 11;
+  ReportRiskObs riskObservation = 12;
+  ReportSeverity severityAssessment = 13;
+  ReportSummary summary = 14;
+  string providedSupport = 15;
+  repeated string suggestions = 16;
+}
+
 message DashboardGetReportResp {
-  // 标题
+  // 兼容旧字段: 标题
   string title = 1;
-  // 话题列表
+  // 兼容旧字段: 话题列表
   repeated string topics = 2;
-  // 对话摘要
+  // 兼容旧字段: 对话摘要
   string digest = 3;
-  // 情绪状态 0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal
+  // 兼容旧字段: 情绪状态 0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal
   int32 emotion = 4;
-  // 详细分析内容
+  // 兼容旧字段: 详细分析内容
   string body = 5;
-  // 是否需要告警
+  // 兼容旧字段: 是否需要告警
   bool need_alarm = 6;
+  // 兼容旧字段: 报表id
   string reportId = 7;
-  // 建议与反馈
+  // 兼容旧字段: 建议与反馈
   repeated string suggestions = 8;
   // 关键词及权重(百分比)
   map<string, double> keywordPercent = 9;
@@ -329,10 +460,10 @@ message DashboardGetReportResp {
   string characterVoice = 13;
   // 心理老师形象图片URL
   string characterImage = 14;
-  // 评估分析（JSON）
-  google.protobuf.Struct analysis = 15;
-  // 简易报告（JSON）
-  google.protobuf.Struct simpleReport = 16;
+  // 评估分析（13维度）
+  ReportAnalysis analysis = 15;
+  // 简易报告（16板块）
+  SimpleReportMsg simpleReport = 16;
   int32 code = 255;
   string msg = 256;
 }
