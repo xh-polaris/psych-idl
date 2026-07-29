@@ -6,10 +6,36 @@ info:
     title: ""
     version: 3.0.0
 paths:
+    /config/add_character:
+        post:
+            tags:
+                - Config
+            description: 向单位新增心理老师角色
+            operationId: Config_ConfigAddCharacter
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ConfigAddCharacterReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ConfigAddCharacterResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /config/create:
         post:
             tags:
                 - Config
+            description: 创建单位配置
             operationId: Config_ConfigCreate
             requestBody:
                 content:
@@ -34,6 +60,7 @@ paths:
         get:
             tags:
                 - Config
+            description: 获取单位全量配置
             operationId: Config_ConfigGetByUnitID
             parameters:
                 - name: unitId
@@ -57,6 +84,7 @@ paths:
         get:
             tags:
                 - Config
+            description: 获取单位所有角色（无需鉴权，可用于学生端）
             operationId: Config_ConfigGetCharacter
             parameters:
                 - name: unitId
@@ -80,6 +108,7 @@ paths:
         get:
             tags:
                 - Config
+            description: 获取音色列表
             operationId: Config_ConfigListVoice
             parameters:
                 - name: paginationOptions.page
@@ -119,6 +148,7 @@ paths:
         post:
             tags:
                 - Config
+            description: 更新单位配置（可用于更新/配置单位对话bot、告警手机号、对话场景等）
             operationId: Config_ConfigUpdateInfo
             requestBody:
                 content:
@@ -894,6 +924,26 @@ components:
                     type: string
                 updateTime:
                     type: string
+        ConfigAddCharacterReq:
+            type: object
+            properties:
+                unitId:
+                    type: string
+                    description: 单位ID
+                character:
+                    allOf:
+                        - $ref: '#/components/schemas/Character'
+                    description: 角色信息
+            description: 向单位新增角色请求
+        ConfigAddCharacterResp:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
+            description: 向单位新增角色响应
         ConfigCreateOrUpdateReq:
             type: object
             properties:
@@ -913,18 +963,18 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/Character'
-                    description: 心理老师形象列表
+                    description: 心理老师角色列表
                 scene:
                     type: array
                     items:
                         type: string
-                    description: 对话背景图列表
+                    description: 对话背景图/场景列表
                 code:
                     type: integer
                     format: int32
                 msg:
                     type: string
-            description: 获取展示信息响应（只返回展示相关字段）
+            description: 获取心理老师角色列表及对话背景（无需鉴权，返回该单位所有character及对话场景，可用于学生端展示）
         ConfigListVoiceResp:
             type: object
             properties:
@@ -1010,12 +1060,16 @@ components:
                     type: string
                 brief:
                     type: string
+                    description: 对话标题
                 createTime:
                     type: string
                 updateTime:
                     type: string
                 date:
                     type: string
+                characterId:
+                    type: string
+                    description: 对话角色ID，绑定单次对话与character
         CreateConversationReq:
             type: object
             properties: {}

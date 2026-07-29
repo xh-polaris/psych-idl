@@ -17,6 +17,7 @@ type Client interface {
 	ConfigGetByUnitID(ctx context.Context, Req *core_api.ConfigGetByUnitIdReq, callOptions ...callopt.Option) (r *core_api.ConfigGetByUnitIdResp, err error)
 	ConfigGetCharacter(ctx context.Context, Req *core_api.ConfigGetCharacterReq, callOptions ...callopt.Option) (r *core_api.ConfigGetCharacterResp, err error)
 	ConfigListVoice(ctx context.Context, Req *core_api.ConfigListVoiceReq, callOptions ...callopt.Option) (r *core_api.ConfigListVoiceResp, err error)
+	ConfigAddCharacter(ctx context.Context, Req *core_api.ConfigAddCharacterReq, callOptions ...callopt.Option) (r *core_api.ConfigAddCharacterResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -71,4 +72,9 @@ func (p *kConfigClient) ConfigGetCharacter(ctx context.Context, Req *core_api.Co
 func (p *kConfigClient) ConfigListVoice(ctx context.Context, Req *core_api.ConfigListVoiceReq, callOptions ...callopt.Option) (r *core_api.ConfigListVoiceResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.ConfigListVoice(ctx, Req)
+}
+
+func (p *kConfigClient) ConfigAddCharacter(ctx context.Context, Req *core_api.ConfigAddCharacterReq, callOptions ...callopt.Option) (r *core_api.ConfigAddCharacterResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ConfigAddCharacter(ctx, Req)
 }

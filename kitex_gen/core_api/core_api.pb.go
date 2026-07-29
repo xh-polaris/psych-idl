@@ -29,6 +29,7 @@ type Config interface {
 	ConfigGetByUnitID(ctx context.Context, req *ConfigGetByUnitIdReq) (res *ConfigGetByUnitIdResp, err error)
 	ConfigGetCharacter(ctx context.Context, req *ConfigGetCharacterReq) (res *ConfigGetCharacterResp, err error)
 	ConfigListVoice(ctx context.Context, req *ConfigListVoiceReq) (res *ConfigListVoiceResp, err error)
+	ConfigAddCharacter(ctx context.Context, req *ConfigAddCharacterReq) (res *ConfigAddCharacterResp, err error)
 }
 
 type Dashboard interface {

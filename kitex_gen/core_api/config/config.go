@@ -51,6 +51,13 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
+	"ConfigAddCharacter": kitex.NewMethodInfo(
+		configAddCharacterHandler,
+		newConfigAddCharacterArgs,
+		newConfigAddCharacterResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
 }
 
 var (
@@ -672,6 +679,117 @@ func (p *ConfigListVoiceResult) GetResult() interface{} {
 	return p.Success
 }
 
+func configAddCharacterHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.ConfigAddCharacterReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.Config).ConfigAddCharacter(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *ConfigAddCharacterArgs:
+		success, err := handler.(core_api.Config).ConfigAddCharacter(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*ConfigAddCharacterResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newConfigAddCharacterArgs() interface{} {
+	return &ConfigAddCharacterArgs{}
+}
+
+func newConfigAddCharacterResult() interface{} {
+	return &ConfigAddCharacterResult{}
+}
+
+type ConfigAddCharacterArgs struct {
+	Req *core_api.ConfigAddCharacterReq
+}
+
+func (p *ConfigAddCharacterArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *ConfigAddCharacterArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.ConfigAddCharacterReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var ConfigAddCharacterArgs_Req_DEFAULT *core_api.ConfigAddCharacterReq
+
+func (p *ConfigAddCharacterArgs) GetReq() *core_api.ConfigAddCharacterReq {
+	if !p.IsSetReq() {
+		return ConfigAddCharacterArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *ConfigAddCharacterArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *ConfigAddCharacterArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type ConfigAddCharacterResult struct {
+	Success *core_api.ConfigAddCharacterResp
+}
+
+var ConfigAddCharacterResult_Success_DEFAULT *core_api.ConfigAddCharacterResp
+
+func (p *ConfigAddCharacterResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *ConfigAddCharacterResult) Unmarshal(in []byte) error {
+	msg := new(core_api.ConfigAddCharacterResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *ConfigAddCharacterResult) GetSuccess() *core_api.ConfigAddCharacterResp {
+	if !p.IsSetSuccess() {
+		return ConfigAddCharacterResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *ConfigAddCharacterResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.ConfigAddCharacterResp)
+}
+
+func (p *ConfigAddCharacterResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *ConfigAddCharacterResult) GetResult() interface{} {
+	return p.Success
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -727,6 +845,16 @@ func (p *kClient) ConfigListVoice(ctx context.Context, Req *core_api.ConfigListV
 	_args.Req = Req
 	var _result ConfigListVoiceResult
 	if err = p.c.Call(ctx, "ConfigListVoice", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ConfigAddCharacter(ctx context.Context, Req *core_api.ConfigAddCharacterReq) (r *core_api.ConfigAddCharacterResp, err error) {
+	var _args ConfigAddCharacterArgs
+	_args.Req = Req
+	var _result ConfigAddCharacterResult
+	if err = p.c.Call(ctx, "ConfigAddCharacter", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

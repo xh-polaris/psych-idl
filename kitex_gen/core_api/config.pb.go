@@ -231,11 +231,11 @@ func (x *Character) GetGreeting() string {
 	return ""
 }
 
-// 单位配置
+// 单位全量配置（包含对话bot、TTS、报表、角色、对话场景、告警手机号等）
 type ConfigVO struct {
 	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 
-	// 1-2: Chain | End2End
+	// 对话engine实现模式 1-2: Chain | End2End
 	Type   int32      `protobuf:"varint,2,opt,name=type" json:"type,omitempty"`
 	Chat   *ChatApp   `protobuf:"bytes,3,opt,name=chat" json:"chat,omitempty"`
 	Tts    *TTSApp    `protobuf:"bytes,4,opt,name=tts" json:"tts,omitempty"`
@@ -248,13 +248,13 @@ type ConfigVO struct {
 	ModelView       string `protobuf:"bytes,9,opt,name=modelView" json:"modelView,omitempty"`
 	BackgroundImage string `protobuf:"bytes,10,opt,name=backgroundImage" json:"backgroundImage,omitempty"`
 
-	// 心理老师形象列表
+	// 心理老师角色列表
 	Characters []*Character `protobuf:"bytes,11,rep,name=characters" json:"characters,omitempty"`
 
 	// 对话背景图列表
 	Scene []string `protobuf:"bytes,12,rep,name=scene" json:"scene,omitempty"`
 
-	// 接收告警的手机号
+	// 接收告警短信的手机号列表
 	AlertPhone []string `protobuf:"bytes,13,rep,name=alertPhone" json:"alertPhone,omitempty"`
 }
 
@@ -355,7 +355,7 @@ func (x *ConfigVO) GetAlertPhone() []string {
 	return nil
 }
 
-// 创建或更新配置请求
+// 创建或更新配置请求（超管可配置全量；单位管理员/教师仅可配置角色/场景/告警手机号）
 type ConfigCreateOrUpdateReq struct {
 	Config *ConfigVO `protobuf:"bytes,1,opt,name=config" json:"config,omitempty"`
 }
@@ -375,7 +375,7 @@ func (x *ConfigCreateOrUpdateReq) GetConfig() *ConfigVO {
 	return nil
 }
 
-// 根据单位ID获取配置请求
+// 获取单位配置请求（超管返回全量；单位管理员/教师返回角色/场景/告警手机号等）
 type ConfigGetByUnitIdReq struct {
 	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 }
@@ -393,7 +393,7 @@ func (x *ConfigGetByUnitIdReq) GetUnitId() string {
 	return ""
 }
 
-// 根据单位ID获取配置响应
+// 获取单位全量配置响应
 type ConfigGetByUnitIdResp struct {
 	Config *ConfigVO `protobuf:"bytes,1,opt,name=config" json:"config,omitempty"`
 	Code   int32     `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
@@ -429,7 +429,7 @@ func (x *ConfigGetByUnitIdResp) GetMsg() string {
 	return ""
 }
 
-// 获取展示信息请求（无需鉴权）
+// 获取单位所有角色请求（无需鉴权，可用于学生端获取对话角色列表）
 type ConfigGetCharacterReq struct {
 	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 }
@@ -449,12 +449,12 @@ func (x *ConfigGetCharacterReq) GetUnitId() string {
 	return ""
 }
 
-// 获取展示信息响应（只返回展示相关字段）
+// 获取心理老师角色列表及对话背景（无需鉴权，返回该单位所有character及对话场景，可用于学生端展示）
 type ConfigGetCharacterResp struct {
-	// 心理老师形象列表
+	// 心理老师角色列表
 	Characters []*Character `protobuf:"bytes,1,rep,name=characters" json:"characters,omitempty"`
 
-	// 对话背景图列表
+	// 对话背景图/场景列表
 	Scene []string `protobuf:"bytes,2,rep,name=scene" json:"scene,omitempty"`
 	Code  int32    `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
 	Msg   string   `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
@@ -656,6 +656,65 @@ func (x *ConfigListVoiceResp) GetCode() int32 {
 }
 
 func (x *ConfigListVoiceResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+// 向单位新增角色请求
+type ConfigAddCharacterReq struct {
+	// 单位ID
+	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+
+	// 角色信息
+	Character *Character `protobuf:"bytes,2,opt,name=character" json:"character,omitempty"`
+}
+
+func (x *ConfigAddCharacterReq) Reset() { *x = ConfigAddCharacterReq{} }
+
+func (x *ConfigAddCharacterReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *ConfigAddCharacterReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ConfigAddCharacterReq) GetUnitId() string {
+	if x != nil {
+		return x.UnitId
+	}
+	return ""
+}
+
+func (x *ConfigAddCharacterReq) GetCharacter() *Character {
+	if x != nil {
+		return x.Character
+	}
+	return nil
+}
+
+// 向单位新增角色响应
+type ConfigAddCharacterResp struct {
+	Code int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg  string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *ConfigAddCharacterResp) Reset() { *x = ConfigAddCharacterResp{} }
+
+func (x *ConfigAddCharacterResp) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *ConfigAddCharacterResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ConfigAddCharacterResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *ConfigAddCharacterResp) GetMsg() string {
 	if x != nil {
 		return x.Msg
 	}

@@ -201,10 +201,15 @@ func (x *GetSingleConvResp) GetMsg() string {
 
 type ConversationVO struct {
 	ConversationId string `protobuf:"bytes,1,opt,name=conversationId" json:"conversationId,omitempty"`
-	Brief          string `protobuf:"bytes,2,opt,name=brief" json:"brief,omitempty"`
-	CreateTime     int64  `protobuf:"varint,3,opt,name=createTime" json:"createTime,omitempty"`
-	UpdateTime     int64  `protobuf:"varint,4,opt,name=updateTime" json:"updateTime,omitempty"`
-	Date           string `protobuf:"bytes,5,opt,name=date" json:"date,omitempty"`
+
+	// 对话标题
+	Brief      string `protobuf:"bytes,2,opt,name=brief" json:"brief,omitempty"`
+	CreateTime int64  `protobuf:"varint,3,opt,name=createTime" json:"createTime,omitempty"`
+	UpdateTime int64  `protobuf:"varint,4,opt,name=updateTime" json:"updateTime,omitempty"`
+	Date       string `protobuf:"bytes,5,opt,name=date" json:"date,omitempty"`
+
+	// 对话角色ID，绑定单次对话与character
+	CharacterId string `protobuf:"bytes,6,opt,name=characterId" json:"characterId,omitempty"`
 }
 
 func (x *ConversationVO) Reset() { *x = ConversationVO{} }
@@ -244,6 +249,13 @@ func (x *ConversationVO) GetUpdateTime() int64 {
 func (x *ConversationVO) GetDate() string {
 	if x != nil {
 		return x.Date
+	}
+	return ""
+}
+
+func (x *ConversationVO) GetCharacterId() string {
+	if x != nil {
+		return x.CharacterId
 	}
 	return ""
 }
