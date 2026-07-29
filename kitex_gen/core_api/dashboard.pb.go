@@ -4,7 +4,6 @@ package core_api
 
 import (
 	"github.com/xh-polaris/psych-idl/kitex_gen/basic"
-	"google.golang.org/protobuf/types/known/structpb"
 
 	"github.com/cloudwego/prutal"
 )
@@ -1571,27 +1570,867 @@ func (x *DashboardGetReportReq) GetConversationId() string {
 	return ""
 }
 
+// 评估分析各维度消息
+// === Problem ===
+type ProblemItem struct {
+	Category    string `protobuf:"bytes,1,opt,name=category" json:"category,omitempty"`
+	Subcategory string `protobuf:"bytes,2,opt,name=subcategory" json:"subcategory,omitempty"`
+}
+
+func (x *ProblemItem) Reset() { *x = ProblemItem{} }
+
+func (x *ProblemItem) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ProblemItem) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ProblemItem) GetCategory() string {
+	if x != nil {
+		return x.Category
+	}
+	return ""
+}
+
+func (x *ProblemItem) GetSubcategory() string {
+	if x != nil {
+		return x.Subcategory
+	}
+	return ""
+}
+
+type AnalysisProblem struct {
+	Primary   *ProblemItem   `protobuf:"bytes,1,opt,name=primary" json:"primary,omitempty"`
+	Secondary []*ProblemItem `protobuf:"bytes,2,rep,name=secondary" json:"secondary,omitempty"`
+}
+
+func (x *AnalysisProblem) Reset() { *x = AnalysisProblem{} }
+
+func (x *AnalysisProblem) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *AnalysisProblem) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *AnalysisProblem) GetPrimary() *ProblemItem {
+	if x != nil {
+		return x.Primary
+	}
+	return nil
+}
+
+func (x *AnalysisProblem) GetSecondary() []*ProblemItem {
+	if x != nil {
+		return x.Secondary
+	}
+	return nil
+}
+
+// === Emotion ===
+type AnalysisEmotion struct {
+	Type      []string `protobuf:"bytes,1,rep,name=type" json:"type,omitempty"`
+	Intensity string   `protobuf:"bytes,2,opt,name=intensity" json:"intensity,omitempty"`
+}
+
+func (x *AnalysisEmotion) Reset() { *x = AnalysisEmotion{} }
+
+func (x *AnalysisEmotion) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *AnalysisEmotion) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *AnalysisEmotion) GetType() []string {
+	if x != nil {
+		return x.Type
+	}
+	return nil
+}
+
+func (x *AnalysisEmotion) GetIntensity() string {
+	if x != nil {
+		return x.Intensity
+	}
+	return ""
+}
+
+// === Support ===
+type AnalysisSupport struct {
+	Family              bool     `protobuf:"varint,1,opt,name=family" json:"family,omitempty"`
+	Teacher             bool     `protobuf:"varint,2,opt,name=teacher" json:"teacher,omitempty"`
+	Friend              bool     `protobuf:"varint,3,opt,name=friend" json:"friend,omitempty"`
+	Other               []string `protobuf:"bytes,4,rep,name=other" json:"other,omitempty"`
+	ProtectiveResources []string `protobuf:"bytes,5,rep,name=protectiveResources" json:"protectiveResources,omitempty"`
+}
+
+func (x *AnalysisSupport) Reset() { *x = AnalysisSupport{} }
+
+func (x *AnalysisSupport) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *AnalysisSupport) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *AnalysisSupport) GetFamily() bool {
+	if x != nil {
+		return x.Family
+	}
+	return false
+}
+
+func (x *AnalysisSupport) GetTeacher() bool {
+	if x != nil {
+		return x.Teacher
+	}
+	return false
+}
+
+func (x *AnalysisSupport) GetFriend() bool {
+	if x != nil {
+		return x.Friend
+	}
+	return false
+}
+
+func (x *AnalysisSupport) GetOther() []string {
+	if x != nil {
+		return x.Other
+	}
+	return nil
+}
+
+func (x *AnalysisSupport) GetProtectiveResources() []string {
+	if x != nil {
+		return x.ProtectiveResources
+	}
+	return nil
+}
+
+// === Function ===
+type AnalysisFunction struct {
+	Learning      string `protobuf:"bytes,1,opt,name=learning" json:"learning,omitempty"`
+	Sleep         string `protobuf:"bytes,2,opt,name=sleep" json:"sleep,omitempty"`
+	Diet          string `protobuf:"bytes,3,opt,name=diet" json:"diet,omitempty"`
+	Interpersonal string `protobuf:"bytes,4,opt,name=interpersonal" json:"interpersonal,omitempty"`
+	DailyLife     string `protobuf:"bytes,5,opt,name=dailyLife" json:"dailyLife,omitempty"`
+}
+
+func (x *AnalysisFunction) Reset() { *x = AnalysisFunction{} }
+
+func (x *AnalysisFunction) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *AnalysisFunction) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *AnalysisFunction) GetLearning() string {
+	if x != nil {
+		return x.Learning
+	}
+	return ""
+}
+
+func (x *AnalysisFunction) GetSleep() string {
+	if x != nil {
+		return x.Sleep
+	}
+	return ""
+}
+
+func (x *AnalysisFunction) GetDiet() string {
+	if x != nil {
+		return x.Diet
+	}
+	return ""
+}
+
+func (x *AnalysisFunction) GetInterpersonal() string {
+	if x != nil {
+		return x.Interpersonal
+	}
+	return ""
+}
+
+func (x *AnalysisFunction) GetDailyLife() string {
+	if x != nil {
+		return x.DailyLife
+	}
+	return ""
+}
+
+// === Distress ===
+type AnalysisDistress struct {
+	Level  string   `protobuf:"bytes,1,opt,name=level" json:"level,omitempty"`
+	Reason []string `protobuf:"bytes,2,rep,name=reason" json:"reason,omitempty"`
+}
+
+func (x *AnalysisDistress) Reset() { *x = AnalysisDistress{} }
+
+func (x *AnalysisDistress) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *AnalysisDistress) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *AnalysisDistress) GetLevel() string {
+	if x != nil {
+		return x.Level
+	}
+	return ""
+}
+
+func (x *AnalysisDistress) GetReason() []string {
+	if x != nil {
+		return x.Reason
+	}
+	return nil
+}
+
+// === Risk ===
+type RiskScore struct {
+	CurrentIdeation     int32 `protobuf:"varint,1,opt,name=currentIdeation" json:"currentIdeation,omitempty"`
+	History             int32 `protobuf:"varint,2,opt,name=history" json:"history,omitempty"`
+	CurrentStress       int32 `protobuf:"varint,3,opt,name=currentStress" json:"currentStress,omitempty"`
+	ProtectiveResources int32 `protobuf:"varint,4,opt,name=protectiveResources" json:"protectiveResources,omitempty"`
+	MentalHealthHistory int32 `protobuf:"varint,5,opt,name=mentalHealthHistory" json:"mentalHealthHistory,omitempty"`
+	Total               int32 `protobuf:"varint,6,opt,name=total" json:"total,omitempty"`
+}
+
+func (x *RiskScore) Reset() { *x = RiskScore{} }
+
+func (x *RiskScore) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *RiskScore) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *RiskScore) GetCurrentIdeation() int32 {
+	if x != nil {
+		return x.CurrentIdeation
+	}
+	return 0
+}
+
+func (x *RiskScore) GetHistory() int32 {
+	if x != nil {
+		return x.History
+	}
+	return 0
+}
+
+func (x *RiskScore) GetCurrentStress() int32 {
+	if x != nil {
+		return x.CurrentStress
+	}
+	return 0
+}
+
+func (x *RiskScore) GetProtectiveResources() int32 {
+	if x != nil {
+		return x.ProtectiveResources
+	}
+	return 0
+}
+
+func (x *RiskScore) GetMentalHealthHistory() int32 {
+	if x != nil {
+		return x.MentalHealthHistory
+	}
+	return 0
+}
+
+func (x *RiskScore) GetTotal() int32 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+type ProfileSection struct {
+	Summary string   `protobuf:"bytes,1,opt,name=summary" json:"summary,omitempty"`
+	Items   []string `protobuf:"bytes,2,rep,name=items" json:"items,omitempty"`
+}
+
+func (x *ProfileSection) Reset() { *x = ProfileSection{} }
+
+func (x *ProfileSection) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ProfileSection) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ProfileSection) GetSummary() string {
+	if x != nil {
+		return x.Summary
+	}
+	return ""
+}
+
+func (x *ProfileSection) GetItems() []string {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+type RiskProfile struct {
+	CurrentRisk       *ProfileSection            `protobuf:"bytes,1,opt,name=currentRisk" json:"currentRisk,omitempty"`
+	Stressors         *ProfileSection            `protobuf:"bytes,2,opt,name=stressors" json:"stressors,omitempty"`
+	RiskFactors       *ProfileSection            `protobuf:"bytes,3,opt,name=riskFactors" json:"riskFactors,omitempty"`
+	ProtectiveFactors *ProfileSection            `protobuf:"bytes,4,opt,name=protectiveFactors" json:"protectiveFactors,omitempty"`
+	InformationGap    *ProfileSection            `protobuf:"bytes,5,opt,name=informationGap" json:"informationGap,omitempty"`
+	CurrentSafety     *RiskProfile_CurrentSafety `protobuf:"bytes,6,opt,name=currentSafety" json:"currentSafety,omitempty"`
+}
+
+func (x *RiskProfile) Reset() { *x = RiskProfile{} }
+
+func (x *RiskProfile) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *RiskProfile) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *RiskProfile) GetCurrentRisk() *ProfileSection {
+	if x != nil {
+		return x.CurrentRisk
+	}
+	return nil
+}
+
+func (x *RiskProfile) GetStressors() *ProfileSection {
+	if x != nil {
+		return x.Stressors
+	}
+	return nil
+}
+
+func (x *RiskProfile) GetRiskFactors() *ProfileSection {
+	if x != nil {
+		return x.RiskFactors
+	}
+	return nil
+}
+
+func (x *RiskProfile) GetProtectiveFactors() *ProfileSection {
+	if x != nil {
+		return x.ProtectiveFactors
+	}
+	return nil
+}
+
+func (x *RiskProfile) GetInformationGap() *ProfileSection {
+	if x != nil {
+		return x.InformationGap
+	}
+	return nil
+}
+
+func (x *RiskProfile) GetCurrentSafety() *RiskProfile_CurrentSafety {
+	if x != nil {
+		return x.CurrentSafety
+	}
+	return nil
+}
+
+type RiskProfile_CurrentSafety struct {
+	Summary string `protobuf:"bytes,1,opt,name=summary" json:"summary,omitempty"`
+	Status  string `protobuf:"bytes,2,opt,name=status" json:"status,omitempty"`
+}
+
+func (x *RiskProfile_CurrentSafety) Reset() { *x = RiskProfile_CurrentSafety{} }
+
+func (x *RiskProfile_CurrentSafety) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *RiskProfile_CurrentSafety) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *RiskProfile_CurrentSafety) GetSummary() string {
+	if x != nil {
+		return x.Summary
+	}
+	return ""
+}
+
+func (x *RiskProfile_CurrentSafety) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+type AnalysisRisk struct {
+	Level    string       `protobuf:"bytes,1,opt,name=level" json:"level,omitempty"`
+	Score    *RiskScore   `protobuf:"bytes,2,opt,name=score" json:"score,omitempty"`
+	Profile  *RiskProfile `protobuf:"bytes,3,opt,name=profile" json:"profile,omitempty"`
+	Evidence []string     `protobuf:"bytes,4,rep,name=evidence" json:"evidence,omitempty"`
+	Action   string       `protobuf:"bytes,5,opt,name=action" json:"action,omitempty"`
+}
+
+func (x *AnalysisRisk) Reset() { *x = AnalysisRisk{} }
+
+func (x *AnalysisRisk) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *AnalysisRisk) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *AnalysisRisk) GetLevel() string {
+	if x != nil {
+		return x.Level
+	}
+	return ""
+}
+
+func (x *AnalysisRisk) GetScore() *RiskScore {
+	if x != nil {
+		return x.Score
+	}
+	return nil
+}
+
+func (x *AnalysisRisk) GetProfile() *RiskProfile {
+	if x != nil {
+		return x.Profile
+	}
+	return nil
+}
+
+func (x *AnalysisRisk) GetEvidence() []string {
+	if x != nil {
+		return x.Evidence
+	}
+	return nil
+}
+
+func (x *AnalysisRisk) GetAction() string {
+	if x != nil {
+		return x.Action
+	}
+	return ""
+}
+
+// === Confidence ===
+type AnalysisConfidence struct {
+	Overall string `protobuf:"bytes,1,opt,name=overall" json:"overall,omitempty"`
+	Risk    string `protobuf:"bytes,2,opt,name=risk" json:"risk,omitempty"`
+	Reason  string `protobuf:"bytes,3,opt,name=reason" json:"reason,omitempty"`
+}
+
+func (x *AnalysisConfidence) Reset() { *x = AnalysisConfidence{} }
+
+func (x *AnalysisConfidence) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *AnalysisConfidence) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *AnalysisConfidence) GetOverall() string {
+	if x != nil {
+		return x.Overall
+	}
+	return ""
+}
+
+func (x *AnalysisConfidence) GetRisk() string {
+	if x != nil {
+		return x.Risk
+	}
+	return ""
+}
+
+func (x *AnalysisConfidence) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+// === Analysis ===
+type ReportAnalysis struct {
+	Problem     *AnalysisProblem    `protobuf:"bytes,1,opt,name=problem" json:"problem,omitempty"`
+	Emotion     *AnalysisEmotion    `protobuf:"bytes,2,opt,name=emotion" json:"emotion,omitempty"`
+	Cognition   []string            `protobuf:"bytes,3,rep,name=cognition" json:"cognition,omitempty"`
+	Behavior    []string            `protobuf:"bytes,4,rep,name=behavior" json:"behavior,omitempty"`
+	Duration    string              `protobuf:"bytes,5,opt,name=duration" json:"duration,omitempty"`
+	Trigger     []string            `protobuf:"bytes,6,rep,name=trigger" json:"trigger,omitempty"`
+	Coping      []string            `protobuf:"bytes,7,rep,name=coping" json:"coping,omitempty"`
+	Support     *AnalysisSupport    `protobuf:"bytes,8,opt,name=support" json:"support,omitempty"`
+	HelpSeeking string              `protobuf:"bytes,9,opt,name=helpSeeking" json:"helpSeeking,omitempty"`
+	Function    *AnalysisFunction   `protobuf:"bytes,10,opt,name=function" json:"function,omitempty"`
+	Distress    *AnalysisDistress   `protobuf:"bytes,11,opt,name=distress" json:"distress,omitempty"`
+	Risk        *AnalysisRisk       `protobuf:"bytes,12,opt,name=risk" json:"risk,omitempty"`
+	Confidence  *AnalysisConfidence `protobuf:"bytes,13,opt,name=confidence" json:"confidence,omitempty"`
+	MissingInfo []string            `protobuf:"bytes,14,rep,name=missingInfo" json:"missingInfo,omitempty"`
+}
+
+func (x *ReportAnalysis) Reset() { *x = ReportAnalysis{} }
+
+func (x *ReportAnalysis) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ReportAnalysis) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ReportAnalysis) GetProblem() *AnalysisProblem {
+	if x != nil {
+		return x.Problem
+	}
+	return nil
+}
+
+func (x *ReportAnalysis) GetEmotion() *AnalysisEmotion {
+	if x != nil {
+		return x.Emotion
+	}
+	return nil
+}
+
+func (x *ReportAnalysis) GetCognition() []string {
+	if x != nil {
+		return x.Cognition
+	}
+	return nil
+}
+
+func (x *ReportAnalysis) GetBehavior() []string {
+	if x != nil {
+		return x.Behavior
+	}
+	return nil
+}
+
+func (x *ReportAnalysis) GetDuration() string {
+	if x != nil {
+		return x.Duration
+	}
+	return ""
+}
+
+func (x *ReportAnalysis) GetTrigger() []string {
+	if x != nil {
+		return x.Trigger
+	}
+	return nil
+}
+
+func (x *ReportAnalysis) GetCoping() []string {
+	if x != nil {
+		return x.Coping
+	}
+	return nil
+}
+
+func (x *ReportAnalysis) GetSupport() *AnalysisSupport {
+	if x != nil {
+		return x.Support
+	}
+	return nil
+}
+
+func (x *ReportAnalysis) GetHelpSeeking() string {
+	if x != nil {
+		return x.HelpSeeking
+	}
+	return ""
+}
+
+func (x *ReportAnalysis) GetFunction() *AnalysisFunction {
+	if x != nil {
+		return x.Function
+	}
+	return nil
+}
+
+func (x *ReportAnalysis) GetDistress() *AnalysisDistress {
+	if x != nil {
+		return x.Distress
+	}
+	return nil
+}
+
+func (x *ReportAnalysis) GetRisk() *AnalysisRisk {
+	if x != nil {
+		return x.Risk
+	}
+	return nil
+}
+
+func (x *ReportAnalysis) GetConfidence() *AnalysisConfidence {
+	if x != nil {
+		return x.Confidence
+	}
+	return nil
+}
+
+func (x *ReportAnalysis) GetMissingInfo() []string {
+	if x != nil {
+		return x.MissingInfo
+	}
+	return nil
+}
+
+// 简易报告各板块消息
+type ReportEmotion struct {
+	Type      string `protobuf:"bytes,1,opt,name=type" json:"type,omitempty"`
+	Intensity string `protobuf:"bytes,2,opt,name=intensity" json:"intensity,omitempty"`
+}
+
+func (x *ReportEmotion) Reset() { *x = ReportEmotion{} }
+
+func (x *ReportEmotion) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ReportEmotion) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ReportEmotion) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *ReportEmotion) GetIntensity() string {
+	if x != nil {
+		return x.Intensity
+	}
+	return ""
+}
+
+type ReportRiskObs struct {
+	Level    string `protobuf:"bytes,1,opt,name=level" json:"level,omitempty"`
+	Evidence string `protobuf:"bytes,2,opt,name=evidence" json:"evidence,omitempty"`
+}
+
+func (x *ReportRiskObs) Reset() { *x = ReportRiskObs{} }
+
+func (x *ReportRiskObs) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ReportRiskObs) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ReportRiskObs) GetLevel() string {
+	if x != nil {
+		return x.Level
+	}
+	return ""
+}
+
+func (x *ReportRiskObs) GetEvidence() string {
+	if x != nil {
+		return x.Evidence
+	}
+	return ""
+}
+
+type ReportSeverity struct {
+	Level string `protobuf:"bytes,1,opt,name=level" json:"level,omitempty"`
+	Basis string `protobuf:"bytes,2,opt,name=basis" json:"basis,omitempty"`
+}
+
+func (x *ReportSeverity) Reset() { *x = ReportSeverity{} }
+
+func (x *ReportSeverity) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ReportSeverity) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ReportSeverity) GetLevel() string {
+	if x != nil {
+		return x.Level
+	}
+	return ""
+}
+
+func (x *ReportSeverity) GetBasis() string {
+	if x != nil {
+		return x.Basis
+	}
+	return ""
+}
+
+type ReportSummary struct {
+	MainProblem  string `protobuf:"bytes,1,opt,name=mainProblem" json:"mainProblem,omitempty"`
+	EmotionState string `protobuf:"bytes,2,opt,name=emotionState" json:"emotionState,omitempty"`
+	Severity     string `protobuf:"bytes,3,opt,name=severity" json:"severity,omitempty"`
+	RiskLevel    string `protobuf:"bytes,4,opt,name=riskLevel" json:"riskLevel,omitempty"`
+	Focus        string `protobuf:"bytes,5,opt,name=focus" json:"focus,omitempty"`
+}
+
+func (x *ReportSummary) Reset() { *x = ReportSummary{} }
+
+func (x *ReportSummary) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ReportSummary) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ReportSummary) GetMainProblem() string {
+	if x != nil {
+		return x.MainProblem
+	}
+	return ""
+}
+
+func (x *ReportSummary) GetEmotionState() string {
+	if x != nil {
+		return x.EmotionState
+	}
+	return ""
+}
+
+func (x *ReportSummary) GetSeverity() string {
+	if x != nil {
+		return x.Severity
+	}
+	return ""
+}
+
+func (x *ReportSummary) GetRiskLevel() string {
+	if x != nil {
+		return x.RiskLevel
+	}
+	return ""
+}
+
+func (x *ReportSummary) GetFocus() string {
+	if x != nil {
+		return x.Focus
+	}
+	return ""
+}
+
+type SimpleReportMsg struct {
+	MainProblem        string          `protobuf:"bytes,1,opt,name=mainProblem" json:"mainProblem,omitempty"`
+	Emotion            *ReportEmotion  `protobuf:"bytes,2,opt,name=emotion" json:"emotion,omitempty"`
+	Thoughts           string          `protobuf:"bytes,3,opt,name=thoughts" json:"thoughts,omitempty"`
+	Behaviors          []string        `protobuf:"bytes,4,rep,name=behaviors" json:"behaviors,omitempty"`
+	Needs              []string        `protobuf:"bytes,5,rep,name=needs" json:"needs,omitempty"`
+	Duration           string          `protobuf:"bytes,6,opt,name=duration" json:"duration,omitempty"`
+	FunctionImpact     string          `protobuf:"bytes,7,opt,name=functionImpact" json:"functionImpact,omitempty"`
+	Triggers           string          `protobuf:"bytes,8,opt,name=triggers" json:"triggers,omitempty"`
+	Coping             string          `protobuf:"bytes,9,opt,name=coping" json:"coping,omitempty"`
+	Support            string          `protobuf:"bytes,10,opt,name=support" json:"support,omitempty"`
+	HelpSeeking        string          `protobuf:"bytes,11,opt,name=helpSeeking" json:"helpSeeking,omitempty"`
+	RiskObservation    *ReportRiskObs  `protobuf:"bytes,12,opt,name=riskObservation" json:"riskObservation,omitempty"`
+	SeverityAssessment *ReportSeverity `protobuf:"bytes,13,opt,name=severityAssessment" json:"severityAssessment,omitempty"`
+	Summary            *ReportSummary  `protobuf:"bytes,14,opt,name=summary" json:"summary,omitempty"`
+	ProvidedSupport    string          `protobuf:"bytes,15,opt,name=providedSupport" json:"providedSupport,omitempty"`
+	Suggestions        []string        `protobuf:"bytes,16,rep,name=suggestions" json:"suggestions,omitempty"`
+}
+
+func (x *SimpleReportMsg) Reset() { *x = SimpleReportMsg{} }
+
+func (x *SimpleReportMsg) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *SimpleReportMsg) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *SimpleReportMsg) GetMainProblem() string {
+	if x != nil {
+		return x.MainProblem
+	}
+	return ""
+}
+
+func (x *SimpleReportMsg) GetEmotion() *ReportEmotion {
+	if x != nil {
+		return x.Emotion
+	}
+	return nil
+}
+
+func (x *SimpleReportMsg) GetThoughts() string {
+	if x != nil {
+		return x.Thoughts
+	}
+	return ""
+}
+
+func (x *SimpleReportMsg) GetBehaviors() []string {
+	if x != nil {
+		return x.Behaviors
+	}
+	return nil
+}
+
+func (x *SimpleReportMsg) GetNeeds() []string {
+	if x != nil {
+		return x.Needs
+	}
+	return nil
+}
+
+func (x *SimpleReportMsg) GetDuration() string {
+	if x != nil {
+		return x.Duration
+	}
+	return ""
+}
+
+func (x *SimpleReportMsg) GetFunctionImpact() string {
+	if x != nil {
+		return x.FunctionImpact
+	}
+	return ""
+}
+
+func (x *SimpleReportMsg) GetTriggers() string {
+	if x != nil {
+		return x.Triggers
+	}
+	return ""
+}
+
+func (x *SimpleReportMsg) GetCoping() string {
+	if x != nil {
+		return x.Coping
+	}
+	return ""
+}
+
+func (x *SimpleReportMsg) GetSupport() string {
+	if x != nil {
+		return x.Support
+	}
+	return ""
+}
+
+func (x *SimpleReportMsg) GetHelpSeeking() string {
+	if x != nil {
+		return x.HelpSeeking
+	}
+	return ""
+}
+
+func (x *SimpleReportMsg) GetRiskObservation() *ReportRiskObs {
+	if x != nil {
+		return x.RiskObservation
+	}
+	return nil
+}
+
+func (x *SimpleReportMsg) GetSeverityAssessment() *ReportSeverity {
+	if x != nil {
+		return x.SeverityAssessment
+	}
+	return nil
+}
+
+func (x *SimpleReportMsg) GetSummary() *ReportSummary {
+	if x != nil {
+		return x.Summary
+	}
+	return nil
+}
+
+func (x *SimpleReportMsg) GetProvidedSupport() string {
+	if x != nil {
+		return x.ProvidedSupport
+	}
+	return ""
+}
+
+func (x *SimpleReportMsg) GetSuggestions() []string {
+	if x != nil {
+		return x.Suggestions
+	}
+	return nil
+}
+
 type DashboardGetReportResp struct {
-	// 标题
+	// 兼容旧字段: 标题
 	Title string `protobuf:"bytes,1,opt,name=title" json:"title,omitempty"`
 
-	// 话题列表
+	// 兼容旧字段: 话题列表
 	Topics []string `protobuf:"bytes,2,rep,name=topics" json:"topics,omitempty"`
 
-	// 对话摘要
+	// 兼容旧字段: 对话摘要
 	Digest string `protobuf:"bytes,3,opt,name=digest" json:"digest,omitempty"`
 
-	// 情绪状态 0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal
+	// 兼容旧字段: 情绪状态 0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal
 	Emotion int32 `protobuf:"varint,4,opt,name=emotion" json:"emotion,omitempty"`
 
-	// 详细分析内容
+	// 兼容旧字段: 详细分析内容
 	Body string `protobuf:"bytes,5,opt,name=body" json:"body,omitempty"`
 
-	// 是否需要告警
-	NeedAlarm bool   `protobuf:"varint,6,opt,name=need_alarm" json:"need_alarm,omitempty"`
-	ReportId  string `protobuf:"bytes,7,opt,name=reportId" json:"reportId,omitempty"`
+	// 兼容旧字段: 是否需要告警
+	NeedAlarm bool `protobuf:"varint,6,opt,name=need_alarm" json:"need_alarm,omitempty"`
 
-	// 建议与反馈
+	// 兼容旧字段: 报表id
+	ReportId string `protobuf:"bytes,7,opt,name=reportId" json:"reportId,omitempty"`
+
+	// 兼容旧字段: 建议与反馈
 	Suggestions []string `protobuf:"bytes,8,rep,name=suggestions" json:"suggestions,omitempty"`
 
 	// 关键词及权重(百分比)
@@ -1612,11 +2451,11 @@ type DashboardGetReportResp struct {
 	// 心理老师形象图片URL
 	CharacterImage string `protobuf:"bytes,14,opt,name=characterImage" json:"characterImage,omitempty"`
 
-	// 评估分析（JSON）
-	Analysis *structpb.Struct `protobuf:"bytes,15,opt,name=analysis" json:"analysis,omitempty"`
+	// 评估分析（13维度）
+	Analysis *ReportAnalysis `protobuf:"bytes,15,opt,name=analysis" json:"analysis,omitempty"`
 
-	// 简易报告（JSON）
-	SimpleReport *structpb.Struct `protobuf:"bytes,16,opt,name=simpleReport" json:"simpleReport,omitempty"`
+	// 简易报告（16板块）
+	SimpleReport *SimpleReportMsg `protobuf:"bytes,16,opt,name=simpleReport" json:"simpleReport,omitempty"`
 	Code         int32            `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
 	Msg          string           `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
@@ -1727,14 +2566,14 @@ func (x *DashboardGetReportResp) GetCharacterImage() string {
 	return ""
 }
 
-func (x *DashboardGetReportResp) GetAnalysis() *structpb.Struct {
+func (x *DashboardGetReportResp) GetAnalysis() *ReportAnalysis {
 	if x != nil {
 		return x.Analysis
 	}
 	return nil
 }
 
-func (x *DashboardGetReportResp) GetSimpleReport() *structpb.Struct {
+func (x *DashboardGetReportResp) GetSimpleReport() *SimpleReportMsg {
 	if x != nil {
 		return x.SimpleReport
 	}

@@ -847,6 +847,92 @@ components:
                 lastConversationTime:
                     type: string
                     description: 上次对话时间（时间戳）
+        AnalysisConfidence:
+            type: object
+            properties:
+                overall:
+                    type: string
+                risk:
+                    type: string
+                reason:
+                    type: string
+            description: === Confidence ===
+        AnalysisDistress:
+            type: object
+            properties:
+                level:
+                    type: string
+                reason:
+                    type: array
+                    items:
+                        type: string
+            description: === Distress ===
+        AnalysisEmotion:
+            type: object
+            properties:
+                type:
+                    type: array
+                    items:
+                        type: string
+                intensity:
+                    type: string
+            description: === Emotion ===
+        AnalysisFunction:
+            type: object
+            properties:
+                learning:
+                    type: string
+                sleep:
+                    type: string
+                diet:
+                    type: string
+                interpersonal:
+                    type: string
+                dailyLife:
+                    type: string
+            description: === Function ===
+        AnalysisProblem:
+            type: object
+            properties:
+                primary:
+                    $ref: '#/components/schemas/ProblemItem'
+                secondary:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ProblemItem'
+        AnalysisRisk:
+            type: object
+            properties:
+                level:
+                    type: string
+                score:
+                    $ref: '#/components/schemas/RiskScore'
+                profile:
+                    $ref: '#/components/schemas/RiskProfile'
+                evidence:
+                    type: array
+                    items:
+                        type: string
+                action:
+                    type: string
+        AnalysisSupport:
+            type: object
+            properties:
+                family:
+                    type: boolean
+                teacher:
+                    type: boolean
+                friend:
+                    type: boolean
+                other:
+                    type: array
+                    items:
+                        type: string
+                protectiveResources:
+                    type: array
+                    items:
+                        type: string
+            description: === Support ===
         Character:
             type: object
             properties:
@@ -1367,32 +1453,33 @@ components:
             properties:
                 title:
                     type: string
-                    description: 标题
+                    description: '兼容旧字段: 标题'
                 topics:
                     type: array
                     items:
                         type: string
-                    description: 话题列表
+                    description: '兼容旧字段: 话题列表'
                 digest:
                     type: string
-                    description: 对话摘要
+                    description: '兼容旧字段: 对话摘要'
                 emotion:
                     type: integer
-                    description: '情绪状态 0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal'
+                    description: '兼容旧字段: 情绪状态 0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal'
                     format: int32
                 body:
                     type: string
-                    description: 详细分析内容
+                    description: '兼容旧字段: 详细分析内容'
                 needAlarm:
                     type: boolean
-                    description: 是否需要告警
+                    description: '兼容旧字段: 是否需要告警'
                 reportId:
                     type: string
+                    description: '兼容旧字段: 报表id'
                 suggestions:
                     type: array
                     items:
                         type: string
-                    description: 建议与反馈
+                    description: '兼容旧字段: 建议与反馈'
                 keywordPercent:
                     type: object
                     additionalProperties:
@@ -1416,11 +1503,13 @@ components:
                     type: string
                     description: 心理老师形象图片URL
                 analysis:
-                    type: object
-                    description: 评估分析（JSON）
+                    allOf:
+                        - $ref: '#/components/schemas/ReportAnalysis'
+                    description: 评估分析（13维度）
                 simpleReport:
-                    type: object
-                    description: 简易报告（JSON）
+                    allOf:
+                        - $ref: '#/components/schemas/SimpleReportMsg'
+                    description: 简易报告（16板块）
                 code:
                     type: integer
                     format: int32
@@ -1767,6 +1856,25 @@ components:
                     type: boolean
                 offset:
                     type: string
+        ProblemItem:
+            type: object
+            properties:
+                category:
+                    type: string
+                subcategory:
+                    type: string
+            description: |-
+                评估分析各维度消息
+                 === Problem ===
+        ProfileSection:
+            type: object
+            properties:
+                summary:
+                    type: string
+                items:
+                    type: array
+                    items:
+                        type: string
         Remark:
             type: object
             properties:
@@ -1774,6 +1882,48 @@ components:
                     type: string
                 content:
                     type: string
+        ReportAnalysis:
+            type: object
+            properties:
+                problem:
+                    $ref: '#/components/schemas/AnalysisProblem'
+                emotion:
+                    $ref: '#/components/schemas/AnalysisEmotion'
+                cognition:
+                    type: array
+                    items:
+                        type: string
+                behavior:
+                    type: array
+                    items:
+                        type: string
+                duration:
+                    type: string
+                trigger:
+                    type: array
+                    items:
+                        type: string
+                coping:
+                    type: array
+                    items:
+                        type: string
+                support:
+                    $ref: '#/components/schemas/AnalysisSupport'
+                helpSeeking:
+                    type: string
+                function:
+                    $ref: '#/components/schemas/AnalysisFunction'
+                distress:
+                    $ref: '#/components/schemas/AnalysisDistress'
+                risk:
+                    $ref: '#/components/schemas/AnalysisRisk'
+                confidence:
+                    $ref: '#/components/schemas/AnalysisConfidence'
+                missingInfo:
+                    type: array
+                    items:
+                        type: string
+            description: === Analysis ===
         ReportApp:
             type: object
             properties:
@@ -1786,6 +1936,41 @@ components:
                 appId:
                     type: string
             description: 报表应用配置
+        ReportEmotion:
+            type: object
+            properties:
+                type:
+                    type: string
+                intensity:
+                    type: string
+            description: 简易报告各板块消息
+        ReportRiskObs:
+            type: object
+            properties:
+                level:
+                    type: string
+                evidence:
+                    type: string
+        ReportSeverity:
+            type: object
+            properties:
+                level:
+                    type: string
+                basis:
+                    type: string
+        ReportSummary:
+            type: object
+            properties:
+                mainProblem:
+                    type: string
+                emotionState:
+                    type: string
+                severity:
+                    type: string
+                riskLevel:
+                    type: string
+                focus:
+                    type: string
         Response:
             type: object
             properties:
@@ -1820,6 +2005,50 @@ components:
                 total:
                     type: integer
                     format: int32
+        RiskProfile:
+            type: object
+            properties:
+                currentRisk:
+                    $ref: '#/components/schemas/ProfileSection'
+                stressors:
+                    $ref: '#/components/schemas/ProfileSection'
+                riskFactors:
+                    $ref: '#/components/schemas/ProfileSection'
+                protectiveFactors:
+                    $ref: '#/components/schemas/ProfileSection'
+                informationGap:
+                    $ref: '#/components/schemas/ProfileSection'
+                currentSafety:
+                    $ref: '#/components/schemas/RiskProfile_CurrentSafety'
+        RiskProfile_CurrentSafety:
+            type: object
+            properties:
+                summary:
+                    type: string
+                status:
+                    type: string
+        RiskScore:
+            type: object
+            properties:
+                currentIdeation:
+                    type: integer
+                    format: int32
+                history:
+                    type: integer
+                    format: int32
+                currentStress:
+                    type: integer
+                    format: int32
+                protectiveResources:
+                    type: integer
+                    format: int32
+                mentalHealthHistory:
+                    type: integer
+                    format: int32
+                total:
+                    type: integer
+                    format: int32
+            description: === Risk ===
         RiskUser:
             type: object
             properties:
@@ -1849,6 +2078,47 @@ components:
                 authId:
                     type: string
                     description: 邮箱地址 | 手机号
+        SimpleReportMsg:
+            type: object
+            properties:
+                mainProblem:
+                    type: string
+                emotion:
+                    $ref: '#/components/schemas/ReportEmotion'
+                thoughts:
+                    type: string
+                behaviors:
+                    type: array
+                    items:
+                        type: string
+                needs:
+                    type: array
+                    items:
+                        type: string
+                duration:
+                    type: string
+                functionImpact:
+                    type: string
+                triggers:
+                    type: string
+                coping:
+                    type: string
+                support:
+                    type: string
+                helpSeeking:
+                    type: string
+                riskObservation:
+                    $ref: '#/components/schemas/ReportRiskObs'
+                severityAssessment:
+                    $ref: '#/components/schemas/ReportSeverity'
+                summary:
+                    $ref: '#/components/schemas/ReportSummary'
+                providedSupport:
+                    type: string
+                suggestions:
+                    type: array
+                    items:
+                        type: string
         Status:
             type: object
             properties:
