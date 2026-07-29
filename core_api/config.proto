@@ -54,10 +54,10 @@ message Character {
   string greeting = 8;
 }
 
-// 单位配置
+// 单位全量配置（包含对话bot、TTS、报表、角色、对话场景、告警手机号等）
 message ConfigVO {
   string unitId = 1;
-  // 1-2: Chain | End2End
+  // 对话engine实现模式 1-2: Chain | End2End
   int32 type = 2;
   ChatApp chat = 3;
   TTSApp tts = 4;
@@ -68,39 +68,39 @@ message ConfigVO {
   int64 updateTime = 8;
   string modelView = 9;
   string backgroundImage = 10;
-  // 心理老师形象列表
+  // 心理老师角色列表
   repeated Character characters = 11;
   // 对话背景图列表
   repeated string scene = 12;
-  // 接收告警的手机号
+  // 接收告警短信的手机号列表
   repeated string alertPhone = 13;
 }
 
-// 创建或更新配置请求
+// 创建或更新配置请求（超管可配置全量；单位管理员/教师仅可配置角色/场景/告警手机号）
 message ConfigCreateOrUpdateReq {
   ConfigVO config = 1;
 }
 
-// 根据单位ID获取配置请求
+// 获取单位配置请求（超管返回全量；单位管理员/教师返回角色/场景/告警手机号等）
 message ConfigGetByUnitIdReq {
   string unitId = 1;
 }
-// 根据单位ID获取配置响应
+// 获取单位全量配置响应
 message ConfigGetByUnitIdResp {
   ConfigVO config = 1;
   int32 code = 255;
   string msg = 256;
 }
 
-// 获取展示信息请求（无需鉴权）
+// 获取单位所有角色请求（无需鉴权，可用于学生端获取对话角色列表）
 message ConfigGetCharacterReq {
   string unitId = 1;
 }
-// 获取展示信息响应（只返回展示相关字段）
+// 获取心理老师角色列表及对话背景（无需鉴权，返回该单位所有character及对话场景，可用于学生端展示）
 message ConfigGetCharacterResp {
-  // 心理老师形象列表
+  // 心理老师角色列表
   repeated Character characters = 1;
-  // 对话背景图列表
+  // 对话背景图/场景列表
   repeated string scene = 2;
   int32 code = 255;
   string msg = 256;
@@ -131,6 +131,20 @@ message ConfigListVoiceReq {
 message ConfigListVoiceResp {
   repeated VoiceItemVO voices = 1;
   basic.Pagination pagination = 2;
+  int32 code = 255;
+  string msg = 256;
+}
+
+// 向单位新增角色请求
+message ConfigAddCharacterReq {
+  // 单位ID
+  string unitId = 1;
+  // 角色信息
+  Character character = 2;
+}
+
+// 向单位新增角色响应
+message ConfigAddCharacterResp {
   int32 code = 255;
   string msg = 256;
 }

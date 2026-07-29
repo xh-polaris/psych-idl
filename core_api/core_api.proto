@@ -77,31 +77,43 @@ service Unit {
 }
 
 service Config {
+  // 创建单位配置
   rpc ConfigCreate(ConfigCreateOrUpdateReq) returns (basic.Response){
             option (google.api.http) = {
       post: "/config/create"
       body: "*"
     };
   }
+  // 更新单位配置（可用于更新/配置单位对话bot、告警手机号、对话场景等）
   rpc ConfigUpdateInfo(ConfigCreateOrUpdateReq) returns (basic.Response){
             option (google.api.http) = {
       post: "/config/update_info"
       body: "*"
     };
   }
+  // 获取单位全量配置
   rpc ConfigGetByUnitID(ConfigGetByUnitIdReq) returns (ConfigGetByUnitIdResp){
             option (google.api.http) = {
       get: "/config/get_by_unit_id"
     };
   }
+  // 获取单位所有角色（无需鉴权，可用于学生端）
   rpc ConfigGetCharacter(ConfigGetCharacterReq) returns (ConfigGetCharacterResp){
             option (google.api.http) = {
       get: "/config/get_character"
     };
   }
+  // 获取音色列表
   rpc ConfigListVoice(ConfigListVoiceReq) returns (ConfigListVoiceResp){
             option (google.api.http) = {
       get: "/config/list_voice"
+    };
+  }
+  // 向单位新增心理老师角色
+  rpc ConfigAddCharacter(ConfigAddCharacterReq) returns (ConfigAddCharacterResp){
+            option (google.api.http) = {
+      post: "/config/add_character"
+      body: "*"
     };
   }
 }

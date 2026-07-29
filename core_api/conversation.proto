@@ -48,10 +48,13 @@ message GetSingleConvResp {
 
 message ConversationVO {
   string conversationId = 1;
+  // 对话标题
   string brief = 2;
   int64 createTime = 3;
   int64 updateTime = 4;
   string date = 5;
+  // 对话角色ID，绑定单次对话与character
+  string characterId = 6;
 }
 
 message Message {
