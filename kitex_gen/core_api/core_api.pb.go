@@ -30,6 +30,8 @@ type Config interface {
 	ConfigGetCharacter(ctx context.Context, req *ConfigGetCharacterReq) (res *ConfigGetCharacterResp, err error)
 	ConfigListVoice(ctx context.Context, req *ConfigListVoiceReq) (res *ConfigListVoiceResp, err error)
 	ConfigAddCharacter(ctx context.Context, req *ConfigAddCharacterReq) (res *ConfigAddCharacterResp, err error)
+	ConfigUpdateCharacter(ctx context.Context, req *ConfigUpdateCharacterReq) (res *ConfigUpdateCharacterResp, err error)
+	ConfigDeleteCharacter(ctx context.Context, req *ConfigDeleteCharacterReq) (res *ConfigDeleteCharacterResp, err error)
 }
 
 type Dashboard interface {

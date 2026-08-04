@@ -58,6 +58,20 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
+	"ConfigUpdateCharacter": kitex.NewMethodInfo(
+		configUpdateCharacterHandler,
+		newConfigUpdateCharacterArgs,
+		newConfigUpdateCharacterResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"ConfigDeleteCharacter": kitex.NewMethodInfo(
+		configDeleteCharacterHandler,
+		newConfigDeleteCharacterArgs,
+		newConfigDeleteCharacterResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
 }
 
 var (
@@ -790,6 +804,228 @@ func (p *ConfigAddCharacterResult) GetResult() interface{} {
 	return p.Success
 }
 
+func configUpdateCharacterHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.ConfigUpdateCharacterReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.Config).ConfigUpdateCharacter(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *ConfigUpdateCharacterArgs:
+		success, err := handler.(core_api.Config).ConfigUpdateCharacter(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*ConfigUpdateCharacterResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newConfigUpdateCharacterArgs() interface{} {
+	return &ConfigUpdateCharacterArgs{}
+}
+
+func newConfigUpdateCharacterResult() interface{} {
+	return &ConfigUpdateCharacterResult{}
+}
+
+type ConfigUpdateCharacterArgs struct {
+	Req *core_api.ConfigUpdateCharacterReq
+}
+
+func (p *ConfigUpdateCharacterArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *ConfigUpdateCharacterArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.ConfigUpdateCharacterReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var ConfigUpdateCharacterArgs_Req_DEFAULT *core_api.ConfigUpdateCharacterReq
+
+func (p *ConfigUpdateCharacterArgs) GetReq() *core_api.ConfigUpdateCharacterReq {
+	if !p.IsSetReq() {
+		return ConfigUpdateCharacterArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *ConfigUpdateCharacterArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *ConfigUpdateCharacterArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type ConfigUpdateCharacterResult struct {
+	Success *core_api.ConfigUpdateCharacterResp
+}
+
+var ConfigUpdateCharacterResult_Success_DEFAULT *core_api.ConfigUpdateCharacterResp
+
+func (p *ConfigUpdateCharacterResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *ConfigUpdateCharacterResult) Unmarshal(in []byte) error {
+	msg := new(core_api.ConfigUpdateCharacterResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *ConfigUpdateCharacterResult) GetSuccess() *core_api.ConfigUpdateCharacterResp {
+	if !p.IsSetSuccess() {
+		return ConfigUpdateCharacterResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *ConfigUpdateCharacterResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.ConfigUpdateCharacterResp)
+}
+
+func (p *ConfigUpdateCharacterResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *ConfigUpdateCharacterResult) GetResult() interface{} {
+	return p.Success
+}
+
+func configDeleteCharacterHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.ConfigDeleteCharacterReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.Config).ConfigDeleteCharacter(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *ConfigDeleteCharacterArgs:
+		success, err := handler.(core_api.Config).ConfigDeleteCharacter(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*ConfigDeleteCharacterResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newConfigDeleteCharacterArgs() interface{} {
+	return &ConfigDeleteCharacterArgs{}
+}
+
+func newConfigDeleteCharacterResult() interface{} {
+	return &ConfigDeleteCharacterResult{}
+}
+
+type ConfigDeleteCharacterArgs struct {
+	Req *core_api.ConfigDeleteCharacterReq
+}
+
+func (p *ConfigDeleteCharacterArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *ConfigDeleteCharacterArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.ConfigDeleteCharacterReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var ConfigDeleteCharacterArgs_Req_DEFAULT *core_api.ConfigDeleteCharacterReq
+
+func (p *ConfigDeleteCharacterArgs) GetReq() *core_api.ConfigDeleteCharacterReq {
+	if !p.IsSetReq() {
+		return ConfigDeleteCharacterArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *ConfigDeleteCharacterArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *ConfigDeleteCharacterArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type ConfigDeleteCharacterResult struct {
+	Success *core_api.ConfigDeleteCharacterResp
+}
+
+var ConfigDeleteCharacterResult_Success_DEFAULT *core_api.ConfigDeleteCharacterResp
+
+func (p *ConfigDeleteCharacterResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *ConfigDeleteCharacterResult) Unmarshal(in []byte) error {
+	msg := new(core_api.ConfigDeleteCharacterResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *ConfigDeleteCharacterResult) GetSuccess() *core_api.ConfigDeleteCharacterResp {
+	if !p.IsSetSuccess() {
+		return ConfigDeleteCharacterResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *ConfigDeleteCharacterResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.ConfigDeleteCharacterResp)
+}
+
+func (p *ConfigDeleteCharacterResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *ConfigDeleteCharacterResult) GetResult() interface{} {
+	return p.Success
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -855,6 +1091,26 @@ func (p *kClient) ConfigAddCharacter(ctx context.Context, Req *core_api.ConfigAd
 	_args.Req = Req
 	var _result ConfigAddCharacterResult
 	if err = p.c.Call(ctx, "ConfigAddCharacter", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ConfigUpdateCharacter(ctx context.Context, Req *core_api.ConfigUpdateCharacterReq) (r *core_api.ConfigUpdateCharacterResp, err error) {
+	var _args ConfigUpdateCharacterArgs
+	_args.Req = Req
+	var _result ConfigUpdateCharacterResult
+	if err = p.c.Call(ctx, "ConfigUpdateCharacter", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ConfigDeleteCharacter(ctx context.Context, Req *core_api.ConfigDeleteCharacterReq) (r *core_api.ConfigDeleteCharacterResp, err error) {
+	var _args ConfigDeleteCharacterArgs
+	_args.Req = Req
+	var _result ConfigDeleteCharacterResult
+	if err = p.c.Call(ctx, "ConfigDeleteCharacter", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

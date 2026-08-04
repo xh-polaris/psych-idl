@@ -695,8 +695,9 @@ func (x *ConfigAddCharacterReq) GetCharacter() *Character {
 
 // 向单位新增角色响应
 type ConfigAddCharacterResp struct {
-	Code int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg  string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+	CharacterId string `protobuf:"bytes,1,opt,name=characterId" json:"characterId,omitempty"`
+	Code        int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg         string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *ConfigAddCharacterResp) Reset() { *x = ConfigAddCharacterResp{} }
@@ -707,6 +708,13 @@ func (x *ConfigAddCharacterResp) Marshal(in []byte) ([]byte, error) {
 
 func (x *ConfigAddCharacterResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
+func (x *ConfigAddCharacterResp) GetCharacterId() string {
+	if x != nil {
+		return x.CharacterId
+	}
+	return ""
+}
+
 func (x *ConfigAddCharacterResp) GetCode() int32 {
 	if x != nil {
 		return x.Code
@@ -715,6 +723,124 @@ func (x *ConfigAddCharacterResp) GetCode() int32 {
 }
 
 func (x *ConfigAddCharacterResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+// 更新单位角色请求
+type ConfigUpdateCharacterReq struct {
+	// 单位ID
+	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+
+	// 角色信息（id 为角色ID，其余字段为待更新值，空字段不更新）
+	Character *Character `protobuf:"bytes,2,opt,name=character" json:"character,omitempty"`
+}
+
+func (x *ConfigUpdateCharacterReq) Reset() { *x = ConfigUpdateCharacterReq{} }
+
+func (x *ConfigUpdateCharacterReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *ConfigUpdateCharacterReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ConfigUpdateCharacterReq) GetUnitId() string {
+	if x != nil {
+		return x.UnitId
+	}
+	return ""
+}
+
+func (x *ConfigUpdateCharacterReq) GetCharacter() *Character {
+	if x != nil {
+		return x.Character
+	}
+	return nil
+}
+
+// 更新单位角色响应
+type ConfigUpdateCharacterResp struct {
+	Code int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg  string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *ConfigUpdateCharacterResp) Reset() { *x = ConfigUpdateCharacterResp{} }
+
+func (x *ConfigUpdateCharacterResp) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *ConfigUpdateCharacterResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ConfigUpdateCharacterResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *ConfigUpdateCharacterResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+// 删除单位角色请求
+type ConfigDeleteCharacterReq struct {
+	// 单位ID
+	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
+
+	// 角色ID
+	CharacterId string `protobuf:"bytes,2,opt,name=characterId" json:"characterId,omitempty"`
+}
+
+func (x *ConfigDeleteCharacterReq) Reset() { *x = ConfigDeleteCharacterReq{} }
+
+func (x *ConfigDeleteCharacterReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *ConfigDeleteCharacterReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ConfigDeleteCharacterReq) GetUnitId() string {
+	if x != nil {
+		return x.UnitId
+	}
+	return ""
+}
+
+func (x *ConfigDeleteCharacterReq) GetCharacterId() string {
+	if x != nil {
+		return x.CharacterId
+	}
+	return ""
+}
+
+// 删除单位角色响应
+type ConfigDeleteCharacterResp struct {
+	Code int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg  string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *ConfigDeleteCharacterResp) Reset() { *x = ConfigDeleteCharacterResp{} }
+
+func (x *ConfigDeleteCharacterResp) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *ConfigDeleteCharacterResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ConfigDeleteCharacterResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *ConfigDeleteCharacterResp) GetMsg() string {
 	if x != nil {
 		return x.Msg
 	}

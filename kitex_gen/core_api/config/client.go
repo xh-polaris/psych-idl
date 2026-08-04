@@ -18,6 +18,8 @@ type Client interface {
 	ConfigGetCharacter(ctx context.Context, Req *core_api.ConfigGetCharacterReq, callOptions ...callopt.Option) (r *core_api.ConfigGetCharacterResp, err error)
 	ConfigListVoice(ctx context.Context, Req *core_api.ConfigListVoiceReq, callOptions ...callopt.Option) (r *core_api.ConfigListVoiceResp, err error)
 	ConfigAddCharacter(ctx context.Context, Req *core_api.ConfigAddCharacterReq, callOptions ...callopt.Option) (r *core_api.ConfigAddCharacterResp, err error)
+	ConfigUpdateCharacter(ctx context.Context, Req *core_api.ConfigUpdateCharacterReq, callOptions ...callopt.Option) (r *core_api.ConfigUpdateCharacterResp, err error)
+	ConfigDeleteCharacter(ctx context.Context, Req *core_api.ConfigDeleteCharacterReq, callOptions ...callopt.Option) (r *core_api.ConfigDeleteCharacterResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -77,4 +79,14 @@ func (p *kConfigClient) ConfigListVoice(ctx context.Context, Req *core_api.Confi
 func (p *kConfigClient) ConfigAddCharacter(ctx context.Context, Req *core_api.ConfigAddCharacterReq, callOptions ...callopt.Option) (r *core_api.ConfigAddCharacterResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.ConfigAddCharacter(ctx, Req)
+}
+
+func (p *kConfigClient) ConfigUpdateCharacter(ctx context.Context, Req *core_api.ConfigUpdateCharacterReq, callOptions ...callopt.Option) (r *core_api.ConfigUpdateCharacterResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ConfigUpdateCharacter(ctx, Req)
+}
+
+func (p *kConfigClient) ConfigDeleteCharacter(ctx context.Context, Req *core_api.ConfigDeleteCharacterReq, callOptions ...callopt.Option) (r *core_api.ConfigDeleteCharacterResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ConfigDeleteCharacter(ctx, Req)
 }

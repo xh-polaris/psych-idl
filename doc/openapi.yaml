@@ -56,6 +56,31 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
+    /config/delete_character:
+        post:
+            tags:
+                - Config
+            description: 删除单位心理老师角色（软删除）
+            operationId: Config_ConfigDeleteCharacter
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ConfigDeleteCharacterReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ConfigDeleteCharacterResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /config/get_by_unit_id:
         get:
             tags:
@@ -138,6 +163,31 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ConfigListVoiceResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /config/update_character:
+        post:
+            tags:
+                - Config
+            description: 更新单位心理老师角色
+            operationId: Config_ConfigUpdateCharacter
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ConfigUpdateCharacterReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ConfigUpdateCharacterResp'
                 default:
                     description: Default error response
                     content:
@@ -1024,6 +1074,8 @@ components:
         ConfigAddCharacterResp:
             type: object
             properties:
+                characterId:
+                    type: string
                 code:
                     type: integer
                     format: int32
@@ -1037,6 +1089,25 @@ components:
                     $ref: '#/components/schemas/Config'
                 admin:
                     type: boolean
+        ConfigDeleteCharacterReq:
+            type: object
+            properties:
+                unitId:
+                    type: string
+                    description: 单位ID
+                characterId:
+                    type: string
+                    description: 角色ID
+            description: 删除单位角色请求
+        ConfigDeleteCharacterResp:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
+            description: 删除单位角色响应
         ConfigGetByUnitIdResp:
             type: object
             properties:
@@ -1076,6 +1147,26 @@ components:
                 msg:
                     type: string
             description: 获取音色列表响应
+        ConfigUpdateCharacterReq:
+            type: object
+            properties:
+                unitId:
+                    type: string
+                    description: 单位ID
+                character:
+                    allOf:
+                        - $ref: '#/components/schemas/Character'
+                    description: 角色信息（id 为角色ID，其余字段为待更新值，空字段不更新）
+            description: 更新单位角色请求
+        ConfigUpdateCharacterResp:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
+            description: 更新单位角色响应
         ConvByDateMessage:
             type: object
             properties:
