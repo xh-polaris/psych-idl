@@ -145,6 +145,35 @@ message ConfigAddCharacterReq {
 
 // 向单位新增角色响应
 message ConfigAddCharacterResp {
+  string characterId = 1;
+  int32 code = 255;
+  string msg = 256;
+}
+
+// 更新单位角色请求
+message ConfigUpdateCharacterReq {
+  // 单位ID
+  string unitId = 1;
+  // 角色信息（id 为角色ID，其余字段为待更新值，空字段不更新）
+  Character character = 2;
+}
+
+// 更新单位角色响应
+message ConfigUpdateCharacterResp {
+  int32 code = 255;
+  string msg = 256;
+}
+
+// 删除单位角色请求
+message ConfigDeleteCharacterReq {
+  // 单位ID
+  string unitId = 1;
+  // 角色ID
+  string characterId = 2;
+}
+
+// 删除单位角色响应
+message ConfigDeleteCharacterResp {
   int32 code = 255;
   string msg = 256;
 }

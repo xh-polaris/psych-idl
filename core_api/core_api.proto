@@ -116,6 +116,20 @@ service Config {
       body: "*"
     };
   }
+  // 更新单位心理老师角色
+  rpc ConfigUpdateCharacter(ConfigUpdateCharacterReq) returns (ConfigUpdateCharacterResp){
+            option (google.api.http) = {
+      post: "/config/update_character"
+      body: "*"
+    };
+  }
+  // 删除单位心理老师角色（软删除）
+  rpc ConfigDeleteCharacter(ConfigDeleteCharacterReq) returns (ConfigDeleteCharacterResp){
+            option (google.api.http) = {
+      post: "/config/delete_character"
+      body: "*"
+    };
+  }
 }
 
 service Dashboard {
