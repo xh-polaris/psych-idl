@@ -220,6 +220,12 @@ service Conversation {
       body: "*"
     };
   }
+  rpc FinishConversation (FinishConversationReq) returns (FinishConversationResp) {
+            option (google.api.http) = {
+      post: "/conversation/finish"
+      body: "*"
+    };
+  }
   rpc ListConversations (ListConversationsReq) returns (ListConversationsResp) {
             option (google.api.http) = {
       post: "/conversation/list"

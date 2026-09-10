@@ -23,6 +23,15 @@ message CreateConversationResp {
   string msg = 256;
 }
 
+// 结束当前报表分段。不会结束当天会话，后续消息仍写入同一 conversationId。
+message FinishConversationReq {}
+message FinishConversationResp {
+  string conversationId = 1;
+  bool accepted = 2;
+  int32 code = 255;
+  string msg = 256;
+}
+
 // 对话列表
 message ListConversationsReq {
   basic.PaginationOptions paginationOptions = 1;
