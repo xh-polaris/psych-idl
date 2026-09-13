@@ -13,7 +13,10 @@ import "basic/http.proto";
 // 对话相关
 
 // 新建对话
-message CreateConversationReq {}
+message CreateConversationReq {
+  // 目标 AI 心理老师角色；必填，缺失返回参数错误
+  string characterId = 1;
+}
 message CreateConversationResp {
   string conversationId = 1;
   int32 code = 255;
@@ -70,6 +73,8 @@ message GetConvByDateReq {
   basic.PaginationOptions paginationOptions = 1;
   string date = 2;
   string userId = 3;
+  // 目标 AI 心理老师角色；必填。精确读取单个会话请使用 GetSingleConv
+  string characterId = 4;
 }
 message GetConvByDateResp {
   basic.Pagination pagination = 1;

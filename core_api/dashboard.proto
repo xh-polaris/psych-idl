@@ -132,8 +132,8 @@ message Keywords {
   int32 keyTotal = 2;
 }
 message EmotionRatio {
-  // 0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal
-  map<int32, int32> ratio = 1;
+  // key: 报表 SimpleReport.Emotion.Type 的字符串值（如"焦虑"/"平静"等）
+  map<string, int32> ratio = 1;
   int32 total = 2;
 }
 
@@ -168,8 +168,8 @@ message DashboardGetAlarmOverviewResp {
 
 message DashboardListAlarmRecordsReq {
   string unitId = 1;
-  // 0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal
-  optional int32 emotion = 2;
+  // 情绪类型（报表 SimpleReport.Emotion.Type 的字符串值，匹配列表任一元素）
+  optional string emotion = 2;
   // 处理状态 1-2: Processed | Pending
   optional int32 status = 3;
   optional string keyword = 4;
@@ -193,8 +193,8 @@ message DashboardUpdateAlarmResp {
 message AlarmRecord {
   // 唯一Id
   string id = 1;
-  // 情绪状态 0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal
-  int32 emotion = 2;
+  // 情绪类型列表（报表 SimpleReport.Emotion.Type 字符串，如"焦虑"）
+  repeated string emotion = 2;
   // 关键词列表
   repeated string keywords = 3;
   // 处理状态 1-2: Processed | Pending
@@ -313,7 +313,8 @@ message AnalysisProblem {
 // === Emotion ===
 message AnalysisEmotion {
   repeated string type = 1;
-  string intensity = 2;
+  // 强度数值 0.5~2.0，中度基准 1.0
+  double intensity = 2;
 }
 // === Support ===
 message AnalysisSupport {
@@ -322,6 +323,8 @@ message AnalysisSupport {
   bool friend = 3;
   repeated string other = 4;
   repeated string protectiveResources = 5;
+  // 支持充足程度：充足 | 一般 | 不足 | 未明确提及
+  string availability = 6;
 }
 // === Function ===
 message AnalysisFunction {
@@ -329,11 +332,13 @@ message AnalysisFunction {
   string sleep = 2;
   string diet = 3;
   string interpersonal = 4;
-  string dailyLife = 5;
+  // 情绪调节功能描述
+  string emotionRegulation = 5;
 }
 // === Distress ===
 message AnalysisDistress {
-  string level = 1;
+  // 困扰等级 0-4: 正常波动 | 轻度 | 中度 | 重度 | 高危
+  int32 level = 1;
   repeated string reason = 2;
 }
 // === Risk ===
@@ -394,41 +399,27 @@ message ReportAnalysis {
 
 // 简易报告各板块消息
 message ReportEmotion {
+  // 情绪类型（如"焦虑"、"平静"）
   string type = 1;
-  string intensity = 2;
+  // 强度数值 0.5~2.0，中度基准 1.0
+  double intensity = 2;
 }
-message ReportRiskObs {
-  string level = 1;
-  string evidence = 2;
-}
-message ReportSeverity {
-  string level = 1;
-  string basis = 2;
-}
-message ReportSummary {
-  string mainProblem = 1;
-  string emotionState = 2;
-  string severity = 3;
-  string riskLevel = 4;
-  string focus = 5;
-}
+// 简易报告（v2 瘦身结构）
 message SimpleReportMsg {
-  string mainProblem = 1;
-  ReportEmotion emotion = 2;
-  string thoughts = 3;
-  repeated string behaviors = 4;
-  repeated string needs = 5;
-  string duration = 6;
-  string functionImpact = 7;
-  string triggers = 8;
-  string coping = 9;
-  string support = 10;
-  string helpSeeking = 11;
-  ReportRiskObs riskObservation = 12;
-  ReportSeverity severityAssessment = 13;
-  ReportSummary summary = 14;
-  string providedSupport = 15;
-  repeated string suggestions = 16;
+  // 学生话题关键词（2-3 个）
+  repeated string keywords = 1;
+  // 情绪列表（1-3 项，按影响程度排序）
+  repeated ReportEmotion emotion = 2;
+  // 风险等级 0-4: Unknown | High | MediumHigh | MediumLow | Low
+  int32 riskLevel = 3;
+  // 困扰程度 0-4: Normal | Mild | Moderate | Severe | HighRisk
+  int32 distressLevel = 4;
+  // 本阶段关注焦点
+  string focus = 5;
+  // 给心理老师的建议
+  repeated string suggestions = 6;
+  // 报告正文（500-1500 字）
+  string content = 7;
 }
 
 message DashboardGetReportResp {
@@ -462,7 +453,7 @@ message DashboardGetReportResp {
   string characterImage = 14;
   // 评估分析（13维度）
   ReportAnalysis analysis = 15;
-  // 简易报告（16板块）
+  // 简易报告（v2 瘦身结构）
   SimpleReportMsg simpleReport = 16;
   int32 code = 255;
   string msg = 256;
