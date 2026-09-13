@@ -311,9 +311,9 @@ message AnalysisProblem {
   repeated ProblemItem secondary = 2;
 }
 // === Emotion ===
+// 单项情绪：类型 + 强度（0.5~2.0，中度基准 1.0）
 message AnalysisEmotion {
-  repeated string type = 1;
-  // 强度数值 0.5~2.0，中度基准 1.0
+  string type = 1;
   double intensity = 2;
 }
 // === Support ===
@@ -382,7 +382,8 @@ message AnalysisConfidence {
 // === Analysis ===
 message ReportAnalysis {
   AnalysisProblem problem = 1;
-  AnalysisEmotion emotion = 2;
+  // 情绪列表（1-3 项，按影响程度排序）
+  repeated AnalysisEmotion emotion = 2;
   repeated string cognition = 3;
   repeated string behavior = 4;
   string duration = 5;
@@ -397,19 +398,12 @@ message ReportAnalysis {
   repeated string missingInfo = 14;
 }
 
-// 简易报告各板块消息
-message ReportEmotion {
-  // 情绪类型（如"焦虑"、"平静"）
-  string type = 1;
-  // 强度数值 0.5~2.0，中度基准 1.0
-  double intensity = 2;
-}
 // 简易报告（v2 瘦身结构）
 message SimpleReportMsg {
   // 学生话题关键词（2-3 个）
   repeated string keywords = 1;
-  // 情绪列表（1-3 项，按影响程度排序）
-  repeated ReportEmotion emotion = 2;
+  // 情绪类型列表（1-3 项，与 analysis.emotion 顺序一致）
+  repeated string emotion = 2;
   // 风险等级 0-4: Unknown | High | MediumHigh | MediumLow | Low
   int32 riskLevel = 3;
   // 困扰程度 0-4: Normal | Mild | Moderate | Severe | HighRisk
