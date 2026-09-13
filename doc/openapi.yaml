@@ -874,9 +874,10 @@ components:
                     type: string
                     description: 唯一Id
                 emotion:
-                    type: integer
-                    description: '情绪状态 0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal'
-                    format: int32
+                    type: array
+                    items:
+                        type: string
+                    description: 情绪类型列表（报表 SimpleReport.Emotion.Type 字符串，如"焦虑"）
                 keywords:
                     type: array
                     items:
@@ -911,7 +912,9 @@ components:
             type: object
             properties:
                 level:
-                    type: string
+                    type: integer
+                    description: '困扰等级 0-4: 正常波动 | 轻度 | 中度 | 重度 | 高危'
+                    format: int32
                 reason:
                     type: array
                     items:
@@ -921,12 +924,11 @@ components:
             type: object
             properties:
                 type:
-                    type: array
-                    items:
-                        type: string
-                intensity:
                     type: string
-            description: === Emotion ===
+                intensity:
+                    type: number
+                    format: double
+            description: "=== Emotion ===\r\n 单项情绪：类型 + 强度（0.5~2.0，中度基准 1.0）"
         AnalysisFunction:
             type: object
             properties:
@@ -938,8 +940,9 @@ components:
                     type: string
                 interpersonal:
                     type: string
-                dailyLife:
+                emotionRegulation:
                     type: string
+                    description: 情绪调节功能描述
             description: === Function ===
         AnalysisProblem:
             type: object
@@ -982,6 +985,9 @@ components:
                     type: array
                     items:
                         type: string
+                availability:
+                    type: string
+                    description: 支持充足程度：充足 | 一般 | 不足 | 未明确提及
             description: === Support ===
         Character:
             type: object
@@ -1216,15 +1222,7 @@ components:
             properties:
                 key:
                     type: integer
-                    description: |-
-                        RangeKey 代表时间区间索引：
-                         1: 0-5 min
-                         2: 6-10 min
-                         3: 11-20 min
-                         4: 21-30 min
-                         5: 31-60 min
-                         6: 61-120 min
-                         7: 120+ min
+                    description: "RangeKey 代表时间区间索引：\r\n 1: 0-5 min\r\n 2: 6-10 min\r\n 3: 11-20 min\r\n 4: 21-30 min\r\n 5: 31-60 min\r\n 6: 61-120 min\r\n 7: 120+ min"
                     format: int32
                 count:
                     type: integer
@@ -1249,7 +1247,10 @@ components:
                     description: 对话角色ID，绑定单次对话与character
         CreateConversationReq:
             type: object
-            properties: {}
+            properties:
+                characterId:
+                    type: string
+                    description: 目标 AI 心理老师角色；必填，缺失返回参数错误
             description: 新建对话
         CreateConversationResp:
             type: object
@@ -1600,7 +1601,7 @@ components:
                 simpleReport:
                     allOf:
                         - $ref: '#/components/schemas/SimpleReportMsg'
-                    description: 简易报告（16板块）
+                    description: 简易报告（v2 瘦身结构）
                 code:
                     type: integer
                     format: int32
@@ -1612,9 +1613,8 @@ components:
                 unitId:
                     type: string
                 emotion:
-                    type: integer
-                    description: '0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal'
-                    format: int32
+                    type: string
+                    description: 情绪类型（报表 SimpleReport.Emotion.Type 的字符串值，匹配列表任一元素）
                 status:
                     type: integer
                     description: '处理状态 1-2: Processed | Pending'
@@ -1805,7 +1805,7 @@ components:
                     additionalProperties:
                         type: integer
                         format: int32
-                    description: '0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal'
+                    description: 'key: 报表 SimpleReport.Emotion.Type 的字符串值（如"焦虑"/"平静"等）'
                 total:
                     type: integer
                     format: int32
@@ -1818,6 +1818,9 @@ components:
                     type: string
                 userId:
                     type: string
+                characterId:
+                    type: string
+                    description: 目标 AI 心理老师角色；必填。精确读取单个会话请使用 GetSingleConv
             description: 按天获取用户所有对话消息
         GetConvByDateResp:
             type: object
@@ -1954,9 +1957,7 @@ components:
                     type: string
                 subcategory:
                     type: string
-            description: |-
-                评估分析各维度消息
-                 === Problem ===
+            description: "评估分析各维度消息\r\n === Problem ==="
         ProfileSection:
             type: object
             properties:
@@ -1979,7 +1980,10 @@ components:
                 problem:
                     $ref: '#/components/schemas/AnalysisProblem'
                 emotion:
-                    $ref: '#/components/schemas/AnalysisEmotion'
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/AnalysisEmotion'
+                    description: 情绪列表（1-3 项，按影响程度排序）
                 cognition:
                     type: array
                     items:
@@ -2027,41 +2031,6 @@ components:
                 appId:
                     type: string
             description: 报表应用配置
-        ReportEmotion:
-            type: object
-            properties:
-                type:
-                    type: string
-                intensity:
-                    type: string
-            description: 简易报告各板块消息
-        ReportRiskObs:
-            type: object
-            properties:
-                level:
-                    type: string
-                evidence:
-                    type: string
-        ReportSeverity:
-            type: object
-            properties:
-                level:
-                    type: string
-                basis:
-                    type: string
-        ReportSummary:
-            type: object
-            properties:
-                mainProblem:
-                    type: string
-                emotionState:
-                    type: string
-                severity:
-                    type: string
-                riskLevel:
-                    type: string
-                focus:
-                    type: string
         Response:
             type: object
             properties:
@@ -2172,44 +2141,36 @@ components:
         SimpleReportMsg:
             type: object
             properties:
-                mainProblem:
-                    type: string
+                keywords:
+                    type: array
+                    items:
+                        type: string
+                    description: 学生话题关键词（2-3 个）
                 emotion:
-                    $ref: '#/components/schemas/ReportEmotion'
-                thoughts:
-                    type: string
-                behaviors:
                     type: array
                     items:
                         type: string
-                needs:
-                    type: array
-                    items:
-                        type: string
-                duration:
+                    description: 情绪类型列表（1-3 项，与 analysis.emotion 顺序一致）
+                riskLevel:
+                    type: integer
+                    description: '风险等级 0-4: Unknown | High | MediumHigh | MediumLow | Low'
+                    format: int32
+                distressLevel:
+                    type: integer
+                    description: '困扰程度 0-4: Normal | Mild | Moderate | Severe | HighRisk'
+                    format: int32
+                focus:
                     type: string
-                functionImpact:
-                    type: string
-                triggers:
-                    type: string
-                coping:
-                    type: string
-                support:
-                    type: string
-                helpSeeking:
-                    type: string
-                riskObservation:
-                    $ref: '#/components/schemas/ReportRiskObs'
-                severityAssessment:
-                    $ref: '#/components/schemas/ReportSeverity'
-                summary:
-                    $ref: '#/components/schemas/ReportSummary'
-                providedSupport:
-                    type: string
+                    description: 本阶段关注焦点
                 suggestions:
                     type: array
                     items:
                         type: string
+                    description: 给心理老师的建议
+                content:
+                    type: string
+                    description: 报告正文（500-1500 字）
+            description: 简易报告（v2 瘦身结构）
         Status:
             type: object
             properties:

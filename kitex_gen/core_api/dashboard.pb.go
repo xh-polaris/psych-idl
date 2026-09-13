@@ -694,9 +694,9 @@ func (x *Keywords) GetKeyTotal() int32 {
 }
 
 type EmotionRatio struct {
-	// 0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal
-	Ratio map[int32]int32 `protobuf:"bytes,1,rep,name=ratio" json:"ratio,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"varint,2,opt,name=value"`
-	Total int32           `protobuf:"varint,2,opt,name=total" json:"total,omitempty"`
+	// key: 报表 SimpleReport.Emotion.Type 的字符串值（如"焦虑"/"平静"等）
+	Ratio map[string]int32 `protobuf:"bytes,1,rep,name=ratio" json:"ratio,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value"`
+	Total int32            `protobuf:"varint,2,opt,name=total" json:"total,omitempty"`
 }
 
 func (x *EmotionRatio) Reset() { *x = EmotionRatio{} }
@@ -705,7 +705,7 @@ func (x *EmotionRatio) Marshal(in []byte) ([]byte, error) { return prutal.Marsha
 
 func (x *EmotionRatio) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *EmotionRatio) GetRatio() map[int32]int32 {
+func (x *EmotionRatio) GetRatio() map[string]int32 {
 	if x != nil {
 		return x.Ratio
 	}
@@ -864,8 +864,8 @@ func (x *DashboardGetAlarmOverviewResp) GetMsg() string {
 type DashboardListAlarmRecordsReq struct {
 	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 
-	// 0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal
-	Emotion *int32 `protobuf:"varint,2,opt,name=emotion" json:"emotion,omitempty"`
+	// 情绪类型（报表 SimpleReport.Emotion.Type 的字符串值，匹配列表任一元素）
+	Emotion *string `protobuf:"bytes,2,opt,name=emotion" json:"emotion,omitempty"`
 
 	// 处理状态 1-2: Processed | Pending
 	Status            *int32                   `protobuf:"varint,3,opt,name=status" json:"status,omitempty"`
@@ -888,11 +888,11 @@ func (x *DashboardListAlarmRecordsReq) GetUnitId() string {
 	return ""
 }
 
-func (x *DashboardListAlarmRecordsReq) GetEmotion() int32 {
+func (x *DashboardListAlarmRecordsReq) GetEmotion() string {
 	if x != nil && x.Emotion != nil {
 		return *x.Emotion
 	}
-	return 0
+	return ""
 }
 
 func (x *DashboardListAlarmRecordsReq) GetStatus() int32 {
@@ -1009,8 +1009,8 @@ type AlarmRecord struct {
 	// 唯一Id
 	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
 
-	// 情绪状态 0-5: Unknown | Danger | Depress |Anxiety | Negative | Normal
-	Emotion int32 `protobuf:"varint,2,opt,name=emotion" json:"emotion,omitempty"`
+	// 情绪类型列表（报表 SimpleReport.Emotion.Type 字符串，如"焦虑"）
+	Emotion []string `protobuf:"bytes,2,rep,name=emotion" json:"emotion,omitempty"`
 
 	// 关键词列表
 	Keywords []string `protobuf:"bytes,3,rep,name=keywords" json:"keywords,omitempty"`
@@ -1041,11 +1041,11 @@ func (x *AlarmRecord) GetId() string {
 	return ""
 }
 
-func (x *AlarmRecord) GetEmotion() int32 {
+func (x *AlarmRecord) GetEmotion() []string {
 	if x != nil {
 		return x.Emotion
 	}
-	return 0
+	return nil
 }
 
 func (x *AlarmRecord) GetKeywords() []string {
@@ -1623,9 +1623,10 @@ func (x *AnalysisProblem) GetSecondary() []*ProblemItem {
 }
 
 // === Emotion ===
+// 单项情绪：类型 + 强度（0.5~2.0，中度基准 1.0）
 type AnalysisEmotion struct {
-	Type      []string `protobuf:"bytes,1,rep,name=type" json:"type,omitempty"`
-	Intensity string   `protobuf:"bytes,2,opt,name=intensity" json:"intensity,omitempty"`
+	Type      string  `protobuf:"bytes,1,opt,name=type" json:"type,omitempty"`
+	Intensity float64 `protobuf:"fixed64,2,opt,name=intensity" json:"intensity,omitempty"`
 }
 
 func (x *AnalysisEmotion) Reset() { *x = AnalysisEmotion{} }
@@ -1634,18 +1635,18 @@ func (x *AnalysisEmotion) Marshal(in []byte) ([]byte, error) { return prutal.Mar
 
 func (x *AnalysisEmotion) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *AnalysisEmotion) GetType() []string {
+func (x *AnalysisEmotion) GetType() string {
 	if x != nil {
 		return x.Type
 	}
-	return nil
+	return ""
 }
 
-func (x *AnalysisEmotion) GetIntensity() string {
+func (x *AnalysisEmotion) GetIntensity() float64 {
 	if x != nil {
 		return x.Intensity
 	}
-	return ""
+	return 0
 }
 
 // === Support ===
@@ -1655,6 +1656,9 @@ type AnalysisSupport struct {
 	Friend              bool     `protobuf:"varint,3,opt,name=friend" json:"friend,omitempty"`
 	Other               []string `protobuf:"bytes,4,rep,name=other" json:"other,omitempty"`
 	ProtectiveResources []string `protobuf:"bytes,5,rep,name=protectiveResources" json:"protectiveResources,omitempty"`
+
+	// 支持充足程度：充足 | 一般 | 不足 | 未明确提及
+	Availability string `protobuf:"bytes,6,opt,name=availability" json:"availability,omitempty"`
 }
 
 func (x *AnalysisSupport) Reset() { *x = AnalysisSupport{} }
@@ -1698,13 +1702,22 @@ func (x *AnalysisSupport) GetProtectiveResources() []string {
 	return nil
 }
 
+func (x *AnalysisSupport) GetAvailability() string {
+	if x != nil {
+		return x.Availability
+	}
+	return ""
+}
+
 // === Function ===
 type AnalysisFunction struct {
 	Learning      string `protobuf:"bytes,1,opt,name=learning" json:"learning,omitempty"`
 	Sleep         string `protobuf:"bytes,2,opt,name=sleep" json:"sleep,omitempty"`
 	Diet          string `protobuf:"bytes,3,opt,name=diet" json:"diet,omitempty"`
 	Interpersonal string `protobuf:"bytes,4,opt,name=interpersonal" json:"interpersonal,omitempty"`
-	DailyLife     string `protobuf:"bytes,5,opt,name=dailyLife" json:"dailyLife,omitempty"`
+
+	// 情绪调节功能描述
+	EmotionRegulation string `protobuf:"bytes,5,opt,name=emotionRegulation" json:"emotionRegulation,omitempty"`
 }
 
 func (x *AnalysisFunction) Reset() { *x = AnalysisFunction{} }
@@ -1741,16 +1754,17 @@ func (x *AnalysisFunction) GetInterpersonal() string {
 	return ""
 }
 
-func (x *AnalysisFunction) GetDailyLife() string {
+func (x *AnalysisFunction) GetEmotionRegulation() string {
 	if x != nil {
-		return x.DailyLife
+		return x.EmotionRegulation
 	}
 	return ""
 }
 
 // === Distress ===
 type AnalysisDistress struct {
-	Level  string   `protobuf:"bytes,1,opt,name=level" json:"level,omitempty"`
+	// 困扰等级 0-4: 正常波动 | 轻度 | 中度 | 重度 | 高危
+	Level  int32    `protobuf:"varint,1,opt,name=level" json:"level,omitempty"`
 	Reason []string `protobuf:"bytes,2,rep,name=reason" json:"reason,omitempty"`
 }
 
@@ -1760,11 +1774,11 @@ func (x *AnalysisDistress) Marshal(in []byte) ([]byte, error) { return prutal.Ma
 
 func (x *AnalysisDistress) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *AnalysisDistress) GetLevel() string {
+func (x *AnalysisDistress) GetLevel() int32 {
 	if x != nil {
 		return x.Level
 	}
-	return ""
+	return 0
 }
 
 func (x *AnalysisDistress) GetReason() []string {
@@ -2026,8 +2040,10 @@ func (x *AnalysisConfidence) GetReason() string {
 
 // === Analysis ===
 type ReportAnalysis struct {
-	Problem     *AnalysisProblem    `protobuf:"bytes,1,opt,name=problem" json:"problem,omitempty"`
-	Emotion     *AnalysisEmotion    `protobuf:"bytes,2,opt,name=emotion" json:"emotion,omitempty"`
+	Problem *AnalysisProblem `protobuf:"bytes,1,opt,name=problem" json:"problem,omitempty"`
+
+	// 情绪列表（1-3 项，按影响程度排序）
+	Emotion     []*AnalysisEmotion  `protobuf:"bytes,2,rep,name=emotion" json:"emotion,omitempty"`
 	Cognition   []string            `protobuf:"bytes,3,rep,name=cognition" json:"cognition,omitempty"`
 	Behavior    []string            `protobuf:"bytes,4,rep,name=behavior" json:"behavior,omitempty"`
 	Duration    string              `protobuf:"bytes,5,opt,name=duration" json:"duration,omitempty"`
@@ -2055,7 +2071,7 @@ func (x *ReportAnalysis) GetProblem() *AnalysisProblem {
 	return nil
 }
 
-func (x *ReportAnalysis) GetEmotion() *AnalysisEmotion {
+func (x *ReportAnalysis) GetEmotion() []*AnalysisEmotion {
 	if x != nil {
 		return x.Emotion
 	}
@@ -2146,148 +2162,28 @@ func (x *ReportAnalysis) GetMissingInfo() []string {
 	return nil
 }
 
-// 简易报告各板块消息
-type ReportEmotion struct {
-	Type      string `protobuf:"bytes,1,opt,name=type" json:"type,omitempty"`
-	Intensity string `protobuf:"bytes,2,opt,name=intensity" json:"intensity,omitempty"`
-}
-
-func (x *ReportEmotion) Reset() { *x = ReportEmotion{} }
-
-func (x *ReportEmotion) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
-
-func (x *ReportEmotion) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *ReportEmotion) GetType() string {
-	if x != nil {
-		return x.Type
-	}
-	return ""
-}
-
-func (x *ReportEmotion) GetIntensity() string {
-	if x != nil {
-		return x.Intensity
-	}
-	return ""
-}
-
-type ReportRiskObs struct {
-	Level    string `protobuf:"bytes,1,opt,name=level" json:"level,omitempty"`
-	Evidence string `protobuf:"bytes,2,opt,name=evidence" json:"evidence,omitempty"`
-}
-
-func (x *ReportRiskObs) Reset() { *x = ReportRiskObs{} }
-
-func (x *ReportRiskObs) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
-
-func (x *ReportRiskObs) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *ReportRiskObs) GetLevel() string {
-	if x != nil {
-		return x.Level
-	}
-	return ""
-}
-
-func (x *ReportRiskObs) GetEvidence() string {
-	if x != nil {
-		return x.Evidence
-	}
-	return ""
-}
-
-type ReportSeverity struct {
-	Level string `protobuf:"bytes,1,opt,name=level" json:"level,omitempty"`
-	Basis string `protobuf:"bytes,2,opt,name=basis" json:"basis,omitempty"`
-}
-
-func (x *ReportSeverity) Reset() { *x = ReportSeverity{} }
-
-func (x *ReportSeverity) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
-
-func (x *ReportSeverity) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *ReportSeverity) GetLevel() string {
-	if x != nil {
-		return x.Level
-	}
-	return ""
-}
-
-func (x *ReportSeverity) GetBasis() string {
-	if x != nil {
-		return x.Basis
-	}
-	return ""
-}
-
-type ReportSummary struct {
-	MainProblem  string `protobuf:"bytes,1,opt,name=mainProblem" json:"mainProblem,omitempty"`
-	EmotionState string `protobuf:"bytes,2,opt,name=emotionState" json:"emotionState,omitempty"`
-	Severity     string `protobuf:"bytes,3,opt,name=severity" json:"severity,omitempty"`
-	RiskLevel    string `protobuf:"bytes,4,opt,name=riskLevel" json:"riskLevel,omitempty"`
-	Focus        string `protobuf:"bytes,5,opt,name=focus" json:"focus,omitempty"`
-}
-
-func (x *ReportSummary) Reset() { *x = ReportSummary{} }
-
-func (x *ReportSummary) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
-
-func (x *ReportSummary) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
-
-func (x *ReportSummary) GetMainProblem() string {
-	if x != nil {
-		return x.MainProblem
-	}
-	return ""
-}
-
-func (x *ReportSummary) GetEmotionState() string {
-	if x != nil {
-		return x.EmotionState
-	}
-	return ""
-}
-
-func (x *ReportSummary) GetSeverity() string {
-	if x != nil {
-		return x.Severity
-	}
-	return ""
-}
-
-func (x *ReportSummary) GetRiskLevel() string {
-	if x != nil {
-		return x.RiskLevel
-	}
-	return ""
-}
-
-func (x *ReportSummary) GetFocus() string {
-	if x != nil {
-		return x.Focus
-	}
-	return ""
-}
-
+// 简易报告（v2 瘦身结构）
 type SimpleReportMsg struct {
-	MainProblem        string          `protobuf:"bytes,1,opt,name=mainProblem" json:"mainProblem,omitempty"`
-	Emotion            *ReportEmotion  `protobuf:"bytes,2,opt,name=emotion" json:"emotion,omitempty"`
-	Thoughts           string          `protobuf:"bytes,3,opt,name=thoughts" json:"thoughts,omitempty"`
-	Behaviors          []string        `protobuf:"bytes,4,rep,name=behaviors" json:"behaviors,omitempty"`
-	Needs              []string        `protobuf:"bytes,5,rep,name=needs" json:"needs,omitempty"`
-	Duration           string          `protobuf:"bytes,6,opt,name=duration" json:"duration,omitempty"`
-	FunctionImpact     string          `protobuf:"bytes,7,opt,name=functionImpact" json:"functionImpact,omitempty"`
-	Triggers           string          `protobuf:"bytes,8,opt,name=triggers" json:"triggers,omitempty"`
-	Coping             string          `protobuf:"bytes,9,opt,name=coping" json:"coping,omitempty"`
-	Support            string          `protobuf:"bytes,10,opt,name=support" json:"support,omitempty"`
-	HelpSeeking        string          `protobuf:"bytes,11,opt,name=helpSeeking" json:"helpSeeking,omitempty"`
-	RiskObservation    *ReportRiskObs  `protobuf:"bytes,12,opt,name=riskObservation" json:"riskObservation,omitempty"`
-	SeverityAssessment *ReportSeverity `protobuf:"bytes,13,opt,name=severityAssessment" json:"severityAssessment,omitempty"`
-	Summary            *ReportSummary  `protobuf:"bytes,14,opt,name=summary" json:"summary,omitempty"`
-	ProvidedSupport    string          `protobuf:"bytes,15,opt,name=providedSupport" json:"providedSupport,omitempty"`
-	Suggestions        []string        `protobuf:"bytes,16,rep,name=suggestions" json:"suggestions,omitempty"`
+	// 学生话题关键词（2-3 个）
+	Keywords []string `protobuf:"bytes,1,rep,name=keywords" json:"keywords,omitempty"`
+
+	// 情绪类型列表（1-3 项，与 analysis.emotion 顺序一致）
+	Emotion []string `protobuf:"bytes,2,rep,name=emotion" json:"emotion,omitempty"`
+
+	// 风险等级 0-4: Unknown | High | MediumHigh | MediumLow | Low
+	RiskLevel int32 `protobuf:"varint,3,opt,name=riskLevel" json:"riskLevel,omitempty"`
+
+	// 困扰程度 0-4: Normal | Mild | Moderate | Severe | HighRisk
+	DistressLevel int32 `protobuf:"varint,4,opt,name=distressLevel" json:"distressLevel,omitempty"`
+
+	// 本阶段关注焦点
+	Focus string `protobuf:"bytes,5,opt,name=focus" json:"focus,omitempty"`
+
+	// 给心理老师的建议
+	Suggestions []string `protobuf:"bytes,6,rep,name=suggestions" json:"suggestions,omitempty"`
+
+	// 报告正文（500-1500 字）
+	Content string `protobuf:"bytes,7,opt,name=content" json:"content,omitempty"`
 }
 
 func (x *SimpleReportMsg) Reset() { *x = SimpleReportMsg{} }
@@ -2296,107 +2192,37 @@ func (x *SimpleReportMsg) Marshal(in []byte) ([]byte, error) { return prutal.Mar
 
 func (x *SimpleReportMsg) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *SimpleReportMsg) GetMainProblem() string {
+func (x *SimpleReportMsg) GetKeywords() []string {
 	if x != nil {
-		return x.MainProblem
+		return x.Keywords
 	}
-	return ""
+	return nil
 }
 
-func (x *SimpleReportMsg) GetEmotion() *ReportEmotion {
+func (x *SimpleReportMsg) GetEmotion() []string {
 	if x != nil {
 		return x.Emotion
 	}
 	return nil
 }
 
-func (x *SimpleReportMsg) GetThoughts() string {
+func (x *SimpleReportMsg) GetRiskLevel() int32 {
 	if x != nil {
-		return x.Thoughts
+		return x.RiskLevel
 	}
-	return ""
+	return 0
 }
 
-func (x *SimpleReportMsg) GetBehaviors() []string {
+func (x *SimpleReportMsg) GetDistressLevel() int32 {
 	if x != nil {
-		return x.Behaviors
+		return x.DistressLevel
 	}
-	return nil
+	return 0
 }
 
-func (x *SimpleReportMsg) GetNeeds() []string {
+func (x *SimpleReportMsg) GetFocus() string {
 	if x != nil {
-		return x.Needs
-	}
-	return nil
-}
-
-func (x *SimpleReportMsg) GetDuration() string {
-	if x != nil {
-		return x.Duration
-	}
-	return ""
-}
-
-func (x *SimpleReportMsg) GetFunctionImpact() string {
-	if x != nil {
-		return x.FunctionImpact
-	}
-	return ""
-}
-
-func (x *SimpleReportMsg) GetTriggers() string {
-	if x != nil {
-		return x.Triggers
-	}
-	return ""
-}
-
-func (x *SimpleReportMsg) GetCoping() string {
-	if x != nil {
-		return x.Coping
-	}
-	return ""
-}
-
-func (x *SimpleReportMsg) GetSupport() string {
-	if x != nil {
-		return x.Support
-	}
-	return ""
-}
-
-func (x *SimpleReportMsg) GetHelpSeeking() string {
-	if x != nil {
-		return x.HelpSeeking
-	}
-	return ""
-}
-
-func (x *SimpleReportMsg) GetRiskObservation() *ReportRiskObs {
-	if x != nil {
-		return x.RiskObservation
-	}
-	return nil
-}
-
-func (x *SimpleReportMsg) GetSeverityAssessment() *ReportSeverity {
-	if x != nil {
-		return x.SeverityAssessment
-	}
-	return nil
-}
-
-func (x *SimpleReportMsg) GetSummary() *ReportSummary {
-	if x != nil {
-		return x.Summary
-	}
-	return nil
-}
-
-func (x *SimpleReportMsg) GetProvidedSupport() string {
-	if x != nil {
-		return x.ProvidedSupport
+		return x.Focus
 	}
 	return ""
 }
@@ -2406,6 +2232,13 @@ func (x *SimpleReportMsg) GetSuggestions() []string {
 		return x.Suggestions
 	}
 	return nil
+}
+
+func (x *SimpleReportMsg) GetContent() string {
+	if x != nil {
+		return x.Content
+	}
+	return ""
 }
 
 type DashboardGetReportResp struct {
@@ -2454,7 +2287,7 @@ type DashboardGetReportResp struct {
 	// 评估分析（13维度）
 	Analysis *ReportAnalysis `protobuf:"bytes,15,opt,name=analysis" json:"analysis,omitempty"`
 
-	// 简易报告（16板块）
+	// 简易报告（v2 瘦身结构）
 	SimpleReport *SimpleReportMsg `protobuf:"bytes,16,opt,name=simpleReport" json:"simpleReport,omitempty"`
 	Code         int32            `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
 	Msg          string           `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`

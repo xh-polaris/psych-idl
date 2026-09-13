@@ -10,6 +10,8 @@ import (
 
 // 新建对话
 type CreateConversationReq struct {
+	// 目标 AI 心理老师角色；必填，缺失返回参数错误
+	CharacterId string `protobuf:"bytes,1,opt,name=characterId" json:"characterId,omitempty"`
 }
 
 func (x *CreateConversationReq) Reset() { *x = CreateConversationReq{} }
@@ -19,6 +21,13 @@ func (x *CreateConversationReq) Marshal(in []byte) ([]byte, error) {
 }
 
 func (x *CreateConversationReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *CreateConversationReq) GetCharacterId() string {
+	if x != nil {
+		return x.CharacterId
+	}
+	return ""
+}
 
 type CreateConversationResp struct {
 	ConversationId string `protobuf:"bytes,1,opt,name=conversationId" json:"conversationId,omitempty"`
@@ -302,6 +311,9 @@ type GetConvByDateReq struct {
 	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,1,opt,name=paginationOptions" json:"paginationOptions,omitempty"`
 	Date              string                   `protobuf:"bytes,2,opt,name=date" json:"date,omitempty"`
 	UserId            string                   `protobuf:"bytes,3,opt,name=userId" json:"userId,omitempty"`
+
+	// 目标 AI 心理老师角色；必填。精确读取单个会话请使用 GetSingleConv
+	CharacterId string `protobuf:"bytes,4,opt,name=characterId" json:"characterId,omitempty"`
 }
 
 func (x *GetConvByDateReq) Reset() { *x = GetConvByDateReq{} }
@@ -327,6 +339,13 @@ func (x *GetConvByDateReq) GetDate() string {
 func (x *GetConvByDateReq) GetUserId() string {
 	if x != nil {
 		return x.UserId
+	}
+	return ""
+}
+
+func (x *GetConvByDateReq) GetCharacterId() string {
+	if x != nil {
+		return x.CharacterId
 	}
 	return ""
 }
