@@ -295,6 +295,26 @@ message ConvDetail {
   string conversationId = 4;
 }
 
+// 获取管理端指定对话的原始消息
+message DashboardGetConversationMessagesReq {
+  string conversationId = 1;
+  basic.PaginationOptions paginationOptions = 2;
+}
+
+message DashboardConversationMessage {
+  string content = 1;
+  int32 role = 2;
+  int32 index = 3;
+  int64 createTime = 4;
+}
+
+message DashboardGetConversationMessagesResp {
+  basic.Pagination pagination = 1;
+  repeated DashboardConversationMessage messageList = 2;
+  int32 code = 255;
+  string msg = 256;
+}
+
 // 查看报表详情
 message DashboardGetReportReq {
   string ConversationId = 1;

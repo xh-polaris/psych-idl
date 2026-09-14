@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package core_api;
+
+option go_package = "./core_api";
+
+import "core_api/dashboard.proto";
+
+// 第三方无状态心理对话 API 的消息定义
+// service 定义在 core_api.proto（convert 脚本只处理主文件）；对外冻结契约见 docs/第三方心理对话API接口文档.md
+// 成功响应为 SSE 流（不走 Resp 结构）；SSE 首字节前的错误用 Resp 结构返回
+
+message OpenApiChatMessage {
+  // 仅支持 user / assistant，最后一条必须为非空 user
+  string role = 1;
+  // 消息文本，非空
+  string content = 2;
+}
+
+message OpenApiChatMetadata {
+  // 调用方用户关联 ID，仅作关联标记，不用于查询服务端历史
+  string external_user_id = 1;
+}
+
+message OpenApiChatCompletionReq {
+  // 当前固定 psych-chat-v1
+  string model = 1;
+  // 完整对话上下文，按时间正序
+  repeated OpenApiChatMessage messages = 2;
+  // 必须为 true，非流式返回 400 unsupported_stream_mode
+  bool stream = 3;
+  // 单次回复最大 token 数
+  optional int32 max_tokens = 4;
+  // 采样温度 0~2，超范围返回 400
+  optional double temperature = 5;
+  // 白名单关联信息
+  OpenApiChatMetadata metadata = 6;
+}
+
+message OpenApiChatCompletionResp {
+  // 平台请求 ID
+  string request_id = 1;
+  // 错误码，成功为空；取值见接口文档错误码表
+  string code = 2;
+  // 错误信息
+  string message = 3;
+}
+
+// 第三方报告接口使用的匿名受访者画像。
+message OpenApiSubjectProfile {
+  string name = 1;
+  optional int32 grade = 2;
+  optional int32 class = 3;
+  string gender = 4;
+}
+
+// 开放接口用量结构。
+message OpenApiUsage {
+  int32 prompt_tokens = 1 [json_name = "prompt_tokens"];
+  int32 completion_tokens = 2 [json_name = "completion_tokens"];
+  int32 total_tokens = 3 [json_name = "total_tokens"];
+}
+
+// 开放接口返回的报告值对象，不包含平台持久化字段。
+message OpenApiReport {
+  string title = 1;
+  string digest = 2;
+  bool need_alarm = 3 [json_name = "needAlarm"];
+  ReportAnalysis analysis = 4;
+  SimpleReportMsg simple_report = 5 [json_name = "simpleReport"];
+}
+
+message OpenApiGenerateReportReq {
+  string model = 1;
+  repeated OpenApiChatMessage messages = 2;
+  OpenApiSubjectProfile subject_profile = 3 [json_name = "subject_profile"];
+  optional int32 max_tokens = 4 [json_name = "max_tokens"];
+  OpenApiChatMetadata metadata = 5;
+}
+
+message OpenApiGenerateReportResp {
+  string id = 1;
+  string request_id = 2 [json_name = "request_id"];
+  string object = 3;
+  int64 created = 4;
+  string model = 5;
+  OpenApiReport report = 6;
+  OpenApiUsage usage = 7;
+  string usage_source = 8 [json_name = "usage_source"];
+}
