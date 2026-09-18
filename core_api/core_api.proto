@@ -10,6 +10,7 @@ import "core_api/unit.proto";
 import "core_api/config.proto";
 import "core_api/dashboard.proto";
 import "core_api/conversation.proto";
+import "core_api/openapi.proto";
 import "basic/re.proto";
 
 service User {
@@ -45,6 +46,21 @@ service User {
   rpc SendVerifyCode(SendVerifyCodeReq) returns (basic.Response){
             option (google.api.http) = {
       post: "/user/send_verify_code"
+      body: "*"
+    };
+  }
+}
+
+service OpenAPI {
+  rpc OpenApiChatCompletion(OpenApiChatCompletionReq) returns (OpenApiChatCompletionResp) {
+    option (google.api.http) = {
+      post: "/v1/chat/completions"
+      body: "*"
+    };
+  }
+  rpc OpenApiGenerateReport(OpenApiGenerateReportReq) returns (OpenApiGenerateReportResp) {
+    option (google.api.http) = {
+      post: "/v1/psych/reports"
       body: "*"
     };
   }
@@ -196,6 +212,12 @@ service Dashboard {
   rpc DashboardUnitConvRecords(DashboardUnitConvRecordsReq) returns (DashboardUnitConvRecordsResp) {
             option (google.api.http) = {
       post: "/dashboard/unit_conversation_records"
+      body: "*"
+    };
+  }
+  rpc DashboardGetConversationMessages(DashboardGetConversationMessagesReq) returns (DashboardGetConversationMessagesResp) {
+            option (google.api.http) = {
+      post: "/dashboard/conversation_messages"
       body: "*"
     };
   }
