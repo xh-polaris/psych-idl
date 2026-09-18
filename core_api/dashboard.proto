@@ -277,6 +277,8 @@ message DashboardUserConvRecordsResp {
   UserConvTrend userConvTrend = 2;
   repeated ConvDetail convDetail = 3;
   basic.Pagination pagination = 4;
+  // 已完成心理评估报告覆盖的累计对话轮数；一轮 = 一条学生消息 + 一条 AI 回复。
+  int32 totalConversationRounds = 5;
   int32 code = 255;
   string msg = 256;
 }
@@ -295,14 +297,15 @@ message ConvDetail {
   string conversationId = 4;
 }
 
-// 获取管理端指定对话的原始消息
+// 获取管理端指定报表对应的原始消息
 message DashboardGetConversationMessagesReq {
-  string conversationId = 1;
+  string reportId = 1;
   basic.PaginationOptions paginationOptions = 2;
 }
 
 message DashboardConversationMessage {
   string content = 1;
+  // 角色：system / assistant（AI）/ user（学生）/ tool，依次为 1 / 2 / 3 / 4
   int32 role = 2;
   int32 index = 3;
   int64 createTime = 4;
@@ -315,9 +318,9 @@ message DashboardGetConversationMessagesResp {
   string msg = 256;
 }
 
-// 查看报表详情
+// 查看指定报表详情
 message DashboardGetReportReq {
-  string ConversationId = 1;
+  string reportId = 1;
 }
 
 // 评估分析各维度消息
@@ -469,6 +472,10 @@ message DashboardGetReportResp {
   ReportAnalysis analysis = 15;
   // 简易报告（v2 瘦身结构）
   SimpleReportMsg simpleReport = 16;
+  // 本报告覆盖的对话轮数（一条学生消息 + 一条 AI 回复为一轮）。
+  int32 conversationRounds = 17;
+  // 本报告结束时的最近一次对话时间（Unix 秒）。
+  int64 lastConversationTime = 18;
   int32 code = 255;
   string msg = 256;
 }
@@ -491,6 +498,8 @@ message ConvOverview {
   string title = 3;
   int64 time = 4;
   bool needAlarm = 5;
+  // 当前列表行对应的报告 ID；查看详情和报告段消息均使用该字段。
+  string reportId = 6;
 }
 
 message DashboardCreateRemarkReq {

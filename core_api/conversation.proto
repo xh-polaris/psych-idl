@@ -14,7 +14,7 @@ import "basic/http.proto";
 
 // 新建对话
 message CreateConversationReq {
-  // 目标 AI 心理老师角色；必填，缺失返回参数错误
+  // 目标 AI 心理老师角色；为空时回退为单位配置中的首个启用角色
   string characterId = 1;
 }
 message CreateConversationResp {
@@ -61,7 +61,7 @@ message ConversationVO {
 
 message Message {
   string content = 1;
-  // 角色, system/assistant/user/tool, 依次为1,2,3,4
+  // 角色：system / assistant（AI）/ user（学生）/ tool，依次为 1 / 2 / 3 / 4
   int32 role = 2;
   // 消息索引
   int32 index = 3;
@@ -85,6 +85,7 @@ message GetConvByDateResp {
 message ConvByDateMessage {
   string conversationId = 1;
   string content = 2;
+  // 角色：system / assistant（AI）/ user（学生）/ tool，依次为 1 / 2 / 3 / 4
   int32 role = 3;
   int32 index = 4;
   int64 createTime = 5;

@@ -30,7 +30,7 @@ message OpenApiChatCompletionReq {
   // 必须为 true，非流式返回 400 unsupported_stream_mode
   bool stream = 3;
   // 单次回复最大 token 数
-  optional int32 max_tokens = 4;
+  optional int32 max_tokens = 4 [json_name = "max_tokens"];
   // 采样温度 0~2，超范围返回 400
   optional double temperature = 5;
   // 白名单关联信息
