@@ -10,7 +10,7 @@ import (
 
 // 新建对话
 type CreateConversationReq struct {
-	// 目标 AI 心理老师角色；必填，缺失返回参数错误
+	// 目标 AI 心理老师角色；为空时回退为单位配置中的首个启用角色
 	CharacterId string `protobuf:"bytes,1,opt,name=characterId" json:"characterId,omitempty"`
 }
 
@@ -212,12 +212,10 @@ type ConversationVO struct {
 	ConversationId string `protobuf:"bytes,1,opt,name=conversationId" json:"conversationId,omitempty"`
 
 	// 对话标题
-	Brief      string `protobuf:"bytes,2,opt,name=brief" json:"brief,omitempty"`
-	CreateTime int64  `protobuf:"varint,3,opt,name=createTime" json:"createTime,omitempty"`
-	UpdateTime int64  `protobuf:"varint,4,opt,name=updateTime" json:"updateTime,omitempty"`
-	Date       string `protobuf:"bytes,5,opt,name=date" json:"date,omitempty"`
-
-	// 对话角色ID，绑定单次对话与character
+	Brief       string `protobuf:"bytes,2,opt,name=brief" json:"brief,omitempty"`
+	CreateTime  int64  `protobuf:"varint,3,opt,name=createTime" json:"createTime,omitempty"`
+	UpdateTime  int64  `protobuf:"varint,4,opt,name=updateTime" json:"updateTime,omitempty"`
+	Date        string `protobuf:"bytes,5,opt,name=date" json:"date,omitempty"`
 	CharacterId string `protobuf:"bytes,6,opt,name=characterId" json:"characterId,omitempty"`
 }
 
@@ -272,7 +270,7 @@ func (x *ConversationVO) GetCharacterId() string {
 type Message struct {
 	Content string `protobuf:"bytes,1,opt,name=content" json:"content,omitempty"`
 
-	// 角色, system/assistant/user/tool, 依次为1,2,3,4
+	// 角色：system / assistant（AI）/ user（学生）/ tool，依次为 1 / 2 / 3 / 4
 	Role int32 `protobuf:"varint,2,opt,name=role" json:"role,omitempty"`
 
 	// 消息索引
@@ -306,7 +304,7 @@ func (x *Message) GetIndex() int32 {
 	return 0
 }
 
-// 按天获取用户所有对话消息
+// 按天获取指定老师当天会话的历史消息（学生端恢复某位老师当天聊天）
 type GetConvByDateReq struct {
 	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,1,opt,name=paginationOptions" json:"paginationOptions,omitempty"`
 	Date              string                   `protobuf:"bytes,2,opt,name=date" json:"date,omitempty"`
@@ -394,9 +392,11 @@ func (x *GetConvByDateResp) GetMsg() string {
 type ConvByDateMessage struct {
 	ConversationId string `protobuf:"bytes,1,opt,name=conversationId" json:"conversationId,omitempty"`
 	Content        string `protobuf:"bytes,2,opt,name=content" json:"content,omitempty"`
-	Role           int32  `protobuf:"varint,3,opt,name=role" json:"role,omitempty"`
-	Index          int32  `protobuf:"varint,4,opt,name=index" json:"index,omitempty"`
-	CreateTime     int64  `protobuf:"varint,5,opt,name=createTime" json:"createTime,omitempty"`
+
+	// 角色：system / assistant（AI）/ user（学生）/ tool，依次为 1 / 2 / 3 / 4
+	Role       int32 `protobuf:"varint,3,opt,name=role" json:"role,omitempty"`
+	Index      int32 `protobuf:"varint,4,opt,name=index" json:"index,omitempty"`
+	CreateTime int64 `protobuf:"varint,5,opt,name=createTime" json:"createTime,omitempty"`
 }
 
 func (x *ConvByDateMessage) Reset() { *x = ConvByDateMessage{} }

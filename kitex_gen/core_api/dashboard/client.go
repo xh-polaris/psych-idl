@@ -22,6 +22,7 @@ type Client interface {
 	DashboardListUsers(ctx context.Context, Req *core_api.DashboardListUsersReq, callOptions ...callopt.Option) (r *core_api.DashboardListUsersResp, err error)
 	DashboardUserConvRecords(ctx context.Context, Req *core_api.DashboardUserConvRecordsReq, callOptions ...callopt.Option) (r *core_api.DashboardUserConvRecordsResp, err error)
 	DashboardUnitConvRecords(ctx context.Context, Req *core_api.DashboardUnitConvRecordsReq, callOptions ...callopt.Option) (r *core_api.DashboardUnitConvRecordsResp, err error)
+	DashboardGetConversationMessages(ctx context.Context, Req *core_api.DashboardGetConversationMessagesReq, callOptions ...callopt.Option) (r *core_api.DashboardGetConversationMessagesResp, err error)
 	DashboardGetReport(ctx context.Context, Req *core_api.DashboardGetReportReq, callOptions ...callopt.Option) (r *core_api.DashboardGetReportResp, err error)
 	DashboardCreateRemark(ctx context.Context, Req *core_api.DashboardCreateRemarkReq, callOptions ...callopt.Option) (r *core_api.DashboardCreateRemarkResp, err error)
 }
@@ -108,6 +109,11 @@ func (p *kDashboardClient) DashboardUserConvRecords(ctx context.Context, Req *co
 func (p *kDashboardClient) DashboardUnitConvRecords(ctx context.Context, Req *core_api.DashboardUnitConvRecordsReq, callOptions ...callopt.Option) (r *core_api.DashboardUnitConvRecordsResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.DashboardUnitConvRecords(ctx, Req)
+}
+
+func (p *kDashboardClient) DashboardGetConversationMessages(ctx context.Context, Req *core_api.DashboardGetConversationMessagesReq, callOptions ...callopt.Option) (r *core_api.DashboardGetConversationMessagesResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DashboardGetConversationMessages(ctx, Req)
 }
 
 func (p *kDashboardClient) DashboardGetReport(ctx context.Context, Req *core_api.DashboardGetReportReq, callOptions ...callopt.Option) (r *core_api.DashboardGetReportResp, err error) {

@@ -1431,8 +1431,11 @@ type DashboardUserConvRecordsResp struct {
 	UserConvTrend *UserConvTrend    `protobuf:"bytes,2,opt,name=userConvTrend" json:"userConvTrend,omitempty"`
 	ConvDetail    []*ConvDetail     `protobuf:"bytes,3,rep,name=convDetail" json:"convDetail,omitempty"`
 	Pagination    *basic.Pagination `protobuf:"bytes,4,opt,name=pagination" json:"pagination,omitempty"`
-	Code          int32             `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg           string            `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+
+	// 已完成心理评估报告覆盖的累计对话轮数；一轮 = 一条学生消息 + 一条 AI 回复。
+	TotalConversationRounds int32  `protobuf:"varint,5,opt,name=totalConversationRounds" json:"totalConversationRounds,omitempty"`
+	Code                    int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg                     string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *DashboardUserConvRecordsResp) Reset() { *x = DashboardUserConvRecordsResp{} }
@@ -1469,6 +1472,13 @@ func (x *DashboardUserConvRecordsResp) GetPagination() *basic.Pagination {
 		return x.Pagination
 	}
 	return nil
+}
+
+func (x *DashboardUserConvRecordsResp) GetTotalConversationRounds() int32 {
+	if x != nil {
+		return x.TotalConversationRounds
+	}
+	return 0
 }
 
 func (x *DashboardUserConvRecordsResp) GetCode() int32 {
@@ -1550,9 +1560,129 @@ func (x *ConvDetail) GetConversationId() string {
 	return ""
 }
 
-// 查看报表详情
+// 获取管理端指定报表对应的原始消息
+type DashboardGetConversationMessagesReq struct {
+	ReportId          string                   `protobuf:"bytes,1,opt,name=reportId" json:"reportId,omitempty"`
+	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,2,opt,name=paginationOptions" json:"paginationOptions,omitempty"`
+}
+
+func (x *DashboardGetConversationMessagesReq) Reset() { *x = DashboardGetConversationMessagesReq{} }
+
+func (x *DashboardGetConversationMessagesReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *DashboardGetConversationMessagesReq) Unmarshal(in []byte) error {
+	return prutal.Unmarshal(in, x)
+}
+
+func (x *DashboardGetConversationMessagesReq) GetReportId() string {
+	if x != nil {
+		return x.ReportId
+	}
+	return ""
+}
+
+func (x *DashboardGetConversationMessagesReq) GetPaginationOptions() *basic.PaginationOptions {
+	if x != nil {
+		return x.PaginationOptions
+	}
+	return nil
+}
+
+type DashboardConversationMessage struct {
+	Content string `protobuf:"bytes,1,opt,name=content" json:"content,omitempty"`
+
+	// 角色：system / assistant（AI）/ user（学生）/ tool，依次为 1 / 2 / 3 / 4
+	Role       int32 `protobuf:"varint,2,opt,name=role" json:"role,omitempty"`
+	Index      int32 `protobuf:"varint,3,opt,name=index" json:"index,omitempty"`
+	CreateTime int64 `protobuf:"varint,4,opt,name=createTime" json:"createTime,omitempty"`
+}
+
+func (x *DashboardConversationMessage) Reset() { *x = DashboardConversationMessage{} }
+
+func (x *DashboardConversationMessage) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *DashboardConversationMessage) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *DashboardConversationMessage) GetContent() string {
+	if x != nil {
+		return x.Content
+	}
+	return ""
+}
+
+func (x *DashboardConversationMessage) GetRole() int32 {
+	if x != nil {
+		return x.Role
+	}
+	return 0
+}
+
+func (x *DashboardConversationMessage) GetIndex() int32 {
+	if x != nil {
+		return x.Index
+	}
+	return 0
+}
+
+func (x *DashboardConversationMessage) GetCreateTime() int64 {
+	if x != nil {
+		return x.CreateTime
+	}
+	return 0
+}
+
+type DashboardGetConversationMessagesResp struct {
+	Pagination  *basic.Pagination               `protobuf:"bytes,1,opt,name=pagination" json:"pagination,omitempty"`
+	MessageList []*DashboardConversationMessage `protobuf:"bytes,2,rep,name=messageList" json:"messageList,omitempty"`
+	Code        int32                           `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg         string                          `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *DashboardGetConversationMessagesResp) Reset() { *x = DashboardGetConversationMessagesResp{} }
+
+func (x *DashboardGetConversationMessagesResp) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *DashboardGetConversationMessagesResp) Unmarshal(in []byte) error {
+	return prutal.Unmarshal(in, x)
+}
+
+func (x *DashboardGetConversationMessagesResp) GetPagination() *basic.Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+func (x *DashboardGetConversationMessagesResp) GetMessageList() []*DashboardConversationMessage {
+	if x != nil {
+		return x.MessageList
+	}
+	return nil
+}
+
+func (x *DashboardGetConversationMessagesResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *DashboardGetConversationMessagesResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+// 查看指定报表详情
 type DashboardGetReportReq struct {
-	ConversationId string `protobuf:"bytes,1,opt,name=ConversationId" json:"ConversationId,omitempty"`
+	ReportId string `protobuf:"bytes,1,opt,name=reportId" json:"reportId,omitempty"`
 }
 
 func (x *DashboardGetReportReq) Reset() { *x = DashboardGetReportReq{} }
@@ -1563,9 +1693,9 @@ func (x *DashboardGetReportReq) Marshal(in []byte) ([]byte, error) {
 
 func (x *DashboardGetReportReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
 
-func (x *DashboardGetReportReq) GetConversationId() string {
+func (x *DashboardGetReportReq) GetReportId() string {
 	if x != nil {
-		return x.ConversationId
+		return x.ReportId
 	}
 	return ""
 }
@@ -2289,8 +2419,14 @@ type DashboardGetReportResp struct {
 
 	// 简易报告（v2 瘦身结构）
 	SimpleReport *SimpleReportMsg `protobuf:"bytes,16,opt,name=simpleReport" json:"simpleReport,omitempty"`
-	Code         int32            `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg          string           `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+
+	// 本报告覆盖的对话轮数（一条学生消息 + 一条 AI 回复为一轮）。
+	ConversationRounds int32 `protobuf:"varint,17,opt,name=conversationRounds" json:"conversationRounds,omitempty"`
+
+	// 本报告结束时的最近一次对话时间（Unix 秒）。
+	LastConversationTime int64  `protobuf:"varint,18,opt,name=lastConversationTime" json:"lastConversationTime,omitempty"`
+	Code                 int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg                  string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *DashboardGetReportResp) Reset() { *x = DashboardGetReportResp{} }
@@ -2413,6 +2549,20 @@ func (x *DashboardGetReportResp) GetSimpleReport() *SimpleReportMsg {
 	return nil
 }
 
+func (x *DashboardGetReportResp) GetConversationRounds() int32 {
+	if x != nil {
+		return x.ConversationRounds
+	}
+	return 0
+}
+
+func (x *DashboardGetReportResp) GetLastConversationTime() int64 {
+	if x != nil {
+		return x.LastConversationTime
+	}
+	return 0
+}
+
 func (x *DashboardGetReportResp) GetCode() int32 {
 	if x != nil {
 		return x.Code
@@ -2504,6 +2654,9 @@ type ConvOverview struct {
 	Title     string  `protobuf:"bytes,3,opt,name=title" json:"title,omitempty"`
 	Time      int64   `protobuf:"varint,4,opt,name=time" json:"time,omitempty"`
 	NeedAlarm bool    `protobuf:"varint,5,opt,name=needAlarm" json:"needAlarm,omitempty"`
+
+	// 当前列表行对应的报告 ID；查看详情和报告段消息均使用该字段。
+	ReportId string `protobuf:"bytes,6,opt,name=reportId" json:"reportId,omitempty"`
 }
 
 func (x *ConvOverview) Reset() { *x = ConvOverview{} }
@@ -2545,6 +2698,13 @@ func (x *ConvOverview) GetNeedAlarm() bool {
 		return x.NeedAlarm
 	}
 	return false
+}
+
+func (x *ConvOverview) GetReportId() string {
+	if x != nil {
+		return x.ReportId
+	}
+	return ""
 }
 
 type DashboardCreateRemarkReq struct {

@@ -92,6 +92,13 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
+	"DashboardGetConversationMessages": kitex.NewMethodInfo(
+		dashboardGetConversationMessagesHandler,
+		newDashboardGetConversationMessagesArgs,
+		newDashboardGetConversationMessagesResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
 	"DashboardGetReport": kitex.NewMethodInfo(
 		dashboardGetReportHandler,
 		newDashboardGetReportArgs,
@@ -1393,6 +1400,117 @@ func (p *DashboardUnitConvRecordsResult) GetResult() interface{} {
 	return p.Success
 }
 
+func dashboardGetConversationMessagesHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.DashboardGetConversationMessagesReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.Dashboard).DashboardGetConversationMessages(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *DashboardGetConversationMessagesArgs:
+		success, err := handler.(core_api.Dashboard).DashboardGetConversationMessages(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*DashboardGetConversationMessagesResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newDashboardGetConversationMessagesArgs() interface{} {
+	return &DashboardGetConversationMessagesArgs{}
+}
+
+func newDashboardGetConversationMessagesResult() interface{} {
+	return &DashboardGetConversationMessagesResult{}
+}
+
+type DashboardGetConversationMessagesArgs struct {
+	Req *core_api.DashboardGetConversationMessagesReq
+}
+
+func (p *DashboardGetConversationMessagesArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *DashboardGetConversationMessagesArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.DashboardGetConversationMessagesReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var DashboardGetConversationMessagesArgs_Req_DEFAULT *core_api.DashboardGetConversationMessagesReq
+
+func (p *DashboardGetConversationMessagesArgs) GetReq() *core_api.DashboardGetConversationMessagesReq {
+	if !p.IsSetReq() {
+		return DashboardGetConversationMessagesArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *DashboardGetConversationMessagesArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *DashboardGetConversationMessagesArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type DashboardGetConversationMessagesResult struct {
+	Success *core_api.DashboardGetConversationMessagesResp
+}
+
+var DashboardGetConversationMessagesResult_Success_DEFAULT *core_api.DashboardGetConversationMessagesResp
+
+func (p *DashboardGetConversationMessagesResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *DashboardGetConversationMessagesResult) Unmarshal(in []byte) error {
+	msg := new(core_api.DashboardGetConversationMessagesResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *DashboardGetConversationMessagesResult) GetSuccess() *core_api.DashboardGetConversationMessagesResp {
+	if !p.IsSetSuccess() {
+		return DashboardGetConversationMessagesResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *DashboardGetConversationMessagesResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.DashboardGetConversationMessagesResp)
+}
+
+func (p *DashboardGetConversationMessagesResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *DashboardGetConversationMessagesResult) GetResult() interface{} {
+	return p.Success
+}
+
 func dashboardGetReportHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	switch s := arg.(type) {
 	case *streaming.Args:
@@ -1730,6 +1848,16 @@ func (p *kClient) DashboardUnitConvRecords(ctx context.Context, Req *core_api.Da
 	_args.Req = Req
 	var _result DashboardUnitConvRecordsResult
 	if err = p.c.Call(ctx, "DashboardUnitConvRecords", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) DashboardGetConversationMessages(ctx context.Context, Req *core_api.DashboardGetConversationMessagesReq) (r *core_api.DashboardGetConversationMessagesResp, err error) {
+	var _args DashboardGetConversationMessagesArgs
+	_args.Req = Req
+	var _result DashboardGetConversationMessagesResult
+	if err = p.c.Call(ctx, "DashboardGetConversationMessages", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

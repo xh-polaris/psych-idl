@@ -16,6 +16,11 @@ type User interface {
 	SendVerifyCode(ctx context.Context, req *SendVerifyCodeReq) (res *basic.Response, err error)
 }
 
+type OpenAPI interface {
+	OpenApiChatCompletion(ctx context.Context, req *OpenApiChatCompletionReq) (res *OpenApiChatCompletionResp, err error)
+	OpenApiGenerateReport(ctx context.Context, req *OpenApiGenerateReportReq) (res *OpenApiGenerateReportResp, err error)
+}
+
 type Unit interface {
 	UnitGetInfo(ctx context.Context, req *UnitGetInfoReq) (res *UnitGetInfoResp, err error)
 	UnitUpdateInfo(ctx context.Context, req *UnitUpdateInfoReq) (res *basic.Response, err error)
@@ -46,6 +51,7 @@ type Dashboard interface {
 	DashboardListUsers(ctx context.Context, req *DashboardListUsersReq) (res *DashboardListUsersResp, err error)
 	DashboardUserConvRecords(ctx context.Context, req *DashboardUserConvRecordsReq) (res *DashboardUserConvRecordsResp, err error)
 	DashboardUnitConvRecords(ctx context.Context, req *DashboardUnitConvRecordsReq) (res *DashboardUnitConvRecordsResp, err error)
+	DashboardGetConversationMessages(ctx context.Context, req *DashboardGetConversationMessagesReq) (res *DashboardGetConversationMessagesResp, err error)
 	DashboardGetReport(ctx context.Context, req *DashboardGetReportReq) (res *DashboardGetReportResp, err error)
 	DashboardCreateRemark(ctx context.Context, req *DashboardCreateRemarkReq) (res *DashboardCreateRemarkResp, err error)
 }
