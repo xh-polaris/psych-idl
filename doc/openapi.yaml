@@ -2479,7 +2479,7 @@ components:
                     description: 情绪类型列表（1-3 项，与 analysis.emotion 顺序一致）
                 riskLevel:
                     type: integer
-                    description: '风险等级 0-4: Unknown | High | MediumHigh | MediumLow | Low'
+                    description: '风险等级 -1-3: Unknown | Low | MediumLow | MediumHigh | High。数值越大风险越高。'
                     format: int32
                 distressLevel:
                     type: integer

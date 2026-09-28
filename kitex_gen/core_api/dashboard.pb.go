@@ -2378,7 +2378,7 @@ type SimpleReportMsg struct {
 	// 情绪类型列表（1-3 项，与 analysis.emotion 顺序一致）
 	Emotion []string `protobuf:"bytes,2,rep,name=emotion" json:"emotion,omitempty"`
 
-	// 风险等级 0-4: Unknown | High | MediumHigh | MediumLow | Low
+	// 风险等级 -1-3: Unknown | Low | MediumLow | MediumHigh | High。数值越大风险越高。
 	RiskLevel int32 `protobuf:"varint,3,opt,name=riskLevel" json:"riskLevel,omitempty"`
 
 	// 困扰程度 0-4: Normal | Mild | Moderate | Severe | HighRisk
