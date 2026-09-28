@@ -393,9 +393,12 @@ func (x *ConversationDuration) GetCount() int32 {
 }
 
 type RiskDistributionByGrade struct {
-	// key: grade; value: ratio
+	// key: grade; value: ratio（百分比）
 	Ratio map[int32]int32 `protobuf:"bytes,1,rep,name=ratio" json:"ratio,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"varint,2,opt,name=value"`
 	Total int32           `protobuf:"varint,2,opt,name=total" json:"total,omitempty"`
+
+	// key: grade; value: 预警学生人数
+	Count map[int32]int32 `protobuf:"bytes,3,rep,name=count" json:"count,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"varint,2,opt,name=value"`
 }
 
 func (x *RiskDistributionByGrade) Reset() { *x = RiskDistributionByGrade{} }
@@ -418,6 +421,13 @@ func (x *RiskDistributionByGrade) GetTotal() int32 {
 		return x.Total
 	}
 	return 0
+}
+
+func (x *RiskDistributionByGrade) GetCount() map[int32]int32 {
+	if x != nil {
+		return x.Count
+	}
+	return nil
 }
 
 // 管理端-列出单位
@@ -585,8 +595,14 @@ type DashboardGetPsychTrendResp struct {
 
 	// 关键词 用于词云
 	Keywords *Keywords `protobuf:"bytes,3,opt,name=keywords" json:"keywords,omitempty"`
-	Code     int32     `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg      string    `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+
+	// 按学生在统计时间范围内最后一份完成报告统计的风险等级看板。
+	RiskDashboard *LevelDashboard `protobuf:"bytes,4,opt,name=riskDashboard" json:"riskDashboard,omitempty"`
+
+	// 按学生在统计时间范围内最后一份完成报告统计的严重等级看板。
+	DistressDashboard *LevelDashboard `protobuf:"bytes,5,opt,name=distressDashboard" json:"distressDashboard,omitempty"`
+	Code              int32           `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg               string          `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *DashboardGetPsychTrendResp) Reset() { *x = DashboardGetPsychTrendResp{} }
@@ -618,6 +634,20 @@ func (x *DashboardGetPsychTrendResp) GetKeywords() *Keywords {
 	return nil
 }
 
+func (x *DashboardGetPsychTrendResp) GetRiskDashboard() *LevelDashboard {
+	if x != nil {
+		return x.RiskDashboard
+	}
+	return nil
+}
+
+func (x *DashboardGetPsychTrendResp) GetDistressDashboard() *LevelDashboard {
+	if x != nil {
+		return x.DistressDashboard
+	}
+	return nil
+}
+
 func (x *DashboardGetPsychTrendResp) GetCode() int32 {
 	if x != nil {
 		return x.Code
@@ -630,6 +660,54 @@ func (x *DashboardGetPsychTrendResp) GetMsg() string {
 		return x.Msg
 	}
 	return ""
+}
+
+// 等级看板。distribution 的 key 为等级值，value 为学生人数。
+type LevelDashboard struct {
+	Distribution map[int32]int32 `protobuf:"bytes,1,rep,name=distribution" json:"distribution,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"varint,2,opt,name=value"`
+
+	// 满足业务阈值的学生人数：风险看板为风险学生，严重看板为严重学生。
+	MatchedStudents int32 `protobuf:"varint,2,opt,name=matchedStudents" json:"matchedStudents,omitempty"`
+
+	// 当前权限范围内的在校学生总人数，用作看板分母。
+	TotalStudents int32 `protobuf:"varint,3,opt,name=totalStudents" json:"totalStudents,omitempty"`
+
+	// 拥有可用于本看板统计的完成报告的学生数。
+	ReportedStudents int32 `protobuf:"varint,4,opt,name=reportedStudents" json:"reportedStudents,omitempty"`
+}
+
+func (x *LevelDashboard) Reset() { *x = LevelDashboard{} }
+
+func (x *LevelDashboard) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *LevelDashboard) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *LevelDashboard) GetDistribution() map[int32]int32 {
+	if x != nil {
+		return x.Distribution
+	}
+	return nil
+}
+
+func (x *LevelDashboard) GetMatchedStudents() int32 {
+	if x != nil {
+		return x.MatchedStudents
+	}
+	return 0
+}
+
+func (x *LevelDashboard) GetTotalStudents() int32 {
+	if x != nil {
+		return x.TotalStudents
+	}
+	return 0
+}
+
+func (x *LevelDashboard) GetReportedStudents() int32 {
+	if x != nil {
+		return x.ReportedStudents
+	}
+	return 0
 }
 
 type RiskDistribution struct {
@@ -2371,6 +2449,45 @@ func (x *SimpleReportMsg) GetContent() string {
 	return ""
 }
 
+// 报告列表与详情共用的可展示、可统计摘要。
+type ReportSummary struct {
+	// 风险等级，编码与 SimpleReportMsg.riskLevel 一致。
+	RiskLevel int32 `protobuf:"varint,1,opt,name=riskLevel" json:"riskLevel,omitempty"`
+
+	// 严重等级，编码与 SimpleReportMsg.distressLevel 一致。
+	DistressLevel int32 `protobuf:"varint,2,opt,name=distressLevel" json:"distressLevel,omitempty"`
+
+	// 报告整体置信度文本，来自 analysis.confidence.overall；旧报告或无法评估时为空。
+	Confidence string `protobuf:"bytes,3,opt,name=confidence" json:"confidence,omitempty"`
+}
+
+func (x *ReportSummary) Reset() { *x = ReportSummary{} }
+
+func (x *ReportSummary) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ReportSummary) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ReportSummary) GetRiskLevel() int32 {
+	if x != nil {
+		return x.RiskLevel
+	}
+	return 0
+}
+
+func (x *ReportSummary) GetDistressLevel() int32 {
+	if x != nil {
+		return x.DistressLevel
+	}
+	return 0
+}
+
+func (x *ReportSummary) GetConfidence() string {
+	if x != nil {
+		return x.Confidence
+	}
+	return ""
+}
+
 type DashboardGetReportResp struct {
 	// 兼容旧字段: 标题
 	Title string `protobuf:"bytes,1,opt,name=title" json:"title,omitempty"`
@@ -2657,6 +2774,9 @@ type ConvOverview struct {
 
 	// 当前列表行对应的报告 ID；查看详情和报告段消息均使用该字段。
 	ReportId string `protobuf:"bytes,6,opt,name=reportId" json:"reportId,omitempty"`
+
+	// 列表展示所需的报告摘要。
+	ReportSummary *ReportSummary `protobuf:"bytes,7,opt,name=reportSummary" json:"reportSummary,omitempty"`
 }
 
 func (x *ConvOverview) Reset() { *x = ConvOverview{} }
@@ -2705,6 +2825,13 @@ func (x *ConvOverview) GetReportId() string {
 		return x.ReportId
 	}
 	return ""
+}
+
+func (x *ConvOverview) GetReportSummary() *ReportSummary {
+	if x != nil {
+		return x.ReportSummary
+	}
+	return nil
 }
 
 type DashboardCreateRemarkReq struct {
