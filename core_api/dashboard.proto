@@ -81,9 +81,11 @@ message conversationDuration {
   int32 count = 2;
 }
 message RiskDistributionByGrade {
-  // key: grade; value: ratio
+  // key: grade; value: ratio（百分比）
   map<int32, int32> ratio = 1;
   int32 total = 2;
+  // key: grade; value: 预警学生人数
+  map<int32, int32> count = 3;
 }
 
 // 管理端-列出单位
@@ -117,8 +119,23 @@ message DashboardGetPsychTrendResp {
   repeated RiskDistribution risks = 2;
   // 关键词 用于词云
   Keywords keywords = 3;
+  // 按学生在统计时间范围内最后一份完成报告统计的风险等级看板。
+  LevelDashboard riskDashboard = 4;
+  // 按学生在统计时间范围内最后一份完成报告统计的严重等级看板。
+  LevelDashboard distressDashboard = 5;
   int32 code = 255;
   string msg = 256;
+}
+
+// 等级看板。distribution 的 key 为等级值，value 为学生人数。
+message LevelDashboard {
+  map<int32, int32> distribution = 1;
+  // 满足业务阈值的学生人数：风险看板为风险学生，严重看板为严重学生。
+  int32 matchedStudents = 2;
+  // 当前权限范围内的在校学生总人数，用作看板分母。
+  int32 totalStudents = 3;
+  // 拥有可用于本看板统计的完成报告的学生数。
+  int32 reportedStudents = 4;
 }
 message RiskDistribution {
   // 1-4: High | Medium | Low | Normal
@@ -439,6 +456,16 @@ message SimpleReportMsg {
   string content = 7;
 }
 
+// 报告列表与详情共用的可展示、可统计摘要。
+message ReportSummary {
+  // 风险等级，编码与 SimpleReportMsg.riskLevel 一致。
+  int32 riskLevel = 1;
+  // 严重等级，编码与 SimpleReportMsg.distressLevel 一致。
+  int32 distressLevel = 2;
+  // 报告整体置信度文本，来自 analysis.confidence.overall；旧报告或无法评估时为空。
+  string confidence = 3;
+}
+
 message DashboardGetReportResp {
   // 兼容旧字段: 标题
   string title = 1;
@@ -500,6 +527,8 @@ message ConvOverview {
   bool needAlarm = 5;
   // 当前列表行对应的报告 ID；查看详情和报告段消息均使用该字段。
   string reportId = 6;
+  // 列表展示所需的报告摘要。
+  ReportSummary reportSummary = 7;
 }
 
 message DashboardCreateRemarkReq {
