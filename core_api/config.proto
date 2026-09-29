@@ -54,7 +54,7 @@ message Character {
   string greeting = 8;
 }
 
-// 单位全量配置（包含对话bot、TTS、报表、角色、对话场景、告警手机号等）
+// 单位全量配置（包含对话 bot、TTS、报表、角色、图片资源、联系方式、告警手机号等）
 message ConfigVO {
   string unitId = 1;
   // 对话engine实现模式 1-2: Chain | End2End
@@ -67,6 +67,7 @@ message ConfigVO {
   int64 createTime = 7;
   int64 updateTime = 8;
   string modelView = 9;
+  // 单位默认对话背景图 URL。
   string backgroundImage = 10;
   // 心理老师角色列表
   repeated Character characters = 11;
@@ -74,14 +75,18 @@ message ConfigVO {
   repeated string scene = 12;
   // 接收告警短信的手机号列表
   repeated string alertPhone = 13;
+  // 单位对外联系手机；与 alertPhone 的预警接收用途不同。
+  optional string contactPhone = 14;
+  // 单位对外联系邮箱。
+  optional string contactEmail = 15;
 }
 
-// 创建或更新配置请求（超管可配置全量；单位管理员/教师仅可配置角色/场景/告警手机号）
+// 创建或更新配置请求（超管可配置全量；单位管理员/教师仅可配置角色/图片资源/联系方式/告警手机号）
 message ConfigCreateOrUpdateReq {
   ConfigVO config = 1;
 }
 
-// 获取单位配置请求（超管返回全量；单位管理员/教师返回角色/场景/告警手机号等）
+// 获取单位配置请求（超管返回全量；单位管理员/教师返回角色/图片资源/联系方式/告警手机号等）
 message ConfigGetByUnitIdReq {
   string unitId = 1;
 }
@@ -102,6 +107,8 @@ message ConfigGetCharacterResp {
   repeated Character characters = 1;
   // 对话背景图/场景列表
   repeated string scene = 2;
+  // 单位默认对话背景图 URL。
+  string backgroundImage = 3;
   int32 code = 255;
   string msg = 256;
 }
