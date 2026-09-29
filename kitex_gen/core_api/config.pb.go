@@ -231,7 +231,7 @@ func (x *Character) GetGreeting() string {
 	return ""
 }
 
-// 单位全量配置（包含对话bot、TTS、报表、角色、对话场景、告警手机号等）
+// 单位全量配置（包含对话 bot、TTS、报表、角色、图片资源、联系方式、告警手机号等）
 type ConfigVO struct {
 	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 
@@ -242,10 +242,12 @@ type ConfigVO struct {
 	Report *ReportApp `protobuf:"bytes,5,opt,name=report" json:"report,omitempty"`
 
 	// 1-2: Active | Deleted
-	Status          int32  `protobuf:"varint,6,opt,name=status" json:"status,omitempty"`
-	CreateTime      int64  `protobuf:"varint,7,opt,name=createTime" json:"createTime,omitempty"`
-	UpdateTime      int64  `protobuf:"varint,8,opt,name=updateTime" json:"updateTime,omitempty"`
-	ModelView       string `protobuf:"bytes,9,opt,name=modelView" json:"modelView,omitempty"`
+	Status     int32  `protobuf:"varint,6,opt,name=status" json:"status,omitempty"`
+	CreateTime int64  `protobuf:"varint,7,opt,name=createTime" json:"createTime,omitempty"`
+	UpdateTime int64  `protobuf:"varint,8,opt,name=updateTime" json:"updateTime,omitempty"`
+	ModelView  string `protobuf:"bytes,9,opt,name=modelView" json:"modelView,omitempty"`
+
+	// 单位默认对话背景图 URL。
 	BackgroundImage string `protobuf:"bytes,10,opt,name=backgroundImage" json:"backgroundImage,omitempty"`
 
 	// 心理老师角色列表
@@ -256,6 +258,12 @@ type ConfigVO struct {
 
 	// 接收告警短信的手机号列表
 	AlertPhone []string `protobuf:"bytes,13,rep,name=alertPhone" json:"alertPhone,omitempty"`
+
+	// 单位对外联系手机；与 alertPhone 的预警接收用途不同。
+	ContactPhone *string `protobuf:"bytes,14,opt,name=contactPhone" json:"contactPhone,omitempty"`
+
+	// 单位对外联系邮箱。
+	ContactEmail *string `protobuf:"bytes,15,opt,name=contactEmail" json:"contactEmail,omitempty"`
 }
 
 func (x *ConfigVO) Reset() { *x = ConfigVO{} }
@@ -355,7 +363,21 @@ func (x *ConfigVO) GetAlertPhone() []string {
 	return nil
 }
 
-// 创建或更新配置请求（超管可配置全量；单位管理员/教师仅可配置角色/场景/告警手机号）
+func (x *ConfigVO) GetContactPhone() string {
+	if x != nil && x.ContactPhone != nil {
+		return *x.ContactPhone
+	}
+	return ""
+}
+
+func (x *ConfigVO) GetContactEmail() string {
+	if x != nil && x.ContactEmail != nil {
+		return *x.ContactEmail
+	}
+	return ""
+}
+
+// 创建或更新配置请求（超管可配置全量；单位管理员/教师仅可配置角色/图片资源/联系方式/告警手机号）
 type ConfigCreateOrUpdateReq struct {
 	Config *ConfigVO `protobuf:"bytes,1,opt,name=config" json:"config,omitempty"`
 }
@@ -375,7 +397,7 @@ func (x *ConfigCreateOrUpdateReq) GetConfig() *ConfigVO {
 	return nil
 }
 
-// 获取单位配置请求（超管返回全量；单位管理员/教师返回角色/场景/告警手机号等）
+// 获取单位配置请求（超管返回全量；单位管理员/教师返回角色/图片资源/联系方式/告警手机号等）
 type ConfigGetByUnitIdReq struct {
 	UnitId string `protobuf:"bytes,1,opt,name=unitId" json:"unitId,omitempty"`
 }
@@ -456,8 +478,11 @@ type ConfigGetCharacterResp struct {
 
 	// 对话背景图/场景列表
 	Scene []string `protobuf:"bytes,2,rep,name=scene" json:"scene,omitempty"`
-	Code  int32    `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg   string   `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+
+	// 单位默认对话背景图 URL。
+	BackgroundImage string `protobuf:"bytes,3,opt,name=backgroundImage" json:"backgroundImage,omitempty"`
+	Code            int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg             string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *ConfigGetCharacterResp) Reset() { *x = ConfigGetCharacterResp{} }
@@ -480,6 +505,13 @@ func (x *ConfigGetCharacterResp) GetScene() []string {
 		return x.Scene
 	}
 	return nil
+}
+
+func (x *ConfigGetCharacterResp) GetBackgroundImage() string {
+	if x != nil {
+		return x.BackgroundImage
+	}
+	return ""
 }
 
 func (x *ConfigGetCharacterResp) GetCode() int32 {
