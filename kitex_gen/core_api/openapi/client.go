@@ -13,6 +13,7 @@ import (
 type Client interface {
 	OpenApiChatCompletion(ctx context.Context, Req *core_api.OpenApiChatCompletionReq, callOptions ...callopt.Option) (r *core_api.OpenApiChatCompletionResp, err error)
 	OpenApiGenerateReport(ctx context.Context, Req *core_api.OpenApiGenerateReportReq, callOptions ...callopt.Option) (r *core_api.OpenApiGenerateReportResp, err error)
+	OpenApiGetUsage(ctx context.Context, Req *core_api.OpenApiGetUsageReq, callOptions ...callopt.Option) (r *core_api.OpenApiGetUsageResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -52,4 +53,9 @@ func (p *kOpenAPIClient) OpenApiChatCompletion(ctx context.Context, Req *core_ap
 func (p *kOpenAPIClient) OpenApiGenerateReport(ctx context.Context, Req *core_api.OpenApiGenerateReportReq, callOptions ...callopt.Option) (r *core_api.OpenApiGenerateReportResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.OpenApiGenerateReport(ctx, Req)
+}
+
+func (p *kOpenAPIClient) OpenApiGetUsage(ctx context.Context, Req *core_api.OpenApiGetUsageReq, callOptions ...callopt.Option) (r *core_api.OpenApiGetUsageResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.OpenApiGetUsage(ctx, Req)
 }

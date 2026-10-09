@@ -29,6 +29,13 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
+	"OpenApiGetUsage": kitex.NewMethodInfo(
+		openApiGetUsageHandler,
+		newOpenApiGetUsageArgs,
+		newOpenApiGetUsageResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
 }
 
 var (
@@ -317,6 +324,117 @@ func (p *OpenApiGenerateReportResult) GetResult() interface{} {
 	return p.Success
 }
 
+func openApiGetUsageHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.OpenApiGetUsageReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.OpenAPI).OpenApiGetUsage(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *OpenApiGetUsageArgs:
+		success, err := handler.(core_api.OpenAPI).OpenApiGetUsage(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*OpenApiGetUsageResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newOpenApiGetUsageArgs() interface{} {
+	return &OpenApiGetUsageArgs{}
+}
+
+func newOpenApiGetUsageResult() interface{} {
+	return &OpenApiGetUsageResult{}
+}
+
+type OpenApiGetUsageArgs struct {
+	Req *core_api.OpenApiGetUsageReq
+}
+
+func (p *OpenApiGetUsageArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *OpenApiGetUsageArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.OpenApiGetUsageReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var OpenApiGetUsageArgs_Req_DEFAULT *core_api.OpenApiGetUsageReq
+
+func (p *OpenApiGetUsageArgs) GetReq() *core_api.OpenApiGetUsageReq {
+	if !p.IsSetReq() {
+		return OpenApiGetUsageArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *OpenApiGetUsageArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *OpenApiGetUsageArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type OpenApiGetUsageResult struct {
+	Success *core_api.OpenApiGetUsageResp
+}
+
+var OpenApiGetUsageResult_Success_DEFAULT *core_api.OpenApiGetUsageResp
+
+func (p *OpenApiGetUsageResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *OpenApiGetUsageResult) Unmarshal(in []byte) error {
+	msg := new(core_api.OpenApiGetUsageResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *OpenApiGetUsageResult) GetSuccess() *core_api.OpenApiGetUsageResp {
+	if !p.IsSetSuccess() {
+		return OpenApiGetUsageResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *OpenApiGetUsageResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.OpenApiGetUsageResp)
+}
+
+func (p *OpenApiGetUsageResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *OpenApiGetUsageResult) GetResult() interface{} {
+	return p.Success
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -342,6 +460,16 @@ func (p *kClient) OpenApiGenerateReport(ctx context.Context, Req *core_api.OpenA
 	_args.Req = Req
 	var _result OpenApiGenerateReportResult
 	if err = p.c.Call(ctx, "OpenApiGenerateReport", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) OpenApiGetUsage(ctx context.Context, Req *core_api.OpenApiGetUsageReq) (r *core_api.OpenApiGetUsageResp, err error) {
+	var _args OpenApiGetUsageArgs
+	_args.Req = Req
+	var _result OpenApiGetUsageResult
+	if err = p.c.Call(ctx, "OpenApiGetUsage", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

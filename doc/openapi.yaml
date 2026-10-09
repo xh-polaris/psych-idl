@@ -937,6 +937,39 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
+    /v1/usage:
+        get:
+            tags:
+                - OpenAPI
+            operationId: OpenAPI_OpenApiGetUsage
+            parameters:
+                - name: date
+                  in: query
+                  schema:
+                    type: string
+                - name: page
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: page_size
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/OpenApiGetUsageResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
 components:
     schemas:
         AlarmRecord:
@@ -2198,6 +2231,33 @@ components:
                     $ref: '#/components/schemas/OpenApiUsage'
                 usage_source:
                     type: string
+        OpenApiGetUsageResp:
+            type: object
+            properties:
+                object:
+                    type: string
+                key_prefix:
+                    type: string
+                date:
+                    type: string
+                daily:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/OpenApiUsageDailySummary'
+                total:
+                    $ref: '#/components/schemas/OpenApiUsageSummary'
+                ledger:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/OpenApiUsageLedgerItem'
+                page:
+                    type: integer
+                    format: int32
+                page_size:
+                    type: integer
+                    format: int32
+                has_more:
+                    type: boolean
         OpenApiReport:
             type: object
             properties:
@@ -2239,6 +2299,45 @@ components:
                     type: integer
                     format: int32
             description: 开放接口用量结构。
+        OpenApiUsageDailySummary:
+            type: object
+            properties:
+                date:
+                    type: string
+                endpoint:
+                    type: string
+                usage:
+                    $ref: '#/components/schemas/OpenApiUsageSummary'
+        OpenApiUsageLedgerItem:
+            type: object
+            properties:
+                request_id:
+                    type: string
+                endpoint:
+                    type: string
+                model:
+                    type: string
+                usage:
+                    $ref: '#/components/schemas/OpenApiUsage'
+                usage_source:
+                    type: string
+                created:
+                    type: string
+            description: 单个开放接口请求的用量流水。查询者只能看到自己 API Key 的流水。
+        OpenApiUsageSummary:
+            type: object
+            properties:
+                request_count:
+                    type: string
+                prompt_tokens:
+                    type: string
+                completion_tokens:
+                    type: string
+                total_tokens:
+                    type: string
+            description: |-
+                用量汇总。request_count 统计所有成功请求；当 usage_source 为
+                 unavailable 时 token 为 0，但仍会反映在请求次数中。
         Pagination:
             type: object
             properties:

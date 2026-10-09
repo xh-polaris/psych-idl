@@ -413,3 +413,257 @@ func (x *OpenApiGenerateReportResp) GetUsageSource() string {
 	}
 	return ""
 }
+
+// 单个开放接口请求的用量流水。查询者只能看到自己 API Key 的流水。
+type OpenApiUsageLedgerItem struct {
+	RequestId   string        `protobuf:"bytes,1,opt,name=request_id" json:"request_id,omitempty"`
+	Endpoint    string        `protobuf:"bytes,2,opt,name=endpoint" json:"endpoint,omitempty"`
+	Model       string        `protobuf:"bytes,3,opt,name=model" json:"model,omitempty"`
+	Usage       *OpenApiUsage `protobuf:"bytes,4,opt,name=usage" json:"usage,omitempty"`
+	UsageSource string        `protobuf:"bytes,5,opt,name=usage_source" json:"usage_source,omitempty"`
+	Created     int64         `protobuf:"varint,6,opt,name=created" json:"created,omitempty"`
+}
+
+func (x *OpenApiUsageLedgerItem) Reset() { *x = OpenApiUsageLedgerItem{} }
+
+func (x *OpenApiUsageLedgerItem) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *OpenApiUsageLedgerItem) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *OpenApiUsageLedgerItem) GetRequestId() string {
+	if x != nil {
+		return x.RequestId
+	}
+	return ""
+}
+
+func (x *OpenApiUsageLedgerItem) GetEndpoint() string {
+	if x != nil {
+		return x.Endpoint
+	}
+	return ""
+}
+
+func (x *OpenApiUsageLedgerItem) GetModel() string {
+	if x != nil {
+		return x.Model
+	}
+	return ""
+}
+
+func (x *OpenApiUsageLedgerItem) GetUsage() *OpenApiUsage {
+	if x != nil {
+		return x.Usage
+	}
+	return nil
+}
+
+func (x *OpenApiUsageLedgerItem) GetUsageSource() string {
+	if x != nil {
+		return x.UsageSource
+	}
+	return ""
+}
+
+func (x *OpenApiUsageLedgerItem) GetCreated() int64 {
+	if x != nil {
+		return x.Created
+	}
+	return 0
+}
+
+// 用量汇总。request_count 统计所有成功请求；当 usage_source 为
+// unavailable 时 token 为 0，但仍会反映在请求次数中。
+type OpenApiUsageSummary struct {
+	RequestCount     int64 `protobuf:"varint,1,opt,name=request_count" json:"request_count,omitempty"`
+	PromptTokens     int64 `protobuf:"varint,2,opt,name=prompt_tokens" json:"prompt_tokens,omitempty"`
+	CompletionTokens int64 `protobuf:"varint,3,opt,name=completion_tokens" json:"completion_tokens,omitempty"`
+	TotalTokens      int64 `protobuf:"varint,4,opt,name=total_tokens" json:"total_tokens,omitempty"`
+}
+
+func (x *OpenApiUsageSummary) Reset() { *x = OpenApiUsageSummary{} }
+
+func (x *OpenApiUsageSummary) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *OpenApiUsageSummary) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *OpenApiUsageSummary) GetRequestCount() int64 {
+	if x != nil {
+		return x.RequestCount
+	}
+	return 0
+}
+
+func (x *OpenApiUsageSummary) GetPromptTokens() int64 {
+	if x != nil {
+		return x.PromptTokens
+	}
+	return 0
+}
+
+func (x *OpenApiUsageSummary) GetCompletionTokens() int64 {
+	if x != nil {
+		return x.CompletionTokens
+	}
+	return 0
+}
+
+func (x *OpenApiUsageSummary) GetTotalTokens() int64 {
+	if x != nil {
+		return x.TotalTokens
+	}
+	return 0
+}
+
+type OpenApiUsageDailySummary struct {
+	Date     string               `protobuf:"bytes,1,opt,name=date" json:"date,omitempty"`
+	Endpoint string               `protobuf:"bytes,2,opt,name=endpoint" json:"endpoint,omitempty"`
+	Usage    *OpenApiUsageSummary `protobuf:"bytes,3,opt,name=usage" json:"usage,omitempty"`
+}
+
+func (x *OpenApiUsageDailySummary) Reset() { *x = OpenApiUsageDailySummary{} }
+
+func (x *OpenApiUsageDailySummary) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *OpenApiUsageDailySummary) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *OpenApiUsageDailySummary) GetDate() string {
+	if x != nil {
+		return x.Date
+	}
+	return ""
+}
+
+func (x *OpenApiUsageDailySummary) GetEndpoint() string {
+	if x != nil {
+		return x.Endpoint
+	}
+	return ""
+}
+
+func (x *OpenApiUsageDailySummary) GetUsage() *OpenApiUsageSummary {
+	if x != nil {
+		return x.Usage
+	}
+	return nil
+}
+
+// 业务方用自己的 Platform API Key 查询自己的用量。date 不传时默认
+// 上海时区当天；page 从 1 开始，page_size 默认 20、最大 100。
+type OpenApiGetUsageReq struct {
+	Date     *string `protobuf:"bytes,1,opt,name=date" json:"date,omitempty"`
+	Page     *int32  `protobuf:"varint,2,opt,name=page" json:"page,omitempty"`
+	PageSize *int32  `protobuf:"varint,3,opt,name=page_size" json:"page_size,omitempty"`
+}
+
+func (x *OpenApiGetUsageReq) Reset() { *x = OpenApiGetUsageReq{} }
+
+func (x *OpenApiGetUsageReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *OpenApiGetUsageReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *OpenApiGetUsageReq) GetDate() string {
+	if x != nil && x.Date != nil {
+		return *x.Date
+	}
+	return ""
+}
+
+func (x *OpenApiGetUsageReq) GetPage() int32 {
+	if x != nil && x.Page != nil {
+		return *x.Page
+	}
+	return 0
+}
+
+func (x *OpenApiGetUsageReq) GetPageSize() int32 {
+	if x != nil && x.PageSize != nil {
+		return *x.PageSize
+	}
+	return 0
+}
+
+type OpenApiGetUsageResp struct {
+	Object    string                      `protobuf:"bytes,1,opt,name=object" json:"object,omitempty"`
+	KeyPrefix string                      `protobuf:"bytes,2,opt,name=key_prefix" json:"key_prefix,omitempty"`
+	Date      string                      `protobuf:"bytes,3,opt,name=date" json:"date,omitempty"`
+	Daily     []*OpenApiUsageDailySummary `protobuf:"bytes,4,rep,name=daily" json:"daily,omitempty"`
+	Total     *OpenApiUsageSummary        `protobuf:"bytes,5,opt,name=total" json:"total,omitempty"`
+	Ledger    []*OpenApiUsageLedgerItem   `protobuf:"bytes,6,rep,name=ledger" json:"ledger,omitempty"`
+	Page      int32                       `protobuf:"varint,7,opt,name=page" json:"page,omitempty"`
+	PageSize  int32                       `protobuf:"varint,8,opt,name=page_size" json:"page_size,omitempty"`
+	HasMore   bool                        `protobuf:"varint,9,opt,name=has_more" json:"has_more,omitempty"`
+}
+
+func (x *OpenApiGetUsageResp) Reset() { *x = OpenApiGetUsageResp{} }
+
+func (x *OpenApiGetUsageResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *OpenApiGetUsageResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *OpenApiGetUsageResp) GetObject() string {
+	if x != nil {
+		return x.Object
+	}
+	return ""
+}
+
+func (x *OpenApiGetUsageResp) GetKeyPrefix() string {
+	if x != nil {
+		return x.KeyPrefix
+	}
+	return ""
+}
+
+func (x *OpenApiGetUsageResp) GetDate() string {
+	if x != nil {
+		return x.Date
+	}
+	return ""
+}
+
+func (x *OpenApiGetUsageResp) GetDaily() []*OpenApiUsageDailySummary {
+	if x != nil {
+		return x.Daily
+	}
+	return nil
+}
+
+func (x *OpenApiGetUsageResp) GetTotal() *OpenApiUsageSummary {
+	if x != nil {
+		return x.Total
+	}
+	return nil
+}
+
+func (x *OpenApiGetUsageResp) GetLedger() []*OpenApiUsageLedgerItem {
+	if x != nil {
+		return x.Ledger
+	}
+	return nil
+}
+
+func (x *OpenApiGetUsageResp) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *OpenApiGetUsageResp) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+func (x *OpenApiGetUsageResp) GetHasMore() bool {
+	if x != nil {
+		return x.HasMore
+	}
+	return false
+}

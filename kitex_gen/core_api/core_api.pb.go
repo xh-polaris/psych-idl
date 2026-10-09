@@ -19,6 +19,7 @@ type User interface {
 type OpenAPI interface {
 	OpenApiChatCompletion(ctx context.Context, req *OpenApiChatCompletionReq) (res *OpenApiChatCompletionResp, err error)
 	OpenApiGenerateReport(ctx context.Context, req *OpenApiGenerateReportReq) (res *OpenApiGenerateReportResp, err error)
+	OpenApiGetUsage(ctx context.Context, req *OpenApiGetUsageReq) (res *OpenApiGetUsageResp, err error)
 }
 
 type Unit interface {
