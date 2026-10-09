@@ -88,3 +88,48 @@ message OpenApiGenerateReportResp {
   OpenApiUsage usage = 7;
   string usage_source = 8 [json_name = "usage_source"];
 }
+
+// 单个开放接口请求的用量流水。查询者只能看到自己 API Key 的流水。
+message OpenApiUsageLedgerItem {
+  string request_id = 1 [json_name = "request_id"];
+  string endpoint = 2;
+  string model = 3;
+  OpenApiUsage usage = 4;
+  string usage_source = 5 [json_name = "usage_source"];
+  int64 created = 6;
+}
+
+// 用量汇总。request_count 统计所有成功请求；当 usage_source 为
+// unavailable 时 token 为 0，但仍会反映在请求次数中。
+message OpenApiUsageSummary {
+  int64 request_count = 1 [json_name = "request_count"];
+  int64 prompt_tokens = 2 [json_name = "prompt_tokens"];
+  int64 completion_tokens = 3 [json_name = "completion_tokens"];
+  int64 total_tokens = 4 [json_name = "total_tokens"];
+}
+
+message OpenApiUsageDailySummary {
+  string date = 1;
+  string endpoint = 2;
+  OpenApiUsageSummary usage = 3;
+}
+
+// 业务方用自己的 Platform API Key 查询自己的用量。date 不传时默认
+// 上海时区当天；page 从 1 开始，page_size 默认 20、最大 100。
+message OpenApiGetUsageReq {
+  optional string date = 1;
+  optional int32 page = 2;
+  optional int32 page_size = 3 [json_name = "page_size"];
+}
+
+message OpenApiGetUsageResp {
+  string object = 1;
+  string key_prefix = 2 [json_name = "key_prefix"];
+  string date = 3;
+  repeated OpenApiUsageDailySummary daily = 4;
+  OpenApiUsageSummary total = 5;
+  repeated OpenApiUsageLedgerItem ledger = 6;
+  int32 page = 7;
+  int32 page_size = 8 [json_name = "page_size"];
+  bool has_more = 9 [json_name = "has_more"];
+}
