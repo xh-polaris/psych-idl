@@ -64,6 +64,11 @@ service OpenAPI {
       body: "*"
     };
   }
+  rpc OpenApiGetUsage(OpenApiGetUsageReq) returns (OpenApiGetUsageResp) {
+    option (google.api.http) = {
+      get: "/v1/usage"
+    };
+  }
 }
 
 service Unit {
