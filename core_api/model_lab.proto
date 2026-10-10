@@ -1,0 +1,115 @@
+syntax = "proto3";
+
+package core_api;
+
+option go_package = "./core_api";
+
+import "core_api/openapi.proto";
+
+// 模型评测端接口。仅限服务端配置的专家账号调用；不返回模型 URL 或密钥。
+message ModelLabAccessReq {}
+
+message ModelLabAccessResp {
+  bool allowed = 1;
+  int32 session_ttl_hours = 2 [json_name = "sessionTTLHours"];
+  int32 code = 255;
+  string msg = 256;
+}
+
+message ModelLabListModelsReq {}
+
+message ModelLabModel {
+  string id = 1;
+  string name = 2;
+  string provider = 3;
+  string model = 4;
+  bool report_enabled = 5 [json_name = "reportEnabled"];
+}
+
+message ModelLabListModelsResp {
+  repeated ModelLabModel models = 1;
+  string strategy_model_id = 2 [json_name = "strategyModelID"];
+  int32 code = 255;
+  string msg = 256;
+}
+
+message ModelLabCreateSessionReq {
+  repeated string chat_model_ids = 1 [json_name = "chatModelIDs"];
+  repeated string report_model_ids = 2 [json_name = "reportModelIDs"];
+}
+
+message ModelLabSession {
+  string id = 1;
+  repeated string chat_model_ids = 2 [json_name = "chatModelIDs"];
+  repeated string report_model_ids = 3 [json_name = "reportModelIDs"];
+  int64 created_at = 4 [json_name = "createdAt"];
+  int64 expires_at = 5 [json_name = "expiresAt"];
+}
+
+message ModelLabCreateSessionResp {
+  ModelLabSession session = 1;
+  int32 code = 255;
+  string msg = 256;
+}
+
+message ModelLabTurn {
+  string id = 1;
+  string user = 2;
+  string assistant = 3;
+  int64 created_at = 4 [json_name = "createdAt"];
+  ModelLabPromptTrace prompt_trace = 5 [json_name = "promptTrace"];
+  ModelLabUsage usage = 6;
+}
+
+// 每轮对话的提示词追踪。三个字段分开返回，供专家核查策略输出、实际选中的微技能
+// 以及最终发送给对话模型的系统提示词。
+message ModelLabPromptTrace {
+  string strategy_model_id = 1 [json_name = "strategyModelID"];
+  string strategy_output = 2 [json_name = "strategyOutput"];
+  string skill_text = 3 [json_name = "skillText"];
+  string system_prompt = 4 [json_name = "systemPrompt"];
+  bool strategy_degraded = 5 [json_name = "strategyDegraded"];
+}
+
+message ModelLabUsage {
+  int32 prompt_tokens = 1 [json_name = "promptTokens"];
+  int32 completion_tokens = 2 [json_name = "completionTokens"];
+  int32 total_tokens = 3 [json_name = "totalTokens"];
+}
+
+message ModelLabGetBranchReq {
+  string session_id = 1 [json_name = "sessionID"];
+  string chat_model_id = 2 [json_name = "chatModelID"];
+}
+
+message ModelLabGetBranchResp {
+  string session_id = 1 [json_name = "sessionID"];
+  string chat_model_id = 2 [json_name = "chatModelID"];
+  int64 version = 3;
+  repeated ModelLabTurn turns = 4;
+  int32 code = 255;
+  string msg = 256;
+}
+
+// 成功后响应为 text/event-stream：依次发送 prompt_trace、delta、completed 和 [DONE]。
+message ModelLabSendTurnReq {
+  string session_id = 1 [json_name = "sessionID"];
+  string chat_model_id = 2 [json_name = "chatModelID"];
+  string content = 3;
+}
+
+message ModelLabSendTurnResp {}
+
+// 报告模型与对话模型可自由组合。服务读取指定聊天模型分支的消息快照，
+// 再按 report_model_id 解析 psych-post 的独立上游配置。
+message ModelLabGenerateReportReq {
+  string session_id = 1 [json_name = "sessionID"];
+  string chat_model_id = 2 [json_name = "chatModelID"];
+  string report_model_id = 3 [json_name = "reportModelID"];
+}
+
+message ModelLabGenerateReportResp {
+  OpenApiGenerateReportResp report = 1;
+  int32 code = 255;
+  string msg = 256;
+}
