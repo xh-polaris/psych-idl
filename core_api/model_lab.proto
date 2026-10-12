@@ -6,16 +6,6 @@ option go_package = "./core_api";
 
 import "core_api/openapi.proto";
 
-// 模型评测端接口。仅限服务端配置的专家账号调用；不返回模型 URL 或密钥。
-message ModelLabAccessReq {}
-
-message ModelLabAccessResp {
-  bool allowed = 1;
-  int32 session_ttl_hours = 2 [json_name = "sessionTTLHours"];
-  int32 code = 255;
-  string msg = 256;
-}
-
 message ModelLabListModelsReq {}
 
 message ModelLabModel {

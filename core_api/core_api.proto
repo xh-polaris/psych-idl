@@ -73,11 +73,6 @@ service OpenAPI {
 }
 
 service ModelLab {
-  rpc ModelLabAccess(ModelLabAccessReq) returns (ModelLabAccessResp) {
-    option (google.api.http) = {
-      get: "/api/model-lab/access"
-    };
-  }
   rpc ModelLabListModels(ModelLabListModelsReq) returns (ModelLabListModelsResp) {
     option (google.api.http) = {
       get: "/api/model-lab/models"
