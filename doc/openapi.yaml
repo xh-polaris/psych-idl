@@ -6,6 +6,120 @@ info:
     title: ""
     version: 3.0.0
 paths:
+    /api/model-lab/branches/get:
+        post:
+            tags:
+                - ModelLab
+            operationId: ModelLab_ModelLabGetBranch
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ModelLabGetBranchReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ModelLabGetBranchResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/model-lab/models:
+        get:
+            tags:
+                - ModelLab
+            operationId: ModelLab_ModelLabListModels
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ModelLabListModelsResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/model-lab/reports:
+        post:
+            tags:
+                - ModelLab
+            operationId: ModelLab_ModelLabGenerateReport
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ModelLabGenerateReportReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ModelLabGenerateReportResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/model-lab/sessions:
+        post:
+            tags:
+                - ModelLab
+            operationId: ModelLab_ModelLabCreateSession
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ModelLabCreateSessionReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ModelLabCreateSessionResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/model-lab/turns:
+        post:
+            tags:
+                - ModelLab
+            operationId: ModelLab_ModelLabSendTurn
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ModelLabSendTurnReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ModelLabSendTurnResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /config/add_character:
         post:
             tags:
@@ -2143,6 +2257,174 @@ components:
                     type: integer
                     description: 消息索引
                     format: int32
+        ModelLabCreateSessionReq:
+            type: object
+            properties:
+                chatModelIDs:
+                    type: array
+                    items:
+                        type: string
+                reportModelIDs:
+                    type: array
+                    items:
+                        type: string
+        ModelLabCreateSessionResp:
+            type: object
+            properties:
+                session:
+                    $ref: '#/components/schemas/ModelLabSession'
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
+        ModelLabGenerateReportReq:
+            type: object
+            properties:
+                sessionID:
+                    type: string
+                chatModelID:
+                    type: string
+                reportModelID:
+                    type: string
+            description: |-
+                报告模型与对话模型可自由组合。服务读取指定聊天模型分支的消息快照，
+                 再按 report_model_id 解析 psych-post 的独立上游配置。
+        ModelLabGenerateReportResp:
+            type: object
+            properties:
+                report:
+                    $ref: '#/components/schemas/OpenApiGenerateReportResp'
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
+        ModelLabGetBranchReq:
+            type: object
+            properties:
+                sessionID:
+                    type: string
+                chatModelID:
+                    type: string
+        ModelLabGetBranchResp:
+            type: object
+            properties:
+                sessionID:
+                    type: string
+                chatModelID:
+                    type: string
+                version:
+                    type: string
+                turns:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ModelLabTurn'
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
+        ModelLabListModelsResp:
+            type: object
+            properties:
+                models:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ModelLabModel'
+                strategyModelID:
+                    type: string
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
+        ModelLabModel:
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                provider:
+                    type: string
+                model:
+                    type: string
+                reportEnabled:
+                    type: boolean
+        ModelLabPromptTrace:
+            type: object
+            properties:
+                strategyModelID:
+                    type: string
+                strategyOutput:
+                    type: string
+                skillText:
+                    type: string
+                systemPrompt:
+                    type: string
+                strategyDegraded:
+                    type: boolean
+            description: |-
+                每轮对话的提示词追踪。三个字段分开返回，供专家核查策略输出、实际选中的微技能
+                 以及最终发送给对话模型的系统提示词。
+        ModelLabSendTurnReq:
+            type: object
+            properties:
+                sessionID:
+                    type: string
+                chatModelID:
+                    type: string
+                content:
+                    type: string
+            description: 成功后响应为 text/event-stream：依次发送 prompt_trace、delta、completed 和 [DONE]。
+        ModelLabSendTurnResp:
+            type: object
+            properties: {}
+        ModelLabSession:
+            type: object
+            properties:
+                id:
+                    type: string
+                chatModelIDs:
+                    type: array
+                    items:
+                        type: string
+                reportModelIDs:
+                    type: array
+                    items:
+                        type: string
+                createdAt:
+                    type: string
+                expiresAt:
+                    type: string
+        ModelLabTurn:
+            type: object
+            properties:
+                id:
+                    type: string
+                user:
+                    type: string
+                assistant:
+                    type: string
+                createdAt:
+                    type: string
+                promptTrace:
+                    $ref: '#/components/schemas/ModelLabPromptTrace'
+                usage:
+                    $ref: '#/components/schemas/ModelLabUsage'
+        ModelLabUsage:
+            type: object
+            properties:
+                promptTokens:
+                    type: integer
+                    format: int32
+                completionTokens:
+                    type: integer
+                    format: int32
+                totalTokens:
+                    type: integer
+                    format: int32
         OpenApiChatCompletionReq:
             type: object
             properties:
@@ -2914,6 +3196,7 @@ tags:
     - name: Config
     - name: Conversation
     - name: Dashboard
+    - name: ModelLab
     - name: OpenAPI
     - name: Unit
     - name: User

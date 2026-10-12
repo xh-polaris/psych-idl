@@ -22,6 +22,14 @@ type OpenAPI interface {
 	OpenApiGetUsage(ctx context.Context, req *OpenApiGetUsageReq) (res *OpenApiGetUsageResp, err error)
 }
 
+type ModelLab interface {
+	ModelLabListModels(ctx context.Context, req *ModelLabListModelsReq) (res *ModelLabListModelsResp, err error)
+	ModelLabCreateSession(ctx context.Context, req *ModelLabCreateSessionReq) (res *ModelLabCreateSessionResp, err error)
+	ModelLabGetBranch(ctx context.Context, req *ModelLabGetBranchReq) (res *ModelLabGetBranchResp, err error)
+	ModelLabSendTurn(ctx context.Context, req *ModelLabSendTurnReq) (res *ModelLabSendTurnResp, err error)
+	ModelLabGenerateReport(ctx context.Context, req *ModelLabGenerateReportReq) (res *ModelLabGenerateReportResp, err error)
+}
+
 type Unit interface {
 	UnitGetInfo(ctx context.Context, req *UnitGetInfoReq) (res *UnitGetInfoResp, err error)
 	UnitUpdateInfo(ctx context.Context, req *UnitUpdateInfoReq) (res *basic.Response, err error)
