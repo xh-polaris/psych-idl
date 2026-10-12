@@ -11,6 +11,7 @@ import "core_api/config.proto";
 import "core_api/dashboard.proto";
 import "core_api/conversation.proto";
 import "core_api/openapi.proto";
+import "core_api/model_lab.proto";
 import "basic/re.proto";
 
 service User {
@@ -67,6 +68,38 @@ service OpenAPI {
   rpc OpenApiGetUsage(OpenApiGetUsageReq) returns (OpenApiGetUsageResp) {
     option (google.api.http) = {
       get: "/v1/usage"
+    };
+  }
+}
+
+service ModelLab {
+  rpc ModelLabListModels(ModelLabListModelsReq) returns (ModelLabListModelsResp) {
+    option (google.api.http) = {
+      get: "/api/model-lab/models"
+    };
+  }
+  rpc ModelLabCreateSession(ModelLabCreateSessionReq) returns (ModelLabCreateSessionResp) {
+    option (google.api.http) = {
+      post: "/api/model-lab/sessions"
+      body: "*"
+    };
+  }
+  rpc ModelLabGetBranch(ModelLabGetBranchReq) returns (ModelLabGetBranchResp) {
+    option (google.api.http) = {
+      post: "/api/model-lab/branches/get"
+      body: "*"
+    };
+  }
+  rpc ModelLabSendTurn(ModelLabSendTurnReq) returns (ModelLabSendTurnResp) {
+    option (google.api.http) = {
+      post: "/api/model-lab/turns"
+      body: "*"
+    };
+  }
+  rpc ModelLabGenerateReport(ModelLabGenerateReportReq) returns (ModelLabGenerateReportResp) {
+    option (google.api.http) = {
+      post: "/api/model-lab/reports"
+      body: "*"
     };
   }
 }
