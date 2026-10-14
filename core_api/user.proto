@@ -128,3 +128,35 @@ message SendVerifyCodeReq {
   // 邮箱地址 | 手机号
   string authId = 2;
 }
+
+// 学生端当前登录用户的个人资料
+message StudentProfile {
+  string id = 1;
+  string code = 2;
+  string name = 3;
+  string avatar = 4;
+  int64 birth = 5;
+  int32 gender = 6;
+  int32 enrollYear = 7;
+  int32 grade = 8;
+  int32 class = 9;
+}
+
+message UserGetStudentProfileReq {}
+message UserGetStudentProfileResp {
+  StudentProfile profile = 1;
+  int32 code = 255;
+  string msg = 256;
+}
+
+message UserUpdateStudentProfileReq {
+  string name = 1;
+  string avatar = 2;
+  int64 birth = 3;
+  int32 gender = 4;
+}
+message UserUpdateStudentProfileResp {
+  StudentProfile profile = 1;
+  int32 code = 255;
+  string msg = 256;
+}
