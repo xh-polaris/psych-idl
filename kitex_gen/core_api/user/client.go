@@ -18,6 +18,8 @@ type Client interface {
 	UserUpdatePassword(ctx context.Context, Req *core_api.UserUpdatePasswordReq, callOptions ...callopt.Option) (r *basic.Response, err error)
 	CreateUser(ctx context.Context, Req *core_api.CreateUserReq, callOptions ...callopt.Option) (r *core_api.CreateUserResp, err error)
 	SendVerifyCode(ctx context.Context, Req *core_api.SendVerifyCodeReq, callOptions ...callopt.Option) (r *basic.Response, err error)
+	UserGetStudentProfile(ctx context.Context, Req *core_api.UserGetStudentProfileReq, callOptions ...callopt.Option) (r *core_api.UserGetStudentProfileResp, err error)
+	UserUpdateStudentProfile(ctx context.Context, Req *core_api.UserUpdateStudentProfileReq, callOptions ...callopt.Option) (r *core_api.UserUpdateStudentProfileResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -77,4 +79,14 @@ func (p *kUserClient) CreateUser(ctx context.Context, Req *core_api.CreateUserRe
 func (p *kUserClient) SendVerifyCode(ctx context.Context, Req *core_api.SendVerifyCodeReq, callOptions ...callopt.Option) (r *basic.Response, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.SendVerifyCode(ctx, Req)
+}
+
+func (p *kUserClient) UserGetStudentProfile(ctx context.Context, Req *core_api.UserGetStudentProfileReq, callOptions ...callopt.Option) (r *core_api.UserGetStudentProfileResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.UserGetStudentProfile(ctx, Req)
+}
+
+func (p *kUserClient) UserUpdateStudentProfile(ctx context.Context, Req *core_api.UserUpdateStudentProfileReq, callOptions ...callopt.Option) (r *core_api.UserUpdateStudentProfileResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.UserUpdateStudentProfile(ctx, Req)
 }

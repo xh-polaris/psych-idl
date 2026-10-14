@@ -58,6 +58,20 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
+	"UserGetStudentProfile": kitex.NewMethodInfo(
+		userGetStudentProfileHandler,
+		newUserGetStudentProfileArgs,
+		newUserGetStudentProfileResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"UserUpdateStudentProfile": kitex.NewMethodInfo(
+		userUpdateStudentProfileHandler,
+		newUserUpdateStudentProfileArgs,
+		newUserUpdateStudentProfileResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
 }
 
 var (
@@ -790,6 +804,228 @@ func (p *SendVerifyCodeResult) GetResult() interface{} {
 	return p.Success
 }
 
+func userGetStudentProfileHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.UserGetStudentProfileReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.User).UserGetStudentProfile(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *UserGetStudentProfileArgs:
+		success, err := handler.(core_api.User).UserGetStudentProfile(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*UserGetStudentProfileResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newUserGetStudentProfileArgs() interface{} {
+	return &UserGetStudentProfileArgs{}
+}
+
+func newUserGetStudentProfileResult() interface{} {
+	return &UserGetStudentProfileResult{}
+}
+
+type UserGetStudentProfileArgs struct {
+	Req *core_api.UserGetStudentProfileReq
+}
+
+func (p *UserGetStudentProfileArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *UserGetStudentProfileArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.UserGetStudentProfileReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var UserGetStudentProfileArgs_Req_DEFAULT *core_api.UserGetStudentProfileReq
+
+func (p *UserGetStudentProfileArgs) GetReq() *core_api.UserGetStudentProfileReq {
+	if !p.IsSetReq() {
+		return UserGetStudentProfileArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *UserGetStudentProfileArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *UserGetStudentProfileArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type UserGetStudentProfileResult struct {
+	Success *core_api.UserGetStudentProfileResp
+}
+
+var UserGetStudentProfileResult_Success_DEFAULT *core_api.UserGetStudentProfileResp
+
+func (p *UserGetStudentProfileResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *UserGetStudentProfileResult) Unmarshal(in []byte) error {
+	msg := new(core_api.UserGetStudentProfileResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *UserGetStudentProfileResult) GetSuccess() *core_api.UserGetStudentProfileResp {
+	if !p.IsSetSuccess() {
+		return UserGetStudentProfileResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *UserGetStudentProfileResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.UserGetStudentProfileResp)
+}
+
+func (p *UserGetStudentProfileResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *UserGetStudentProfileResult) GetResult() interface{} {
+	return p.Success
+}
+
+func userUpdateStudentProfileHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.UserUpdateStudentProfileReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.User).UserUpdateStudentProfile(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *UserUpdateStudentProfileArgs:
+		success, err := handler.(core_api.User).UserUpdateStudentProfile(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*UserUpdateStudentProfileResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newUserUpdateStudentProfileArgs() interface{} {
+	return &UserUpdateStudentProfileArgs{}
+}
+
+func newUserUpdateStudentProfileResult() interface{} {
+	return &UserUpdateStudentProfileResult{}
+}
+
+type UserUpdateStudentProfileArgs struct {
+	Req *core_api.UserUpdateStudentProfileReq
+}
+
+func (p *UserUpdateStudentProfileArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *UserUpdateStudentProfileArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.UserUpdateStudentProfileReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var UserUpdateStudentProfileArgs_Req_DEFAULT *core_api.UserUpdateStudentProfileReq
+
+func (p *UserUpdateStudentProfileArgs) GetReq() *core_api.UserUpdateStudentProfileReq {
+	if !p.IsSetReq() {
+		return UserUpdateStudentProfileArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *UserUpdateStudentProfileArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *UserUpdateStudentProfileArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type UserUpdateStudentProfileResult struct {
+	Success *core_api.UserUpdateStudentProfileResp
+}
+
+var UserUpdateStudentProfileResult_Success_DEFAULT *core_api.UserUpdateStudentProfileResp
+
+func (p *UserUpdateStudentProfileResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *UserUpdateStudentProfileResult) Unmarshal(in []byte) error {
+	msg := new(core_api.UserUpdateStudentProfileResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *UserUpdateStudentProfileResult) GetSuccess() *core_api.UserUpdateStudentProfileResp {
+	if !p.IsSetSuccess() {
+		return UserUpdateStudentProfileResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *UserUpdateStudentProfileResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.UserUpdateStudentProfileResp)
+}
+
+func (p *UserUpdateStudentProfileResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *UserUpdateStudentProfileResult) GetResult() interface{} {
+	return p.Success
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -855,6 +1091,26 @@ func (p *kClient) SendVerifyCode(ctx context.Context, Req *core_api.SendVerifyCo
 	_args.Req = Req
 	var _result SendVerifyCodeResult
 	if err = p.c.Call(ctx, "SendVerifyCode", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) UserGetStudentProfile(ctx context.Context, Req *core_api.UserGetStudentProfileReq) (r *core_api.UserGetStudentProfileResp, err error) {
+	var _args UserGetStudentProfileArgs
+	_args.Req = Req
+	var _result UserGetStudentProfileResult
+	if err = p.c.Call(ctx, "UserGetStudentProfile", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) UserUpdateStudentProfile(ctx context.Context, Req *core_api.UserUpdateStudentProfileReq) (r *core_api.UserUpdateStudentProfileResp, err error) {
+	var _args UserUpdateStudentProfileArgs
+	_args.Req = Req
+	var _result UserUpdateStudentProfileResult
+	if err = p.c.Call(ctx, "UserUpdateStudentProfile", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

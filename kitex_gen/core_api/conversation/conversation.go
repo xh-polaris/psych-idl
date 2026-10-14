@@ -43,6 +43,13 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
+	"ConversationArchiveConversation": kitex.NewMethodInfo(
+		conversationArchiveConversationHandler,
+		newConversationArchiveConversationArgs,
+		newConversationArchiveConversationResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
 }
 
 var (
@@ -553,6 +560,117 @@ func (p *GetConvByDateResult) GetResult() interface{} {
 	return p.Success
 }
 
+func conversationArchiveConversationHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.ArchiveConversationReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.Conversation).ConversationArchiveConversation(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *ConversationArchiveConversationArgs:
+		success, err := handler.(core_api.Conversation).ConversationArchiveConversation(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*ConversationArchiveConversationResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newConversationArchiveConversationArgs() interface{} {
+	return &ConversationArchiveConversationArgs{}
+}
+
+func newConversationArchiveConversationResult() interface{} {
+	return &ConversationArchiveConversationResult{}
+}
+
+type ConversationArchiveConversationArgs struct {
+	Req *core_api.ArchiveConversationReq
+}
+
+func (p *ConversationArchiveConversationArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *ConversationArchiveConversationArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.ArchiveConversationReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var ConversationArchiveConversationArgs_Req_DEFAULT *core_api.ArchiveConversationReq
+
+func (p *ConversationArchiveConversationArgs) GetReq() *core_api.ArchiveConversationReq {
+	if !p.IsSetReq() {
+		return ConversationArchiveConversationArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *ConversationArchiveConversationArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *ConversationArchiveConversationArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type ConversationArchiveConversationResult struct {
+	Success *core_api.ArchiveConversationResp
+}
+
+var ConversationArchiveConversationResult_Success_DEFAULT *core_api.ArchiveConversationResp
+
+func (p *ConversationArchiveConversationResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *ConversationArchiveConversationResult) Unmarshal(in []byte) error {
+	msg := new(core_api.ArchiveConversationResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *ConversationArchiveConversationResult) GetSuccess() *core_api.ArchiveConversationResp {
+	if !p.IsSetSuccess() {
+		return ConversationArchiveConversationResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *ConversationArchiveConversationResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.ArchiveConversationResp)
+}
+
+func (p *ConversationArchiveConversationResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *ConversationArchiveConversationResult) GetResult() interface{} {
+	return p.Success
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -598,6 +716,16 @@ func (p *kClient) GetConvByDate(ctx context.Context, Req *core_api.GetConvByDate
 	_args.Req = Req
 	var _result GetConvByDateResult
 	if err = p.c.Call(ctx, "GetConvByDate", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ConversationArchiveConversation(ctx context.Context, Req *core_api.ArchiveConversationReq) (r *core_api.ArchiveConversationResp, err error) {
+	var _args ConversationArchiveConversationArgs
+	_args.Req = Req
+	var _result ConversationArchiveConversationResult
+	if err = p.c.Call(ctx, "ConversationArchiveConversation", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

@@ -25,6 +25,7 @@ type Client interface {
 	DashboardGetConversationMessages(ctx context.Context, Req *core_api.DashboardGetConversationMessagesReq, callOptions ...callopt.Option) (r *core_api.DashboardGetConversationMessagesResp, err error)
 	DashboardGetReport(ctx context.Context, Req *core_api.DashboardGetReportReq, callOptions ...callopt.Option) (r *core_api.DashboardGetReportResp, err error)
 	DashboardCreateRemark(ctx context.Context, Req *core_api.DashboardCreateRemarkReq, callOptions ...callopt.Option) (r *core_api.DashboardCreateRemarkResp, err error)
+	DashboardGenerateInterventionPlan(ctx context.Context, Req *core_api.DashboardGenerateInterventionPlanReq, callOptions ...callopt.Option) (r *core_api.DashboardGenerateInterventionPlanResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -124,4 +125,9 @@ func (p *kDashboardClient) DashboardGetReport(ctx context.Context, Req *core_api
 func (p *kDashboardClient) DashboardCreateRemark(ctx context.Context, Req *core_api.DashboardCreateRemarkReq, callOptions ...callopt.Option) (r *core_api.DashboardCreateRemarkResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.DashboardCreateRemark(ctx, Req)
+}
+
+func (p *kDashboardClient) DashboardGenerateInterventionPlan(ctx context.Context, Req *core_api.DashboardGenerateInterventionPlanReq, callOptions ...callopt.Option) (r *core_api.DashboardGenerateInterventionPlanResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DashboardGenerateInterventionPlan(ctx, Req)
 }

@@ -333,6 +333,30 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
+    /conversation/archive:
+        post:
+            tags:
+                - Conversation
+            operationId: Conversation_ConversationArchiveConversation
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ArchiveConversationReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ArchiveConversationResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /conversation/create:
         post:
             tags:
@@ -549,6 +573,30 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
+    /dashboard/generate_intervention_plan:
+        post:
+            tags:
+                - Dashboard
+            operationId: Dashboard_DashboardGenerateInterventionPlan
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/DashboardGenerateInterventionPlanReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DashboardGenerateInterventionPlanResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /dashboard/get_report:
         post:
             tags:
@@ -759,6 +807,47 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/DashboardListUsersResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /student/profile:
+        get:
+            tags:
+                - User
+            operationId: User_UserGetStudentProfile
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UserGetStudentProfileResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - User
+            operationId: User_UserUpdateStudentProfile
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UserUpdateStudentProfileReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UserUpdateStudentProfileResp'
                 default:
                     description: Default error response
                     content:
@@ -1243,6 +1332,20 @@ components:
                     type: string
                 deleteTime:
                     type: string
+        ArchiveConversationReq:
+            type: object
+            properties:
+                conversationId:
+                    type: string
+            description: 归档已结束会话
+        ArchiveConversationResp:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
         Character:
             type: object
             properties:
@@ -1608,6 +1711,24 @@ components:
         DashboardCreateRemarkResp:
             type: object
             properties:
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
+        DashboardGenerateInterventionPlanReq:
+            type: object
+            properties:
+                reportId:
+                    type: string
+            description: 根据已完成的心理评估报告生成干预方案。
+        DashboardGenerateInterventionPlanResp:
+            type: object
+            properties:
+                reportId:
+                    type: string
+                content:
+                    type: string
                 code:
                     type: integer
                     format: int32
@@ -2897,6 +3018,32 @@ components:
                         $ref: '#/components/schemas/GoogleProtobufAny'
                     description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
             description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+        StudentProfile:
+            type: object
+            properties:
+                id:
+                    type: string
+                code:
+                    type: string
+                name:
+                    type: string
+                avatar:
+                    type: string
+                birth:
+                    type: string
+                gender:
+                    type: integer
+                    format: int32
+                enrollYear:
+                    type: integer
+                    format: int32
+                grade:
+                    type: integer
+                    format: int32
+                class:
+                    type: integer
+                    format: int32
+            description: 学生端当前登录用户的个人资料
         TTSApp:
             type: object
             properties:
@@ -3066,6 +3213,16 @@ components:
             properties:
                 user:
                     $ref: '#/components/schemas/User'
+        UserGetStudentProfileResp:
+            type: object
+            properties:
+                profile:
+                    $ref: '#/components/schemas/StudentProfile'
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
         UserSignInReq:
             type: object
             properties:
@@ -3109,6 +3266,28 @@ components:
                 newPassword:
                     type: string
             description: 更新密码
+        UserUpdateStudentProfileReq:
+            type: object
+            properties:
+                name:
+                    type: string
+                avatar:
+                    type: string
+                birth:
+                    type: string
+                gender:
+                    type: integer
+                    format: int32
+        UserUpdateStudentProfileResp:
+            type: object
+            properties:
+                profile:
+                    $ref: '#/components/schemas/StudentProfile'
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
         UserVO:
             type: object
             properties:

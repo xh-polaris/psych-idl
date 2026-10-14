@@ -14,6 +14,8 @@ type User interface {
 	UserUpdatePassword(ctx context.Context, req *UserUpdatePasswordReq) (res *basic.Response, err error)
 	CreateUser(ctx context.Context, req *CreateUserReq) (res *CreateUserResp, err error)
 	SendVerifyCode(ctx context.Context, req *SendVerifyCodeReq) (res *basic.Response, err error)
+	UserGetStudentProfile(ctx context.Context, req *UserGetStudentProfileReq) (res *UserGetStudentProfileResp, err error)
+	UserUpdateStudentProfile(ctx context.Context, req *UserUpdateStudentProfileReq) (res *UserUpdateStudentProfileResp, err error)
 }
 
 type OpenAPI interface {
@@ -63,6 +65,7 @@ type Dashboard interface {
 	DashboardGetConversationMessages(ctx context.Context, req *DashboardGetConversationMessagesReq) (res *DashboardGetConversationMessagesResp, err error)
 	DashboardGetReport(ctx context.Context, req *DashboardGetReportReq) (res *DashboardGetReportResp, err error)
 	DashboardCreateRemark(ctx context.Context, req *DashboardCreateRemarkReq) (res *DashboardCreateRemarkResp, err error)
+	DashboardGenerateInterventionPlan(ctx context.Context, req *DashboardGenerateInterventionPlanReq) (res *DashboardGenerateInterventionPlanResp, err error)
 }
 
 type Conversation interface {
@@ -70,4 +73,5 @@ type Conversation interface {
 	ListConversations(ctx context.Context, req *ListConversationsReq) (res *ListConversationsResp, err error)
 	GetSingleConv(ctx context.Context, req *GetSingleConvReq) (res *GetSingleConvResp, err error)
 	GetConvByDate(ctx context.Context, req *GetConvByDateReq) (res *GetConvByDateResp, err error)
+	ConversationArchiveConversation(ctx context.Context, req *ArchiveConversationReq) (res *ArchiveConversationResp, err error)
 }

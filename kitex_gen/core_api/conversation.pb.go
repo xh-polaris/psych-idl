@@ -389,6 +389,53 @@ func (x *GetConvByDateResp) GetMsg() string {
 	return ""
 }
 
+// 归档已结束会话
+type ArchiveConversationReq struct {
+	ConversationId string `protobuf:"bytes,1,opt,name=conversationId" json:"conversationId,omitempty"`
+}
+
+func (x *ArchiveConversationReq) Reset() { *x = ArchiveConversationReq{} }
+
+func (x *ArchiveConversationReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *ArchiveConversationReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ArchiveConversationReq) GetConversationId() string {
+	if x != nil {
+		return x.ConversationId
+	}
+	return ""
+}
+
+type ArchiveConversationResp struct {
+	Code int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg  string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *ArchiveConversationResp) Reset() { *x = ArchiveConversationResp{} }
+
+func (x *ArchiveConversationResp) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *ArchiveConversationResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ArchiveConversationResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *ArchiveConversationResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
 type ConvByDateMessage struct {
 	ConversationId string `protobuf:"bytes,1,opt,name=conversationId" json:"conversationId,omitempty"`
 	Content        string `protobuf:"bytes,2,opt,name=content" json:"content,omitempty"`

@@ -2895,3 +2895,70 @@ func (x *DashboardCreateRemarkResp) GetMsg() string {
 	}
 	return ""
 }
+
+// 根据已完成的心理评估报告生成干预方案。
+type DashboardGenerateInterventionPlanReq struct {
+	ReportId string `protobuf:"bytes,1,opt,name=reportId" json:"reportId,omitempty"`
+}
+
+func (x *DashboardGenerateInterventionPlanReq) Reset() { *x = DashboardGenerateInterventionPlanReq{} }
+
+func (x *DashboardGenerateInterventionPlanReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *DashboardGenerateInterventionPlanReq) Unmarshal(in []byte) error {
+	return prutal.Unmarshal(in, x)
+}
+
+func (x *DashboardGenerateInterventionPlanReq) GetReportId() string {
+	if x != nil {
+		return x.ReportId
+	}
+	return ""
+}
+
+type DashboardGenerateInterventionPlanResp struct {
+	ReportId string `protobuf:"bytes,1,opt,name=reportId" json:"reportId,omitempty"`
+	Content  string `protobuf:"bytes,2,opt,name=content" json:"content,omitempty"`
+	Code     int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg      string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *DashboardGenerateInterventionPlanResp) Reset() { *x = DashboardGenerateInterventionPlanResp{} }
+
+func (x *DashboardGenerateInterventionPlanResp) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *DashboardGenerateInterventionPlanResp) Unmarshal(in []byte) error {
+	return prutal.Unmarshal(in, x)
+}
+
+func (x *DashboardGenerateInterventionPlanResp) GetReportId() string {
+	if x != nil {
+		return x.ReportId
+	}
+	return ""
+}
+
+func (x *DashboardGenerateInterventionPlanResp) GetContent() string {
+	if x != nil {
+		return x.Content
+	}
+	return ""
+}
+
+func (x *DashboardGenerateInterventionPlanResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *DashboardGenerateInterventionPlanResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}

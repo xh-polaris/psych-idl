@@ -15,6 +15,7 @@ type Client interface {
 	ListConversations(ctx context.Context, Req *core_api.ListConversationsReq, callOptions ...callopt.Option) (r *core_api.ListConversationsResp, err error)
 	GetSingleConv(ctx context.Context, Req *core_api.GetSingleConvReq, callOptions ...callopt.Option) (r *core_api.GetSingleConvResp, err error)
 	GetConvByDate(ctx context.Context, Req *core_api.GetConvByDateReq, callOptions ...callopt.Option) (r *core_api.GetConvByDateResp, err error)
+	ConversationArchiveConversation(ctx context.Context, Req *core_api.ArchiveConversationReq, callOptions ...callopt.Option) (r *core_api.ArchiveConversationResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -64,4 +65,9 @@ func (p *kConversationClient) GetSingleConv(ctx context.Context, Req *core_api.G
 func (p *kConversationClient) GetConvByDate(ctx context.Context, Req *core_api.GetConvByDateReq, callOptions ...callopt.Option) (r *core_api.GetConvByDateResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.GetConvByDate(ctx, Req)
+}
+
+func (p *kConversationClient) ConversationArchiveConversation(ctx context.Context, Req *core_api.ArchiveConversationReq, callOptions ...callopt.Option) (r *core_api.ArchiveConversationResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ConversationArchiveConversation(ctx, Req)
 }

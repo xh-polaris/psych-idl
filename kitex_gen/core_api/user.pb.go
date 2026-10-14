@@ -670,3 +670,209 @@ func (x *SendVerifyCodeReq) GetAuthId() string {
 	}
 	return ""
 }
+
+// 学生端当前登录用户的个人资料
+type StudentProfile struct {
+	Id         string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	Code       string `protobuf:"bytes,2,opt,name=code" json:"code,omitempty"`
+	Name       string `protobuf:"bytes,3,opt,name=name" json:"name,omitempty"`
+	Avatar     string `protobuf:"bytes,4,opt,name=avatar" json:"avatar,omitempty"`
+	Birth      int64  `protobuf:"varint,5,opt,name=birth" json:"birth,omitempty"`
+	Gender     int32  `protobuf:"varint,6,opt,name=gender" json:"gender,omitempty"`
+	EnrollYear int32  `protobuf:"varint,7,opt,name=enrollYear" json:"enrollYear,omitempty"`
+	Grade      int32  `protobuf:"varint,8,opt,name=grade" json:"grade,omitempty"`
+	Class      int32  `protobuf:"varint,9,opt,name=class" json:"class,omitempty"`
+}
+
+func (x *StudentProfile) Reset() { *x = StudentProfile{} }
+
+func (x *StudentProfile) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *StudentProfile) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *StudentProfile) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *StudentProfile) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+func (x *StudentProfile) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *StudentProfile) GetAvatar() string {
+	if x != nil {
+		return x.Avatar
+	}
+	return ""
+}
+
+func (x *StudentProfile) GetBirth() int64 {
+	if x != nil {
+		return x.Birth
+	}
+	return 0
+}
+
+func (x *StudentProfile) GetGender() int32 {
+	if x != nil {
+		return x.Gender
+	}
+	return 0
+}
+
+func (x *StudentProfile) GetEnrollYear() int32 {
+	if x != nil {
+		return x.EnrollYear
+	}
+	return 0
+}
+
+func (x *StudentProfile) GetGrade() int32 {
+	if x != nil {
+		return x.Grade
+	}
+	return 0
+}
+
+func (x *StudentProfile) GetClass() int32 {
+	if x != nil {
+		return x.Class
+	}
+	return 0
+}
+
+type UserGetStudentProfileReq struct {
+}
+
+func (x *UserGetStudentProfileReq) Reset() { *x = UserGetStudentProfileReq{} }
+
+func (x *UserGetStudentProfileReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *UserGetStudentProfileReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+type UserGetStudentProfileResp struct {
+	Profile *StudentProfile `protobuf:"bytes,1,opt,name=profile" json:"profile,omitempty"`
+	Code    int32           `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg     string          `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *UserGetStudentProfileResp) Reset() { *x = UserGetStudentProfileResp{} }
+
+func (x *UserGetStudentProfileResp) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *UserGetStudentProfileResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UserGetStudentProfileResp) GetProfile() *StudentProfile {
+	if x != nil {
+		return x.Profile
+	}
+	return nil
+}
+
+func (x *UserGetStudentProfileResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *UserGetStudentProfileResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+type UserUpdateStudentProfileReq struct {
+	Name   string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
+	Avatar string `protobuf:"bytes,2,opt,name=avatar" json:"avatar,omitempty"`
+	Birth  int64  `protobuf:"varint,3,opt,name=birth" json:"birth,omitempty"`
+	Gender int32  `protobuf:"varint,4,opt,name=gender" json:"gender,omitempty"`
+}
+
+func (x *UserUpdateStudentProfileReq) Reset() { *x = UserUpdateStudentProfileReq{} }
+
+func (x *UserUpdateStudentProfileReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *UserUpdateStudentProfileReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UserUpdateStudentProfileReq) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *UserUpdateStudentProfileReq) GetAvatar() string {
+	if x != nil {
+		return x.Avatar
+	}
+	return ""
+}
+
+func (x *UserUpdateStudentProfileReq) GetBirth() int64 {
+	if x != nil {
+		return x.Birth
+	}
+	return 0
+}
+
+func (x *UserUpdateStudentProfileReq) GetGender() int32 {
+	if x != nil {
+		return x.Gender
+	}
+	return 0
+}
+
+type UserUpdateStudentProfileResp struct {
+	Profile *StudentProfile `protobuf:"bytes,1,opt,name=profile" json:"profile,omitempty"`
+	Code    int32           `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg     string          `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *UserUpdateStudentProfileResp) Reset() { *x = UserUpdateStudentProfileResp{} }
+
+func (x *UserUpdateStudentProfileResp) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *UserUpdateStudentProfileResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *UserUpdateStudentProfileResp) GetProfile() *StudentProfile {
+	if x != nil {
+		return x.Profile
+	}
+	return nil
+}
+
+func (x *UserUpdateStudentProfileResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *UserUpdateStudentProfileResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}

@@ -113,6 +113,13 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
+	"DashboardGenerateInterventionPlan": kitex.NewMethodInfo(
+		dashboardGenerateInterventionPlanHandler,
+		newDashboardGenerateInterventionPlanArgs,
+		newDashboardGenerateInterventionPlanResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
 }
 
 var (
@@ -1733,6 +1740,117 @@ func (p *DashboardCreateRemarkResult) GetResult() interface{} {
 	return p.Success
 }
 
+func dashboardGenerateInterventionPlanHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.DashboardGenerateInterventionPlanReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.Dashboard).DashboardGenerateInterventionPlan(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *DashboardGenerateInterventionPlanArgs:
+		success, err := handler.(core_api.Dashboard).DashboardGenerateInterventionPlan(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*DashboardGenerateInterventionPlanResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newDashboardGenerateInterventionPlanArgs() interface{} {
+	return &DashboardGenerateInterventionPlanArgs{}
+}
+
+func newDashboardGenerateInterventionPlanResult() interface{} {
+	return &DashboardGenerateInterventionPlanResult{}
+}
+
+type DashboardGenerateInterventionPlanArgs struct {
+	Req *core_api.DashboardGenerateInterventionPlanReq
+}
+
+func (p *DashboardGenerateInterventionPlanArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *DashboardGenerateInterventionPlanArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.DashboardGenerateInterventionPlanReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var DashboardGenerateInterventionPlanArgs_Req_DEFAULT *core_api.DashboardGenerateInterventionPlanReq
+
+func (p *DashboardGenerateInterventionPlanArgs) GetReq() *core_api.DashboardGenerateInterventionPlanReq {
+	if !p.IsSetReq() {
+		return DashboardGenerateInterventionPlanArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *DashboardGenerateInterventionPlanArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *DashboardGenerateInterventionPlanArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type DashboardGenerateInterventionPlanResult struct {
+	Success *core_api.DashboardGenerateInterventionPlanResp
+}
+
+var DashboardGenerateInterventionPlanResult_Success_DEFAULT *core_api.DashboardGenerateInterventionPlanResp
+
+func (p *DashboardGenerateInterventionPlanResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *DashboardGenerateInterventionPlanResult) Unmarshal(in []byte) error {
+	msg := new(core_api.DashboardGenerateInterventionPlanResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *DashboardGenerateInterventionPlanResult) GetSuccess() *core_api.DashboardGenerateInterventionPlanResp {
+	if !p.IsSetSuccess() {
+		return DashboardGenerateInterventionPlanResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *DashboardGenerateInterventionPlanResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.DashboardGenerateInterventionPlanResp)
+}
+
+func (p *DashboardGenerateInterventionPlanResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *DashboardGenerateInterventionPlanResult) GetResult() interface{} {
+	return p.Success
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -1878,6 +1996,16 @@ func (p *kClient) DashboardCreateRemark(ctx context.Context, Req *core_api.Dashb
 	_args.Req = Req
 	var _result DashboardCreateRemarkResult
 	if err = p.c.Call(ctx, "DashboardCreateRemark", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) DashboardGenerateInterventionPlan(ctx context.Context, Req *core_api.DashboardGenerateInterventionPlanReq) (r *core_api.DashboardGenerateInterventionPlanResp, err error) {
+	var _args DashboardGenerateInterventionPlanArgs
+	_args.Req = Req
+	var _result DashboardGenerateInterventionPlanResult
+	if err = p.c.Call(ctx, "DashboardGenerateInterventionPlan", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
