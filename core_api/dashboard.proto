@@ -540,3 +540,14 @@ message DashboardCreateRemarkResp {
   int32 code = 255;
   string msg = 256;
 }
+
+// 根据已完成的心理评估报告生成干预方案。
+message DashboardGenerateInterventionPlanReq {
+  string reportId = 1;
+}
+message DashboardGenerateInterventionPlanResp {
+  string reportId = 1;
+  string content = 2;
+  int32 code = 255;
+  string msg = 256;
+}

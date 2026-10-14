@@ -50,6 +50,17 @@ service User {
       body: "*"
     };
   }
+  rpc UserGetStudentProfile(UserGetStudentProfileReq) returns (UserGetStudentProfileResp) {
+    option (google.api.http) = {
+      get: "/student/profile"
+    };
+  }
+  rpc UserUpdateStudentProfile(UserUpdateStudentProfileReq) returns (UserUpdateStudentProfileResp) {
+    option (google.api.http) = {
+      post: "/student/profile"
+      body: "*"
+    };
+  }
 }
 
 service OpenAPI {
@@ -271,6 +282,12 @@ service Dashboard {
       body: "*"
     };
   }
+  rpc DashboardGenerateInterventionPlan(DashboardGenerateInterventionPlanReq) returns (DashboardGenerateInterventionPlanResp) {
+    option (google.api.http) = {
+      post: "/dashboard/generate_intervention_plan"
+      body: "*"
+    };
+  }
 }
 
 service Conversation {
@@ -295,6 +312,12 @@ service Conversation {
   rpc GetConvByDate (GetConvByDateReq) returns (GetConvByDateResp) {
             option (google.api.http) = {
       post: "/conversation/get_by_date"
+      body: "*"
+    };
+  }
+  rpc ConversationArchiveConversation(ArchiveConversationReq) returns (ArchiveConversationResp) {
+    option (google.api.http) = {
+      post: "/conversation/archive"
       body: "*"
     };
   }

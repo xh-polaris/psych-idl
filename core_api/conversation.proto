@@ -82,6 +82,15 @@ message GetConvByDateResp {
   string msg = 256;
 }
 
+// 归档已结束会话
+message ArchiveConversationReq {
+  string conversationId = 1 [(http.vd) = "len($)>0"];
+}
+message ArchiveConversationResp {
+  int32 code = 255;
+  string msg = 256;
+}
+
 message ConvByDateMessage {
   string conversationId = 1;
   string content = 2;
