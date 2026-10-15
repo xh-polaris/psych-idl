@@ -1206,6 +1206,9 @@ components:
                 lastConversationTime:
                     type: string
                     description: 上次对话时间（时间戳）
+                reportGeneratedTime:
+                    type: string
+                    description: 报告生成完成时间（时间戳）；预警在关联报告成功后创建，因此取预警创建时间。
         AnalysisConfidence:
             type: object
             properties:

@@ -1104,6 +1104,9 @@ type AlarmRecord struct {
 
 	// 上次对话时间（时间戳）
 	LastConversationTime int64 `protobuf:"varint,7,opt,name=lastConversationTime" json:"lastConversationTime,omitempty"`
+
+	// 报告生成完成时间（时间戳）；预警在关联报告成功后创建，因此取预警创建时间。
+	ReportGeneratedTime int64 `protobuf:"varint,8,opt,name=reportGeneratedTime" json:"reportGeneratedTime,omitempty"`
 }
 
 func (x *AlarmRecord) Reset() { *x = AlarmRecord{} }
@@ -1157,6 +1160,13 @@ func (x *AlarmRecord) GetTotalConversationRounds() int32 {
 func (x *AlarmRecord) GetLastConversationTime() int64 {
 	if x != nil {
 		return x.LastConversationTime
+	}
+	return 0
+}
+
+func (x *AlarmRecord) GetReportGeneratedTime() int64 {
+	if x != nil {
+		return x.ReportGeneratedTime
 	}
 	return 0
 }
