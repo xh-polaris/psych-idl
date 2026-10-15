@@ -1558,6 +1558,9 @@ components:
                 conversationId:
                     type: string
                     description: 对话id
+                reportId:
+                    type: string
+                    description: 当前对话关联的可见报告 ID；为空表示尚未生成报告。
         ConvOverview:
             type: object
             properties:

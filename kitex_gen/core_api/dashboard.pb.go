@@ -1602,6 +1602,9 @@ type ConvDetail struct {
 
 	// 对话id
 	ConversationId string `protobuf:"bytes,4,opt,name=conversationId" json:"conversationId,omitempty"`
+
+	// 当前对话关联的可见报告 ID；为空表示尚未生成报告。
+	ReportId string `protobuf:"bytes,5,opt,name=reportId" json:"reportId,omitempty"`
 }
 
 func (x *ConvDetail) Reset() { *x = ConvDetail{} }
@@ -1634,6 +1637,13 @@ func (x *ConvDetail) GetKeywords() *Keywords {
 func (x *ConvDetail) GetConversationId() string {
 	if x != nil {
 		return x.ConversationId
+	}
+	return ""
+}
+
+func (x *ConvDetail) GetReportId() string {
+	if x != nil {
+		return x.ReportId
 	}
 	return ""
 }
