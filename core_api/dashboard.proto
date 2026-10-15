@@ -312,6 +312,8 @@ message ConvDetail {
   Keywords keywords = 3;
   // 对话id
   string conversationId = 4;
+  // 当前对话关联的可见报告 ID；为空表示尚未生成报告。
+  string reportId = 5;
 }
 
 // 获取管理端指定报表对应的原始消息
