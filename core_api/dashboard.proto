@@ -222,6 +222,8 @@ message AlarmRecord {
   int32  totalConversationRounds = 6;
   // 上次对话时间（时间戳）
   int64  lastConversationTime = 7;
+  // 报告生成完成时间（时间戳）；预警在关联报告成功后创建，因此取预警创建时间。
+  int64  reportGeneratedTime = 8;
 }
 
 
