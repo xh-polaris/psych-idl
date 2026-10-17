@@ -507,6 +507,8 @@ message DashboardGetReportResp {
   int32 conversationRounds = 17;
   // 本报告结束时的最近一次对话时间（Unix 秒）。
   int64 lastConversationTime = 18;
+  // 最近一次成功生成并保存的干预方案；未生成时为空。
+  string interventionPlan = 19;
   int32 code = 255;
   string msg = 256;
 }
