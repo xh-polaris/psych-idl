@@ -19,6 +19,8 @@ message ModelLabModel {
 message ModelLabListModelsResp {
   repeated ModelLabModel models = 1;
   string strategy_model_id = 2 [json_name = "strategyModelID"];
+  string strategy_prompt = 3 [json_name = "strategyPrompt"];
+  string dialogue_prompt = 4 [json_name = "dialoguePrompt"];
   int32 code = 255;
   string msg = 256;
 }
@@ -86,6 +88,9 @@ message ModelLabSendTurnReq {
   string session_id = 1 [json_name = "sessionID"];
   string chat_model_id = 2 [json_name = "chatModelID"];
   string content = 3;
+  string prompt_override = 4 [json_name = "promptOverride"];
+  string strategy_prompt_override = 5 [json_name = "strategyPromptOverride"];
+  string dialogue_prompt_override = 6 [json_name = "dialoguePromptOverride"];
 }
 
 message ModelLabSendTurnResp {}
