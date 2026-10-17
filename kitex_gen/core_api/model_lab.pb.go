@@ -67,6 +67,8 @@ func (x *ModelLabModel) GetReportEnabled() bool {
 type ModelLabListModelsResp struct {
 	Models          []*ModelLabModel `protobuf:"bytes,1,rep,name=models" json:"models,omitempty"`
 	StrategyModelId string           `protobuf:"bytes,2,opt,name=strategy_model_id" json:"strategy_model_id,omitempty"`
+	StrategyPrompt  string           `protobuf:"bytes,3,opt,name=strategy_prompt" json:"strategy_prompt,omitempty"`
+	DialoguePrompt  string           `protobuf:"bytes,4,opt,name=dialogue_prompt" json:"dialogue_prompt,omitempty"`
 	Code            int32            `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
 	Msg             string           `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
@@ -89,6 +91,20 @@ func (x *ModelLabListModelsResp) GetModels() []*ModelLabModel {
 func (x *ModelLabListModelsResp) GetStrategyModelId() string {
 	if x != nil {
 		return x.StrategyModelId
+	}
+	return ""
+}
+
+func (x *ModelLabListModelsResp) GetStrategyPrompt() string {
+	if x != nil {
+		return x.StrategyPrompt
+	}
+	return ""
+}
+
+func (x *ModelLabListModelsResp) GetDialoguePrompt() string {
+	if x != nil {
+		return x.DialoguePrompt
 	}
 	return ""
 }
@@ -445,9 +461,12 @@ func (x *ModelLabGetBranchResp) GetMsg() string {
 
 // 成功后响应为 text/event-stream：依次发送 prompt_trace、delta、completed 和 [DONE]。
 type ModelLabSendTurnReq struct {
-	SessionId   string `protobuf:"bytes,1,opt,name=session_id" json:"session_id,omitempty"`
-	ChatModelId string `protobuf:"bytes,2,opt,name=chat_model_id" json:"chat_model_id,omitempty"`
-	Content     string `protobuf:"bytes,3,opt,name=content" json:"content,omitempty"`
+	SessionId              string `protobuf:"bytes,1,opt,name=session_id" json:"session_id,omitempty"`
+	ChatModelId            string `protobuf:"bytes,2,opt,name=chat_model_id" json:"chat_model_id,omitempty"`
+	Content                string `protobuf:"bytes,3,opt,name=content" json:"content,omitempty"`
+	PromptOverride         string `protobuf:"bytes,4,opt,name=prompt_override" json:"prompt_override,omitempty"`
+	StrategyPromptOverride string `protobuf:"bytes,5,opt,name=strategy_prompt_override" json:"strategy_prompt_override,omitempty"`
+	DialoguePromptOverride string `protobuf:"bytes,6,opt,name=dialogue_prompt_override" json:"dialogue_prompt_override,omitempty"`
 }
 
 func (x *ModelLabSendTurnReq) Reset() { *x = ModelLabSendTurnReq{} }
@@ -473,6 +492,27 @@ func (x *ModelLabSendTurnReq) GetChatModelId() string {
 func (x *ModelLabSendTurnReq) GetContent() string {
 	if x != nil {
 		return x.Content
+	}
+	return ""
+}
+
+func (x *ModelLabSendTurnReq) GetPromptOverride() string {
+	if x != nil {
+		return x.PromptOverride
+	}
+	return ""
+}
+
+func (x *ModelLabSendTurnReq) GetStrategyPromptOverride() string {
+	if x != nil {
+		return x.StrategyPromptOverride
+	}
+	return ""
+}
+
+func (x *ModelLabSendTurnReq) GetDialoguePromptOverride() string {
+	if x != nil {
+		return x.DialoguePromptOverride
 	}
 	return ""
 }

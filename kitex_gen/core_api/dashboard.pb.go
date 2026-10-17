@@ -2561,9 +2561,12 @@ type DashboardGetReportResp struct {
 	ConversationRounds int32 `protobuf:"varint,17,opt,name=conversationRounds" json:"conversationRounds,omitempty"`
 
 	// 本报告结束时的最近一次对话时间（Unix 秒）。
-	LastConversationTime int64  `protobuf:"varint,18,opt,name=lastConversationTime" json:"lastConversationTime,omitempty"`
-	Code                 int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
-	Msg                  string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+	LastConversationTime int64 `protobuf:"varint,18,opt,name=lastConversationTime" json:"lastConversationTime,omitempty"`
+
+	// 最近一次成功生成并保存的干预方案；未生成时为空。
+	InterventionPlan string `protobuf:"bytes,19,opt,name=interventionPlan" json:"interventionPlan,omitempty"`
+	Code             int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg              string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
 }
 
 func (x *DashboardGetReportResp) Reset() { *x = DashboardGetReportResp{} }
@@ -2698,6 +2701,13 @@ func (x *DashboardGetReportResp) GetLastConversationTime() int64 {
 		return x.LastConversationTime
 	}
 	return 0
+}
+
+func (x *DashboardGetReportResp) GetInterventionPlan() string {
+	if x != nil {
+		return x.InterventionPlan
+	}
+	return ""
 }
 
 func (x *DashboardGetReportResp) GetCode() int32 {

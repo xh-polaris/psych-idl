@@ -2037,6 +2037,9 @@ components:
                 lastConversationTime:
                     type: string
                     description: 本报告结束时的最近一次对话时间（Unix 秒）。
+                interventionPlan:
+                    type: string
+                    description: 最近一次成功生成并保存的干预方案；未生成时为空。
                 code:
                     type: integer
                     format: int32
@@ -2461,6 +2464,10 @@ components:
                         $ref: '#/components/schemas/ModelLabModel'
                 strategyModelID:
                     type: string
+                strategyPrompt:
+                    type: string
+                dialoguePrompt:
+                    type: string
                 code:
                     type: integer
                     format: int32
@@ -2503,6 +2510,12 @@ components:
                 chatModelID:
                     type: string
                 content:
+                    type: string
+                promptOverride:
+                    type: string
+                strategyPromptOverride:
+                    type: string
+                dialoguePromptOverride:
                     type: string
             description: 成功后响应为 text/event-stream：依次发送 prompt_trace、delta、completed 和 [DONE]。
         ModelLabSendTurnResp:
