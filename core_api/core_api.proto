@@ -84,6 +84,12 @@ service OpenAPI {
 }
 
 service ModelLab {
+  rpc ModelLabLogin(ModelLabLoginReq) returns (ModelLabLoginResp) {
+    option (google.api.http) = {
+      post: "/api/model-lab/auth/login"
+      body: "*"
+    };
+  }
   rpc ModelLabListModels(ModelLabListModelsReq) returns (ModelLabListModelsResp) {
     option (google.api.http) = {
       get: "/api/model-lab/models"
@@ -92,6 +98,23 @@ service ModelLab {
   rpc ModelLabCreateSession(ModelLabCreateSessionReq) returns (ModelLabCreateSessionResp) {
     option (google.api.http) = {
       post: "/api/model-lab/sessions"
+      body: "*"
+    };
+  }
+  rpc ModelLabGetWorkspace(ModelLabGetWorkspaceReq) returns (ModelLabGetWorkspaceResp) {
+    option (google.api.http) = {
+      get: "/api/model-lab/workspace"
+    };
+  }
+  rpc ModelLabSaveWorkspace(ModelLabSaveWorkspaceReq) returns (ModelLabSaveWorkspaceResp) {
+    option (google.api.http) = {
+      put: "/api/model-lab/workspace"
+      body: "*"
+    };
+  }
+  rpc ModelLabDeleteSession(ModelLabDeleteSessionReq) returns (ModelLabDeleteSessionResp) {
+    option (google.api.http) = {
+      delete: "/api/model-lab/sessions"
       body: "*"
     };
   }
