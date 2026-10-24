@@ -38,6 +38,96 @@ message ModelLabSession {
   int64 expires_at = 5 [json_name = "expiresAt"];
 }
 
+// 工作区中展示的评测会话元数据。实际多轮消息由分支接口读取，避免在工作区
+// 配置中重复保存对话内容。
+message ModelLabWorkspaceSession {
+  string id = 1;
+  repeated string chat_model_ids = 2 [json_name = "chatModelIDs"];
+  repeated string report_model_ids = 3 [json_name = "reportModelIDs"];
+  int64 created_at = 4 [json_name = "createdAt"];
+  int64 expires_at = 5 [json_name = "expiresAt"];
+  string title = 6;
+  string strategy_model_id = 7 [json_name = "strategyModelID"];
+  string active_chat_model_id = 8 [json_name = "activeChatModelID"];
+  string prompt_set_id = 9 [json_name = "promptSetID"];
+  repeated ModelLabModelGroup model_groups = 10 [json_name = "modelGroups"];
+  string active_model_group_id = 11 [json_name = "activeModelGroupID"];
+}
+
+message ModelLabPromptSet {
+  string id = 1;
+  string title = 2;
+  string strategy_prompt = 3 [json_name = "strategyPrompt"];
+  string dialogue_prompt = 4 [json_name = "dialoguePrompt"];
+  int64 updated_at = 5 [json_name = "updatedAt"];
+}
+
+message ModelLabModelGroup {
+  string id = 1;
+  string name = 2;
+  string strategy_model_id = 3 [json_name = "strategyModelID"];
+  string chat_model_id = 4 [json_name = "chatModelID"];
+}
+
+message ModelLabPromptRevision {
+  string id = 1;
+  string prompt_set_id = 2 [json_name = "promptSetID"];
+  string prompt_set_title = 3 [json_name = "promptSetTitle"];
+  string prompt_type = 4 [json_name = "promptType"];
+  string before = 5;
+  string after = 6;
+  int64 created_at = 7 [json_name = "createdAt"];
+}
+
+message ModelLabLoginReq {
+  string username = 1;
+  string password = 2;
+}
+
+message ModelLabLoginResp {
+  string token = 1;
+  int64 expires_at = 2 [json_name = "expiresAt"];
+  int32 code = 255;
+  string msg = 256;
+}
+
+message ModelLabGetWorkspaceReq {}
+
+message ModelLabGetWorkspaceResp {
+  repeated ModelLabWorkspaceSession sessions = 1;
+  repeated ModelLabPromptSet prompt_sets = 2 [json_name = "promptSets"];
+  repeated ModelLabModelGroup model_groups = 3 [json_name = "modelGroups"];
+  repeated ModelLabPromptRevision prompt_revisions = 4 [json_name = "promptRevisions"];
+  int32 code = 255;
+  string msg = 256;
+}
+
+message ModelLabSaveWorkspaceReq {
+  repeated ModelLabWorkspaceSession sessions = 1;
+  repeated ModelLabPromptSet prompt_sets = 2 [json_name = "promptSets"];
+  repeated ModelLabModelGroup model_groups = 3 [json_name = "modelGroups"];
+  repeated ModelLabPromptRevision prompt_revisions = 4 [json_name = "promptRevisions"];
+}
+
+message ModelLabSaveWorkspaceResp {
+  repeated ModelLabWorkspaceSession sessions = 1;
+  repeated ModelLabPromptSet prompt_sets = 2 [json_name = "promptSets"];
+  repeated ModelLabModelGroup model_groups = 3 [json_name = "modelGroups"];
+  repeated ModelLabPromptRevision prompt_revisions = 4 [json_name = "promptRevisions"];
+  int32 code = 255;
+  string msg = 256;
+}
+
+message ModelLabDeleteSessionReq {
+  string session_id = 1 [json_name = "sessionID"];
+}
+
+message ModelLabDeleteSessionResp {
+  bool deleted = 1;
+  int32 code = 255;
+  string msg = 256;
+}
+
 message ModelLabCreateSessionResp {
   ModelLabSession session = 1;
   int32 code = 255;
@@ -51,6 +141,7 @@ message ModelLabTurn {
   int64 created_at = 4 [json_name = "createdAt"];
   ModelLabPromptTrace prompt_trace = 5 [json_name = "promptTrace"];
   ModelLabUsage usage = 6;
+  int64 response_time_ms = 7 [json_name = "responseTimeMs"];
 }
 
 // 每轮对话的提示词追踪。三个字段分开返回，供专家核查策略输出、实际选中的微技能
@@ -61,6 +152,9 @@ message ModelLabPromptTrace {
   string skill_text = 3 [json_name = "skillText"];
   string system_prompt = 4 [json_name = "systemPrompt"];
   bool strategy_degraded = 5 [json_name = "strategyDegraded"];
+  string strategy_prompt = 6 [json_name = "strategyPrompt"];
+  string dialogue_prompt = 7 [json_name = "dialoguePrompt"];
+  string strategy_degraded_reason = 8 [json_name = "strategyDegradedReason"];
 }
 
 message ModelLabUsage {
@@ -91,6 +185,7 @@ message ModelLabSendTurnReq {
   string prompt_override = 4 [json_name = "promptOverride"];
   string strategy_prompt_override = 5 [json_name = "strategyPromptOverride"];
   string dialogue_prompt_override = 6 [json_name = "dialoguePromptOverride"];
+  string strategy_model_id = 7 [json_name = "strategyModelID"];
 }
 
 message ModelLabSendTurnResp {}
