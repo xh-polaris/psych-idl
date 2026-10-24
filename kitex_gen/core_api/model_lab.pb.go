@@ -199,6 +199,556 @@ func (x *ModelLabSession) GetExpiresAt() int64 {
 	return 0
 }
 
+// 工作区中展示的评测会话元数据。实际多轮消息由分支接口读取，避免在工作区
+// 配置中重复保存对话内容。
+type ModelLabWorkspaceSession struct {
+	Id                 string                `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	ChatModelIds       []string              `protobuf:"bytes,2,rep,name=chat_model_ids" json:"chat_model_ids,omitempty"`
+	ReportModelIds     []string              `protobuf:"bytes,3,rep,name=report_model_ids" json:"report_model_ids,omitempty"`
+	CreatedAt          int64                 `protobuf:"varint,4,opt,name=created_at" json:"created_at,omitempty"`
+	ExpiresAt          int64                 `protobuf:"varint,5,opt,name=expires_at" json:"expires_at,omitempty"`
+	Title              string                `protobuf:"bytes,6,opt,name=title" json:"title,omitempty"`
+	StrategyModelId    string                `protobuf:"bytes,7,opt,name=strategy_model_id" json:"strategy_model_id,omitempty"`
+	ActiveChatModelId  string                `protobuf:"bytes,8,opt,name=active_chat_model_id" json:"active_chat_model_id,omitempty"`
+	PromptSetId        string                `protobuf:"bytes,9,opt,name=prompt_set_id" json:"prompt_set_id,omitempty"`
+	ModelGroups        []*ModelLabModelGroup `protobuf:"bytes,10,rep,name=model_groups" json:"model_groups,omitempty"`
+	ActiveModelGroupId string                `protobuf:"bytes,11,opt,name=active_model_group_id" json:"active_model_group_id,omitempty"`
+}
+
+func (x *ModelLabWorkspaceSession) Reset() { *x = ModelLabWorkspaceSession{} }
+
+func (x *ModelLabWorkspaceSession) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *ModelLabWorkspaceSession) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ModelLabWorkspaceSession) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *ModelLabWorkspaceSession) GetChatModelIds() []string {
+	if x != nil {
+		return x.ChatModelIds
+	}
+	return nil
+}
+
+func (x *ModelLabWorkspaceSession) GetReportModelIds() []string {
+	if x != nil {
+		return x.ReportModelIds
+	}
+	return nil
+}
+
+func (x *ModelLabWorkspaceSession) GetCreatedAt() int64 {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return 0
+}
+
+func (x *ModelLabWorkspaceSession) GetExpiresAt() int64 {
+	if x != nil {
+		return x.ExpiresAt
+	}
+	return 0
+}
+
+func (x *ModelLabWorkspaceSession) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *ModelLabWorkspaceSession) GetStrategyModelId() string {
+	if x != nil {
+		return x.StrategyModelId
+	}
+	return ""
+}
+
+func (x *ModelLabWorkspaceSession) GetActiveChatModelId() string {
+	if x != nil {
+		return x.ActiveChatModelId
+	}
+	return ""
+}
+
+func (x *ModelLabWorkspaceSession) GetPromptSetId() string {
+	if x != nil {
+		return x.PromptSetId
+	}
+	return ""
+}
+
+func (x *ModelLabWorkspaceSession) GetModelGroups() []*ModelLabModelGroup {
+	if x != nil {
+		return x.ModelGroups
+	}
+	return nil
+}
+
+func (x *ModelLabWorkspaceSession) GetActiveModelGroupId() string {
+	if x != nil {
+		return x.ActiveModelGroupId
+	}
+	return ""
+}
+
+type ModelLabPromptSet struct {
+	Id             string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	Title          string `protobuf:"bytes,2,opt,name=title" json:"title,omitempty"`
+	StrategyPrompt string `protobuf:"bytes,3,opt,name=strategy_prompt" json:"strategy_prompt,omitempty"`
+	DialoguePrompt string `protobuf:"bytes,4,opt,name=dialogue_prompt" json:"dialogue_prompt,omitempty"`
+	UpdatedAt      int64  `protobuf:"varint,5,opt,name=updated_at" json:"updated_at,omitempty"`
+}
+
+func (x *ModelLabPromptSet) Reset() { *x = ModelLabPromptSet{} }
+
+func (x *ModelLabPromptSet) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ModelLabPromptSet) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ModelLabPromptSet) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *ModelLabPromptSet) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *ModelLabPromptSet) GetStrategyPrompt() string {
+	if x != nil {
+		return x.StrategyPrompt
+	}
+	return ""
+}
+
+func (x *ModelLabPromptSet) GetDialoguePrompt() string {
+	if x != nil {
+		return x.DialoguePrompt
+	}
+	return ""
+}
+
+func (x *ModelLabPromptSet) GetUpdatedAt() int64 {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return 0
+}
+
+type ModelLabModelGroup struct {
+	Id              string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	Name            string `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
+	StrategyModelId string `protobuf:"bytes,3,opt,name=strategy_model_id" json:"strategy_model_id,omitempty"`
+	ChatModelId     string `protobuf:"bytes,4,opt,name=chat_model_id" json:"chat_model_id,omitempty"`
+}
+
+func (x *ModelLabModelGroup) Reset() { *x = ModelLabModelGroup{} }
+
+func (x *ModelLabModelGroup) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ModelLabModelGroup) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ModelLabModelGroup) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *ModelLabModelGroup) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *ModelLabModelGroup) GetStrategyModelId() string {
+	if x != nil {
+		return x.StrategyModelId
+	}
+	return ""
+}
+
+func (x *ModelLabModelGroup) GetChatModelId() string {
+	if x != nil {
+		return x.ChatModelId
+	}
+	return ""
+}
+
+type ModelLabPromptRevision struct {
+	Id             string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	PromptSetId    string `protobuf:"bytes,2,opt,name=prompt_set_id" json:"prompt_set_id,omitempty"`
+	PromptSetTitle string `protobuf:"bytes,3,opt,name=prompt_set_title" json:"prompt_set_title,omitempty"`
+	PromptType     string `protobuf:"bytes,4,opt,name=prompt_type" json:"prompt_type,omitempty"`
+	Before         string `protobuf:"bytes,5,opt,name=before" json:"before,omitempty"`
+	After          string `protobuf:"bytes,6,opt,name=after" json:"after,omitempty"`
+	CreatedAt      int64  `protobuf:"varint,7,opt,name=created_at" json:"created_at,omitempty"`
+}
+
+func (x *ModelLabPromptRevision) Reset() { *x = ModelLabPromptRevision{} }
+
+func (x *ModelLabPromptRevision) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *ModelLabPromptRevision) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ModelLabPromptRevision) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *ModelLabPromptRevision) GetPromptSetId() string {
+	if x != nil {
+		return x.PromptSetId
+	}
+	return ""
+}
+
+func (x *ModelLabPromptRevision) GetPromptSetTitle() string {
+	if x != nil {
+		return x.PromptSetTitle
+	}
+	return ""
+}
+
+func (x *ModelLabPromptRevision) GetPromptType() string {
+	if x != nil {
+		return x.PromptType
+	}
+	return ""
+}
+
+func (x *ModelLabPromptRevision) GetBefore() string {
+	if x != nil {
+		return x.Before
+	}
+	return ""
+}
+
+func (x *ModelLabPromptRevision) GetAfter() string {
+	if x != nil {
+		return x.After
+	}
+	return ""
+}
+
+func (x *ModelLabPromptRevision) GetCreatedAt() int64 {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return 0
+}
+
+type ModelLabLoginReq struct {
+	Username string `protobuf:"bytes,1,opt,name=username" json:"username,omitempty"`
+	Password string `protobuf:"bytes,2,opt,name=password" json:"password,omitempty"`
+}
+
+func (x *ModelLabLoginReq) Reset() { *x = ModelLabLoginReq{} }
+
+func (x *ModelLabLoginReq) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ModelLabLoginReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ModelLabLoginReq) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *ModelLabLoginReq) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+type ModelLabLoginResp struct {
+	Token     string `protobuf:"bytes,1,opt,name=token" json:"token,omitempty"`
+	ExpiresAt int64  `protobuf:"varint,2,opt,name=expires_at" json:"expires_at,omitempty"`
+	Code      int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg       string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *ModelLabLoginResp) Reset() { *x = ModelLabLoginResp{} }
+
+func (x *ModelLabLoginResp) Marshal(in []byte) ([]byte, error) { return prutal.MarshalAppend(in, x) }
+
+func (x *ModelLabLoginResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ModelLabLoginResp) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
+func (x *ModelLabLoginResp) GetExpiresAt() int64 {
+	if x != nil {
+		return x.ExpiresAt
+	}
+	return 0
+}
+
+func (x *ModelLabLoginResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *ModelLabLoginResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+type ModelLabGetWorkspaceReq struct {
+}
+
+func (x *ModelLabGetWorkspaceReq) Reset() { *x = ModelLabGetWorkspaceReq{} }
+
+func (x *ModelLabGetWorkspaceReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *ModelLabGetWorkspaceReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+type ModelLabGetWorkspaceResp struct {
+	Sessions        []*ModelLabWorkspaceSession `protobuf:"bytes,1,rep,name=sessions" json:"sessions,omitempty"`
+	PromptSets      []*ModelLabPromptSet        `protobuf:"bytes,2,rep,name=prompt_sets" json:"prompt_sets,omitempty"`
+	ModelGroups     []*ModelLabModelGroup       `protobuf:"bytes,3,rep,name=model_groups" json:"model_groups,omitempty"`
+	PromptRevisions []*ModelLabPromptRevision   `protobuf:"bytes,4,rep,name=prompt_revisions" json:"prompt_revisions,omitempty"`
+	Code            int32                       `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg             string                      `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *ModelLabGetWorkspaceResp) Reset() { *x = ModelLabGetWorkspaceResp{} }
+
+func (x *ModelLabGetWorkspaceResp) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *ModelLabGetWorkspaceResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ModelLabGetWorkspaceResp) GetSessions() []*ModelLabWorkspaceSession {
+	if x != nil {
+		return x.Sessions
+	}
+	return nil
+}
+
+func (x *ModelLabGetWorkspaceResp) GetPromptSets() []*ModelLabPromptSet {
+	if x != nil {
+		return x.PromptSets
+	}
+	return nil
+}
+
+func (x *ModelLabGetWorkspaceResp) GetModelGroups() []*ModelLabModelGroup {
+	if x != nil {
+		return x.ModelGroups
+	}
+	return nil
+}
+
+func (x *ModelLabGetWorkspaceResp) GetPromptRevisions() []*ModelLabPromptRevision {
+	if x != nil {
+		return x.PromptRevisions
+	}
+	return nil
+}
+
+func (x *ModelLabGetWorkspaceResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *ModelLabGetWorkspaceResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+type ModelLabSaveWorkspaceReq struct {
+	Sessions        []*ModelLabWorkspaceSession `protobuf:"bytes,1,rep,name=sessions" json:"sessions,omitempty"`
+	PromptSets      []*ModelLabPromptSet        `protobuf:"bytes,2,rep,name=prompt_sets" json:"prompt_sets,omitempty"`
+	ModelGroups     []*ModelLabModelGroup       `protobuf:"bytes,3,rep,name=model_groups" json:"model_groups,omitempty"`
+	PromptRevisions []*ModelLabPromptRevision   `protobuf:"bytes,4,rep,name=prompt_revisions" json:"prompt_revisions,omitempty"`
+}
+
+func (x *ModelLabSaveWorkspaceReq) Reset() { *x = ModelLabSaveWorkspaceReq{} }
+
+func (x *ModelLabSaveWorkspaceReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *ModelLabSaveWorkspaceReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ModelLabSaveWorkspaceReq) GetSessions() []*ModelLabWorkspaceSession {
+	if x != nil {
+		return x.Sessions
+	}
+	return nil
+}
+
+func (x *ModelLabSaveWorkspaceReq) GetPromptSets() []*ModelLabPromptSet {
+	if x != nil {
+		return x.PromptSets
+	}
+	return nil
+}
+
+func (x *ModelLabSaveWorkspaceReq) GetModelGroups() []*ModelLabModelGroup {
+	if x != nil {
+		return x.ModelGroups
+	}
+	return nil
+}
+
+func (x *ModelLabSaveWorkspaceReq) GetPromptRevisions() []*ModelLabPromptRevision {
+	if x != nil {
+		return x.PromptRevisions
+	}
+	return nil
+}
+
+type ModelLabSaveWorkspaceResp struct {
+	Sessions        []*ModelLabWorkspaceSession `protobuf:"bytes,1,rep,name=sessions" json:"sessions,omitempty"`
+	PromptSets      []*ModelLabPromptSet        `protobuf:"bytes,2,rep,name=prompt_sets" json:"prompt_sets,omitempty"`
+	ModelGroups     []*ModelLabModelGroup       `protobuf:"bytes,3,rep,name=model_groups" json:"model_groups,omitempty"`
+	PromptRevisions []*ModelLabPromptRevision   `protobuf:"bytes,4,rep,name=prompt_revisions" json:"prompt_revisions,omitempty"`
+	Code            int32                       `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg             string                      `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *ModelLabSaveWorkspaceResp) Reset() { *x = ModelLabSaveWorkspaceResp{} }
+
+func (x *ModelLabSaveWorkspaceResp) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *ModelLabSaveWorkspaceResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ModelLabSaveWorkspaceResp) GetSessions() []*ModelLabWorkspaceSession {
+	if x != nil {
+		return x.Sessions
+	}
+	return nil
+}
+
+func (x *ModelLabSaveWorkspaceResp) GetPromptSets() []*ModelLabPromptSet {
+	if x != nil {
+		return x.PromptSets
+	}
+	return nil
+}
+
+func (x *ModelLabSaveWorkspaceResp) GetModelGroups() []*ModelLabModelGroup {
+	if x != nil {
+		return x.ModelGroups
+	}
+	return nil
+}
+
+func (x *ModelLabSaveWorkspaceResp) GetPromptRevisions() []*ModelLabPromptRevision {
+	if x != nil {
+		return x.PromptRevisions
+	}
+	return nil
+}
+
+func (x *ModelLabSaveWorkspaceResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *ModelLabSaveWorkspaceResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+type ModelLabDeleteSessionReq struct {
+	SessionId string `protobuf:"bytes,1,opt,name=session_id" json:"session_id,omitempty"`
+}
+
+func (x *ModelLabDeleteSessionReq) Reset() { *x = ModelLabDeleteSessionReq{} }
+
+func (x *ModelLabDeleteSessionReq) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *ModelLabDeleteSessionReq) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ModelLabDeleteSessionReq) GetSessionId() string {
+	if x != nil {
+		return x.SessionId
+	}
+	return ""
+}
+
+type ModelLabDeleteSessionResp struct {
+	Deleted bool   `protobuf:"varint,1,opt,name=deleted" json:"deleted,omitempty"`
+	Code    int32  `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
+	Msg     string `protobuf:"bytes,256,opt,name=msg" json:"msg,omitempty"`
+}
+
+func (x *ModelLabDeleteSessionResp) Reset() { *x = ModelLabDeleteSessionResp{} }
+
+func (x *ModelLabDeleteSessionResp) Marshal(in []byte) ([]byte, error) {
+	return prutal.MarshalAppend(in, x)
+}
+
+func (x *ModelLabDeleteSessionResp) Unmarshal(in []byte) error { return prutal.Unmarshal(in, x) }
+
+func (x *ModelLabDeleteSessionResp) GetDeleted() bool {
+	if x != nil {
+		return x.Deleted
+	}
+	return false
+}
+
+func (x *ModelLabDeleteSessionResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *ModelLabDeleteSessionResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
 type ModelLabCreateSessionResp struct {
 	Session *ModelLabSession `protobuf:"bytes,1,opt,name=session" json:"session,omitempty"`
 	Code    int32            `protobuf:"varint,255,opt,name=code" json:"code,omitempty"`
@@ -235,12 +785,13 @@ func (x *ModelLabCreateSessionResp) GetMsg() string {
 }
 
 type ModelLabTurn struct {
-	Id          string               `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	User        string               `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
-	Assistant   string               `protobuf:"bytes,3,opt,name=assistant" json:"assistant,omitempty"`
-	CreatedAt   int64                `protobuf:"varint,4,opt,name=created_at" json:"created_at,omitempty"`
-	PromptTrace *ModelLabPromptTrace `protobuf:"bytes,5,opt,name=prompt_trace" json:"prompt_trace,omitempty"`
-	Usage       *ModelLabUsage       `protobuf:"bytes,6,opt,name=usage" json:"usage,omitempty"`
+	Id             string               `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	User           string               `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
+	Assistant      string               `protobuf:"bytes,3,opt,name=assistant" json:"assistant,omitempty"`
+	CreatedAt      int64                `protobuf:"varint,4,opt,name=created_at" json:"created_at,omitempty"`
+	PromptTrace    *ModelLabPromptTrace `protobuf:"bytes,5,opt,name=prompt_trace" json:"prompt_trace,omitempty"`
+	Usage          *ModelLabUsage       `protobuf:"bytes,6,opt,name=usage" json:"usage,omitempty"`
+	ResponseTimeMs int64                `protobuf:"varint,7,opt,name=response_time_ms" json:"response_time_ms,omitempty"`
 }
 
 func (x *ModelLabTurn) Reset() { *x = ModelLabTurn{} }
@@ -291,14 +842,24 @@ func (x *ModelLabTurn) GetUsage() *ModelLabUsage {
 	return nil
 }
 
+func (x *ModelLabTurn) GetResponseTimeMs() int64 {
+	if x != nil {
+		return x.ResponseTimeMs
+	}
+	return 0
+}
+
 // 每轮对话的提示词追踪。三个字段分开返回，供专家核查策略输出、实际选中的微技能
 // 以及最终发送给对话模型的系统提示词。
 type ModelLabPromptTrace struct {
-	StrategyModelId  string `protobuf:"bytes,1,opt,name=strategy_model_id" json:"strategy_model_id,omitempty"`
-	StrategyOutput   string `protobuf:"bytes,2,opt,name=strategy_output" json:"strategy_output,omitempty"`
-	SkillText        string `protobuf:"bytes,3,opt,name=skill_text" json:"skill_text,omitempty"`
-	SystemPrompt     string `protobuf:"bytes,4,opt,name=system_prompt" json:"system_prompt,omitempty"`
-	StrategyDegraded bool   `protobuf:"varint,5,opt,name=strategy_degraded" json:"strategy_degraded,omitempty"`
+	StrategyModelId        string `protobuf:"bytes,1,opt,name=strategy_model_id" json:"strategy_model_id,omitempty"`
+	StrategyOutput         string `protobuf:"bytes,2,opt,name=strategy_output" json:"strategy_output,omitempty"`
+	SkillText              string `protobuf:"bytes,3,opt,name=skill_text" json:"skill_text,omitempty"`
+	SystemPrompt           string `protobuf:"bytes,4,opt,name=system_prompt" json:"system_prompt,omitempty"`
+	StrategyDegraded       bool   `protobuf:"varint,5,opt,name=strategy_degraded" json:"strategy_degraded,omitempty"`
+	StrategyPrompt         string `protobuf:"bytes,6,opt,name=strategy_prompt" json:"strategy_prompt,omitempty"`
+	DialoguePrompt         string `protobuf:"bytes,7,opt,name=dialogue_prompt" json:"dialogue_prompt,omitempty"`
+	StrategyDegradedReason string `protobuf:"bytes,8,opt,name=strategy_degraded_reason" json:"strategy_degraded_reason,omitempty"`
 }
 
 func (x *ModelLabPromptTrace) Reset() { *x = ModelLabPromptTrace{} }
@@ -340,6 +901,27 @@ func (x *ModelLabPromptTrace) GetStrategyDegraded() bool {
 		return x.StrategyDegraded
 	}
 	return false
+}
+
+func (x *ModelLabPromptTrace) GetStrategyPrompt() string {
+	if x != nil {
+		return x.StrategyPrompt
+	}
+	return ""
+}
+
+func (x *ModelLabPromptTrace) GetDialoguePrompt() string {
+	if x != nil {
+		return x.DialoguePrompt
+	}
+	return ""
+}
+
+func (x *ModelLabPromptTrace) GetStrategyDegradedReason() string {
+	if x != nil {
+		return x.StrategyDegradedReason
+	}
+	return ""
 }
 
 type ModelLabUsage struct {
@@ -467,6 +1049,7 @@ type ModelLabSendTurnReq struct {
 	PromptOverride         string `protobuf:"bytes,4,opt,name=prompt_override" json:"prompt_override,omitempty"`
 	StrategyPromptOverride string `protobuf:"bytes,5,opt,name=strategy_prompt_override" json:"strategy_prompt_override,omitempty"`
 	DialoguePromptOverride string `protobuf:"bytes,6,opt,name=dialogue_prompt_override" json:"dialogue_prompt_override,omitempty"`
+	StrategyModelId        string `protobuf:"bytes,7,opt,name=strategy_model_id" json:"strategy_model_id,omitempty"`
 }
 
 func (x *ModelLabSendTurnReq) Reset() { *x = ModelLabSendTurnReq{} }
@@ -513,6 +1096,13 @@ func (x *ModelLabSendTurnReq) GetStrategyPromptOverride() string {
 func (x *ModelLabSendTurnReq) GetDialoguePromptOverride() string {
 	if x != nil {
 		return x.DialoguePromptOverride
+	}
+	return ""
+}
+
+func (x *ModelLabSendTurnReq) GetStrategyModelId() string {
+	if x != nil {
+		return x.StrategyModelId
 	}
 	return ""
 }

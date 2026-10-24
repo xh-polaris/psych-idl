@@ -11,8 +11,12 @@ import (
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
+	ModelLabLogin(ctx context.Context, Req *core_api.ModelLabLoginReq, callOptions ...callopt.Option) (r *core_api.ModelLabLoginResp, err error)
 	ModelLabListModels(ctx context.Context, Req *core_api.ModelLabListModelsReq, callOptions ...callopt.Option) (r *core_api.ModelLabListModelsResp, err error)
 	ModelLabCreateSession(ctx context.Context, Req *core_api.ModelLabCreateSessionReq, callOptions ...callopt.Option) (r *core_api.ModelLabCreateSessionResp, err error)
+	ModelLabGetWorkspace(ctx context.Context, Req *core_api.ModelLabGetWorkspaceReq, callOptions ...callopt.Option) (r *core_api.ModelLabGetWorkspaceResp, err error)
+	ModelLabSaveWorkspace(ctx context.Context, Req *core_api.ModelLabSaveWorkspaceReq, callOptions ...callopt.Option) (r *core_api.ModelLabSaveWorkspaceResp, err error)
+	ModelLabDeleteSession(ctx context.Context, Req *core_api.ModelLabDeleteSessionReq, callOptions ...callopt.Option) (r *core_api.ModelLabDeleteSessionResp, err error)
 	ModelLabGetBranch(ctx context.Context, Req *core_api.ModelLabGetBranchReq, callOptions ...callopt.Option) (r *core_api.ModelLabGetBranchResp, err error)
 	ModelLabSendTurn(ctx context.Context, Req *core_api.ModelLabSendTurnReq, callOptions ...callopt.Option) (r *core_api.ModelLabSendTurnResp, err error)
 	ModelLabGenerateReport(ctx context.Context, Req *core_api.ModelLabGenerateReportReq, callOptions ...callopt.Option) (r *core_api.ModelLabGenerateReportResp, err error)
@@ -47,6 +51,11 @@ type kModelLabClient struct {
 	*kClient
 }
 
+func (p *kModelLabClient) ModelLabLogin(ctx context.Context, Req *core_api.ModelLabLoginReq, callOptions ...callopt.Option) (r *core_api.ModelLabLoginResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ModelLabLogin(ctx, Req)
+}
+
 func (p *kModelLabClient) ModelLabListModels(ctx context.Context, Req *core_api.ModelLabListModelsReq, callOptions ...callopt.Option) (r *core_api.ModelLabListModelsResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.ModelLabListModels(ctx, Req)
@@ -55,6 +64,21 @@ func (p *kModelLabClient) ModelLabListModels(ctx context.Context, Req *core_api.
 func (p *kModelLabClient) ModelLabCreateSession(ctx context.Context, Req *core_api.ModelLabCreateSessionReq, callOptions ...callopt.Option) (r *core_api.ModelLabCreateSessionResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.ModelLabCreateSession(ctx, Req)
+}
+
+func (p *kModelLabClient) ModelLabGetWorkspace(ctx context.Context, Req *core_api.ModelLabGetWorkspaceReq, callOptions ...callopt.Option) (r *core_api.ModelLabGetWorkspaceResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ModelLabGetWorkspace(ctx, Req)
+}
+
+func (p *kModelLabClient) ModelLabSaveWorkspace(ctx context.Context, Req *core_api.ModelLabSaveWorkspaceReq, callOptions ...callopt.Option) (r *core_api.ModelLabSaveWorkspaceResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ModelLabSaveWorkspace(ctx, Req)
+}
+
+func (p *kModelLabClient) ModelLabDeleteSession(ctx context.Context, Req *core_api.ModelLabDeleteSessionReq, callOptions ...callopt.Option) (r *core_api.ModelLabDeleteSessionResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ModelLabDeleteSession(ctx, Req)
 }
 
 func (p *kModelLabClient) ModelLabGetBranch(ctx context.Context, Req *core_api.ModelLabGetBranchReq, callOptions ...callopt.Option) (r *core_api.ModelLabGetBranchResp, err error) {

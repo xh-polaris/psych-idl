@@ -6,6 +6,30 @@ info:
     title: ""
     version: 3.0.0
 paths:
+    /api/model-lab/auth/login:
+        post:
+            tags:
+                - ModelLab
+            operationId: ModelLab_ModelLabLogin
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ModelLabLoginReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ModelLabLoginResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /api/model-lab/branches/get:
         post:
             tags:
@@ -96,6 +120,29 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - ModelLab
+            operationId: ModelLab_ModelLabDeleteSession
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ModelLabDeleteSessionReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ModelLabDeleteSessionResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /api/model-lab/turns:
         post:
             tags:
@@ -114,6 +161,47 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ModelLabSendTurnResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/model-lab/workspace:
+        get:
+            tags:
+                - ModelLab
+            operationId: ModelLab_ModelLabGetWorkspace
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ModelLabGetWorkspaceResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        put:
+            tags:
+                - ModelLab
+            operationId: ModelLab_ModelLabSaveWorkspace
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ModelLabSaveWorkspaceReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ModelLabSaveWorkspaceResp'
                 default:
                     description: Default error response
                     content:
@@ -2408,6 +2496,21 @@ components:
                     format: int32
                 msg:
                     type: string
+        ModelLabDeleteSessionReq:
+            type: object
+            properties:
+                sessionID:
+                    type: string
+        ModelLabDeleteSessionResp:
+            type: object
+            properties:
+                deleted:
+                    type: boolean
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
         ModelLabGenerateReportReq:
             type: object
             properties:
@@ -2455,6 +2558,30 @@ components:
                     format: int32
                 msg:
                     type: string
+        ModelLabGetWorkspaceResp:
+            type: object
+            properties:
+                sessions:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ModelLabWorkspaceSession'
+                promptSets:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ModelLabPromptSet'
+                modelGroups:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ModelLabModelGroup'
+                promptRevisions:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ModelLabPromptRevision'
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
         ModelLabListModelsResp:
             type: object
             properties:
@@ -2467,6 +2594,25 @@ components:
                 strategyPrompt:
                     type: string
                 dialoguePrompt:
+                    type: string
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
+        ModelLabLoginReq:
+            type: object
+            properties:
+                username:
+                    type: string
+                password:
+                    type: string
+        ModelLabLoginResp:
+            type: object
+            properties:
+                token:
+                    type: string
+                expiresAt:
                     type: string
                 code:
                     type: integer
@@ -2486,6 +2632,47 @@ components:
                     type: string
                 reportEnabled:
                     type: boolean
+        ModelLabModelGroup:
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                strategyModelID:
+                    type: string
+                chatModelID:
+                    type: string
+        ModelLabPromptRevision:
+            type: object
+            properties:
+                id:
+                    type: string
+                promptSetID:
+                    type: string
+                promptSetTitle:
+                    type: string
+                promptType:
+                    type: string
+                before:
+                    type: string
+                after:
+                    type: string
+                createdAt:
+                    type: string
+        ModelLabPromptSet:
+            type: object
+            properties:
+                id:
+                    type: string
+                title:
+                    type: string
+                strategyPrompt:
+                    type: string
+                dialoguePrompt:
+                    type: string
+                updatedAt:
+                    type: string
         ModelLabPromptTrace:
             type: object
             properties:
@@ -2499,9 +2686,58 @@ components:
                     type: string
                 strategyDegraded:
                     type: boolean
+                strategyPrompt:
+                    type: string
+                dialoguePrompt:
+                    type: string
+                strategyDegradedReason:
+                    type: string
             description: |-
                 每轮对话的提示词追踪。三个字段分开返回，供专家核查策略输出、实际选中的微技能
                  以及最终发送给对话模型的系统提示词。
+        ModelLabSaveWorkspaceReq:
+            type: object
+            properties:
+                sessions:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ModelLabWorkspaceSession'
+                promptSets:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ModelLabPromptSet'
+                modelGroups:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ModelLabModelGroup'
+                promptRevisions:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ModelLabPromptRevision'
+        ModelLabSaveWorkspaceResp:
+            type: object
+            properties:
+                sessions:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ModelLabWorkspaceSession'
+                promptSets:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ModelLabPromptSet'
+                modelGroups:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ModelLabModelGroup'
+                promptRevisions:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ModelLabPromptRevision'
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
         ModelLabSendTurnReq:
             type: object
             properties:
@@ -2516,6 +2752,8 @@ components:
                 strategyPromptOverride:
                     type: string
                 dialoguePromptOverride:
+                    type: string
+                strategyModelID:
                     type: string
             description: 成功后响应为 text/event-stream：依次发送 prompt_trace、delta、completed 和 [DONE]。
         ModelLabSendTurnResp:
@@ -2553,6 +2791,8 @@ components:
                     $ref: '#/components/schemas/ModelLabPromptTrace'
                 usage:
                     $ref: '#/components/schemas/ModelLabUsage'
+                responseTimeMs:
+                    type: string
         ModelLabUsage:
             type: object
             properties:
@@ -2565,6 +2805,40 @@ components:
                 totalTokens:
                     type: integer
                     format: int32
+        ModelLabWorkspaceSession:
+            type: object
+            properties:
+                id:
+                    type: string
+                chatModelIDs:
+                    type: array
+                    items:
+                        type: string
+                reportModelIDs:
+                    type: array
+                    items:
+                        type: string
+                createdAt:
+                    type: string
+                expiresAt:
+                    type: string
+                title:
+                    type: string
+                strategyModelID:
+                    type: string
+                activeChatModelID:
+                    type: string
+                promptSetID:
+                    type: string
+                modelGroups:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ModelLabModelGroup'
+                activeModelGroupID:
+                    type: string
+            description: |-
+                工作区中展示的评测会话元数据。实际多轮消息由分支接口读取，避免在工作区
+                 配置中重复保存对话内容。
         OpenApiChatCompletionReq:
             type: object
             properties:

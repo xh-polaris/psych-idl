@@ -25,8 +25,12 @@ type OpenAPI interface {
 }
 
 type ModelLab interface {
+	ModelLabLogin(ctx context.Context, req *ModelLabLoginReq) (res *ModelLabLoginResp, err error)
 	ModelLabListModels(ctx context.Context, req *ModelLabListModelsReq) (res *ModelLabListModelsResp, err error)
 	ModelLabCreateSession(ctx context.Context, req *ModelLabCreateSessionReq) (res *ModelLabCreateSessionResp, err error)
+	ModelLabGetWorkspace(ctx context.Context, req *ModelLabGetWorkspaceReq) (res *ModelLabGetWorkspaceResp, err error)
+	ModelLabSaveWorkspace(ctx context.Context, req *ModelLabSaveWorkspaceReq) (res *ModelLabSaveWorkspaceResp, err error)
+	ModelLabDeleteSession(ctx context.Context, req *ModelLabDeleteSessionReq) (res *ModelLabDeleteSessionResp, err error)
 	ModelLabGetBranch(ctx context.Context, req *ModelLabGetBranchReq) (res *ModelLabGetBranchResp, err error)
 	ModelLabSendTurn(ctx context.Context, req *ModelLabSendTurnReq) (res *ModelLabSendTurnResp, err error)
 	ModelLabGenerateReport(ctx context.Context, req *ModelLabGenerateReportReq) (res *ModelLabGenerateReportResp, err error)

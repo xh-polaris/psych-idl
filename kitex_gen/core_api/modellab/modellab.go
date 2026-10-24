@@ -15,6 +15,13 @@ import (
 var errInvalidMessageType = errors.New("invalid message type for service method handler")
 
 var serviceMethods = map[string]kitex.MethodInfo{
+	"ModelLabLogin": kitex.NewMethodInfo(
+		modelLabLoginHandler,
+		newModelLabLoginArgs,
+		newModelLabLoginResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
 	"ModelLabListModels": kitex.NewMethodInfo(
 		modelLabListModelsHandler,
 		newModelLabListModelsArgs,
@@ -26,6 +33,27 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		modelLabCreateSessionHandler,
 		newModelLabCreateSessionArgs,
 		newModelLabCreateSessionResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"ModelLabGetWorkspace": kitex.NewMethodInfo(
+		modelLabGetWorkspaceHandler,
+		newModelLabGetWorkspaceArgs,
+		newModelLabGetWorkspaceResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"ModelLabSaveWorkspace": kitex.NewMethodInfo(
+		modelLabSaveWorkspaceHandler,
+		newModelLabSaveWorkspaceArgs,
+		newModelLabSaveWorkspaceResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"ModelLabDeleteSession": kitex.NewMethodInfo(
+		modelLabDeleteSessionHandler,
+		newModelLabDeleteSessionArgs,
+		newModelLabDeleteSessionResult,
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
@@ -114,6 +142,117 @@ func newServiceInfo(hasStreaming bool, keepStreamingMethods bool, keepNonStreami
 		Extra:           extra,
 	}
 	return svcInfo
+}
+
+func modelLabLoginHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.ModelLabLoginReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.ModelLab).ModelLabLogin(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *ModelLabLoginArgs:
+		success, err := handler.(core_api.ModelLab).ModelLabLogin(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*ModelLabLoginResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newModelLabLoginArgs() interface{} {
+	return &ModelLabLoginArgs{}
+}
+
+func newModelLabLoginResult() interface{} {
+	return &ModelLabLoginResult{}
+}
+
+type ModelLabLoginArgs struct {
+	Req *core_api.ModelLabLoginReq
+}
+
+func (p *ModelLabLoginArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *ModelLabLoginArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.ModelLabLoginReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var ModelLabLoginArgs_Req_DEFAULT *core_api.ModelLabLoginReq
+
+func (p *ModelLabLoginArgs) GetReq() *core_api.ModelLabLoginReq {
+	if !p.IsSetReq() {
+		return ModelLabLoginArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *ModelLabLoginArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *ModelLabLoginArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type ModelLabLoginResult struct {
+	Success *core_api.ModelLabLoginResp
+}
+
+var ModelLabLoginResult_Success_DEFAULT *core_api.ModelLabLoginResp
+
+func (p *ModelLabLoginResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *ModelLabLoginResult) Unmarshal(in []byte) error {
+	msg := new(core_api.ModelLabLoginResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *ModelLabLoginResult) GetSuccess() *core_api.ModelLabLoginResp {
+	if !p.IsSetSuccess() {
+		return ModelLabLoginResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *ModelLabLoginResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.ModelLabLoginResp)
+}
+
+func (p *ModelLabLoginResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *ModelLabLoginResult) GetResult() interface{} {
+	return p.Success
 }
 
 func modelLabListModelsHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
@@ -335,6 +474,339 @@ func (p *ModelLabCreateSessionResult) IsSetSuccess() bool {
 }
 
 func (p *ModelLabCreateSessionResult) GetResult() interface{} {
+	return p.Success
+}
+
+func modelLabGetWorkspaceHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.ModelLabGetWorkspaceReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.ModelLab).ModelLabGetWorkspace(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *ModelLabGetWorkspaceArgs:
+		success, err := handler.(core_api.ModelLab).ModelLabGetWorkspace(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*ModelLabGetWorkspaceResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newModelLabGetWorkspaceArgs() interface{} {
+	return &ModelLabGetWorkspaceArgs{}
+}
+
+func newModelLabGetWorkspaceResult() interface{} {
+	return &ModelLabGetWorkspaceResult{}
+}
+
+type ModelLabGetWorkspaceArgs struct {
+	Req *core_api.ModelLabGetWorkspaceReq
+}
+
+func (p *ModelLabGetWorkspaceArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *ModelLabGetWorkspaceArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.ModelLabGetWorkspaceReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var ModelLabGetWorkspaceArgs_Req_DEFAULT *core_api.ModelLabGetWorkspaceReq
+
+func (p *ModelLabGetWorkspaceArgs) GetReq() *core_api.ModelLabGetWorkspaceReq {
+	if !p.IsSetReq() {
+		return ModelLabGetWorkspaceArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *ModelLabGetWorkspaceArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *ModelLabGetWorkspaceArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type ModelLabGetWorkspaceResult struct {
+	Success *core_api.ModelLabGetWorkspaceResp
+}
+
+var ModelLabGetWorkspaceResult_Success_DEFAULT *core_api.ModelLabGetWorkspaceResp
+
+func (p *ModelLabGetWorkspaceResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *ModelLabGetWorkspaceResult) Unmarshal(in []byte) error {
+	msg := new(core_api.ModelLabGetWorkspaceResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *ModelLabGetWorkspaceResult) GetSuccess() *core_api.ModelLabGetWorkspaceResp {
+	if !p.IsSetSuccess() {
+		return ModelLabGetWorkspaceResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *ModelLabGetWorkspaceResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.ModelLabGetWorkspaceResp)
+}
+
+func (p *ModelLabGetWorkspaceResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *ModelLabGetWorkspaceResult) GetResult() interface{} {
+	return p.Success
+}
+
+func modelLabSaveWorkspaceHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.ModelLabSaveWorkspaceReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.ModelLab).ModelLabSaveWorkspace(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *ModelLabSaveWorkspaceArgs:
+		success, err := handler.(core_api.ModelLab).ModelLabSaveWorkspace(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*ModelLabSaveWorkspaceResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newModelLabSaveWorkspaceArgs() interface{} {
+	return &ModelLabSaveWorkspaceArgs{}
+}
+
+func newModelLabSaveWorkspaceResult() interface{} {
+	return &ModelLabSaveWorkspaceResult{}
+}
+
+type ModelLabSaveWorkspaceArgs struct {
+	Req *core_api.ModelLabSaveWorkspaceReq
+}
+
+func (p *ModelLabSaveWorkspaceArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *ModelLabSaveWorkspaceArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.ModelLabSaveWorkspaceReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var ModelLabSaveWorkspaceArgs_Req_DEFAULT *core_api.ModelLabSaveWorkspaceReq
+
+func (p *ModelLabSaveWorkspaceArgs) GetReq() *core_api.ModelLabSaveWorkspaceReq {
+	if !p.IsSetReq() {
+		return ModelLabSaveWorkspaceArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *ModelLabSaveWorkspaceArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *ModelLabSaveWorkspaceArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type ModelLabSaveWorkspaceResult struct {
+	Success *core_api.ModelLabSaveWorkspaceResp
+}
+
+var ModelLabSaveWorkspaceResult_Success_DEFAULT *core_api.ModelLabSaveWorkspaceResp
+
+func (p *ModelLabSaveWorkspaceResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *ModelLabSaveWorkspaceResult) Unmarshal(in []byte) error {
+	msg := new(core_api.ModelLabSaveWorkspaceResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *ModelLabSaveWorkspaceResult) GetSuccess() *core_api.ModelLabSaveWorkspaceResp {
+	if !p.IsSetSuccess() {
+		return ModelLabSaveWorkspaceResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *ModelLabSaveWorkspaceResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.ModelLabSaveWorkspaceResp)
+}
+
+func (p *ModelLabSaveWorkspaceResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *ModelLabSaveWorkspaceResult) GetResult() interface{} {
+	return p.Success
+}
+
+func modelLabDeleteSessionHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(core_api.ModelLabDeleteSessionReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(core_api.ModelLab).ModelLabDeleteSession(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *ModelLabDeleteSessionArgs:
+		success, err := handler.(core_api.ModelLab).ModelLabDeleteSession(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*ModelLabDeleteSessionResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newModelLabDeleteSessionArgs() interface{} {
+	return &ModelLabDeleteSessionArgs{}
+}
+
+func newModelLabDeleteSessionResult() interface{} {
+	return &ModelLabDeleteSessionResult{}
+}
+
+type ModelLabDeleteSessionArgs struct {
+	Req *core_api.ModelLabDeleteSessionReq
+}
+
+func (p *ModelLabDeleteSessionArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *ModelLabDeleteSessionArgs) Unmarshal(in []byte) error {
+	msg := new(core_api.ModelLabDeleteSessionReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var ModelLabDeleteSessionArgs_Req_DEFAULT *core_api.ModelLabDeleteSessionReq
+
+func (p *ModelLabDeleteSessionArgs) GetReq() *core_api.ModelLabDeleteSessionReq {
+	if !p.IsSetReq() {
+		return ModelLabDeleteSessionArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *ModelLabDeleteSessionArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *ModelLabDeleteSessionArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type ModelLabDeleteSessionResult struct {
+	Success *core_api.ModelLabDeleteSessionResp
+}
+
+var ModelLabDeleteSessionResult_Success_DEFAULT *core_api.ModelLabDeleteSessionResp
+
+func (p *ModelLabDeleteSessionResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *ModelLabDeleteSessionResult) Unmarshal(in []byte) error {
+	msg := new(core_api.ModelLabDeleteSessionResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *ModelLabDeleteSessionResult) GetSuccess() *core_api.ModelLabDeleteSessionResp {
+	if !p.IsSetSuccess() {
+		return ModelLabDeleteSessionResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *ModelLabDeleteSessionResult) SetSuccess(x interface{}) {
+	p.Success = x.(*core_api.ModelLabDeleteSessionResp)
+}
+
+func (p *ModelLabDeleteSessionResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *ModelLabDeleteSessionResult) GetResult() interface{} {
 	return p.Success
 }
 
@@ -681,6 +1153,16 @@ func newServiceClient(c client.Client) *kClient {
 	}
 }
 
+func (p *kClient) ModelLabLogin(ctx context.Context, Req *core_api.ModelLabLoginReq) (r *core_api.ModelLabLoginResp, err error) {
+	var _args ModelLabLoginArgs
+	_args.Req = Req
+	var _result ModelLabLoginResult
+	if err = p.c.Call(ctx, "ModelLabLogin", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
 func (p *kClient) ModelLabListModels(ctx context.Context, Req *core_api.ModelLabListModelsReq) (r *core_api.ModelLabListModelsResp, err error) {
 	var _args ModelLabListModelsArgs
 	_args.Req = Req
@@ -696,6 +1178,36 @@ func (p *kClient) ModelLabCreateSession(ctx context.Context, Req *core_api.Model
 	_args.Req = Req
 	var _result ModelLabCreateSessionResult
 	if err = p.c.Call(ctx, "ModelLabCreateSession", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ModelLabGetWorkspace(ctx context.Context, Req *core_api.ModelLabGetWorkspaceReq) (r *core_api.ModelLabGetWorkspaceResp, err error) {
+	var _args ModelLabGetWorkspaceArgs
+	_args.Req = Req
+	var _result ModelLabGetWorkspaceResult
+	if err = p.c.Call(ctx, "ModelLabGetWorkspace", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ModelLabSaveWorkspace(ctx context.Context, Req *core_api.ModelLabSaveWorkspaceReq) (r *core_api.ModelLabSaveWorkspaceResp, err error) {
+	var _args ModelLabSaveWorkspaceArgs
+	_args.Req = Req
+	var _result ModelLabSaveWorkspaceResult
+	if err = p.c.Call(ctx, "ModelLabSaveWorkspace", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ModelLabDeleteSession(ctx context.Context, Req *core_api.ModelLabDeleteSessionReq) (r *core_api.ModelLabDeleteSessionResp, err error) {
+	var _args ModelLabDeleteSessionArgs
+	_args.Req = Req
+	var _result ModelLabDeleteSessionResult
+	if err = p.c.Call(ctx, "ModelLabDeleteSession", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
